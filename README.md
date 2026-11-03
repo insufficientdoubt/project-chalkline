@@ -228,6 +228,7 @@ These come from `_extensions/chalkline/`. Each one looks right on the web page, 
 | `{{< vocab-table unit=1 >}}`, `{{< vocab-list unit=1 >}}` | The unit's words and meanings as a table or a list (`words="..."` for some of them). |
 | `{{< fill-in-the-blank unit=1 >}}` | A word bank and numbered meanings to fill in. The answer key shows only in the teacher version. |
 | `chalkboard:` in a deck's labels | Draw on any slide: press **C** (or the pen button, bottom left) to draw on the slide, **B** for a blank chalkboard, **Delete** to clear. Copy the three lines from the top of `course/units/01-ancient-greece/city-states-slides.qmd`. |
+| `::: {.live-board rooms="wbo"}` … `:::` | A **live board** on a slide: a Padlet wall or a shared whiteboard in a frame, with the link students open and its QR code under it. Click the QR code for a big one to scan. `src=` is what the frame shows (Padlet: the embed address), `join=` the link students get; `rooms="excalidraw"` or `rooms="wbo"` makes a fresh room link for you (**New room** for the next class). Or leave the links out and click **Edit link** on the slide to paste one. Excalidraw shares only in its own tab (**Open ↗**); WBO and Padlet stay live in the frame. See `course/units/00-start-here/live-boards-slides.qmd`. |
 | `{{< timer 20 >}}` | A 20-minute countdown on a slide (see below). In print it just says "Timer: 20 minutes". |
 | `{{< pagebreak >}}` | Start a new PDF page. |
 | `::: {.keep}` … `:::` | Keeps a question and its writing space together on one PDF page. |

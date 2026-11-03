@@ -1,0 +1,77 @@
+---
+title: "Live boards (demo)"
+type: slides
+description: "A Padlet wall, an Excalidraw room and a shared whiteboard on slides, each with its join link and a QR code students can scan. No logins."
+order: 5
+audience: [teacher]
+format: revealjs
+title-slide-attributes:
+  data-background-color: "#003477"
+---
+
+## Post one idea {#padlet}
+
+::: {.live-board}
+Post one thing you learned today.
+:::
+
+::: notes
+**A Padlet wall on a slide.** The link and its QR code are under the frame: click the QR code (or **Show QR**) to show it big, so students can scan it.
+
+**Make it ready (once per padlet):**
+
+1. Make a padlet at padlet.com.
+2. **Share** › set the privacy so visitors **can write**. Then students post without an account.
+3. **Share** › **Embed in your blog or website** › copy the code.
+4. On this slide, click **Edit link** and paste the code. It's kept in this browser.
+
+**To keep it in the deck** (for every computer), write the links in the file:
+
+`::: {.live-board src="https://padlet.com/embed/…" join="https://padlet.com/you/…"}`
+
+`src` is the embed address (inside the embed code). `join` is the normal link (**Share** › **Copy link**): that's the link students get. Without `join`, they get the embed address.
+
+Padlet needs the internet, and some school networks block it.
+:::
+
+## Draw together: Excalidraw {#excalidraw}
+
+::: {.live-board rooms="excalidraw"}
+Scan to draw with us.
+:::
+
+::: notes
+**Excalidraw** (free, open source). This slide makes a **room** for you: the link under the frame. Anyone with the link draws in the same room. No logins.
+
+**Important:** Excalidraw turns off sharing inside a frame. So the frame is a board for **you** only. To see the class's drawings, click **Open ↗**: the room opens in its own tab.
+
+- **New room:** a new, empty room with a new link (for the next class). The old room stays at its old link.
+- **Edit link:** paste a room link you made at excalidraw.com (**Share** › **Live collaboration**).
+- The room is kept in this browser, for this slide. Students only need the QR code.
+
+Want a shared board **inside** the slide? Use the next slide.
+:::
+
+## Draw together: on the slide {#whiteboard}
+
+::: {.live-board rooms="wbo"}
+Scan to draw on this board.
+:::
+
+::: notes
+**WBO** (wbo.ophir.dev, free, open source). A shared whiteboard that stays live **inside** the slide: what students draw on their tablets shows up here.
+
+- The board's name is in its link. Anyone with the link can draw, so make a **New room** for each class.
+- Pens, shapes, text and an eraser are on the left. **Clear** wipes the board for everyone.
+- Remind students: no names or personal details on a board anyone with the link can open.
+
+All three boards need the internet.
+:::
+
+## Credits {#credits .credits}
+
+### Sources
+
+- **Padlet:** [padlet.com](https://padlet.com), an online wall. Free plan; you need an account to make a padlet, students don't.
+- **Excalidraw:** [excalidraw.com](https://excalidraw.com), open source, [MIT licence](https://github.com/excalidraw/excalidraw/blob/master/LICENSE).
+- **WBO:** [wbo.ophir.dev](https://wbo.ophir.dev), by Ophir Lojkine, open source, [AGPL licence](https://github.com/lovasoa/whitebophir/blob/master/LICENSE).

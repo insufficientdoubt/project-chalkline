@@ -16,6 +16,18 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-03: Live boards: Padlet and shared whiteboards on slides, with a join QR code
+- **Asked for:** "add a demo slide with an Excalidraw frame and one for padlet … we need to make it so that the join URL surfaces and we can click to get a QR."
+- **Why:** to embed tools like Padlet or a digital whiteboard (no login) in slides, so students can join from their own devices.
+- **Changed:**
+  - `_extensions/chalkline/live-board/live-board.js` (new): `::: {.live-board}` on a slide becomes a frame with a join bar under it: the link, a small QR code (click it, or Show QR, for a big one over the whole screen; Esc closes), Open ↗, and on the teacher site Edit link (paste a link or a whole embed code; kept in this browser for that slide) and New room. `rooms="excalidraw"` makes Excalidraw room links itself (random room id and key, Excalidraw's own link form); `rooms="wbo"` makes a WBO board. In the slide PDF the frame becomes a big QR code; the PDF and the student site never make rooms of their own.
+  - `_extensions/chalkline/live-board/live-board.css` (new): its look, from the design layer (ui/ui.css).
+  - `_extensions/chalkline/filter.lua`: loads them (and `toolbox/qrcode.js`) on decks with a live board; marks it as the teacher's on the teacher site; on web pages and in PDFs, a live board is just a line with its link.
+  - `README.md`: the live board in the table of things you can write. Content: the demo deck `course/units/00-start-here/live-boards-slides.qmd` and three links in `course/links.yml`.
+- **Found:** Excalidraw switches off live sharing when it runs inside a frame (excalidraw.com's own code), so its frame is a board for the teacher alone and the class's room opens in its own tab. WBO (wbo.ophir.dev) stays live inside the frame (tested: a drawing in the slide's frame showed up in another browser). Padlet allows framing; its embed address and its share link are different, hence `src=` and `join=`.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-10-30: The vocab gallery fits the room it's given
 - **Asked for:** "can you make the layout variable according to the width of the container? If I give them a narrow space I'd love them to be vertical, and if I give them a wide space I'd love them to be able to fill the whole slide."
 - **Why:** so one shortcode works in a slide's side column, a box or across the whole slide.
