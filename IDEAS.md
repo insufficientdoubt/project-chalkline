@@ -4,10 +4,37 @@ Things we've talked about but not built yet. Add to this list; move an idea out 
 
 ## To do next
 
-- **A year-long list of sentence frames (for Monday, 2 November).** Like the vocab list: one central list of sentence frames and stems for the whole year, reused across units and lessons (on slides, worksheets and the lesson intro's language objective), instead of writing them slide by slide. Look at **School 21** (London, UK), known for its oracy teaching and talk frameworks and sentence stems, as possible inspiration.
+- **A year-long list of sentence frames (for Monday, 2 November).** Like the vocab list: one central list of sentence frames and stems for the whole year, reused across units and lessons (on slides, worksheets and the lesson intro's language objective), instead of writing them slide by slide. Look at **School 21** (London, UK), known for its oracy teaching and talk frameworks and sentence stems, as possible inspiration. Now part of a bigger plan: **Language goals** (below).
 - **Math worksheets: still an area of concern, need more work.** The Unit 4 practice worksheets (Times and Divide, Mixed Review, Garden Times Tables) are a first pass, not finished. Not tonight: the plan is to ask the math teachers for copies of their current worksheets and match their style, then rework the layouts, problem mix and difficulty.
 - **A new intro deck: everything interactive.** One deck that walks a new teacher through every interactive option now in Chalkline (review games, learning activities, timelines, Label it, polls, the toolbox, the chalkboard, PDF worksheets), each with a live example and one line on how to write it. The Start here catalogue slide lists them; this would *teach* them.
 - **An intro piece: "lists are the secret".** A short deck (or a section of the one above) that drives home the big idea: **make lists of your course's vocabulary and key facts first** (words and meanings, dates and events, people and what they did, places and pictures). Once a list exists, it becomes a quick, reusable activity in minutes: snowman, matching, memory, bingo, Jeopardy, sort it, timelines, flashcards, quizzes. Show one list turning into five activities. The vocab list (`vocab/data/vocab.csv`) is the model.
+
+## Language goals: a list of lists (plan)
+
+Language goals come in different formats, and each needs its own fields and its own look. Sentence frames are only one of them. The plan: store each format as its own list, in its own terms, and inject any of them with shortcodes.
+
+**Formats** (a first list; more can be added the same way):
+
+- **Sentence frames, with response frames.** A question frame and the frames to answer it: *What happens when ___?* → *When ___, the angle ___.* / *I think ___ because ___.* One frame can have several response frames (agree, disagree, add on).
+- **Phrases and collocations.** Words that go together: *make a decision*, *turn all the way around*, *measure an angle*. Fields like the phrase, its pattern (verb + noun…), an example sentence, 中文, and the vocab words it uses.
+- **Conversation starters.** Questions or prompts that open a talk: *Where do you see a straight angle at home?* Maybe with a follow-up question or two.
+- **Maybe later:** discussion roles (summarizer, questioner…), signal words (*first, then, because, however*), question stems for each thinking level, oracy talk moves (School 21).
+
+**Data: a list of lists.** One list per format, each with its own columns, in one place (for example `language/data/frames.csv`, `phrases.csv`, `starters.csv`, or a YAML file per format if lists inside lists, like a frame's responses, are easier there).
+
+- **Shared columns** in every list, so they work alike: `id` (a prefix per format: `FRM-`, `PHR-`, `CNV-`; permanent, like vocab IDs), `zh`, `level`, `units`, `vocab_ids` (links to `vocab/data/vocab.csv`), `situation` (discussion, writing…), `status`.
+- **Own columns** for the rest: a frame's `responses`, a phrase's `pattern`, a starter's `follow_ups`.
+- **The column rules** go in a schema like `vocab/schema.yaml`, checked by `python chalkline.py validate`. The existing `vocab/data/frames.csv` (4 frames) moves in as the first list.
+- **Same language rules as vocab:** English is the target and 中文 is support; 中文 in reference materials, never in review materials.
+
+**Shortcodes.** Either or both:
+
+- **One per format:** `{{< frame "FRM-001" >}}`, `{{< phrases unit=5 >}}`, `{{< starters unit=5 >}}`, each drawn in its own way (a frame with its response frames under it, phrases as a list or chips, starters as cards).
+- **One meta shortcode** that looks up any point and draws it in its format's layout, from the ID's prefix: `{{< lang "FRM-001, PHR-004, CNV-002" >}}`, or `{{< lang unit=5 >}}` for a unit's language goals, grouped by format. Each format's layout stays its own small Lua function, so adding a format means a list, a few schema lines and one function.
+
+**Where it shows:** slides (with `zh=true` or the bilingual tool's two languages), printables (a language box on worksheets), the lesson intro's language objective, the toolbox (a **Language** sidebar next to Vocab), and later the review games (a frame with a gap to fill, a phrase to match), always English only there.
+
+**To decide:** CSV or YAML (frames with several responses are a list inside a list); one folder for all language lists or next to vocab; whether units pick their points in `course/vocab/<unit>.yml` or a new `course/language/<unit>.yml`; how the angles unit's hand-written frames (Activity 3 slide) move to the list as a test.
 
 ## Packet theming (after v1)
 
