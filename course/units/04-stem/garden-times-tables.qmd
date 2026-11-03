@@ -4,7 +4,7 @@ subtitle: "Solve the garden sums, then color the garden in!"
 type: worksheet
 description: "A playful, kid-friendly worksheet with a nature theme: 12 times-table facts with flower numbers, three garden story problems with room to draw, and a garden to color. Handwriting fonts and line-art doodles (layout: playful, playful-theme: nature). Change the seed for a new version. Teacher copy has answers."
 order: 7
-audience: [teacher, student, parent]
+audience: [teacher, student]
 doc-type: Worksheet
 name-box: true
 layout: playful

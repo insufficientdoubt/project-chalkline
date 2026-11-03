@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- **No more "For families" page or `parent` audience** (2026-11-03). Chalkline makes two sites only: the
+  student site (public; families use it too) and the teacher site. `{{< overview learning >}}` and
+  `{{< overview family-picks >}}` are gone. **In an existing course:** delete `families.qmd`, remove it from
+  `render:` and the navbar in `_quarto.yml`, and change `audience: [teacher, student, parent]` to
+  `audience: [teacher, student]` (a leftover `parent` does nothing).
 - **Bilingual text** (`bilingual/`): `[English | 中文]{.bi}` in any title, bullet, table cell or box, on
   slides, pages and PDFs. Alone in its line, the two languages stack; inside a sentence, they stay on one
   line. Only the second language is styled (smaller, lighter), so it takes its place's own size and colour.

@@ -109,7 +109,7 @@ Keep or adapt: "A slide is just text you can read", "Packets build themselves", 
 
 **Status:** after sections 1 and 2.
 
-A unit rebuilt from the templates, to show a real unit made the version 1 way: **lists first** (its vocab and key facts in `vocab/data/vocab.csv` and a facts list), then slides from the templates, a packet, glossing, games and the parent view. The Hundred Schools of Thought material (thinkers, pictures, credits) is a ready start; it has no vocab yet, which makes it a good demonstration of starting from the list.
+A unit rebuilt from the templates, to show a real unit made the version 1 way: **lists first** (its vocab and key facts in `vocab/data/vocab.csv` and a facts list), then slides from the templates, a packet, glossing, games and the student site. The Hundred Schools of Thought material (thinkers, pictures, credits) is a ready start; it has no vocab yet, which makes it a good demonstration of starting from the list.
 
 ## Order of work
 
@@ -121,7 +121,7 @@ A unit rebuilt from the templates, to show a real unit made the version 1 way: *
 
 ## Decisions (2026-11-03)
 
-- **No parent site.** There is no separate parent build: the public (student) site serves students and families, since the difference between them is small. **Remove the "For families" page** (`families.qmd`, its navbar link in `_quarto.yml`, the `parent` listing in `catalog.py`, the green "For families" rows on the overview, the `setup.py` entry, and the README and intro-deck text about it). Later, a **syllabus page** may take its place. Still to decide when removing it: whether `audience: [parent]` is dropped from the labels or kept with no effect.
+- **No parent site.** There is no separate parent build: the public (student) site serves students and families, since the difference between them is small. **Done 2026-11-03:** the "For families" page is gone, and so is the `parent` audience label: `audience` is now `[teacher, student]` or `[teacher]`. Two sites only: student (public) and teacher. Later, a **syllabus page** may serve families.
 - **Search covers vocab and packets too**, not only pages and slides: each vocab word (English, 中文, short definition) and the text of each packet should be findable from the site's search. To work out: adding vocab entries and packet text to Quarto's search index at build time (for example from `post-render`), so a result opens the vocab card or the right packet page.
 - **The Slide style experiment** (`slide-style-slides.qmd`) **is retired once both new decks exist:** the feature demo deck (section 1, which includes the styling feature) and the full template deck with all the lesson templates in one place (section 2).
 

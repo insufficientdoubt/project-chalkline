@@ -505,7 +505,7 @@ body:has(.ov-hero) #title-block-header { display: none; }
 .ov-source { color: var(--ov-muted); .ov-icon { order: 1; } }
 
 // "Who sees it" (teacher site): a switch at the end of the chips. On, each row shows its audience,
-// rows listed on the For families page turn soft green, and teacher-only rows get a faint stripe.
+// and teacher-only rows get a faint stripe.
 .ov-who-toggle {
   display: inline-flex; align-items: center; gap: 0.45rem; margin-left: auto; padding: 0.25rem 0.45rem 0.25rem 0.65rem;
   border: 1px solid var(--ov-line); border-radius: 999px; background: #fff; color: var(--ov-ink);
@@ -522,8 +522,6 @@ body:has(.ov-hero) #title-block-header { display: none; }
 .overview.ov-who-on {
   .ov-who { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; }
   .ov-who-legend { display: block; margin: -0.4rem 0 1rem; color: var(--ov-muted); font-size: 0.84rem; }
-  .ov-item.ov-to-families { background: #f1faf4; }
-  .ov-item.ov-to-families:hover { background: #e8f6ed; }
   .ov-item.ov-to-teachers { background: repeating-linear-gradient(135deg, #fbfbfc 0 10px, #f4f6f8 10px 20px); }
 }
 .ov-aud {
@@ -532,15 +530,7 @@ body:has(.ov-hero) #title-block-header { display: none; }
   .ov-icon { font-size: 0.85rem; }
 }
 .ov-aud-student { background: #eaf2fd; color: #2456a6; }
-.ov-aud-parent { background: #e3f3ea; color: #1d6b3d; }
 .ov-aud-teacher { background: #fff3e2; color: #8a4500; }
-
-// Families: each unit's goals
-.ov-goals {
-  margin: 0; padding: 0.7rem 1.15rem 0.85rem 2.6rem;
-  li { margin: 0.2rem 0; }
-  li::marker { color: #1f8a4c; }
-}
 
 // The Categories filter works on the Everything tab only, so it shows only there (index.qmd's script)
 body.ov-filters-off #quarto-margin-sidebar .quarto-listing-category-title,

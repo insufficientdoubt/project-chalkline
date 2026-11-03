@@ -4,8 +4,7 @@
 # audience: [..., student] (a teachers-only page): such pages are "drafts" here, so they're not in the
 # site, its sidebar or its search (scripts/student_site.py tidies up after). The teacher site has them all.
 #
-# Families use this site too: its "For families" page (families.qmd) welcomes them and lists the
-# files marked audience: [..., parent].
+# This is the public site: families use it too. There is no separate site for them.
 
 website:
   draft-mode: gone

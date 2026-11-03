@@ -4,7 +4,7 @@ subtitle: "Write it once. Teach it everywhere. · 一次编写，处处可用"
 type: slides
 description: "What Chalkline makes for you from one file, the classroom tools in every deck, and how to start your own unit."
 order: 1
-audience: [teacher, student, parent]
+audience: [teacher, student]
 format: revealjs
 resources:
   - ../01-ancient-greece/odyssey/*   # the interactive story map (it lives with the Greece unit)
@@ -22,7 +22,7 @@ title-slide-attributes:
 - Slides in one app, worksheets in another
 - Copy the same words into a handout, a website, a packet
 - Fix a typo in one place… and miss the other three
-- Make a separate version for families and an answer key for you
+- Make a separate version for students and an answer key for you
 :::
 ::: {.column width="50%"}
 ::: {.callout-warning title="The result" icon=false}
@@ -49,7 +49,7 @@ Ask the room: how many places does the same lesson live for you right now? Slide
 - A **web page** and a **printable PDF** of each worksheet
 - A **unit packet**: every printable in one PDF, with a cover and contents
 - A **year packet** with every unit
-- A **student** website (with a page for families) and a **teacher** website
+- A **student** website (families can use it too) and a **teacher** website
 :::
 :::
 ::::
@@ -157,7 +157,7 @@ Try the pop-ups now. Then open "History vocab 词汇" in the sidebar: all 37 wor
 :::: {.columns}
 ::: {.column width="50%"}
 ::: {.callout-note title="Students and families" icon=false}
-Slides, worksheets, vocab. No answer keys, no speaker notes, no teacher tools. A **For families** page welcomes parents with the unit goals and the files you pick for them.
+Slides, worksheets, vocab. No answer keys, no speaker notes, no teacher tools. Families can use it too.
 :::
 :::
 ::: {.column width="50%"}
@@ -167,7 +167,7 @@ Everything, plus **answer keys**, **speaker notes**, the **toolbox** and teacher
 :::
 ::::
 
-One label decides who sees a file: `audience: [teacher, student, parent]`. Leave out `student` and it stays in the teacher site; add `parent` to list it on the For families page.
+One label decides who sees a file: `audience: [teacher, student]`. Leave out `student` and it stays in the teacher site.
 
 ## Classroom tools in every deck
 
@@ -191,7 +191,7 @@ Start the timer to show it. It keeps running in a small box if you change slides
 
 ## Try a poll
 
-::: {.poll type="choice" options="Packets | Vocab pop-ups | For families page | Slide PDFs"}
+::: {.poll type="choice" options="Packets | Vocab pop-ups | Classroom tools | Slide PDFs"}
 Which feature will you try first?
 :::
 

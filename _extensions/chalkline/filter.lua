@@ -362,7 +362,7 @@ local function Meta(meta)
     include_once("schemes.html")
   end
   -- Slides: the classroom toolbox (toolbox/toolbox.js; turn off with `classroom-tools: false`).
-  -- Teacher build only: students (and families, on the student site) never see it.
+  -- Teacher build only: students (and families) never see it.
   local tools = meta["classroom-tools"]
   local tools_off = tools ~= nil and pandoc.utils.type(tools) ~= "table" and pandoc.utils.stringify(tools) == "false"
   -- Chalkline's design layer (ui/ui.css) on every page and deck: the tools, games, vocab pop-ups

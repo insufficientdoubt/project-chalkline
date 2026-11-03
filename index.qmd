@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
   update();
 });
 
-// Teacher site: "Who sees it" shows each file's audience (students, families, teachers only).
+// Teacher site: "Who sees it" shows each file's audience (students, or teachers only).
 // Remembered in this browser.
 document.addEventListener("DOMContentLoaded", function () {
   const ov = document.querySelector(".overview"), sw = document.querySelector(".ov-who-toggle");

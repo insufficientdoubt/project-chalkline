@@ -1,6 +1,6 @@
 # Chalkline sample course
 
-**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a student site with a page for families, and a teacher site), all in your school's style. This is a **sample course** to try it with: three history units (Ancient Greece, Ancient Rome and Göbekli Tepe), a STEM sampler unit, a 37-word bilingual vocab list, and a slide deck about Chalkline itself.
+**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style. This is a **sample course** to try it with: three history units (Ancient Greece, Ancient Rome and Göbekli Tepe), a STEM sampler unit, a 37-word bilingual vocab list, and a slide deck about Chalkline itself.
 
 **See it online:** https://insufficientdoubt.github.io/project-chalkline/ (the teacher version, rebuilt on every push).
 
@@ -29,7 +29,7 @@ Things to try once the site is open:
 - In a slide deck, press **W** (or the four-squares button, bottom left) for the classroom tools: name picker, groups, scoreboard, voice level with a noise meter, slide size, traffic light, QR code, stopwatch, dice, music, and the unit's vocab and packet. They float above the slides and stay put when you change slides.
 - In the overview, each deck has a **PDF** too.
 - **All slides** (sidebar): every unit's decks as rows of slide pictures. Click a slide to open its deck right there. Small, Medium and Large change the picture size. The pictures are made by a full build (they need Chrome or Edge, like the slide PDFs).
-- **Terminal > Run Task… > Open student site**: what students and families see, without the answer keys, speaker notes and teacher tools. Its **For families 给家长** page welcomes parents.
+- **Terminal > Run Task… > Open student site**: what students and families see, without the answer keys, speaker notes and teacher tools.
 - In *From Republic to Empire*, hover the boxes of the infographic: it was made in **draw.io** (`drawio/republic.drawio`), and any draw.io diagram can go in a slide the same way.
 
 ## One-time setup
@@ -111,7 +111,7 @@ You can do almost everything here by asking an AI assistant: Claude, Gemini, Cha
 
 1. Copy a unit folder, for example `course/units/01-ancient-greece`, and rename it (`03-my-unit`).
 2. In its `index.qmd`, change `title`, `short-title`, `unit` and the `objectives`. The unit appears in the sidebar and overview by itself.
-3. Edit or replace the slides and printables. Keep the labels at the top of each file: `type:` (slides, worksheet, handout, reference…), `order:` and `audience:` (who sees it: `teacher`, `student`, `parent`; see "Students, families and teachers" below).
+3. Edit or replace the slides and printables. Keep the labels at the top of each file: `type:` (slides, worksheet, handout, reference…), `order:` and `audience:` (who sees it: `teacher`, `student`; see "Students, families and teachers" below).
 4. Add your words to `vocab/data/vocab.csv` (see `vocab/README.md`), then run `python chalkline.py validate`.
 5. To use a unit's words on picture cards, import them: `python chalkline.py import-vocab --unit 3 --title "My Unit" --folder 03-my-unit --ids GRC-001 GRC-002`.
 
@@ -147,12 +147,11 @@ packet-extras:
 
 ## Students, families and teachers
 
-There are two websites. The **student site** (`quarto render`, into `_site/`) is the one to share with students and families: no answer keys, no speaker notes, no classroom toolbox. The **teacher site** (`quarto render --profile teacher`, into `_site-teacher/`) has everything.
+There are two websites, and only two. The **student site** (`quarto render`, into `_site/`) is the one to share with students and families: no answer keys, no speaker notes, no classroom toolbox. The **teacher site** (`quarto render --profile teacher`, into `_site-teacher/`) has everything.
 
 Each file's `audience:` label decides:
 
 - `student`: the file is on the student site. Leave it out (`audience: [teacher]`) and the file is teachers only: the student site leaves it out completely (not in its pages, sidebar or search).
-- `parent`: the file is also listed on the **For families 给家长** page (`families.qmd`), which welcomes parents with each unit's goals and the vocab app. In this sample that's the *City-States and Democracy* and *Roman Engineering* decks, the Greek Gods cards and the Roman Numerals reference.
 
 Inside a page, `::: {.content-visible when-profile="teacher"}` shows something only on the teacher site (answer keys, look-fors).
 
@@ -166,13 +165,13 @@ title: "Game Day Checklist"
 type: checklist        # slides, worksheet, checklist, handout, poster, reference, vocab or game
 description: "One sentence shown in the overview and on the unit page."
 order: 2               # position on the unit page (slides are usually 1)
-audience: [teacher, student]   # who it's for; not used yet (see planning/)
+audience: [teacher, student]   # who sees it: leave out student for teachers only
 ---
 ```
 
 The unit comes from the folder the file is in. A file with no `type:` still appears, labeled "Other". Files whose names start with `_` are skipped, which is handy for drafts.
 
-**Who sees what.** Each file's `audience` label decides which sites list it: `student` for the student site, `parent` for the For families page (teachers always see everything). On the teacher site's overview, turn on **Who sees it** (next to the type chips): each row shows its audience, rows on the For families page turn green, and teacher-only rows are striped. The switch is remembered in your browser.
+**Who sees what.** Each file's `audience` label decides which sites list it: `student` for the student site (teachers always see everything). On the teacher site's overview, turn on **Who sees it** (next to the type chips): each row shows its audience, and teacher-only rows are striped. The switch is remembered in your browser.
 
 **Outside resources** (a Wikipedia article, an official website) aren't files here, so they're listed in `course/links.yml`. Each one shows its `source` (here, **Wikipedia**) as a badge in the overview; the school's own materials show **School**. Outside links appear in the overview only, not on unit pages.
 

@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-03: No families page, no `parent` audience: two sites only
+- **Asked for:** "Drop the parent label and remove the families page now. We only have a student version and a teacher version now."
+- **Why:** the public build serves both students and parents, "because the audience difference is barely anything". A families page would eventually be something like a syllabus page anyway.
+- **Changed:** `families.qmd` deleted, and taken out of `_quarto.yml` (`render:` and the navbar). `_quarto-student.yml`: its comment says the student site is the public one. `catalog.py`: no `parent` audience, no "For families" chip, green rows or legend on the overview's "Who sees it", and `markdown_family_picks` / `markdown_learning` removed; `blocks.py` and `blocks.lua`: the `learning` and `family-picks` overview parts removed. `styles.scss`: the families row, chip and goals styles removed. `setup.py`: no `families.qmd` rename. `filter.lua`, `slides_pdf.py`, `index.qmd`: comments. Starter files: `audience: [teacher, student]`. `CHANGELOG.md`: how an existing course updates. `CLAUDE.md`, `README.md`, `EXTENSION-PLAN.md`, `V1-PLAN.md`: the two-site rule. Content: every `audience: [teacher, student, parent]` is now `[teacher, student]`; the intro deck no longer mentions the families page.
+- **Who it helps:** probably every Chalkline course: one fewer label and page to understand.
+- **AI assistant:** Claude.
+
 ## 2026-10-30: The vocab gallery fits the room it's given
 - **Asked for:** "can you make the layout variable according to the width of the container? If I give them a narrow space I'd love them to be vertical, and if I give them a wide space I'd love them to be able to fill the whole slide."
 - **Why:** so one shortcode works in a slide's side column, a box or across the whole slide.
