@@ -27,7 +27,7 @@ What every piece of version 1 should say, in this order:
 |---|---|---|---|
 | A1 | Your materials are all kept in one place | One folder per unit: slides, worksheets, pictures, vocab | "The usual way" and "The Chalkline way" slides |
 | A2 | How slides are written | A slide is text you can read: the source beside the result | "A slide is just text you can read" |
-| A3 | Everything is searchable | The site's search finding a word across units | New: a screenshot or live search |
+| A3 | Everything is searchable | The site's search finding a word across units, vocab words and packet pages | New: a screenshot or live search (needs the search work in "Decisions") |
 | A4 | The tools | The classroom toolbox (W): clock, stopwatch, voice level, traffic light, scoreboard, name picker, groups, dice, QR code, spotlight, whiteboard… and the slide timer | "Classroom tools in every deck" |
 | A5 | The vocab sidebar | Opening the Vocab sidebar during a lesson | New example slide |
 | A6 | Vocab glossing | `{{< vocab "democracy" >}}`: a pop-up with picture and 中文 | "Vocabulary support, built in" |
@@ -44,7 +44,7 @@ What every piece of version 1 should say, in this order:
 |---|---|---|---|
 | B1 | Packets are made by the same process | A unit's worksheets become one printed packet | "Packets build themselves" |
 | B2 | Student and teacher versions | One file, two editions: answer keys and notes only for the teacher (`content-visible when-profile="teacher"`) | "Two websites from the same files" |
-| B3 | An optional parent site | The same materials for families (`audience: [parent]`, `families.qmd`) | "Two websites from the same files"; see the open question below |
+| B3 | One public site for students and families | The student site is the public site; parents use it too (no separate parent build) | "Two websites from the same files"; see "Decisions" below |
 
 ### Part C: Vocab and play
 
@@ -119,10 +119,13 @@ A unit rebuilt from the templates, to show a real unit made the version 1 way: *
 4. Updated sample unit.
 5. Version 1: update `README.md`, the quick start, `CHANGELOG.md` and the release notes.
 
+## Decisions (2026-11-03)
+
+- **No parent site.** There is no separate parent build: the public (student) site serves students and families, since the difference between them is small. **Remove the "For families" page** (`families.qmd`, its navbar link in `_quarto.yml`, the `parent` listing in `catalog.py`, the green "For families" rows on the overview, the `setup.py` entry, and the README and intro-deck text about it). Later, a **syllabus page** may take its place. Still to decide when removing it: whether `audience: [parent]` is dropped from the labels or kept with no effect.
+- **Search covers vocab and packets too**, not only pages and slides: each vocab word (English, 中文, short definition) and the text of each packet should be findable from the site's search. To work out: adding vocab entries and packet text to Quarto's search index at build time (for example from `post-render`), so a result opens the vocab card or the right packet page.
+- **The Slide style experiment** (`slide-style-slides.qmd`) **is retired once both new decks exist:** the feature demo deck (section 1, which includes the styling feature) and the full template deck with all the lesson templates in one place (section 2).
+
 ## Open questions
 
-- **Parent site:** today families use the student site and its "For families" page. Is "a parent site" that page (and `audience: [parent]`), or a third build (`--profile parent`)?
-- **Searchable:** Quarto's site search covers pages and slides on the website; is that enough, or should search also cover the vocab and the packets?
 - **The template deck's home:** which render path (above), and should a course be able to hide or extend it?
 - **Design guidance:** who writes the first draft, and does it also become checks (for example a lint for slides that are too full)?
-- **The current Slide style experiment** (`slide-style-slides.qmd`): retire it once the template deck covers its ideas?
