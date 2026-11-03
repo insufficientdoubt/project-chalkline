@@ -1,0 +1,28 @@
+---
+title: "Unit 5: Angles 角"
+short-title: "Unit 5 · Angles"
+unit: 5
+format: html
+description: "Grade 4 math: turn one side of an angle and watch it grow, from acute to right, obtuse, straight and full angles; find angles on a clock and in daily life, and get ready to measure with a protractor."
+objectives:
+  - I can make angles by turning one side around the vertex.
+  - I can name acute, right, obtuse, straight and full angles.
+  - I can explain that 1 full angle = 2 straight angles = 4 right angles.
+  - I can find straight angles and full angles in daily life and on a clock.
+  - I can say what a protractor is for, and what a degree is.
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+{{< objectives >}}
+
+{{< packet >}}
+
+## Materials

@@ -1,6 +1,6 @@
 # Chalkline sample course
 
-**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a student site with a page for families, and a teacher site), all in your school's style. This is a **sample course** to try it with: three history units (Ancient Greece, Ancient Rome and Göbekli Tepe), a STEM sampler unit, a 37-word bilingual vocab list, and a slide deck about Chalkline itself.
+**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a student site with a page for families, and a teacher site), all in your school's style. This is a **sample course** to try it with: three history units (Ancient Greece, Ancient Rome and Göbekli Tepe), a STEM sampler unit, a Grade 4 math unit on angles, a 52-word bilingual vocab list, and a slide deck about Chalkline itself.
 
 **See it online:** https://insufficientdoubt.github.io/project-chalkline/ (the teacher version, rebuilt on every push).
 
@@ -15,7 +15,8 @@
 | **Unit 2: Ancient Rome** | `course/units/02-ancient-rome/` | 2 slide decks, 3 printables (a sorting worksheet, Roman numerals, an aqueduct design challenge) |
 | **Unit 3: Göbekli Tepe** | `course/units/03-gobekli-tepe/` | 2 slide decks, 3 printables (an evidence-or-guess worksheet, animal fact cards, a T-pillar design challenge) |
 | **Unit 4: STEM Sampler** | `course/units/04-stem/` | A sampler for STEM teams: math and block-coding decks with interactives you can drag (geometry, GeoGebra, PhET, Blockly), a math handout and two practice worksheets made from a seed. The interactive pages are in its `embeds/` folder |
-| **Vocab** | `vocab/` | 37 words with pictures, 中文 and simple definitions, in the vocab app (sidebar: **History vocab 词汇**) |
+| **Unit 5: Angles** | `course/units/05-angles/` | Grade 4 math, from a Chinese lesson plan (旋转与角): a bilingual deck (English and 中文), a class worksheet, homework, and an interactive page where an angle turns from acute to full (its `embeds/` folder) |
+| **Vocab** | `vocab/` | 52 words with pictures, 中文 and simple definitions, in the vocab app (sidebar: **History vocab 词汇**) |
 | **Appearance** | `brand/` | Colors, fonts and logos for everything |
 | **The look of the interactive parts** | `_extensions/chalkline/ui/ui.css` | One set of colors, corners, shadows, buttons, fields and menus for the classroom tools, games, vocab pop-ups, PDF viewer and quick reference. Change a value there and they all follow |
 | **Chalkline** | `_extensions/chalkline/`, `chalkline.py` | The tool itself. You don't need to touch these |

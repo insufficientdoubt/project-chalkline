@@ -1,0 +1,23 @@
+---
+title: "Turn an Angle 旋转角"
+type: game
+description: "An interactive page: turn one side of an angle and watch it change from acute to right, obtuse, straight and full. Show the degrees, a protractor, or the angles on a clock. For class and for home."
+order: 4
+audience: [teacher, student, parent]
+format: html
+toc: false
+resources:
+  - embeds/**
+---
+
+Press **▶ Turn**, or drag the orange dot. Watch the name change. 按 **▶ 旋转**，或者拖动橙色的点，看看角的名字怎么变。
+
+```{=html}
+<iframe src="embeds/turning-angle.html" title="Turn an angle" style="display:block; width:100%; height:600px; border:1px solid #d6dee8; border-radius:12px; background:#fff"></iframe>
+```
+
+- **° Degrees 度数** shows how big the angle is. A right angle is 90°.
+- **◠ Protractor 量角器** puts a protractor on the angle. Read the blue numbers: they start at 0 on the side that stays still.
+- **🕒 Clock 钟面** shows the angle between the hour hand and the minute hand.
+
+[Open it full screen](embeds/turning-angle.html){target="_blank"}
