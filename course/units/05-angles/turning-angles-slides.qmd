@@ -319,6 +319,25 @@ Activity 3 of the lesson plan: share what you learned and how you feel. Partners
 A preview of lesson 5 (*角的度量*): why we need a protractor, and how to use it. On the interactive page, turn on **° Degrees** and **◠ Protractor**: the inner scale starts at 0 on the still side.
 :::
 
+## Quick-fire review {#quick-fire}
+
+::: {.trivia title="Angles quick-fire!" seconds="10"}
+- An angle smaller than a right angle | An acute angle
+- The two sides make one straight line. What angle is it? | A straight angle
+- One side turns all the way around, back to the start | A full angle
+- 1 straight angle = how many right angles? | 2
+- 1 full angle = how many straight angles? | 2
+- 1 full angle = how many right angles? | 4
+- At 3:00, the clock hands make… | A right angle
+- At 6:00, the clock hands make… | A straight angle
+- At 5:00, the clock hands make… | An obtuse angle
+- The point where the two sides of an angle meet | The vertex
+:::
+
+::: notes
+**Quick-fire**: 10 seconds a question. Point to a student, who answers out loud; press **Show the answer**, then **✓ Right** or **✗ Wrong**. Review, so English only. Change `seconds="10"` to make it easier or harder.
+:::
+
 ## Exit ticket {#exit-ticket}
 
 ::: {.poll type="smileys"}
