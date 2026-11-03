@@ -16,6 +16,17 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-03: A math domain (MTH) in the vocab list
+- **Asked for:** "Create a new math unit in chalk line … Also generate a vocabulary list for this unit. It's for grade four."
+- **Why:** the vocab list only allowed history topics (GRC, ROM, GBT), so the angle words had nowhere to go.
+- **Changed:**
+  - `vocab/schema.yaml`: `MTH` added to the ID pattern, with the subdomains `angles` and `measuring`.
+  - `vocab/config.js`: names for the new topic (Math 数学) and its subdomains (角, 测量), and an "Angle (Simple English Wikipedia)" quick reference.
+  - Content (no log needed, listed for context): Unit 5 `course/units/05-angles/` (bilingual deck, worksheet, homework, an interactive turning-angle page in `embeds/`), 15 words `MTH-001`–`MTH-015`.
+- **Found:** the vocab app's name is still "History Vocab" (`vocab-title` in `_quarto.yml`, `title` in `vocab/config.js`, the sidebar's "History vocab 词汇"), which no longer fits a course with a math unit. Not changed: it's the teacher's choice. A course with several subjects may want one vocab app per subject, or a neutral name.
+- **Who it helps:** this course only (any course adds its own domains the same way).
+- **AI assistant:** Claude.
+
 ## 2026-11-03: Live boards: Padlet and shared whiteboards on slides, with a join QR code
 - **Asked for:** "add a demo slide with an Excalidraw frame and one for padlet … we need to make it so that the join URL surfaces and we can click to get a QR."
 - **Why:** to embed tools like Padlet or a digital whiteboard (no login) in slides, so students can join from their own devices.

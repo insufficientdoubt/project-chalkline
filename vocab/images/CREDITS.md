@@ -6,3 +6,5 @@ Public domain, CC0, Unsplash and Pexels pictures need no credit, but list them a
 
 | File | What it is | By | License | Source |
 |---|---|---|---|---|
+| `MTH-012.jpg` | A brass protractor (about 1800), cropped | Compo | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | [Commons](https://commons.wikimedia.org/wiki/File:Brass_Protractor.jpg) |
+| `MTH-013.jpg` | A wall clock, cropped | bfishadow (Beijing) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | [Commons](https://commons.wikimedia.org/wiki/File:Echo_Wall_Clock_(49383378912).jpg) |

@@ -112,3 +112,11 @@
   source: WBO
   audience: [teacher]
   description: A free, open-source shared whiteboard that stays live inside a slide. No logins. Used on the Live boards demo slides.
+
+- title: Angle (Simple English Wikipedia)
+  url: https://simple.wikipedia.org/wiki/Angle
+  type: reference
+  unit: 05-angles
+  source: Wikipedia
+  audience: [teacher, student, parent]
+  description: An easy-English page about angles and their kinds, for reading at home.

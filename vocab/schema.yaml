@@ -1,6 +1,6 @@
 # Column definitions and allowed values for data/*.csv.
 # `python chalkline.py validate` reads this file. Change allowed values here, not in the script.
-# Domains are the ID prefix: GRC = Ancient Greece, ROM = Ancient Rome, GBT = Göbekli Tepe. Add your own the same way
+# Domains are the ID prefix: GRC = Ancient Greece, ROM = Ancient Rome, GBT = Göbekli Tepe, MTH = Math. Add your own the same way
 # (and give them names in config.js).
 
 levels: [1, 2, 3]          # 1 = everyone, 2 = going further, 3 = expert
@@ -9,7 +9,7 @@ list_separator: ";"
 
 vocab:
   file: data/vocab.csv
-  id_pattern: "^(GRC|ROM|GBT)-\\d{3}$"
+  id_pattern: "^(GRC|ROM|GBT|MTH)-\\d{3}$"
   columns:
     - {name: id,            required: true}
     - {name: term_en,       required: true}
@@ -31,6 +31,7 @@ vocab:
     GRC: [geography, government, culture]
     ROM: [government, army, daily-life, engineering]
     GBT: [archaeology, daily-life, building, culture]
+    MTH: [angles, measuring]
 
 frames:
   file: data/frames.csv
