@@ -1,0 +1,58 @@
+/* Live boards (live-board.js): the frame, the join bar under it, and the big QR code.
+   Colors, corners and buttons from Chalkline's design layer (ui/ui.css). */
+.reveal .live-board { --lb-h: 430px; display: flex; flex-direction: column; gap: 10px; width: 100%; margin: 0.2em 0 0; text-align: left; }
+.reveal .live-board .lb-stage { position: relative; height: var(--lb-h); }
+.reveal .live-board .lb-frame {
+  box-sizing: border-box; display: block; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0;
+  border: 1px solid var(--ui-line, #d6dee8); border-radius: var(--ui-r, 14px); background: #fff;
+}
+.reveal .live-board .lb-frame[hidden], .reveal .live-board .lb-empty[hidden],
+.reveal .live-board .lb-bar[hidden], .reveal .live-board .lb-field[hidden], .reveal .live-board .lb-btn[hidden], .reveal .live-board .lb-actions[hidden] { display: none; }
+.reveal .live-board .lb-empty {
+  box-sizing: border-box; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2em;
+  padding: 1em 2em; border: 2px dashed var(--ui-line-strong, #aebdd0); border-radius: var(--ui-r, 14px);
+  background: var(--ui-soft, #f3f5f8); color: var(--ui-muted, #5b6b80); font-size: 0.6em; text-align: center;
+}
+.reveal .live-board .lb-empty p { margin: 0; max-width: 34em; }
+.reveal .live-board .lb-empty .lb-empty-head { color: var(--ui-ink, #10233f); font-size: 1.3em; font-weight: 700; }
+.reveal .live-board .lb-empty.lb-print { border-style: solid; background: #fff; }
+.reveal .live-board .lb-print-code svg { width: calc(var(--lb-h) - 90px); height: calc(var(--lb-h) - 90px); }
+.reveal .live-board .lb-print-url { color: var(--ui-ink, #10233f); font-weight: 600; word-break: break-all; }
+
+.reveal .live-board .lb-bar {
+  display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 6px 10px 6px 6px;
+  border: 1px solid var(--ui-line, #d6dee8); border-radius: var(--ui-r, 14px); background: var(--ui-surface, #fff);
+  box-shadow: var(--ui-shadow-sm); font-size: 0.5em; line-height: 1.25;
+}
+.reveal .live-board .lb-mini {
+  flex: none; width: 60px; height: 60px; padding: 0; border: 1px solid var(--ui-line, #d6dee8); border-radius: var(--ui-r-sm, 10px);
+  background: #fff; cursor: zoom-in; overflow: hidden;
+}
+.reveal .live-board .lb-mini:empty { display: none; }
+.reveal .live-board .lb-mini svg { display: block; width: 100%; height: 100%; }
+.reveal .live-board .lb-mini:hover { border-color: var(--ui-focus, #0087ff); }
+.reveal .live-board .lb-join { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.reveal .live-board .lb-label { color: var(--ui-muted, #5b6b80); font-weight: 600; }
+.reveal .live-board .lb-url {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--ui-ink, #10233f); font-size: 1.35em; font-weight: 700; text-decoration: none;
+}
+.reveal .live-board .lb-url:hover { color: var(--ui-focus, #0087ff); text-decoration: underline; }
+.reveal .live-board .lb-actions { flex: none; display: flex; gap: 6px; }
+.reveal .live-board .lb-btn { font-size: 0.85em; white-space: nowrap; }
+.reveal .live-board .lb-field { width: 100%; font-size: 0.5em; }
+
+/* The big QR code: over the whole screen */
+.lb-pop {
+  position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center;
+  background: rgba(16, 35, 63, 0.55); cursor: zoom-out;
+}
+.lb-pop-card {
+  display: flex; flex-direction: column; align-items: center; gap: 1.5vmin; padding: 3vmin 4vmin;
+  border-radius: var(--ui-r-lg, 20px); background: #fff; box-shadow: var(--ui-shadow-pop);
+  color: var(--ui-ink, #10233f); font-family: "Source Sans 3", "Source Sans Pro", system-ui, sans-serif; text-align: center;
+}
+.lb-pop-label { font-size: 4.5vmin; font-weight: 700; }
+.lb-pop-code svg { display: block; width: 66vmin; height: 66vmin; }
+.lb-pop-url { max-width: 80vw; font-size: 3.2vmin; font-weight: 600; word-break: break-all; }
+.lb-pop-hint { color: var(--ui-muted, #5b6b80); font-size: 2vmin; }

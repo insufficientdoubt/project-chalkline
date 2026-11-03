@@ -18,6 +18,8 @@ Slides (reveal.js):
   - turns  ::: {.jeopardy}  and  ::: {.trivia}  into slide games (see below and games/games.js)
   - View source (U, in the toolbox): each slide's source as typed, from toolbox/source.lua
   - turns  ::: {.quick-ref}  into a quick reference slide: key slides + everything in the unit (quickref.lua)
+  - turns  ::: {.live-board src=... join=... rooms=...}  into a shared board (Padlet, a whiteboard) with its
+    join link and a QR code under it (live-board/live-board.js); on pages and in PDFs, just the link
 
 PDF (Typst): a div with one of these classes becomes a call to a layout
 function in typst/typst-template.typ, with the div's attributes passed
@@ -308,10 +310,37 @@ local function game_from_div(el)
     seconds = tonumber(el.attributes["seconds"] or "10") or 10, title = el.attributes["title"] or "Quick-fire!" })
 end
 
+-- ::: {.live-board src="..." join="..." rooms="excalidraw|wbo"}: a shared board on a slide, with its join
+-- link and QR code under it (live-board/live-board.js). On web pages and in PDFs, just the link.
+local function live_board(el)
+  if quarto.doc.is_format("revealjs") then
+    quarto.doc.add_html_dependency({
+      name = "live-board",
+      version = "1.0.0",
+      scripts = { { path = "toolbox/qrcode.js", afterBody = true }, { path = "live-board/live-board.js", afterBody = true } },
+      stylesheets = { "live-board/live-board.css" },
+    })
+    if is_teacher() then el.attributes["data-teacher"] = "true" end   -- Edit link and New room: teacher site only
+    return el
+  end
+  local join = el.attributes["join"] or el.attributes["src"] or ""
+  local text = pandoc.utils.stringify(el.content)
+  if text == "" then text = "Join the board" end
+  local inlines = { pandoc.Strong(pandoc.Str("Live board:")), pandoc.Space(), pandoc.Str(text) }
+  if join ~= "" then
+    inlines[#inlines + 1] = pandoc.Space()
+    inlines[#inlines + 1] = pandoc.Link(join, join)
+  else
+    inlines[#inlines + 1] = pandoc.Str(" (on the slide)")
+  end
+  return pandoc.Para(inlines)
+end
+
 local function Div(el)
   -- Speaker notes are for the teacher: the student build leaves them out
   if el.classes:includes("notes") and not is_teacher() then return {} end
   if el.classes:includes("quick-ref") then return quick_ref(el) end
+  if el.classes:includes("live-board") then return live_board(el) end
   for cls, name in pairs({ jeopardy = "Jeopardy", trivia = "Quick-fire questions", matching = "Matching", memory = "Memory", sort = "Sort it",
                            ["timeline-interactive"] = "Timeline", ["timeline-activity"] = "Timeline activity", ["label-it"] = "Label it",
                            ["sentence-builder"] = "Sentence builder", ["fill-blanks"] = "Fill in the blanks", ["put-in-order"] = "Put it in order" }) do
