@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: The design guidance draft stays out of new courses
+- **Asked for:** "save this draft" (the design guidance, drafted in Claude Docs).
+- **Why:** it's a planning file for Chalkline, like `V1-PLAN.md`, not something a new course needs.
+- **Changed:** `.quartoignore`: `DESIGN-GUIDANCE-DRAFT.md` added to the planning files a new course leaves out.
+- **Who it helps:** this repository only.
+- **AI assistant:** Claude.
+
 ## 2026-11-04: The Chalkline guide: templates on the teacher site, copied in at build time
 - **Asked for:** "The guide files including the templates should appear as a unit on the rendered teacher's site, with a simple note about how to disable them. But none of those files should appear in the teachers repository. So copied at build time if the flag is set." Teachers can add their own templates, "listed in another folder above chalklines". Turning the guide off "just not rendering them", and it hides the example slides, not the templates: "if the template is used in the teacher's course then of course it still works."
 - **Why:** step 2 of `V1-PLAN.md`: every course gets Chalkline's templates as a reference that updates with Chalkline, without template files the teacher didn't write in their course.
