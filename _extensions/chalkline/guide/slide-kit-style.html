@@ -47,6 +47,27 @@
   var SCHEMES = [["", "Default", "#ffffff"], ["night", "Night", "#0b1630"], ["sky", "Sky", "#ebf7fd"],
                  ["lagoon", "Lagoon", "#14d7cd"], ["sunrise", "Sunrise", "#ffe9d3"],
                  ["trail", "Trail", "#d9c9b2"], ["glass", "Glass", "#1f6fd6"]];   // trail and glass: this deck's own schemes (slide-kit-looks.css)
+  // and the course's own schemes (a .scheme-x rule in its stylesheets, e.g. brand/revealjs.scss), after those
+  (function () {
+    var known = SCHEMES.map(function (c) { return c[0]; }), found = [];
+    [].forEach.call(document.styleSheets, function (sheet) {
+      var rules; try { rules = sheet.cssRules; } catch (e) { return; }   // a sheet from another site can't be read
+      [].forEach.call(rules || [], function (r) {
+        (r.selectorText || "").replace(/\.scheme-([a-z0-9-]+)/g, function (m, name) {
+          if (known.indexOf(name) < 0 && found.indexOf(name) < 0) found.push(name);
+        });
+      });
+    });
+    var probe = document.createElement("div");
+    (document.querySelector(".reveal") || document.body).appendChild(probe);
+    found.forEach(function (name) {
+      probe.className = "scheme-" + name;
+      var st = getComputedStyle(probe);
+      var swatch = st.getPropertyValue("--strong").trim() || st.getPropertyValue("--accent").trim() || "#888";
+      SCHEMES.push([name, name.charAt(0).toUpperCase() + name.slice(1), swatch]);
+    });
+    probe.remove();
+  })();
   // game and brutal change shapes and take the colours from the scheme; scroll brings its own colours
   var LOOKS = [["", "Plain"], ["game", "Game"], ["brutal", "Brutal"], ["scroll", "Scroll"]];
   var PALETTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -75,7 +96,14 @@
       var o = {}; PROPS.forEach(function (k) { o[k] = l.style[k]; }); return o;
     }) });
   }
+  var deckClass = null;   // the deck's own scheme (slide-scheme:), while "Every slide" replaces it
   function set(prefix, value) {
+    var reveal = document.querySelector(".reveal");
+    if (all && prefix === "scheme-") {   // every slide: the deck's own scheme goes too, so nothing of it is left
+      var own = [].find.call(reveal.classList, function (k) { return k.indexOf("scheme-") === 0; });
+      if (deckClass === null) deckClass = own || "";
+      if (own) reveal.classList.remove(own);
+    }
     targets().forEach(function (s) {
       remember(s);
       [].slice.call(s.classList).forEach(function (k) { if (k.indexOf(prefix) === 0) s.classList.remove(k); });
@@ -87,6 +115,9 @@
     draw();
   }
   function reset() {
+    var reveal = document.querySelector(".reveal");
+    if (deckClass) reveal.classList.add(deckClass);
+    deckClass = null;
     saved.forEach(function (v, s) {
       s.className = v.cls;
       layers(s).forEach(function (l, i) { PROPS.forEach(function (k) { l.style[k] = v.layers[i] ? v.layers[i][k] : ""; }); });

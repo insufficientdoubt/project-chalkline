@@ -8,7 +8,13 @@
 (function () {
   const T = window.ChalklineToolbox;
   const DECK = window.Reveal ? Reveal.getConfig() : {};
-  const SIZE = { margin: DECK.margin == null ? 0.04 : DECK.margin, width: DECK.width || 960, height: DECK.height || 700 };
+  const SIZE0 = { margin: DECK.margin == null ? 0.04 : DECK.margin, width: DECK.width || 960, height: DECK.height || 700 };
+  // the deck's own size: a scheme can change it as the deck starts (schemes.html, ChalklineDeckSize)
+  const SIZE = {
+    margin: SIZE0.margin,
+    get width() { return (window.ChalklineDeckSize || SIZE0).width; },
+    get height() { return (window.ChalklineDeckSize || SIZE0).height; },
+  };
   function setting() { return T.load("slide", { margin: SIZE.margin, wide: false, text: 100 }); }
   // Text size: the slides' font size, as a percent (everything sized in em follows it).
   function applyText(pct) {

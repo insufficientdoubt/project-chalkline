@@ -16,6 +16,18 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: The official style in the palette, and 16:9 by default
+- **Asked for:** "Yes, add it to the palette and make 16:9 default" (after asking whether the official style was a regular theme or specific to one deck).
+- **Why:** to try the official style on any slide, and to get the PowerPoint's shape without setting it in each deck.
+- **Changed:**
+  - `_extensions/chalkline/schemes.html`: each slide's background layer is tagged with its scheme (`data-scheme`), so a scheme's CSS can draw on it; a deck scheme can set the slides' shape (`--deck-width`, `--deck-height`), used when the deck keeps reveal.js's 1050 × 700 (a filter can't: Quarto writes the size before filters run).
+  - `_extensions/chalkline/toolbox/tools/slide.js`: the Slide size tool uses the deck's size after a scheme changes it.
+  - `_extensions/chalkline/guide/slide-kit-style.html`: the palette also lists the course's own schemes (any `.scheme-…` rule in its stylesheets), with a colour dot; with "Every slide", a scheme replaces the deck's own one (Reset puts it back).
+  - `brand/revealjs.scss`: the official scheme is 16:9 (1280 × 720); its emblem shows wherever the scheme is used (a deck, one slide, or the palette), not only for a whole deck. `brand/README.md`: says so.
+  - `course/guide/01-my-templates/official-slides.qmd`: no longer sets its own size.
+- **Who it helps:** the course (its official style); the palette finding a course's own schemes, and schemes setting the slide shape: probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: The row timer, narrower, with its buttons stacked
 - **Asked for:** "How about making the timer narrower and stacking the buttons."
 - **Why:** not given (so it fits in a column, beside or under other things).
