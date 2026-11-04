@@ -4,7 +4,7 @@ subtitle: "旋转与角 · Unit 5: Angles, lesson 1"
 type: slides
 description: "Turn one side of an angle and watch it grow: straight angles and full angles, how they compare with right angles, angles on a clock and in daily life. Bilingual (English and 中文)."
 order: 1
-audience: [teacher, student, parent]
+audience: [teacher, student]
 format:
   revealjs:
     chalkboard:          # press C to draw on a slide, B for a blank chalkboard

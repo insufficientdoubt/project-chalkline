@@ -23,7 +23,6 @@ NEW_NAMES = {
     "_quarto.yml": [('title: "Chalkline Sample"', 'title: "My Course"'),
                     ('vocab-title: "History Vocab"', 'vocab-title: "Course Vocab"'), ('"History vocab 词汇"', '"Vocab 词汇"')],
     "_quarto-teacher.yml": [('"Chalkline Sample (TEACHER)"', '"My Course (TEACHER)"')],
-    "families.qmd": [("[History vocab 词汇:", "[Vocab 词汇:")],
 }
 # For courses at other schools: set GENERIC_BRAND = True to start them as "Your School", with the
 # sailboat icon as the logo (and add brand/logos/logo-emblem.png to .quartoignore). The colors stay

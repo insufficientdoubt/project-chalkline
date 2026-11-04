@@ -138,7 +138,7 @@ def main():
             continue
         html, pdf = out_dir / rel.with_suffix(".html"), out_dir / rel.with_suffix(".pdf")
         if not html.exists():
-            continue   # not built in this site (a parent build leaves most decks out)
+            continue   # not built in this site (the student site leaves teacher-only decks out)
         if "--stale" in sys.argv and pdf.exists() and pdf.stat().st_mtime >= html.stat().st_mtime:
             continue
         todo.append((rel, pdf))

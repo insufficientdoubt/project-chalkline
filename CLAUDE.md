@@ -1,7 +1,7 @@
 # Chalkline sample course
 
 - Read `README.md` first. Content lives in `course/` and `vocab/`, appearance in `brand/`, Chalkline itself (the tool) in `_extensions/chalkline/`.
-- Every slide deck and printable has labels at the top: `title`, `type` (slides, worksheet, checklist, handout, reference, game), `order`, `audience` ([teacher, student, parent]) and `description`. Keep them.
+- Every slide deck and printable has labels at the top: `title`, `type` (slides, worksheet, checklist, handout, reference, game), `order`, `audience` ([teacher, student]) and `description`. Keep them.
 - **Vocab:** `vocab/data/vocab.csv` is the source of truth; run `python chalkline.py validate` after editing it. Follow the rules in `vocab/README.md`: English is the target, 中文 is support; 中文 appears in reference materials, never in review materials (quizzes, flashcards); `short_def` is simple English, 75 characters or fewer; IDs are permanent.
 - **Gloss key vocab:** on slides, write key words as `{{< vocab "democracy" >}}` (a pop-up with picture and 中文). On printables, use `{{< vocab "democracy" zh=true >}}` so the 中文 is printed too, except on quizzes and tests.
 - Write for middle-school English learners: short sentences, simple words, one idea per bullet.

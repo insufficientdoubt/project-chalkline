@@ -11,8 +11,7 @@ Labels read from each document's front matter:
     description   one line, shown in the overview
     order         optional number, to sort documents within a unit
     packet        optional: false leaves a printable out of its unit packet
-    audience      list: teacher, student, parent. `student`: on the student site (else teachers only);
-                  `parent`: also listed on the student site's "For families" page
+    audience      list: teacher, student. `student`: on the student site (else teachers only)
 
 Each unit folder's index.qmd describes the unit (title, unit number, objectives).
 External resources (posters, manuals, other websites) are
@@ -232,7 +231,7 @@ def load_catalog():
             row["edition"] = edition
         return row
 
-    everyone = ["teacher", "student", "parent"]
+    everyone = ["teacher", "student"]
     for p in packets:
         if teacher:   # the teacher site has both: the teacher edition first, then the student copy
             items.append(packet_row(f"{p['short']} · Teacher edition", teacher_copy(p["pdf"]),
@@ -368,8 +367,6 @@ def _who(item):
     chips = []
     if "student" in aud:
         chips.append(f'<span class="ov-aud ov-aud-student">{_icon("users")}Students</span>')
-    if "parent" in aud and item["type"] != "Packet":   # listed on the "For families" page (no packets there)
-        chips.append(f'<span class="ov-aud ov-aud-parent">{_icon("house")}For families</span>')
     if not chips:
         chips.append(f'<span class="ov-aud ov-aud-teacher">{_icon("lock")}Teachers only</span>')
     return '<span class="ov-who">' + "".join(chips) + "</span>"
@@ -377,8 +374,6 @@ def _who(item):
 
 def _audience_class(item):
     aud = item.get("audience") or []
-    if "parent" in aud and item["type"] != "Packet":
-        return "ov-to-families"
     return "ov-to-students" if "student" in aud else "ov-to-teachers"
 
 
@@ -418,7 +413,7 @@ def _number(unit):
 
 def built_catalog():
     """The catalog written before this render (generated/catalog.yml), so the overview's tabs match
-    the version being built (teacher, student, family). Code inside a page can't tell which
+    the version being built (teacher or student). Code inside a page can't tell which
     version that is; this script, run as a pre-render step, can."""
     if OUT.exists():
         return yaml.safe_load(OUT.read_text(encoding="utf-8")) or []
@@ -437,11 +432,10 @@ def _chips(items):
             cls = "ov-t-reference ov-outside" if key == "link" else f"ov-t-{key}"
             chips.append(f'<button type="button" class="ov-chip {cls}" data-f="{key}"><i></i>{label}<span>{n}</span></button>')
     if _teacher_build(items):
-        chips.append(f'<button type="button" class="ov-who-toggle" aria-pressed="false" title="Show which files students and families can see">'
+        chips.append(f'<button type="button" class="ov-who-toggle" aria-pressed="false" title="Show which files students can see">'
                      f'{_icon("eye")}Who sees it<i></i></button>')
     return _html('<div class="ov-chips" role="group" aria-label="Show only">' + "".join(chips) + "</div>"
-                 + '<div class="ov-who-legend"><span class="ov-aud ov-aud-parent">' + _icon("house") + 'For families</span> green rows are also listed on the For families page. '
-                 + '<span class="ov-aud ov-aud-teacher">' + _icon("lock") + 'Teachers only</span> rows are only here. Everything else is for students.</div>')
+                 + '<div class="ov-who-legend"><span class="ov-aud ov-aud-teacher">' + _icon("lock") + 'Teachers only</span> rows are only here. Everything else is for students.</div>')
 
 
 def _teacher_build(items):
@@ -480,33 +474,6 @@ def markdown_by_type():
                     f'<h3>{label}</h3><span class="ov-count">{len(group)}</span></header>')
             out.append(_html(f'<section class="ov-unit">{head}<ul class="ov-list">'
                              + "".join(_item(i, show_unit=True) for i in group) + "</ul></section>"))
-    return "\n".join(out)
-
-
-def markdown_family_picks():
-    """For the "For families" page: the files marked audience: [..., parent], by unit."""
-    items = [i for i in built_catalog() if "parent" in (i.get("audience") or []) and i["type"] != "Packet"]
-    out = []
-    groups = [(u["short"], u) for u in load_units()] + [(YEAR_GROUP[0], None)]
-    for name, unit in groups:
-        group = [i for i in items if i["unit"] == name]
-        if not group:
-            continue
-        title = f'<a href="{escape(unit["path"])}">{escape(unit["title"])}</a>' if unit else escape(name)
-        head = f'<header class="ov-unit-head">{_number(unit)}<div class="ov-unit-text"><h3>{title}</h3></div></header>'
-        out.append(_html(f'<section class="ov-unit">{head}<ul class="ov-list">{"".join(_item(i) for i in group)}</ul></section>'))
-    return "\n".join(out)
-
-
-def markdown_learning():
-    """For families: each unit and its objectives, in order."""
-    out = []
-    for u in load_units():
-        goals = "".join(f"<li>{escape(o)}</li>" for o in u["objectives"])
-        out.append(_html(f'<section class="ov-unit"><header class="ov-unit-head">{_number(u)}'
-                         f'<div class="ov-unit-text"><h3><a href="{escape(u["path"])}">{escape(u["title"])}</a></h3>'
-                         f'<p>{escape(u["description"])}</p></div></header>'
-                         + (f'<ul class="ov-goals">{goals}</ul>' if goals else "") + "</section>"))
     return "\n".join(out)
 
 

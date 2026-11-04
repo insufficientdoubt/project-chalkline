@@ -3,7 +3,7 @@ title: "Turning and Angles: Homework 旋转与角：家庭作业"
 type: worksheet
 description: "Homework after the first lesson: sort four angles, true or false, how far the minute hand turns, an angle hunt at home, a challenge, and a first look at degrees for the next lesson. Teacher copy has an answer key."
 order: 3
-audience: [teacher, student, parent]
+audience: [teacher, student]
 doc-type: Homework
 name-box: true
 format:

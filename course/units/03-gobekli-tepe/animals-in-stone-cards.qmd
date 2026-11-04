@@ -3,7 +3,7 @@ title: "Animals in Stone Fact Cards 石头上的动物"
 type: reference
 description: "Six wild animals carved on the pillars of Göbekli Tepe, with 中文 names, where to find them, and a question to think about."
 order: 4
-audience: [teacher, student, parent]
+audience: [teacher, student]
 doc-type: Reference
 format:
   html: default

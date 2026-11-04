@@ -6,7 +6,7 @@
   type: reference
   unit: 01-ancient-greece
   source: Wikipedia
-  audience: [teacher, student, parent]
+  audience: [teacher, student]
   description: An easy-English overview of ancient Greece, for reading at home.
 
 - title: Ancient Rome (Simple English Wikipedia)
@@ -14,7 +14,7 @@
   type: reference
   unit: 02-ancient-rome
   source: Wikipedia
-  audience: [teacher, student, parent]
+  audience: [teacher, student]
   description: An easy-English overview of ancient Rome, for reading at home.
 
 - title: Göbekli Tepe (UNESCO World Heritage)
@@ -22,7 +22,7 @@
   type: reference
   unit: 03-gobekli-tepe
   source: UNESCO
-  audience: [teacher, student, parent]
+  audience: [teacher, student]
   description: The official World Heritage listing, a short and clear description of the site and why it matters.
 
 - title: Göbekli Tepe (Wikipedia)
@@ -45,7 +45,7 @@
   url: vocab/app/
   type: vocab
   source: School
-  audience: [teacher, student, parent]
+  audience: [teacher, student]
   description: All 37 words from the three units, with pictures and Chinese.
 
 - title: PhET math simulations
@@ -118,5 +118,5 @@
   type: reference
   unit: 05-angles
   source: Wikipedia
-  audience: [teacher, student, parent]
+  audience: [teacher, student]
   description: An easy-English page about angles and their kinds, for reading at home.

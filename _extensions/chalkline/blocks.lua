@@ -10,8 +10,7 @@ Shortcodes that build a block from the course's data, with Chalkline's Python he
   {{< vocab-table unit=1 >}}     a table of words and meanings (words="..." for some; examples=false)
   {{< vocab-list unit=1 >}}      a bulleted list of words and meanings
   {{< fill-in-the-blank unit=1 >}}   a word bank and numbered meanings to fill in; the answer key is teacher-only
-  {{< overview season >}}        the overview's parts: season, by-unit, by-type (index.qmd),
-                                 learning, family-picks (families.qmd)
+  {{< overview season >}}        the overview's parts: season, by-unit, by-type (index.qmd)
   {{< season-events >}}          course/season.yml's events as a list (upcoming=true: only those to come)
 
 Words come from the unit's file in course/vocab/ (made by scripts/import_vocab.py).

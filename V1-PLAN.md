@@ -1,6 +1,6 @@
 # Plan: Chalkline version 1
 
-The next stage, toward a first version. Three pieces of work, in this order: **a new intro deck**, **a template deck** inside Chalkline, and **an updated sample unit** built from the templates. Written 2026-10-29; update the status lines as the work moves.
+The next stage, toward a first version. Four pieces of work: **a new intro deck**, **a template deck** inside Chalkline, **an updated sample unit** built from the templates, and **a streamlined setup**. Written 2026-10-29; update the status lines as the work moves.
 
 ## The message
 
@@ -27,7 +27,7 @@ What every piece of version 1 should say, in this order:
 |---|---|---|---|
 | A1 | Your materials are all kept in one place | One folder per unit: slides, worksheets, pictures, vocab | "The usual way" and "The Chalkline way" slides |
 | A2 | How slides are written | A slide is text you can read: the source beside the result | "A slide is just text you can read" |
-| A3 | Everything is searchable | The site's search finding a word across units | New: a screenshot or live search |
+| A3 | Everything is searchable | The site's search finding a word across units, vocab words and packet pages | New: a screenshot or live search (needs the search work in "Decisions") |
 | A4 | The tools | The classroom toolbox (W): clock, stopwatch, voice level, traffic light, scoreboard, name picker, groups, dice, QR code, spotlight, whiteboard… and the slide timer | "Classroom tools in every deck" |
 | A5 | The vocab sidebar | Opening the Vocab sidebar during a lesson | New example slide |
 | A6 | Vocab glossing | `{{< vocab "democracy" >}}`: a pop-up with picture and 中文 | "Vocabulary support, built in" |
@@ -44,7 +44,7 @@ What every piece of version 1 should say, in this order:
 |---|---|---|---|
 | B1 | Packets are made by the same process | A unit's worksheets become one printed packet | "Packets build themselves" |
 | B2 | Student and teacher versions | One file, two editions: answer keys and notes only for the teacher (`content-visible when-profile="teacher"`) | "Two websites from the same files" |
-| B3 | An optional parent site | The same materials for families (`audience: [parent]`, `families.qmd`) | "Two websites from the same files"; see the open question below |
+| B3 | One public site for students and families | The student site is the public site; parents use it too (no separate parent build) | "Two websites from the same files"; see "Decisions" below |
 
 ### Part C: Vocab and play
 
@@ -96,20 +96,35 @@ Keep or adapt: "A slide is just text you can read", "Packets build themselves", 
 - **Colour sets:** the colour schemes, side by side, with what each is for.
 - **Style:** the looks (game, brutal, scroll, dusk…) and when to use them.
 - **Brand assets:** logos, fonts and colours from `brand/`, and how to change them.
-- **Design guidance** (to be written): short rules for people and for AI assistants to read before making new slides, focused on **high-quality slides that work for translanguaging**: one idea per slide, short sentences, room for a second language, pictures that carry meaning, contrast, consistent places for the same things. **Type follows the content's importance, not the space:** a slide uses a few sizes only (headings, content, small labels; the second language at 0.8 of its line), and when a slide is full the whole slide gets one notch smaller instead of shrinking some parts, so nothing is demoted by accident (worked out on the Slide kit's lesson intro). To be added to `CLAUDE.md` once agreed.
+- **Design guidance** (to be written): short rules for people and for AI assistants to read before making new slides, focused on **high-quality slides that work for translanguaging**: one idea per slide, short sentences, room for a second language, pictures that carry meaning, contrast, consistent places for the same things. **Type follows the content's importance, not the space:** a slide uses a few sizes only (headings, content, small labels; the second language at 0.8 of its line), and when a slide is full the whole slide gets one notch smaller instead of shrinking some parts, so nothing is demoted by accident (worked out on the Slide kit's lesson intro). **The teacher writes the first draft** (decided 2026-11-04). It's a plain markdown file that a course can change: Chalkline ships the default in the extension (for example `_extensions/chalkline/guide/design-guidance.md`), and a course's own copy (for example `design-guidance.md` at the project root) overrides it. `CLAUDE.md`, `AGENTS.md` and `GEMINI.md` tell AI assistants to read the course's copy if there is one, otherwise Chalkline's. **Guidance only, no automatic checks** (decided 2026-11-04): checking code would add a lot of work and complexity for little gain.
 
-### How it ships (to work out)
+### How it ships
 
-- **Source:** move the deck and its files into the extension (for example `_extensions/chalkline/guide/`), with its own pictures and `CREDITS.md`.
-- **Rendering:** a course's site renders only `course/**` and a few pages, so the extension's deck needs a way in: a render entry in the project type, or `chalkline.py` copying it into the site at build time. Pick the one that keeps a teacher's course free of files they didn't write.
-- **The deck's own CSS** (looks, the puzzle layout, the style picker): decide which parts become Chalkline pieces (`styles/`) and which stay examples. Candidates for Chalkline: the puzzle layout, the draw.io hover script (now copied per unit), lesson phase tags.
+- **Source:** the deck and its files live in the extension (for example `_extensions/chalkline/guide/`), with its own pictures and `CREDITS.md`. They update with Chalkline.
+- **Rendering (decided 2026-11-04):** the guide, including the template deck, shows on the **teacher site** as a unit of its own ("How to use Chalkline"), with a short note on how to turn it off. **None of its files appear in the teacher's repository:** at build time, if the setting is on (for example `chalkline-guide: true` in `_quarto.yml`, on by default), `chalkline.py` copies the guide into a git-ignored folder that Quarto builds like any other unit. Never in the student site.
+- **Turning it off** just stops it being built (`chalkline-guide: false`). Nothing is deleted from the extension, so the teacher can turn it back on later.
+- **Turning it off hides the example slides, not the templates.** Every piece a template needs to work (layouts, CSS, scripts, shortcodes) is part of Chalkline itself (`styles/` and friends), not of the guide deck. A template copied into the teacher's course keeps working when the guide is off.
+- **Teachers add their own templates** in their own course files (for example a `course/templates/` unit), where they are content like any other: theirs to change, and never touched by a Chalkline update. The guide unit lists them in a folder of their own, **above** Chalkline's templates.
+- **The deck's own CSS** (looks, the puzzle layout, the style picker): follows from the rule above. What a template needs becomes a Chalkline piece (candidates: the puzzle layout, the draw.io hover script, now copied per unit, lesson phase tags); what only the guide's examples need stays in the guide.
 - **Pictures:** keep them small, openly licensed and credited inside the extension.
 
 ## 3. An updated sample unit
 
 **Status:** after sections 1 and 2.
 
-A unit rebuilt from the templates, to show a real unit made the version 1 way: **lists first** (its vocab and key facts in `vocab/data/vocab.csv` and a facts list), then slides from the templates, a packet, glossing, games and the parent view. The Hundred Schools of Thought material (thinkers, pictures, credits) is a ready start; it has no vocab yet, which makes it a good demonstration of starting from the list.
+A unit rebuilt from the templates, to show a real unit made the version 1 way: **lists first** (its vocab and key facts in `vocab/data/vocab.csv` and a facts list), then slides from the templates, a packet, glossing, games and the student site. The Hundred Schools of Thought material (thinkers, pictures, credits) is a ready start; it has no vocab yet, which makes it a good demonstration of starting from the list.
+
+## 4. A streamlined setup
+
+**Status:** to do. The example site must keep working with all its content, while a teacher who starts a course gets none of it.
+
+**Where it is today (since 2026-10-27):** `quarto use template insufficientdoubt/project-chalkline` copies the project without the sample's content (`.quartoignore`), and `python chalkline.py setup`, run on first start, adds a starter unit. That works, but:
+
+- The teacher types a Quarto command and answers three prompts (trust the authors, make a subdirectory, a folder name).
+- A plain Git clone (the README's "Try this sample" route) brings every sample unit, with no step to strip the sample out afterwards.
+- New pieces must stay out of a teacher's course too: the guide's build-time copy (section 2) needs to be git-ignored in every new course.
+
+**To work out:** one short, obvious path from an empty computer to a teacher's own course, with as few commands and questions as possible. For example: a launcher or `python chalkline.py new` that makes the empty course for them, or a "start my own course" step that removes the sample content from a clone. The quick start (D1) then shows that one path.
 
 ## Order of work
 
@@ -117,12 +132,21 @@ A unit rebuilt from the templates, to show a real unit made the version 1 way: *
 2. Template deck: move the Slide kit into the extension, add the reusable-resources pages, and add the "How to use Chalkline" section of the teacher site.
 3. Intro deck: rebuild in the order above, reusing slides and linking to the template deck.
 4. Updated sample unit.
-5. Version 1: update `README.md`, the quick start, `CHANGELOG.md` and the release notes.
+5. Streamlined setup (section 4).
+6. Version 1: update `README.md`, the quick start, `CHANGELOG.md` and the release notes.
+
+## Decisions (2026-11-03)
+
+- **No parent site.** There is no separate parent build: the public (student) site serves students and families, since the difference between them is small. **Done 2026-11-03:** the "For families" page is gone, and so is the `parent` audience label: `audience` is now `[teacher, student]` or `[teacher]`. Two sites only: student (public) and teacher. Later, a **syllabus page** may serve families.
+- **Search covers vocab and packets too**, not only pages and slides: each vocab word (English, 中文, short definition) and the text of each packet should be findable from the site's search. To work out: adding vocab entries and packet text to Quarto's search index at build time (for example from `post-render`), so a result opens the vocab card or the right packet page.
+- **The Slide style experiment** (`slide-style-slides.qmd`) **is retired once both new decks exist:** the feature demo deck (section 1, which includes the styling feature) and the full template deck with all the lesson templates in one place (section 2).
+
+## Decisions (2026-11-04)
+
+- **The guide is a unit on the teacher site, copied in at build time** (see section 2, "How it ships"): no guide files in the teacher's repository; a setting turns it off and back on; turning it off hides the example slides, never the templates themselves.
+- **Teachers can add their own templates**, as their own content, listed in their own folder above Chalkline's.
+- **Design guidance:** the teacher writes the first draft, as a markdown file. A course's own copy overrides the one in the extension. It's guidance for people and AI assistants only: no automatic checks. A course's copy **replaces** Chalkline's completely (simpler to understand); `chalkline.py` can copy the default in as a starting point.
 
 ## Open questions
 
-- **Parent site:** today families use the student site and its "For families" page. Is "a parent site" that page (and `audience: [parent]`), or a third build (`--profile parent`)?
-- **Searchable:** Quarto's site search covers pages and slides on the website; is that enough, or should search also cover the vocab and the packets?
-- **The template deck's home:** which render path (above), and should a course be able to hide or extend it?
-- **Design guidance:** who writes the first draft, and does it also become checks (for example a lint for slides that are too full)?
-- **The current Slide style experiment** (`slide-style-slides.qmd`): retire it once the template deck covers its ideas?
+- **A streamlined setup:** how exactly (see section 4).

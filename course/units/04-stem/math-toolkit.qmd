@@ -3,7 +3,7 @@ title: "Math Toolkit"
 type: handout
 description: "The key formulas for area, volume, triangles and straight lines on one page, a worked example, and eight practice questions. Teacher copy has answers."
 order: 4
-audience: [teacher, student, parent]
+audience: [teacher, student]
 doc-type: Reference
 name-box: true
 format:
