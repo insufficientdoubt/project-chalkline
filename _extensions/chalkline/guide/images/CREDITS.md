@@ -31,3 +31,20 @@ Unsplash) to change it, and credit that photo here.
 The instructions slide plays a video from Wikimedia Commons (not a copy in this folder): *Ink grinding*, how to grind
 an ink stick on an inkstone, by Wobuzowatsj, CC0,
 [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ink_grinding.webmhd.webm).
+
+Photos for the exemplar deck (`../exemplar-slides.qmd`), found through [Openverse](https://openverse.org) and made smaller
+for slides. Credited on the deck's Credits slide too.
+
+| File | What it is | By | License | Source |
+|---|---|---|---|---|
+| `photo-tower-clock.jpg` | Custom House Tower clock, Boston, close-up at night | Tony Fischer Photography | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/22714323@N06/3296958273) |
+| `photo-scissors.jpg` | Open scissors | DaveCrosby | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) | [Flickr](https://www.flickr.com/photos/87316606@N00/3281279553) |
+| `photo-ferris-wheel.jpg` | A Ferris wheel against the sky | Kevin Dooley | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/12836528@N00/3049370253) |
+| `photo-sundial.jpg` | Sundial, Belle Meade Plantation, Nashville. Cropped (the caption on the photo removed). | Ron Cogswell | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/22711505@N05/6012220897) |
+| `photo-salisbury-clock.jpg` | Salisbury Cathedral clock (about 1386) | Matt From London | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/57868312@N00/32791885583) |
+| `photo-huygens-clock.jpg` | Huygens' first pendulum clock (1656), Boerhaave Museum, Leiden. Cropped to the clock. | koopmanrob | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) | [Flickr](https://www.flickr.com/photos/38483926@N07/3775343287) |
+| `photo-quartz-watch.jpg` | Zenith TimeCommand quartz watch, about 1977 | France1978 | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) | [Flickr](https://www.flickr.com/photos/51764518@N02/8598831202) |
+| `photo-atomic-clock.jpg` | An atomic fountain clock | Steve Jurvetson | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/44124348109@N01/4403205290) |
+
+Original drawings for the exemplar deck: `MTH-002.svg` to `MTH-005.svg` (copied from `vocab/images/`, made by
+`vocab/tools/draw_icons.py`) and `clockwise.svg` (drawn in the same style for the word sort). No license needed.

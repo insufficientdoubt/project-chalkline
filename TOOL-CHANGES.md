@@ -16,6 +16,19 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: Exemplar deck corrections; footer clear of the ↓; Slide size tool fixed; true/false poll buttons
+- **Asked for:** a list of corrections to the exemplar deck by slide number, and two problems on every slide: "there's another character under the 2 in (2 of 3)" and "The slide width tool isn't working." Per slide: press O for the overview (0.1); hero images (1.2, 1.5); a larger picture (1.6, 2.4); the quick-fire game as the review (1.7); "a two-week calendar with due dates for different stages of a PBL… days of the week marked and like a checklist" (1.8); 2.4 bilingual; 2.5 "I don't like these pills. The text looks crowded."; pictures in the word sort (2.6); beside the short reading, "a scrollable reading that advances line by line (and can be bilingual)… with an image on the side" (3.4); "photos or placeholders on every slide" of the timeline (3.6); "nicer buttons. Inline SVG." (3.7); a larger table (4.2); the Slide kit's drum kit slide for easy to hard (4.3); a picture placeholder above "Use it when" (4.5).
+- **Why:** not given (making the exemplar deck a model teachers can copy from).
+- **Changed:**
+  - `_extensions/chalkline/guide/exemplar.css`: the footer label now stops before the bouncing ↓ and wraps to a second line (it had `width: 100%` from Quarto, so it ran under the arrow; that was the "character under the 2"). New pieces: `.column.hero` (a photo filling its column), `.pbl-cal` (two-week project calendar with stages, tickable checklists and due badges), `.compare-rows` (symbol, phrase, example), `.sort-big` (bigger picture cards in a word sort), `.reading-scroll` (line-by-line reading), `.big-table`, and lists in columns fill the column.
+  - `_extensions/chalkline/guide/reading-scroll.html` (new, included by the exemplar deck): scrolls a `.reading-scroll` box so each new line sits in the middle.
+  - `_extensions/chalkline/toolbox/tools/slide.js`: the Slide size window was too short to show its buttons, and "Wide (16:9)" did nothing on decks that are already 16:9 (like this one). Now the window fits, and the button is **Fill the screen**: it adds width on a wider screen or height on a taller one (16:10 laptops, 4:3 projectors), is greyed out when the deck already has the screen's shape, and follows window resizes.
+  - `_extensions/chalkline/ui/ui.css`: a greyed-out look for a disabled button in a `.ui-seg` switch.
+  - `_extensions/chalkline/poll.html`: true/false polls get card buttons with a badge drawn in inline SVG (colour, shine, ring, white mark with a shadow) and the word inside the card; a `.poll-tf` class on the poll. Other poll types are unchanged.
+  - `_extensions/chalkline/guide/exemplar-slides.qmd`: the slide changes above, a new slide 3.5 (the big wheel reading), and the Credits slide lists the eight new photos. `guide/images/`: eight openly licensed photos (credited in `images/CREDITS.md`), the vocab drawings for vertex, side, ray and rotate, and a new `clockwise.svg`.
+- **Who it helps:** the footer fix, Slide size tool and poll buttons: probably every Chalkline course. The new pieces in `exemplar.css` are candidates for Chalkline's slide kit.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: Live boards fill the slide; Excalidraw shows one board; Padlet zoom
 - **Asked for:** "It looks like the one that's embedded and the one that the link goes to are two separate boards. And I would like it to be full screen by default with just a little thing in the corner with the QR code and link and the new room buttons so that we use as much of the screen as possible. No title. Or if there is a title, the title can be on top of the board." And for Padlet: "when I actually post to it, it's too large."
 - **Why:** use the whole screen for the board; never show students a board that isn't the shared one.
