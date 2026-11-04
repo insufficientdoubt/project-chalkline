@@ -592,8 +592,8 @@ return {
     return pandoc.RawBlock("html", '<div class="slide-wall" data-root="' .. up .. '" data-src="' .. up .. 'slide-pictures.json"></div>')
   end,
 
-  -- {{< timer 6 >}}: a countdown (countdown.html). layout="row": one strip, the instruction on the left
-  -- (label="English | 中文"), the time in the middle, the buttons on the right.
+  -- {{< timer 6 >}}: a countdown (countdown.html). layout="row": one narrow strip, the instruction on the
+  -- left (label="English | 中文"), the time in the middle, the buttons stacked on the right.
   ["timer"] = function(args, kwargs)
     local minutes = tonumber(str(args[1], "5")) or 5
     if quarto.doc.is_format("revealjs") then

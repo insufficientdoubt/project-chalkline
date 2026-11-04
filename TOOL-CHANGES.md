@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: The row timer, narrower, with its buttons stacked
+- **Asked for:** "How about making the timer narrower and stacking the buttons."
+- **Why:** not given (so it fits in a column, beside or under other things).
+- **Changed:** `_extensions/chalkline/countdown.html`: the row timer is only as wide as it needs (the instruction wraps at about 12em) and Start / Reset / +1 min are stacked. `guide/exemplar-slides.qmd`: on 6.1 it sits under the worksheet, on 6.3 under the station list.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: A timer in one row: instruction, time, buttons
 - **Asked for:** "Create a horizontal timer layout. Instruction, time, control. Implement it on slides like 6.3"
 - **Why:** not given (a timer that takes one strip at the bottom of a slide, instead of a big block).
