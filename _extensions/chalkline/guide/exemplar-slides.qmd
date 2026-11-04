@@ -10,6 +10,7 @@ format:
     width: 1280
     height: 720
     css: [slide-kit-looks.css, exemplar.css]   # the slide kit's areas and puzzle; this deck's placeholders and phase labels
+    include-after-body: slide-kit-style.html   # the style picker (the palette next to the language switch): try colour schemes and looks
     chalkboard:
       buttons: true
 resources:
@@ -113,7 +114,7 @@ bilingual:
 ::: notes
 **For teachers, not for class.** This deck is one lesson on angles (Grade 4 math), built to show a solid SIOP lesson and the choices around it. Press **→** to move through the lesson, **↓** to see options for the phase you're in, and **Esc** for an overview of the whole grid.
 
-Every slide's footer names its phase. Every option's notes start with **When to choose it**, then **SIOP** (which features it serves) and **Pieces** (what it's made of, so you can copy it).
+Every slide's footer names its phase. The **palette** next to the language switch (top right) tries Chalkline's colour schemes and looks on one slide or every slide; **Copy** gives the classes to write in the file. Every option's notes start with **When to choose it**, then **SIOP** (which features it serves) and **Pieces** (what it's made of, so you can copy it).
 
 The content is only an example: copy a slide into your own deck and change its words. Pictures and videos still to find are shown as dashed placeholders that say what should go there.
 :::
