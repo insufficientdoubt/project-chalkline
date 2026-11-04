@@ -16,15 +16,21 @@
           on the slide (Edit link, teacher site only).
   join    the link students open (and the QR code). Leave it out to use src.
   rooms   excalidraw or wbo: the slide makes a fresh room link itself; New room makes another.
-  height  the frame's height in pixels (default 430).
+  layout  full (the default): the board fills the whole slide, with a small card in the corner (QR code,
+          link, buttons); the slide's title, if it has one, sits on top of the board.
+          inline: the frame with the join bar under it, for a slide with other things on it.
+  height  inline only: the frame's height in pixels (default 430).
+  zoom    shows the board smaller, so more of it fits: zoom="0.7" (Padlet's posts are big at full
+          size, so a Padlet starts at 0.7; other boards at 1).
   The text inside the div is the line in front of the link ("Add one idea."); default "Join".
 
   A link pasted with Edit link, or a room made with New room, is kept in this browser for this slide.
   Edit link and New room are on the teacher site only. In the slide PDF the frame becomes a big QR code.
 
-  Excalidraw switches off live sharing when it runs inside a frame (excalidraw.com's own rule), so
-  its frame is a board for you alone. The class's live room opens in its own tab: Open, or the QR
-  code. WBO and Padlet stay live inside the frame.
+  Excalidraw switches off live sharing when it runs inside a frame (excalidraw.com's own rule), so the
+  slide doesn't show a frame for it (that would be a second, private board): it shows the room's QR
+  code and an Open button. Open the room in its own tab and show that tab. WBO and Padlet stay live
+  inside the frame.
 */
 (function () {
   const STORE = "chalkline-live-board:";
@@ -126,6 +132,8 @@
     const key = location.pathname + "|" + (slide && slide.id ? slide.id : index);
     const label = box.textContent.trim() || "Join";
     box.textContent = "";
+    const full = (a.layout || "full").toLowerCase() !== "inline";
+    if (full) { box.classList.add("lb-full"); if (slide) slide.classList.add("lb-full-slide"); }
     if (a.height) box.style.setProperty("--lb-h", parseInt(a.height, 10) + "px");
 
     let saved = load(key);
@@ -134,7 +142,8 @@
         let join = saved.join || a.join || "";
         // The teacher's browser makes the room; a student's copy of the deck (or the slide PDF) never makes its own
         if (!join && teacher && !PRINT) { join = room.make(); saved = { join: join }; save(key, saved); }
-        return { join: join, frame: room.live ? join : (a.src || room.frame) };
+        // Not live in a frame (Excalidraw): no frame, so there's never a second, private board
+        return { join: join, frame: room.live ? join : (a.src || "") };
       }
       const frame = saved.src || a.src || "";
       return { join: saved.join || a.join || frame, frame: frame };
@@ -182,9 +191,13 @@
         frame.removeAttribute("data-src");
         frame.removeAttribute("src");
       }
+      const zoom = parseFloat(a.zoom) || (/padlet\.(com|org)/.test(l.frame) ? 0.7 : 1);
+      frame.style.setProperty("--lb-zoom", zoom);
       frame.hidden = !l.frame || PRINT;
       empty.hidden = !!l.frame && !PRINT;
       empty.textContent = "";
+      empty.classList.remove("lb-open");
+      box.classList.toggle("lb-is-open", !l.frame && !!room && !!l.join && !PRINT);
       if (PRINT) {
         empty.classList.add("lb-print");
         if (l.join) {
@@ -192,6 +205,17 @@
           code.innerHTML = qrSvg(l.join);
           empty.append(code, el("div", "lb-print-url", l.join));
         } else empty.append(el("p", "lb-empty-head", "A live board: its link and QR code are on the slide."));
+      } else if (!l.frame && room && l.join) {
+        // A room that only shares in its own tab: its QR code, big, and a button to open it
+        empty.classList.add("lb-open");
+        const code = el("button", "lb-open-code");
+        code.type = "button";
+        code.title = "Show the QR code big";
+        code.innerHTML = qrSvg(l.join);
+        code.addEventListener("click", function () { showBig(l.join, label); });
+        const go = button("Open the class board ↗", "Open the room in its own tab, and show that tab", function () { window.open(l.join, "_blank", "noopener"); });
+        empty.append(el("p", "lb-empty-head", label), code, el("p", "lb-open-url", shortLink(l.join)), go,
+          el("p", null, "This board shares only in its own tab: open it there and show that tab."));
       } else if (!l.frame) {
         empty.append(el("p", "lb-empty-head", "No board here yet."));
         if (teacher) {

@@ -16,6 +16,17 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: Live boards fill the slide; Excalidraw shows one board; Padlet zoom
+- **Asked for:** "It looks like the one that's embedded and the one that the link goes to are two separate boards. And I would like it to be full screen by default with just a little thing in the corner with the QR code and link and the new room buttons so that we use as much of the screen as possible. No title. Or if there is a title, the title can be on top of the board." And for Padlet: "when I actually post to it, it's too large."
+- **Why:** use the whole screen for the board; never show students a board that isn't the shared one.
+- **Changed:**
+  - `_extensions/chalkline/live-board/live-board.js`: `layout="full"` is the default (the board fills the slide; `layout="inline"` keeps the old frame with the bar under it). Excalidraw (not live in a frame) no longer gets a frame: its slide shows the room's QR code, link and an **Open the class board** button. A new `zoom` setting draws the board bigger and scales it down (Padlet starts at 0.7).
+  - `live-board.css`: the full-slide board, the small corner card (QR code, link, buttons), the slide title floating at the top centre, the Excalidraw panel, the zoom.
+  - `README.md`, `course/units/00-start-here/live-boards-slides.qmd`: how it works now.
+- **Found:** Excalidraw's live sharing can't run inside a frame (excalidraw.com's rule), so an Excalidraw room is never on the slide itself: the class board is the tab you open. WBO and Padlet stay live on the slide.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-04: The exemplar lesson: a SIOP lesson as a 2D deck, first draft
 - **Asked for:** "Make the first draft of the exemplar deck and merge it into Main." From the outline agreed in Claude Docs: "a 2d reveal deck ... a couple of options for each phase of a lesson. Teachers shouldn't be blindly copying they should be making decisions according to their students and their content."
 - **Why:** step 2 of `V1-PLAN.md`: a solid SIOP pattern for a lesson, with the choices around it, as the main reference for teachers and AI assistants.

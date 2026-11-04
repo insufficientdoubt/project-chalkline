@@ -56,3 +56,41 @@
 .lb-pop-code svg { display: block; width: 66vmin; height: 66vmin; }
 .lb-pop-url { max-width: 80vw; font-size: 3.2vmin; font-weight: 600; word-break: break-all; }
 .lb-pop-hint { color: var(--ui-muted, #5b6b80); font-size: 2vmin; }
+
+/* Zoom: the board drawn bigger, then scaled down, so more of it fits (zoom="0.7"; Padlet starts at 0.7) */
+.reveal .live-board .lb-frame { --lb-zoom: 1; width: calc(100% / var(--lb-zoom)); height: calc(100% / var(--lb-zoom)); transform: scale(var(--lb-zoom)); transform-origin: 0 0; }
+.reveal .live-board .lb-stage { overflow: hidden; border-radius: var(--ui-r, 14px); }
+
+/* Full screen (the default): the board fills the slide; a small card in the corner holds the QR code,
+   the link and the buttons; the slide's title, if any, sits on top of the board */
+.reveal .slides section.lb-full-slide { padding: 0; }
+.reveal .live-board.lb-full { position: absolute; top: 0; left: 0; width: 100%; height: var(--slide-height, 700px); margin: 0; gap: 0; }
+.reveal .live-board.lb-full .lb-stage { height: 100%; }
+.reveal .live-board.lb-full .lb-frame { border: 0; border-radius: 0; }
+.reveal .live-board.lb-full .lb-stage { border-radius: 0; }
+.reveal .live-board.lb-full .lb-bar {
+  position: absolute; right: 12px; bottom: 64px; z-index: 5; max-width: 46%;
+  flex-wrap: wrap; min-height: 0; padding: 6px; gap: 8px; font-size: 0.42em; opacity: 0.94;
+}
+.reveal .live-board.lb-full .lb-mini { width: 76px; height: 76px; }
+.reveal .live-board.lb-full .lb-join { flex: 1 1 10em; }
+.reveal .live-board.lb-full .lb-actions { flex: 1 1 100%; flex-wrap: wrap; }
+.reveal .live-board.lb-full .lb-field { position: absolute; right: 12px; bottom: 170px; z-index: 6; width: 46%; }
+.reveal section.lb-full-slide > h2 {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5; margin: 0; padding: 0.15em 0.5em;
+  max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.75em; background: rgba(255, 255, 255, 0.92); border-radius: var(--ui-r, 14px);
+  box-shadow: var(--ui-shadow-sm);
+}
+.reveal section.lb-full-slide > h2::after { display: none; }
+
+/* A room that shares only in its own tab (Excalidraw): its QR code and an Open button, no frame */
+.reveal .live-board .lb-empty.lb-open { gap: 0.5em; font-size: 0.55em; background: var(--ui-surface, #fff); border-style: solid; }
+.reveal .live-board .lb-open-code { padding: 0; border: 1px solid var(--ui-line, #d6dee8); border-radius: var(--ui-r-sm, 10px); background: #fff; cursor: zoom-in; }
+.reveal .live-board .lb-open-code svg { display: block; width: min(44vh, 300px); height: min(44vh, 300px); }
+.reveal .live-board .lb-open-url { color: var(--ui-ink, #10233f); font-weight: 700; font-size: 1.2em; }
+.reveal .live-board .lb-empty.lb-open .lb-btn { font-size: 1.1em; }
+/* The QR code and link are already big in the middle: the corner card keeps only New room and Edit link */
+.reveal .live-board.lb-is-open .lb-mini, .reveal .live-board.lb-is-open .lb-join,
+.reveal .live-board.lb-is-open .lb-needs-link { display: none; }
+.reveal .live-board.lb-full.lb-is-open .lb-bar { bottom: 12px; }
+.reveal .live-board.lb-full.lb-is-open .lb-bar:not(:has(.lb-btn:not(.lb-needs-link))) { display: none; }

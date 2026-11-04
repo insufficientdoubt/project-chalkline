@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- **Live boards fill the slide** (2026-11-04): the board takes the whole slide, with a small corner card for the QR code,
+  link and buttons (`layout="inline"` for the old look). Excalidraw shows its room's QR code and an Open button instead
+  of a second, private board. `zoom="0.7"` shows a board smaller so more fits (Padlet starts at 0.7).
 - **The exemplar lesson** (2026-11-04, first draft): `guide/exemplar-slides.qmd`, a SIOP lesson on angles as a 2D deck
   (seven phases across, options down, each with a note on when to choose it), with its worksheet `guide/angle-hunt.qmd`.
   Shown first in the teacher site's "How to use Chalkline".
