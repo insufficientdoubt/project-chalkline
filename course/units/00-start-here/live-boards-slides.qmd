@@ -16,7 +16,9 @@ Post one thing you learned today.
 :::
 
 ::: notes
-**A Padlet wall on a slide.** The link and its QR code are under the frame: click the QR code (or **Show QR**) to show it big, so students can scan it.
+**A Padlet wall on a slide.** The wall fills the slide; the link and its QR code are in the card in the corner: click the QR code (or **Show QR**) to show it big, so students can scan it.
+
+**Posts too big?** The slide shows Padlet smaller than full size (`zoom="0.7"`), so more posts fit. Change it in the file: `::: {.live-board zoom="0.6" src="…"}` (smaller numbers fit more). For a slide with the board and other things on it, add `layout="inline"`.
 
 **Make it ready (once per padlet):**
 
@@ -41,15 +43,15 @@ Scan to draw with us.
 :::
 
 ::: notes
-**Excalidraw** (free, open source). This slide makes a **room** for you: the link under the frame. Anyone with the link draws in the same room. No logins.
+**Excalidraw** (free, open source). This slide makes a **room** for you. Anyone with the link draws in the same room. No logins.
 
-**Important:** Excalidraw turns off sharing inside a frame. So the frame is a board for **you** only. To see the class's drawings, click **Open ↗**: the room opens in its own tab.
+**Important:** Excalidraw turns off sharing inside a frame, so the slide doesn't show a frame (that would be a second, private board). It shows the room's QR code: students scan it, then click **Open the class board** and show that tab on the screen. Everyone, you included, is then on the same board.
 
 - **New room:** a new, empty room with a new link (for the next class). The old room stays at its old link.
 - **Edit link:** paste a room link you made at excalidraw.com (**Share** › **Live collaboration**).
 - The room is kept in this browser, for this slide. Students only need the QR code.
 
-Want a shared board **inside** the slide? Use the next slide.
+Want a shared board **on** the slide? Use the next slide.
 :::
 
 ## Draw together: on the slide {#whiteboard}
@@ -59,7 +61,7 @@ Scan to draw on this board.
 :::
 
 ::: notes
-**WBO** (wbo.ophir.dev, free, open source). A shared whiteboard that stays live **inside** the slide: what students draw on their tablets shows up here.
+**WBO** (wbo.ophir.dev, free, open source). A shared whiteboard that fills the slide and stays live: what students draw on their tablets shows up here. The QR code, link and **New room** are in the card in the corner.
 
 - The board's name is in its link. Anyone with the link can draw, so make a **New room** for each class.
 - Pens, shapes, text and an eraser are on the left. **Clear** wipes the board for everyone.
