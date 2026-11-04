@@ -1,6 +1,6 @@
 # Plan: Chalkline version 1
 
-The next stage, toward a first version. Four pieces of work: **a new intro deck**, **a template deck** inside Chalkline, **an updated sample unit** built from the templates, and **a streamlined setup**. Written 2026-10-29; update the status lines as the work moves.
+The next stage, toward a first version. Five pieces of work: **a new intro deck**, **a template deck** inside Chalkline, **an updated sample unit** built from the templates, **a streamlined setup**, and **language support beyond vocab**. Written 2026-10-29; update the status lines as the work moves.
 
 ## The message
 
@@ -73,6 +73,8 @@ Keep or adapt: "A slide is just text you can read", "Packets build themselves", 
 
 **Status:** in progress. **Done 2026-11-04:** the Slide kit deck moved into the extension (`_extensions/chalkline/guide/`) with its pictures, credits and an example handout; `scripts/guide.py` copies it into the teacher site at build time (`course/guide/02-chalkline/`, git-ignored); `chalkline-guide: false` turns it off; teachers' own templates go in `course/guide/01-my-templates/`, listed above. **Next:** design guidance (the teacher's first draft), more template and example slides, the reusable-resources pages, sorting the deck's own CSS into Chalkline pieces, and a few vocab words of the guide's own (the lesson intro's vocab gallery uses this sample's words, so it's empty in other courses). **To check on the first render** (Quarto wasn't available when it was built): the guide shows under "How to use Chalkline" on the teacher site, the work gallery shows the example handout, and the student site shows no empty "My templates" section.
 
+**Now a SIOP exemplar deck (decided 2026-11-04).** The template deck becomes one exemplar lesson as a **2D reveal.js deck**: each column is a lesson phase (Lesson intro, Building background, Input, Strategies, Interaction, Practice and application, Review and assessment), and moving down a column shows other ways to run that phase. The top row is a complete, solid lesson; every option's speaker notes say when to choose it, so teachers make decisions instead of copying. The phases are a usual order, not a rule: teachers repeat, mix or skip them. Neutral content; the interactive slides come from the sample units (Unit 5's angle explorer, polls and quick-fire review, Unit 4's math slides, timelines, review games, live boards). The slide-by-slide outline: [SIOP Exemplar Deck: Slide Outline](https://claude.ai/artifact/ARqYD48fmszB4YwPTxPpQD). The design guidance shrinks to a short rules page beside it (draft: `DESIGN-GUIDANCE-DRAFT.md`).
+
 **Where it lives:** inside the Chalkline extension, as a reference that every course gets and that updates with Chalkline. It's shown in **a new section of the teacher site: "How to use Chalkline"**, separate from the intro deck.
 
 ### What's in it
@@ -126,6 +128,14 @@ A unit rebuilt from the templates, to show a real unit made the version 1 way: *
 
 **To work out:** one short, obvious path from an empty computer to a teacher's own course, with as few commands and questions as possible. For example: a launcher or `python chalkline.py new` that makes the empty course for them, or a "start my own course" step that removes the sample content from a clone. The quick start (D1) then shows that one path.
 
+## 5. Language support beyond vocab
+
+**Status:** to do. Chalkline supports vocabulary well (the vocab list, glosses, galleries, games). Version 1 adds other ways to support language, built in the same way: lists first, then shortcodes and tools.
+
+- **Language goals: a list of lists.** Sentence frames with response frames, phrases and collocations, conversation starters (and later discussion roles, signal words, question stems, talk moves), each its own list with shared columns (`id`, `zh`, `level`, `units`, `vocab_ids`…), checked by `python chalkline.py validate`, and placed with shortcodes (`{{< frame >}}`, `{{< lang "FRM-001, PHR-004" >}}`, `{{< lang unit=5 >}}`). The full plan is in `IDEAS.md` ("Language goals: a list of lists"); its "To decide" list comes first.
+- **Structured conversation tools in the toolbox.** A pop-up classroom tool for **Think-Pair-Share**, plus one or two other common talk structures (for example **Turn and Talk** with A/B partners, and **Numbered Heads Together** or **Inside-Outside Circle**). Each shows its steps one at a time, with a timer for each step and the step's sentence frame. It sits in the toolbox menu next to the timers (the **Time** group, beside the clock and stopwatch), teacher site only, built from the toolbox's shared parts (`toolbox/kit.js`) like the other tools. Later it can take its frames from the language lists above.
+- **Where it shows in the exemplar deck:** column 5 (Interaction) uses the talk tools, and the lesson intro's language objective uses the language lists.
+
 ## Order of work
 
 1. Agree on this plan, the design guidance's scope and the open questions.
@@ -133,7 +143,8 @@ A unit rebuilt from the templates, to show a real unit made the version 1 way: *
 3. Intro deck: rebuild in the order above, reusing slides and linking to the template deck.
 4. Updated sample unit.
 5. Streamlined setup (section 4).
-6. Version 1: update `README.md`, the quick start, `CHANGELOG.md` and the release notes.
+6. Language support beyond vocab (section 5): the language lists, then the talk tools. These can start earlier, alongside the exemplar deck, since its Interaction column needs them.
+7. Version 1: update `README.md`, the quick start, `CHANGELOG.md` and the release notes.
 
 ## Decisions (2026-11-03)
 
