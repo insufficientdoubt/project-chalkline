@@ -1,6 +1,6 @@
 # Plan: Chalkline version 1
 
-The next stage, toward a first version. Three pieces of work, in this order: **a new intro deck**, **a template deck** inside Chalkline, and **an updated sample unit** built from the templates. Written 2026-10-29; update the status lines as the work moves.
+The next stage, toward a first version. Four pieces of work: **a new intro deck**, **a template deck** inside Chalkline, **an updated sample unit** built from the templates, and **a streamlined setup**. Written 2026-10-29; update the status lines as the work moves.
 
 ## The message
 
@@ -96,7 +96,7 @@ Keep or adapt: "A slide is just text you can read", "Packets build themselves", 
 - **Colour sets:** the colour schemes, side by side, with what each is for.
 - **Style:** the looks (game, brutal, scroll, dusk…) and when to use them.
 - **Brand assets:** logos, fonts and colours from `brand/`, and how to change them.
-- **Design guidance** (to be written): short rules for people and for AI assistants to read before making new slides, focused on **high-quality slides that work for translanguaging**: one idea per slide, short sentences, room for a second language, pictures that carry meaning, contrast, consistent places for the same things. **Type follows the content's importance, not the space:** a slide uses a few sizes only (headings, content, small labels; the second language at 0.8 of its line), and when a slide is full the whole slide gets one notch smaller instead of shrinking some parts, so nothing is demoted by accident (worked out on the Slide kit's lesson intro). **The teacher writes the first draft** (decided 2026-11-04). It's a plain markdown file that a course can change: Chalkline ships the default in the extension (for example `_extensions/chalkline/guide/design-guidance.md`), and a course's own copy (for example `design-guidance.md` at the project root) overrides it. `CLAUDE.md`, `AGENTS.md` and `GEMINI.md` tell AI assistants to read the course's copy if there is one, otherwise Chalkline's.
+- **Design guidance** (to be written): short rules for people and for AI assistants to read before making new slides, focused on **high-quality slides that work for translanguaging**: one idea per slide, short sentences, room for a second language, pictures that carry meaning, contrast, consistent places for the same things. **Type follows the content's importance, not the space:** a slide uses a few sizes only (headings, content, small labels; the second language at 0.8 of its line), and when a slide is full the whole slide gets one notch smaller instead of shrinking some parts, so nothing is demoted by accident (worked out on the Slide kit's lesson intro). **The teacher writes the first draft** (decided 2026-11-04). It's a plain markdown file that a course can change: Chalkline ships the default in the extension (for example `_extensions/chalkline/guide/design-guidance.md`), and a course's own copy (for example `design-guidance.md` at the project root) overrides it. `CLAUDE.md`, `AGENTS.md` and `GEMINI.md` tell AI assistants to read the course's copy if there is one, otherwise Chalkline's. **Guidance only, no automatic checks** (decided 2026-11-04): checking code would add a lot of work and complexity for little gain.
 
 ### How it ships
 
@@ -104,7 +104,7 @@ Keep or adapt: "A slide is just text you can read", "Packets build themselves", 
 - **Rendering (decided 2026-11-04):** the guide, including the template deck, shows on the **teacher site** as a unit of its own ("How to use Chalkline"), with a short note on how to turn it off. **None of its files appear in the teacher's repository:** at build time, if the setting is on (for example `chalkline-guide: true` in `_quarto.yml`, on by default), `chalkline.py` copies the guide into a git-ignored folder that Quarto builds like any other unit. Never in the student site.
 - **Turning it off** just stops it being built (`chalkline-guide: false`). Nothing is deleted from the extension, so the teacher can turn it back on later.
 - **Turning it off hides the example slides, not the templates.** Every piece a template needs to work (layouts, CSS, scripts, shortcodes) is part of Chalkline itself (`styles/` and friends), not of the guide deck. A template copied into the teacher's course keeps working when the guide is off.
-- **Teachers add their own templates** in their own course files (for example a `course/templates/` unit), where they are content like any other: theirs to change, and never touched by a Chalkline update. To work out: whether the guide unit lists them next to Chalkline's.
+- **Teachers add their own templates** in their own course files (for example a `course/templates/` unit), where they are content like any other: theirs to change, and never touched by a Chalkline update. The guide unit lists them in a folder of their own, **above** Chalkline's templates.
 - **The deck's own CSS** (looks, the puzzle layout, the style picker): follows from the rule above. What a template needs becomes a Chalkline piece (candidates: the puzzle layout, the draw.io hover script, now copied per unit, lesson phase tags); what only the guide's examples need stays in the guide.
 - **Pictures:** keep them small, openly licensed and credited inside the extension.
 
@@ -114,13 +114,26 @@ Keep or adapt: "A slide is just text you can read", "Packets build themselves", 
 
 A unit rebuilt from the templates, to show a real unit made the version 1 way: **lists first** (its vocab and key facts in `vocab/data/vocab.csv` and a facts list), then slides from the templates, a packet, glossing, games and the student site. The Hundred Schools of Thought material (thinkers, pictures, credits) is a ready start; it has no vocab yet, which makes it a good demonstration of starting from the list.
 
+## 4. A streamlined setup
+
+**Status:** to do. The example site must keep working with all its content, while a teacher who starts a course gets none of it.
+
+**Where it is today (since 2026-10-27):** `quarto use template insufficientdoubt/project-chalkline` copies the project without the sample's content (`.quartoignore`), and `python chalkline.py setup`, run on first start, adds a starter unit. That works, but:
+
+- The teacher types a Quarto command and answers three prompts (trust the authors, make a subdirectory, a folder name).
+- A plain Git clone (the README's "Try this sample" route) brings every sample unit, with no step to strip the sample out afterwards.
+- New pieces must stay out of a teacher's course too: the guide's build-time copy (section 2) needs to be git-ignored in every new course.
+
+**To work out:** one short, obvious path from an empty computer to a teacher's own course, with as few commands and questions as possible. For example: a launcher or `python chalkline.py new` that makes the empty course for them, or a "start my own course" step that removes the sample content from a clone. The quick start (D1) then shows that one path.
+
 ## Order of work
 
 1. Agree on this plan, the design guidance's scope and the open questions.
 2. Template deck: move the Slide kit into the extension, add the reusable-resources pages, and add the "How to use Chalkline" section of the teacher site.
 3. Intro deck: rebuild in the order above, reusing slides and linking to the template deck.
 4. Updated sample unit.
-5. Version 1: update `README.md`, the quick start, `CHANGELOG.md` and the release notes.
+5. Streamlined setup (section 4).
+6. Version 1: update `README.md`, the quick start, `CHANGELOG.md` and the release notes.
 
 ## Decisions (2026-11-03)
 
@@ -131,9 +144,10 @@ A unit rebuilt from the templates, to show a real unit made the version 1 way: *
 ## Decisions (2026-11-04)
 
 - **The guide is a unit on the teacher site, copied in at build time** (see section 2, "How it ships"): no guide files in the teacher's repository; a setting turns it off and back on; turning it off hides the example slides, never the templates themselves.
-- **Teachers can add their own templates**, as their own content.
-- **Design guidance:** the teacher writes the first draft, as a markdown file. A course's own copy overrides the one in the extension.
+- **Teachers can add their own templates**, as their own content, listed in their own folder above Chalkline's.
+- **Design guidance:** the teacher writes the first draft, as a markdown file. A course's own copy overrides the one in the extension. It's guidance for people and AI assistants only: no automatic checks.
 
 ## Open questions
 
-- **Design guidance:** does a course's copy replace Chalkline's completely (simpler), or add to it (keeps Chalkline's improvements)? And does it also become checks (for example a lint for slides that are too full)?
+- **Design guidance:** does a course's copy replace Chalkline's completely (simpler), or add to it (keeps Chalkline's improvements)?
+- **A streamlined setup:** how exactly (see section 4).
