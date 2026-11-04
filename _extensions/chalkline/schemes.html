@@ -7,6 +7,10 @@
   A deck's  slide-scheme: night  label puts the scheme on the whole deck (filter.lua sets data-scheme
   below), including the screen around the slide. A slide's own background-color= or background-image=
   always wins. Added to every deck by filter.lua.
+  Each slide's background layer is tagged with its scheme (data-scheme="night"), so a scheme's CSS can
+  draw on it (an emblem in the corner). A deck scheme can also set the slides' shape: --deck-width and
+  --deck-height on .reveal.scheme-x (1280 and 720 for 16:9), used when the deck keeps reveal.js's own
+  1050 × 700; window.ChalklineDeckSize is then the deck's size, for the toolbox's Slide size tool.
 -->
 <script>
 (function () {
@@ -14,6 +18,7 @@
   function paint(s) {
     var bg = Reveal.getSlideBackground(s);
     if (!bg) return;
+    tag(s);
     var st = getComputedStyle(s), img = st.getPropertyValue("--paper-image").trim();
     var has = img && img !== "none";
     bg.style.backgroundColor = st.getPropertyValue("--paper").trim();
@@ -28,9 +33,21 @@
     return s.hasAttribute("data-background-image") || s.hasAttribute("data-background-video") || s.hasAttribute("data-background-iframe");
   }
   var deck = "", deckPaper = "", deckImage = "";
+  function schemeOf(s) {
+    var c = [].find.call(s.classList, function (k) { return k.indexOf("scheme-") === 0; });
+    return c ? c.slice(7) : deck;
+  }
+  function tag(s) {   // the scheme's name on the slide's background layer, for its CSS (an emblem, say)
+    var bg = Reveal.getSlideBackground(s);
+    if (!bg) return;
+    var name = schemeOf(s);
+    if (name) bg.setAttribute("data-scheme", name); else bg.removeAttribute("data-scheme");
+  }
   function paintAll() {
     [].forEach.call(document.querySelectorAll(".reveal .slides section"), function (s) {
-      if (s.querySelector(":scope > section") || ownPicture(s) || s.hasAttribute("data-background-color")) return;
+      if (s.querySelector(":scope > section")) return;
+      tag(s);
+      if (ownPicture(s) || s.hasAttribute("data-background-color")) return;
       var st = getComputedStyle(s);
       // a deck scheme, or a slide whose scheme or look gives it its own paper
       if (deck || st.getPropertyValue("--paper").trim() !== deckPaper || st.getPropertyValue("--paper-image").trim() !== deckImage) paint(s);
@@ -45,6 +62,13 @@
     if (deck) {   // the screen around the slide too
       var html = document.documentElement.style;
       html.setProperty("--r-background-color", deckPaper);
+      // the scheme's own slide shape, unless the deck chose one (reveal.js's default is 1050 × 700)
+      var w = parseInt(rs.getPropertyValue("--deck-width"), 10), h = parseInt(rs.getPropertyValue("--deck-height"), 10);
+      var cfg = Reveal.getConfig();
+      if (w && h && cfg.width === 1050 && cfg.height === 700) {
+        window.ChalklineDeckSize = { width: w, height: h };
+        Reveal.configure({ width: w, height: h });
+      }
     }
     paintAll();
     // Reveal.configure() and Reveal.sync() (the toolbox's slide size, for one) throw the background

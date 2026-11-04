@@ -44,6 +44,8 @@ $presentation-heading-font: "Poppins", "Source Sans 3", "Noto Sans SC", sans-ser
   --paper-size: 100% 100%;
   --paper-position: center;
   --paper-repeat: no-repeat;
+  --deck-width: 1280;    // 16:9, like the PowerPoint: a deck with slide-scheme: official gets 1280 × 720
+  --deck-height: 720;    // (unless it sets its own width and height); schemes.html applies it
   --ink: #2b2b2b;
   --ink-muted: #5f6368;
   --heading: #111;
@@ -76,10 +78,11 @@ $presentation-heading-font: "Poppins", "Source Sans 3", "Noto Sans SC", sans-ser
   width: 420px; height: 3px; border-radius: 0; margin-top: 0.35em;
   background: linear-gradient(90deg, #9fd8dc 0 32%, #f5c98e 32% 64%, #8ab8d8 64% 100%);
 }
-// The emblem, top right of every slide of an official deck, on the slide's background layer (reveal.js
-// draws backgrounds outside the slide). Here in the stylesheet, so its path is from this file, and it
-// works wherever the site is published. A slide with its own picture (the title slide) gets it too.
-.reveal.scheme-official .backgrounds .slide-background:not(.stack)::after {
+// The emblem, top right of every official slide, on the slide's background layer (reveal.js draws
+// backgrounds outside the slide; schemes.html tags each one with its slide's scheme). Here in the
+// stylesheet, so its path is from this file and works wherever the site is published. A whole deck, one
+// slide ({.scheme-official}) or the palette; a slide with its own picture (the title slide) gets it too.
+.reveal .backgrounds .slide-background[data-scheme="official"]:not(.stack)::after {
   content: ""; position: absolute; top: 5.5%; right: 2.4%; height: 13%; aspect-ratio: 1;
   background: url("../../../../brand/logos/logo-emblem.png") center / contain no-repeat; pointer-events: none;
 }

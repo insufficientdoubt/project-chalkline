@@ -4,10 +4,7 @@ subtitle: "明湾欢迎您"
 type: slides
 order: 2
 audience: [teacher]
-format:
-  revealjs:
-    width: 1280     # 16:9, like marketing's PowerPoint
-    height: 720
+format: revealjs
 description: "Mingwan's official presentation style, with the colour bands from marketing's slides; the brand resources (emblem, icons, the White Dolphin boat, tagline, campus artwork) and marketing's reference slides. Copy it to start a presentation for families or visitors."
 slide-scheme: official   # the colour bands, the emblem and the title style (brand/revealjs.scss)
 title-slide-attributes:
