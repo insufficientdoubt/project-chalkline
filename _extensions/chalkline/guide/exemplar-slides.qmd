@@ -26,7 +26,7 @@ bilingual:
 # [How this deck works | 这套幻灯片怎么用]{.bi} {#how data-menu-title="How this deck works"}
 
 :::: {.columns}
-::: {.column width="55%" style="font-size: 0.8em"}
+::: {.column width="55%" style="font-size: 0.62em"}
 ::: {.box .plain}
 [Across → | 横向 →]{.kicker}
 
@@ -46,7 +46,7 @@ bilingual:
 :::
 :::
 ::: {.column width="45%"}
-::: {.tiles style="--cols: 1; --gap: 0.25em; font-size: 0.62em"}
+::: {.tiles style="--cols: 1; --gap: 0.2em; font-size: 0.5em"}
 ::: {.box .plain}
 ::: row
 [1]{.num}
@@ -138,7 +138,9 @@ The content is only an example: copy a slide into your own deck and change its w
 ::: {.area .language label="Language objective · 语言目标"}
 [Vocab · 词汇]{.pill .tag}
 
+::: {style="width: 72%"}
 {{< vocab-gallery "angle, vertex, side, rotate" cols=4 >}}
+:::
 
 [Sentence frames · 句型]{.pill .tag}
 
