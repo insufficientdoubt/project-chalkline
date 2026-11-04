@@ -71,7 +71,7 @@ Keep or adapt: "A slide is just text you can read", "Packets build themselves", 
 
 ## 2. The template deck
 
-**Status:** to do. Starts from the Slide kit deck (`course/units/00-start-here/slide-kit-slides.qmd`), which already has most of the activity slides.
+**Status:** in progress. **Done 2026-11-04:** the Slide kit deck moved into the extension (`_extensions/chalkline/guide/`) with its pictures, credits and an example handout; `scripts/guide.py` copies it into the teacher site at build time (`course/guide/02-chalkline/`, git-ignored); `chalkline-guide: false` turns it off; teachers' own templates go in `course/guide/01-my-templates/`, listed above. **Next:** design guidance (the teacher's first draft), more template and example slides, the reusable-resources pages, sorting the deck's own CSS into Chalkline pieces, and a few vocab words of the guide's own (the lesson intro's vocab gallery uses this sample's words, so it's empty in other courses). **To check on the first render** (Quarto wasn't available when it was built): the guide shows under "How to use Chalkline" on the teacher site, the work gallery shows the example handout, and the student site shows no empty "My templates" section.
 
 **Where it lives:** inside the Chalkline extension, as a reference that every course gets and that updates with Chalkline. It's shown in **a new section of the teacher site: "How to use Chalkline"**, separate from the intro deck.
 

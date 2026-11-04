@@ -10,6 +10,7 @@
     python chalkline.py export-vocab         Quizlet, Kahoot and Anki files of the vocab
     python chalkline.py import-vocab ...     copy words from vocab/data/vocab.csv into a unit
     python chalkline.py drawio               update draw.io diagrams' pictures
+    python chalkline.py guide --teacher      copy Chalkline's guide (templates) into course/guide/02-chalkline/
     python chalkline.py build                full build, if anything changed (the launchers run this)
 
 Add --help after a command for its options. The commands are Chalkline's scripts

@@ -1,0 +1,37 @@
+---
+title: "How to Use Chalkline"
+short-title: "Chalkline guide"
+order: 2
+audience: [teacher]
+format: html
+description: "Chalkline's slide templates and examples, ready to copy into your own lessons. Teacher site only."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+Ready-made slides for common classroom activities, and examples of what Chalkline can do. Open a deck, find a slide you like, and copy its source into your own lesson. Each slide's speaker notes (press **S**) name the pieces it's made of.
+
+Your own templates are in **My templates**, above this section (`course/guide/01-my-templates/`).
+
+::: {.callout-note title="Where this comes from, and how to turn it off" collapse="true"}
+This guide is part of Chalkline. It's copied into your teacher site each time the site is built, and it updates when Chalkline does. It's not in your course's files, and students never see it.
+
+Don't change the files in `course/guide/02-chalkline/`: they're replaced at every build. Copy a slide into your own lesson or into `course/guide/01-my-templates/` instead.
+
+**To turn it off**, add this line to `_quarto.yml`:
+
+```yaml
+chalkline-guide: false
+```
+
+To bring it back, delete that line (or write `true`). Turning the guide off only hides these pages. Every template piece (boxes, tiles, timers, the puzzle and the rest) still works in your own slides.
+:::
+
+## Templates and examples

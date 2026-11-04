@@ -58,6 +58,9 @@ def out_of_date(since):
 
 def main():
     setup.ensure()   # a new course: its starter unit and course files, before anything reads them
+    # The Chalkline guide: copied in (teacher site) or removed (student site) before Quarto lists the files.
+    subprocess.run([sys.executable, str(HERE / "guide.py")] + (["--teacher"] if PROFILE == "teacher" else []),
+                   cwd=ROOT, env=os.environ)
     if PROFILE != "teacher":
         # Refresh the list of pages the student site leaves out before Quarto reads _quarto-student.yml.
         subprocess.run([sys.executable, str(HERE / "catalog.py")], cwd=ROOT, env=os.environ, capture_output=True)

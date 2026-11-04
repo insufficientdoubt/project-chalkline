@@ -16,6 +16,20 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: The Chalkline guide: templates on the teacher site, copied in at build time
+- **Asked for:** "The guide files including the templates should appear as a unit on the rendered teacher's site, with a simple note about how to disable them. But none of those files should appear in the teachers repository. So copied at build time if the flag is set." Teachers can add their own templates, "listed in another folder above chalklines". Turning the guide off "just not rendering them", and it hides the example slides, not the templates: "if the template is used in the teacher's course then of course it still works."
+- **Why:** step 2 of `V1-PLAN.md`: every course gets Chalkline's templates as a reference that updates with Chalkline, without template files the teacher didn't write in their course.
+- **Changed:**
+  - `_extensions/chalkline/guide/` (new): the Slide kit deck moved here from `course/units/00-start-here/` with its looks, style picker, draw.io diagram and pictures (pictures the Slide style deck also uses are copied, not moved), `images/CREDITS.md`, a unit page (`index.qmd`, with how to turn it off), an example handout for the work gallery (it used Unit 1's packet, which other courses don't have), and a `README.md` for people who change Chalkline.
+  - `_extensions/chalkline/scripts/guide.py` (new), first in `pre-render` in `_extension.yml`: on the teacher site, copies `guide/` into `course/guide/02-chalkline/` (only changed files, so the preview doesn't loop); on the student site or with `chalkline-guide: false`, removes it. `python chalkline.py guide --teacher` runs it by hand.
+  - `build_if_needed.py`: runs `guide.py` before Quarto lists the files. `catalog.py`: `course/guide/` isn't listed in the overview; an `index.qmd` with `audience: [teacher]` is left out of the student site. `drawio.py`: skips the guide's copy.
+  - `_quarto.yml`: `- auto: course/guide` in the sidebar, and the `chalkline-guide: false` setting, commented. `.gitignore`: `course/guide/02-chalkline/`. `chalkline.py`: the `guide` command in the list.
+  - `starter/course/guide/01-my-templates/index.qmd` (new): the teacher's own templates' section, also added to this course.
+  - `CLAUDE.md`, `styles/layout.scss`, `CHANGELOG.md`: the deck's new place.
+- **Found:** the lesson intro slide's vocab gallery uses this sample's words (philosopher, empire, artifact, evidence), so in another course that area is empty (a warning, not an error). The guide needs a few words of its own, or a gallery that doesn't need the vocab list.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-03: A math domain (MTH) in the vocab list
 - **Asked for:** "Create a new math unit in chalk line … Also generate a vocabulary list for this unit. It's for grade four."
 - **Why:** the vocab list only allowed history topics (GRC, ROM, GBT), so the angle words had nowhere to go.

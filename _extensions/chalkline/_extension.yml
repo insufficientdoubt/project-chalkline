@@ -20,6 +20,7 @@ contributes:
     project:
       type: website
       pre-render:
+        - scripts/guide.py         # teacher site: copies the Chalkline guide (guide/) into course/guide/02-chalkline/ (chalkline-guide: false turns it off)
         - scripts/freeze_check.py  # clears saved Python results (_freeze/) when season, vocab, scripts or the date change
         - scripts/catalog.py       # reads every document's labels and writes generated/catalog.yml for the overview
         - scripts/lessons.py       # reads course/lessons/ and writes the lesson map and each lesson's before/next links

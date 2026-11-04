@@ -45,7 +45,8 @@ def export(app, src):
 
 
 def main():
-    files = [Path(a).resolve() for a in sys.argv[1:]] or sorted((ROOT / "course").rglob("*.drawio"))
+    files = [Path(a).resolve() for a in sys.argv[1:]] or sorted(
+        f for f in (ROOT / "course").rglob("*.drawio") if "02-chalkline" not in f.parts)   # not the guide's build-time copy
     if not files:
         print("drawio.py: no .drawio files found")
         return

@@ -169,8 +169,8 @@ def load_catalog():
     items = []
 
     for path in sorted(COURSE.rglob("*.qmd")):
-        if path.name.startswith("_") or path.name == "index.qmd":
-            continue
+        if path.name.startswith("_") or path.name == "index.qmd" or path.relative_to(COURSE).parts[0] == "guide":
+            continue   # (course/guide/: templates and Chalkline's guide, not course materials)
         meta = front_matter(path)
         kind = meta.get("type")
         if kind not in TYPES:
@@ -264,10 +264,11 @@ def load_catalog():
 
 def student_drafts():
     """Pages the student site leaves out: those whose `audience` label leaves out students.
-    (Unit and section pages, which have no label, always stay.)"""
+    (Unit and section pages usually have no label, so they stay; one with `audience: [teacher]`, like
+    course/guide/01-my-templates/index.qmd, is left out.)"""
     drafts = []
     for path in sorted(COURSE.rglob("*.qmd")):
-        if path.name.startswith("_") or path.name == "index.qmd":
+        if path.name.startswith("_"):
             continue
         audience = front_matter(path).get("audience")
         if audience is not None and "student" not in audience:

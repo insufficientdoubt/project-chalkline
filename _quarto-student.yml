@@ -10,8 +10,8 @@ website:
   draft-mode: gone
   # ---- Everything below is written by scripts/catalog.py before each render. Don't edit by hand. ----
   drafts:
+  - course/guide/01-my-templates/index.qmd
   - course/play.qmd
   - course/units/00-start-here/live-boards-slides.qmd
   - course/units/00-start-here/quick-start.qmd
-  - course/units/00-start-here/slide-kit-slides.qmd
   - course/units/00-start-here/slide-style-slides.qmd
