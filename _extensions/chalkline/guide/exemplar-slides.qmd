@@ -1486,7 +1486,7 @@ Scan to draw with us. Then write its name.
 
 :::: {.columns}
 ::: {.column width="58%"}
-::: {.steps .stack}
+::: {.steps .stack style="font-size: 0.92em"}
 1. [Find 5 angles in the room. | 在教室里找5个角。]{.bi}
 2. [Draw each one. Mark the vertex. | 画下每个角，标出顶点。]{.bi}
 3. [Name it: acute, right, obtuse, straight. | 写出名称：锐角、直角、钝角、平角。]{.bi}
@@ -1494,13 +1494,9 @@ Scan to draw with us. Then write its name.
 :::
 :::
 ::: {.column width="42%"}
-::: {.box .dark style="align-items: center"}
-[Timer · 计时]{.kicker}
-
-{{< timer 10 >}}
-:::
-
 {{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
+
+{{< timer 10 layout="row" label="Work on your angle hunt | 完成找角任务" >}}
 :::
 ::::
 
@@ -1513,7 +1509,7 @@ Scan to draw with us. Then write its name.
 
 **SIOP:** features 20–22 (hands-on, applying content and language, more than one skill: looking, drawing, writing, speaking) and feature 11 (clear task explanation).
 
-**Pieces:** `.columns`, `.steps`, a timer in a `.box .dark`, and `{{</* pdf-viewer "angle-hunt.pdf" layout="gallery" */>}}`: the worksheet's pages (here the guide's own `angle-hunt.qmd`); tap one to open it large.
+**Pieces:** `.columns`, `.steps`, `{{</* pdf-viewer "angle-hunt.pdf" layout="gallery" */>}}`, and under it a timer in one row, `{{</* timer 10 layout="row" label="English | 中文" */>}}`: what to do, the time, and the buttons stacked: the worksheet's pages (here the guide's own `angle-hunt.qmd`); tap one to open it large.
 :::
 
 ## [Make a paper clock | 做一个纸钟]{.bi} {#practice-video data-menu-title="6 · Instructions + video"}
@@ -1586,11 +1582,7 @@ Scan to draw with us. Then write its name.
 :::
 :::
 
-::: {.box .dark .station-timer}
-[Move every · 每站时间]{.kicker}
-
-{{< timer 6 >}}
-:::
+{{< timer 6 layout="row" label="Then move to the next station | 然后换到下一站" >}}
 :::
 ::::
 
@@ -1603,7 +1595,7 @@ Scan to draw with us. Then write its name.
 
 **SIOP:** features 20–22 (hands-on, all four skills across the stations) and feature 17 (grouping).
 
-**Pieces:** `.columns`: a map of the room (`images/stations-map.svg`, an original drawing: two stations in corners, one at a desk cluster, one in the hallway) beside the station list, each a `.row` with a coloured `.num` (`.st1` to `.st4`, the map's colours), and one small timer for the rotation. Draw your own room's map, or photograph the room and put numbers on it.
+**Pieces:** `.columns`: a map of the room (`images/stations-map.svg`, an original drawing: two stations in corners, one at a desk cluster, one in the hallway) beside the station list, each a `.row` with a coloured `.num` (`.st1` to `.st4`, the map's colours), and under them a timer in one row, `{{</* timer 6 layout="row" label="…" */>}}`: the instruction, the time, and the buttons stacked. Draw your own room's map, or photograph the room and put numbers on it.
 :::
 
 ## [Make it on the clock | 在钟面上做角]{.bi} {#practice-clock data-menu-title="6 · Hands-on (interactive)"}

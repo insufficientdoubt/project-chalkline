@@ -592,10 +592,26 @@ return {
     return pandoc.RawBlock("html", '<div class="slide-wall" data-root="' .. up .. '" data-src="' .. up .. 'slide-pictures.json"></div>')
   end,
 
-  ["timer"] = function(args)
+  -- {{< timer 6 >}}: a countdown (countdown.html). layout="row": one narrow strip, the instruction on the
+  -- left (label="English | 中文"), the time in the middle, the buttons stacked on the right.
+  ["timer"] = function(args, kwargs)
     local minutes = tonumber(str(args[1], "5")) or 5
     if quarto.doc.is_format("revealjs") then
       include_once("countdown.html")
+      local layout = kwargs and str(kwargs["layout"], "") or ""
+      if layout == "row" then
+        local label = str(kwargs["label"], "")
+        local en, zh = label:match("^(.-)%s*|%s*(.+)$")
+        local html = ""
+        if en then
+          html = '<span class="bil bil-stack"><span class="bil-en" lang="en">' .. html_escape(en) ..
+            '</span><span class="bil-zh" lang="zh">' .. html_escape(zh) .. '</span></span>'
+        elseif label ~= "" then
+          html = html_escape(label)
+        end
+        return pandoc.RawBlock("html", '<div class="countdown cd-row" data-minutes="' .. minutes .. '">' ..
+          '<div class="cd-label">' .. html .. '</div></div>')
+      end
       return pandoc.RawBlock("html", '<div class="countdown" data-minutes="' .. minutes .. '"></div>')
     end
     return pandoc.Para({ pandoc.Strong({ pandoc.Str("Timer: " .. minutes .. " minutes") }) })
