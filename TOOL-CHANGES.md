@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: A timer in one row: instruction, time, buttons
+- **Asked for:** "Create a horizontal timer layout. Instruction, time, control. Implement it on slides like 6.3"
+- **Why:** not given (a timer that takes one strip at the bottom of a slide, instead of a big block).
+- **Changed:** `_extensions/chalkline/shortcodes.lua`: `{{< timer 6 layout="row" label="English | 中文" >}}` makes a row timer (the label split into English and 中文 for the language switch). `_extensions/chalkline/countdown.html`: the row's layout (the instruction on the left, the time and its bar in the middle, Start / Reset / +1 min on the right; colours from the slide's scheme; the left edge turns orange and red with the time). `guide/exemplar-slides.qmd`: the row timer on 6.1 (the angle hunt task) and 6.3 (stations).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: An official slide style from marketing's PowerPoint
 - **Asked for:** "Marketing department gave me these slides. Create a new theme for official presentations that uses those color bands around the outside exactly like the ppt, and create a slide with the reference images and resources that we've added including that new boat SVG."
 - **Why:** presentations for families and visitors that look like the school's official ones.
