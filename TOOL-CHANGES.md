@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: Simplified boat icon, drawn from the White Dolphin illustration
+- **Asked for:** "Add this to the project chalkline repo, then use it as a foundation for a simplified boat icon replacing the existing one."
+- **Why:** not given (the icon should look like the school's own boat, not a generic sailboat).
+- **Changed:** `brand/logos/boat-illustration.svg` (new): the full boat artwork, as supplied. `brand/logos/icon-sailboat.svg` and `icon-sailboat-navy.svg`: redrawn as flat shapes from the illustration's front view (gaff sail, mast, hull with stripe); same file names, size and brand colors, so nothing that uses them changes. `brand/logos/LICENSE-phosphor.txt`: removed, the Phosphor shape is no longer used. `brand/README.md`: file table updated.
+- **Who it helps:** this course only (the boat is the school's own).
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: The exemplar deck's slide badge shows which build it is
 - **Asked for:** "Can you add the PR number to the slide ID tag so we can see when it's been updated? Like {1.8 v82}. Or is there a better way"
 - **Why:** to tell at a glance whether the published deck has the latest changes.
