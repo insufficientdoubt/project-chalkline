@@ -16,6 +16,19 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: An official slide style from marketing's PowerPoint
+- **Asked for:** "Marketing department gave me these slides. Create a new theme for official presentations that uses those color bands around the outside exactly like the ppt, and create a slide with the reference images and resources that we've added including that new boat SVG."
+- **Why:** presentations for families and visitors that look like the school's official ones.
+- **Changed:**
+  - `brand/revealjs.scss`: a new colour scheme, `official` (`slide-scheme: official` for a deck, `{.scheme-official}` for a slide): the colour bands drawn from the PowerPoint's own measurements and colours (an SVG, stretched to the screen; the bottom band is the top one mirrored), the emblem top right of every slide, titles as in the PowerPoint (中文 first and bold, then English, black, with a thin turquoise-peach-blue line), the title slide's title in the school blue; and the pieces of the example deck (resource grid, reference grid, Q&A slide).
+  - `_extensions/chalkline/schemes.html`: a scheme can now say where its background picture sits and whether it repeats (`--paper-position`, `--paper-repeat`), so a picture can stretch to the whole screen without tiling.
+  - `_quarto.yml`: the emblem (`brand/logos/logo-emblem.png`) is copied into the site, for the official style.
+  - `brand/README.md`: a line about the official style.
+  - New example deck, `course/guide/01-my-templates/official-slides.qmd` (content): a title slide and Q&A slide with the campus watercolour, the mission, the brand resources (emblem, icons, the White Dolphin boat, tagline, campus watercolour, band colours) and marketing's reference slides; pictures in its `images/`, credited in `images/CREDITS.md`. 16:9, like the PowerPoint.
+  - Includes the `boat-icon` branch (the new icon and `boat-illustration.svg`).
+- **Who it helps:** this course (Mingwan's own style). The two `schemes.html` settings: every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: Simplified boat icon, drawn from the White Dolphin illustration
 - **Asked for:** "Add this to the project chalkline repo, then use it as a foundation for a simplified boat icon replacing the existing one."
 - **Why:** not given (the icon should look like the school's own boat, not a generic sailboat).

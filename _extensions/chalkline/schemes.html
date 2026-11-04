@@ -1,6 +1,7 @@
 <!--
   Colour schemes (styles/schemes.scss) on slides: reveal.js draws each slide's background in its own
-  layer, outside the slide, so a scheme's --paper, --paper-image and --paper-size are painted there
+  layer, outside the slide, so a scheme's --paper, --paper-image, --paper-size, --paper-position (where each
+  picture sits; the centre if not set) and --paper-repeat (no-repeat for one picture) are painted there
   from here (also for a course's own scheme or look that sets them). ChalklineSchemes.paint(slide)
   paints one slide again, for tools that change a slide's classes.
   A deck's  slide-scheme: night  label puts the scheme on the whole deck (filter.lua sets data-scheme
@@ -18,7 +19,8 @@
     bg.style.backgroundColor = st.getPropertyValue("--paper").trim();
     bg.style.backgroundImage = has ? img : "";
     bg.style.backgroundSize = has ? (st.getPropertyValue("--paper-size").trim() || "auto") : "";
-    bg.style.backgroundPosition = has ? "center" : "";
+    bg.style.backgroundPosition = has ? (st.getPropertyValue("--paper-position").trim() || "center") : "";
+    bg.style.backgroundRepeat = has ? (st.getPropertyValue("--paper-repeat").trim() || "") : "";   // e.g. no-repeat; tiles if not set
     var content = bg.querySelector(".slide-background-content");   // where background-color= draws
     if (content) content.style.backgroundColor = "transparent";
   }

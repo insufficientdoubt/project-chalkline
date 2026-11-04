@@ -11,6 +11,7 @@
 | `logos/boat-illustration.svg` | The full White Dolphin boat illustration (the bookmark artwork). Source for the icon; too detailed to use small. |
 | `logos/icon-sailboat.svg` | Small icon (white sail and orange hull on a blue circle), simplified from the boat illustration. Used tiny: favicon, slide corners, PDF page headers, website navbar. The emblem isn't readable at those sizes. |
 | `logos/icon-sailboat-navy.svg` | One-color version of the icon, for printing in a single color. |
+| `revealjs.scss` | The school's slide settings: fonts, and the **official** slide style (`slide-scheme: official`): marketing's colour bands around the edge, the emblem top right, titles with a three-colour line. Example deck: *Welcome to Mingwan* in My templates (`course/guide/01-my-templates/official-slides.qmd`). |
 | `fonts/` | The web and slide fonts named in `_brand.yml` (Source Sans 3, Poppins). |
 | `styles.scss` | The school's own web-page settings: the font fix, and anything you want to change. Loads after Chalkline's, so it wins. |
 | `revealjs.scss` | The school's own slide settings: the slide fonts, and anything you want to change. Loads after Chalkline's. |

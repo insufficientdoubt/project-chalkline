@@ -27,6 +27,7 @@ project:
     - /vocab/config.js       # the vocab app's settings for this course
     - /vocab/images/**
     - /brand/fonts/*.ttf     # web fonts, for the vocab app (the print fonts are in the Chalkline extension)
+    - /brand/logos/logo-emblem.png   # the emblem, for the official slide style (brand/revealjs.scss)
   preview:
     port: 4100               # the site is always at http://localhost:4100
     browser: true            # open it in the browser when the preview starts
