@@ -80,6 +80,27 @@
   .poll .poll-btn.pop .poll-face { transform: translateY(4px) scale(0.94); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15); }
   .poll .poll-label { font-size: 0.62em; font-weight: 600; line-height: 1.2; color: #333; max-width: 10em; }
   .poll.cooling .poll-face { filter: grayscale(0.6) opacity(0.55); }
+
+  /* True/false: two cards, each with a badge drawn in inline SVG and its word inside the card */
+  .poll.poll-tf .poll-buttons { gap: 1.6em; }
+  .poll.poll-tf .poll-btn {
+    width: 6.8em;
+    padding: 0.55em 0.4em 0.45em;
+    gap: 0.2em;
+    border-radius: 0.55em;
+    background: #fff;
+    border: 3px solid var(--c);
+    box-shadow: 0 0.28em 0 color-mix(in srgb, var(--c) 65%, #003477), 0 0.6em 1.2em rgba(0, 52, 119, 0.12);
+    transition: transform 0.12s, box-shadow 0.12s, filter 0.2s;
+  }
+  .poll.poll-tf .poll-btn:hover { transform: translateY(-3px); box-shadow: 0 0.4em 0 color-mix(in srgb, var(--c) 65%, #003477), 0 0.8em 1.4em rgba(0, 52, 119, 0.16); }
+  .poll.poll-tf .poll-btn:active,
+  .poll.poll-tf .poll-btn.pop { transform: translateY(0.2em); box-shadow: 0 0.08em 0 color-mix(in srgb, var(--c) 65%, #003477); }
+  .poll.poll-tf .poll-btn:focus-visible { outline: 3px solid var(--poll-navy); outline-offset: 4px; }
+  .poll .poll-badge { display: block; width: 3.6em; height: 3.6em; }
+  .poll .poll-badge svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .poll.poll-tf .poll-label { font-size: 0.82em; font-weight: 800; letter-spacing: 0.02em; color: var(--poll-navy); max-width: none; }
+  .poll.poll-tf.cooling .poll-btn { filter: grayscale(0.6) opacity(0.55); cursor: default; }
   .poll.cooling .poll-btn { cursor: default; }
 
   .poll .poll-plus {
@@ -215,6 +236,19 @@
     check: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 21l7 7 13-15"/></svg>',
     cross: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"><path d="M12 12l16 16M28 12L12 28"/></svg>',
   };
+  // The true/false buttons' badges: the button's colour (--c), a soft shine on top, an inner ring,
+  // and a white mark with a navy shadow under it. No ids, so any number of polls can share a page.
+  function badge(mark) {
+    return '<svg viewBox="0 0 80 80" aria-hidden="true">' +
+      '<circle cx="40" cy="43" r="35" fill="#003477" opacity="0.18"/>' +
+      '<circle cx="40" cy="40" r="35" style="fill: var(--c)"/>' +
+      '<path d="M9 36a31 31 0 0 1 62 0c-9-7-20-10-31-10S18 29 9 36z" fill="#fff" opacity="0.28"/>' +
+      '<circle cx="40" cy="40" r="29" fill="none" stroke="#fff" stroke-width="2.5" opacity="0.55"/>' +
+      '<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="9">' +
+      '<path d="' + mark + '" stroke="#003477" opacity="0.35" transform="translate(0 3)"/>' +
+      '<path d="' + mark + '" stroke="#fff"/></g></svg>';
+  }
+  const BADGE = { check: badge("M24 41l11 11 22-25"), cross: badge("M27 27l26 26M53 27L27 53") };
 
   function attr(el, name) {
     return el.getAttribute("data-" + name) ?? el.getAttribute(name) ?? "";
@@ -231,8 +265,8 @@
     }
     if (type === "truefalse" || type === "true-false" || type === "tf") {
       return [
-        { key: "true", label: "True", color: "#14d7cd", text: NAVY, icon: FACE.check },
-        { key: "false", label: "False", color: "#ff8c0f", text: NAVY, icon: FACE.cross },
+        { key: "true", label: "True", color: "#14d7cd", text: NAVY, icon: FACE.check, badge: BADGE.check },
+        { key: "false", label: "False", color: "#ff8c0f", text: NAVY, icon: FACE.cross, badge: BADGE.cross },
       ];
     }
     const opts = attr(el, "options").split("|").map(s => s.trim()).filter(Boolean).slice(0, 6);
@@ -296,6 +330,7 @@
   polls.forEach(function (el, index) {
     const choices = choicesFor(el);
     if (!choices.length) return;
+    if (choices.some(c => c.badge)) el.classList.add("poll-tf");
     const storeKey = "poll:" + window.location.pathname + ":" + index;
     const cooldown = Math.max(0, parseFloat(attr(el, "cooldown") || "1")) * 1000;
     const correctRaw = attr(el, "correct").trim().toLowerCase();
@@ -321,7 +356,8 @@
       b.style.setProperty("--c", c.color);
       b.style.setProperty("--t", c.text || "#fff");
       b.setAttribute("aria-label", "Vote: " + c.label);
-      b.innerHTML = '<span class="poll-face">' + c.icon + '</span><span class="poll-label">' + c.label + "</span>";
+      b.innerHTML = (c.badge ? '<span class="poll-badge">' + c.badge + "</span>" : '<span class="poll-face">' + c.icon + "</span>") +
+        '<span class="poll-label">' + c.label + "</span>";
       b.addEventListener("click", function (e) { e.stopPropagation(); vote(i); });
       buttons.appendChild(b);
 

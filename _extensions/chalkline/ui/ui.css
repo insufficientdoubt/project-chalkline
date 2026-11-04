@@ -100,6 +100,7 @@
 .ui-seg { display: inline-flex; padding: 3px; border-radius: var(--ui-r-pill); background: var(--ui-soft); }
 .ui-seg > button { padding: 0.3em 0.9em; border: 0; border-radius: var(--ui-r-pill); background: transparent; color: var(--ui-muted); font: inherit; font-weight: 600; cursor: pointer; }
 .ui-seg > button.ui-on { background: var(--ui-surface); color: var(--ui-ink); box-shadow: 0 1px 3px rgba(16, 35, 63, 0.18); }
+.ui-seg > button:disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* Cards and pop-ups */
 .ui-card { border-radius: var(--ui-r-lg); background: var(--ui-surface); color: var(--ui-ink); box-shadow: var(--ui-shadow-float); }

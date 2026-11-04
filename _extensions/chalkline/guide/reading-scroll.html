@@ -1,0 +1,24 @@
+<!--
+  A longer reading that advances line by line (exemplar deck). Each line is a fragment inside
+  ::: reading-scroll; each → shows the next line and scrolls it to the middle of the box. The
+  lines already read stay, a little lighter; the new one is highlighted. The box also scrolls
+  with the mouse wheel or a finger. Candidate for Chalkline itself (see V1-PLAN.md).
+-->
+<script>
+(function () {
+  if (!window.Reveal) return;
+  function follow() {
+    var slide = Reveal.getCurrentSlide();
+    if (!slide) return;
+    slide.querySelectorAll(".reading-scroll").forEach(function (box) {
+      var shown = box.querySelectorAll(".fragment.visible");
+      var line = shown.length ? shown[shown.length - 1] : null;
+      var top = line ? line.offsetTop - box.offsetTop - box.clientHeight / 2 + line.offsetHeight / 2 : 0;
+      box.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    });
+  }
+  Reveal.on("fragmentshown", follow);
+  Reveal.on("fragmenthidden", follow);
+  Reveal.on("slidechanged", follow);
+})();
+</script>
