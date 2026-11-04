@@ -121,8 +121,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 # {#intro data-menu-title="1 · Lesson intro: intro + Do now"}
 
-:::: {.columns style="height: 590px; font-size: 0.72em"}
-::: {.column width="57%"}
+::::: intro-grid
 ::: {.area .content label="Content objective · 内容目标"}
 ::: lesson-info
 | | |
@@ -139,16 +138,13 @@ The content is only an example: copy a slide into your own deck and change its w
 ::: {.area .language label="Language objective · 语言目标"}
 [Vocab · 词汇]{.pill .tag}
 
-::: {style="font-size: 0.5em"}
 {{< vocab-gallery "angle, vertex, side, rotate" cols=4 >}}
-:::
 
 [Sentence frames · 句型]{.pill .tag}
 
 [A [ ]{.gap} angle is [ ]{.gap} than a right angle. | [ ]{.gap}比直角[ ]{.gap}。]{.bi .frame}
 :::
-:::
-::: {.column width="43%"}
+
 ::: {.area .donow label="Do now · 课前任务"}
 1. [Find two corners in the room. | 在教室里找两个角。]{.bi}
 2. [Draw them in your book. | 把它们画在本子上。]{.bi}
@@ -158,8 +154,7 @@ The content is only an example: copy a slide into your own deck and change its w
 {{< timer 5 >}}
 :::
 :::
-:::
-::::
+:::::
 
 ```{=html}
 <script>
@@ -181,7 +176,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 **SIOP:** features 1–2 (content and language objectives, clearly defined and displayed). The objectives come back at the end (column 7).
 
-**Pieces:** the Slide kit's lesson intro: two labelled `.area`s (content, language), a `.lesson-info` table, `{{</* vocab-gallery */>}}`, a frame with `[ ]{.gap}`, and a Do now `.area` with `{{</* timer 5 */>}}`. The vocab gallery shows this sample's words; in your course, use your unit's words.
+**Pieces:** `::: intro-grid`, a strict grid (`exemplar.css`): the content and language areas on the left, the Do now on the right, as tall as both, so their top and bottom edges always line up. Inside: two labelled `.area`s (content, language), a `.lesson-info` table, `{{</* vocab-gallery */>}}`, a frame with `[ ]{.gap}`, and a Do now `.area` with `{{</* timer 5 */>}}`. The vocab gallery shows this sample's words; in your course, use your unit's words.
 :::
 
 ## [Today we will… | 今天我们要…]{.bi} {#intro-objectives data-menu-title="1 · One at a time: objectives"}

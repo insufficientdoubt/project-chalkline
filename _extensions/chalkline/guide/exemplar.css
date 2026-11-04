@@ -31,3 +31,17 @@
 
 /* Each column's top slide has a level-1 title (#): the same size as the other slides' titles (##) */
 .reveal .slides section:not(#title-slide) > h1 { font-size: var(--r-heading2-size, 1.6em); }
+
+/* The lesson intro as a strict grid: content and language objectives on the left, the Do now on the right
+   as tall as both, so their top and bottom edges always line up. ::::: intro-grid  (three .area blocks) */
+.reveal .intro-grid {
+  display: grid; grid-template-columns: 57fr 43fr; grid-template-rows: auto 1fr; gap: 0.5em 0.9em;
+  height: 625px; font-size: 0.68em;
+}
+.reveal .intro-grid > .area { margin: 0; min-height: 0; }
+.reveal .intro-grid > .area.content { grid-column: 1; grid-row: 1; }
+.reveal .intro-grid > .area.language { grid-column: 1; grid-row: 2; overflow: hidden; }
+.reveal .intro-grid > .area.donow { grid-column: 2; grid-row: 1 / span 2; height: auto; }
+.reveal .intro-grid .area.language .tag { margin-top: 0.2em; }
+.reveal .intro-grid .vocab-gallery { max-width: 64%; }
+.reveal .intro-grid .vg-switch { display: none; }   /* the Cards | Table switch: not needed here */
