@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- **The Chalkline guide: "How to use Chalkline" on the teacher site** (2026-11-04). Chalkline's slide templates
+  (the Slide kit deck, with an example handout) live in the extension's `guide/` folder and update with Chalkline.
+  `scripts/guide.py`, the first pre-render step, copies them into `course/guide/02-chalkline/` for the teacher site
+  only; the copy is git-ignored, so a course never keeps these files. `chalkline-guide: false` in `_quarto.yml`
+  turns the guide off (nothing is deleted; every template piece keeps working). A teacher's own templates go in
+  `course/guide/01-my-templates/` (the starter adds it), listed above Chalkline's. An `index.qmd` with
+  `audience: [teacher]` is now left out of the student site. **In an existing course:** add
+  `- auto: course/guide` to the sidebar in `_quarto.yml` (after `- auto: course/units`) and
+  `course/guide/02-chalkline/` to `.gitignore`.
 - **No more "For families" page or `parent` audience** (2026-11-03). Chalkline makes two sites only: the
   student site (public; families use it too) and the teacher site. `{{< overview learning >}}` and
   `{{< overview family-picks >}}` are gone. **In an existing course:** delete `families.qmd`, remove it from

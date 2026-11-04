@@ -1,8 +1,8 @@
 ---
-title: "Slide kit (experiment)"
+title: "Slide kit: templates"
 type: slides
-description: "A test deck: thirteen kinds of slide built from a few plain pieces (tiles, boxes, text roles) and bilingual text, then the same slides in three looks and four colour schemes. Not part of the course."
-order: 4
+description: "Ready-to-copy classroom slides (lesson intro, Think-Pair-Share, jigsaw, exit ticket...) built from a few plain pieces and bilingual text, then the same slides in other looks and colour schemes. Each slide's speaker notes name its pieces."
+order: 1
 audience: [teacher]
 format:
   revealjs:
@@ -647,12 +647,12 @@ Watch how ink is made. Then make a card for one thinker.
 ::: {.column width="44%"}
 [Work gallery]{.kicker}
 
-{{< pdf-viewer "../01-ancient-greece/01-ancient-greece-packet.pdf" layout="gallery" title="Unit 1 packet: Ancient Greece" >}}
+{{< pdf-viewer "example-handout.pdf" layout="gallery" title="Example handout" >}}
 :::
 ::::
 
 ::: notes
-Instructions, a video and a work gallery. Pieces: Quarto `.columns`; `{{</* video URL height="200" */>}}` (here a CC0 video on Wikimedia Commons, so it needs the internet; a file in the deck's folder works too, and a YouTube or Vimeo link sizes itself); a `.box` with a `.kicker` and a numbered list; on the right Chalkline's packet gallery, `{{</* pdf-viewer "../01-ancient-greece/01-ancient-greece-packet.pdf" layout="gallery" */>}}`: every page of a PDF as a thumbnail; tap one to open it large. It shows a unit packet (made by a full build) or any worksheet's PDF.
+Instructions, a video and a work gallery. Pieces: Quarto `.columns`; `{{</* video URL height="200" */>}}` (here a CC0 video on Wikimedia Commons, so it needs the internet; a file in the deck's folder works too, and a YouTube or Vimeo link sizes itself); a `.box` with a `.kicker` and a numbered list; on the right Chalkline's packet gallery, `{{</* pdf-viewer "example-handout.pdf" layout="gallery" */>}}`: every page of a PDF as a thumbnail; tap one to open it large. Here it shows the guide's example handout; in a unit, point it at the unit packet (`"01-ancient-greece-packet.pdf"`, made by a full build) or any worksheet's PDF.
 :::
 
 ## [Think · Pair · Share | 思考 · 结对 · 分享]{.bi} {#tps}
@@ -1355,7 +1355,7 @@ The cards in glass.
 - **Named on the cards:** *Mencius* 《孟子》, *Mozi* 《墨子》, *Zhuangzi* 《庄子》, *Han Feizi* 《韩非子》, *Sun Bin's Art of War* 《孙膑兵法》.
 - **Background:** [Hundred Schools of Thought](https://en.wikipedia.org/wiki/Hundred_Schools_of_Thought) and [Warring States period](https://en.wikipedia.org/wiki/Warring_States_period), Wikipedia, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 - **Video, grinding ink:** Wobuzowatsj, CC0, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ink_grinding.webmhd.webm).
-- **Original, made for this course:** the vocab, seating, drum kit and jigsaw drawings, the Lesson summary diagram, the glass scheme's background. Full list: `images/CREDITS.md`.
+- **Original, made for this course:** the vocab, seating, drum kit and jigsaw drawings, the Lesson summary diagram, the glass scheme's background. Full list: `images/CREDITS.md` in Chalkline's guide.
 :::
 ::::
 

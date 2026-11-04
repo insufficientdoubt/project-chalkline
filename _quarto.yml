@@ -33,6 +33,8 @@ project:
 
 brand: brand/_brand.yml      # colors, fonts, logos (see brand/README.md)
 vocab-title: "History Vocab"  # name of the vocab app, used on {{< vocab >}} pop-up links
+# chalkline-guide: false     # hides "How to use Chalkline" (Chalkline's templates) from the teacher site; your own
+#                             # templates (course/guide/01-my-templates/) and every template piece keep working
 # student-site: "https://example.github.io/my-course/"   # the published STUDENT site: the teacher's QR codes
 #                                                      # send students there (until it's set, they show none)
 
@@ -67,6 +69,7 @@ website:
         href: course/play.qmd    # one-player games for phones and computers; teachers only until
         icon: phone              # you add student to its audience (see the page)
       - auto: course/units      # one section per unit folder, titled from its index.qmd
+      - auto: course/guide      # teacher site: your own templates (01-my-templates), then Chalkline's guide (02-chalkline)
 
 # Defaults for each output format. Individual files choose which formats they use.
 format:

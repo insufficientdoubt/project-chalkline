@@ -1,0 +1,23 @@
+---
+title: "My Templates"
+short-title: "My templates"
+order: 1
+audience: [teacher]
+format: html
+description: "Your own slide templates, kept next to Chalkline's. Teacher site only."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+Your own templates: slides you want to reuse, in this folder (`course/guide/01-my-templates/`). They're listed here, above Chalkline's own templates, and only on the teacher site.
+
+To start one, copy a slide from Chalkline's guide (below) or from one of your lessons into a new file here, for example `my-templates-slides.qmd`, with the usual labels at the top (`title`, `type: slides`, `order`, `audience: [teacher]`, `description`).
+
+## My templates
