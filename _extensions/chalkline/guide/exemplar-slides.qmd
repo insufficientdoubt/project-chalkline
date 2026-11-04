@@ -26,7 +26,7 @@ bilingual:
 # [How this deck works | 这套幻灯片怎么用]{.bi} {#how data-menu-title="How this deck works"}
 
 :::: {.columns}
-::: {.column width="55%"}
+::: {.column width="55%" style="font-size: 0.8em"}
 ::: {.box .plain}
 [Across → | 横向 →]{.kicker}
 
@@ -120,7 +120,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 # {#intro data-menu-title="1 · Lesson intro: intro + Do now"}
 
-:::: {.columns style="height: 640px"}
+:::: {.columns style="height: 600px"}
 ::: {.column width="57%"}
 ::: {.area .content label="Content objective · 内容目标"}
 ::: lesson-info
@@ -138,7 +138,7 @@ The content is only an example: copy a slide into your own deck and change its w
 ::: {.area .language label="Language objective · 语言目标"}
 [Vocab · 词汇]{.pill .tag}
 
-{{< vocab-gallery "angle, vertex, side, rotate" >}}
+{{< vocab-gallery "angle, vertex, side, rotate" cols=4 >}}
 
 [Sentence frames · 句型]{.pill .tag}
 
@@ -380,7 +380,7 @@ The content is only an example: copy a slide into your own deck and change its w
 {{< vocab-gallery "angle, vertex, side, ray, rotate, degree" cols=3 >}}
 :::
 ::: {.column width="36%"}
-::: steps
+::: {.steps .stack}
 1. [**Look** at the picture. | **看**图片。]{.bi}
 2. [**Listen** to the word. | **听**单词。]{.bi}
 3. [**Say** it twice. | **说**两遍。]{.bi}
@@ -659,7 +659,7 @@ When the two sides make one straight line, it is a **straight angle**. When one 
 
 ## [Five angles | 五种角]{.bi} {#input-compare data-menu-title="3 · Compare"}
 
-::: {.tiles style="--cols: 5; --pic-fit: contain; --pic-height: 3.2em; font-size: 0.6em; text-align: center"}
+::: {.tiles style="--cols: 5; --pic-fit: contain; --pic-height: 6.5em; font-size: 0.75em; text-align: center"}
 ::: {.box .plain}
 ![](images/MTH-007.svg){fig-alt="An acute angle"}
 
@@ -776,7 +776,7 @@ A straight angle is just a straight line. It is not an angle.
 ![](images/clock-4.svg){fig-alt="A clock at 4:00" style="max-height: 420px"}
 :::
 ::: {.column width="60%"}
-::: steps
+::: {.steps .stack}
 1. [Find the vertex. *It's the middle of the clock.* | 找到顶点。*在钟面中心。*]{.bi}
 2. [Compare with a right angle. Bigger or smaller? | 和直角比一比：大还是小？]{.bi}
 3. [Name it. | 说出它的名称。]{.bi}
@@ -899,7 +899,7 @@ Make a clock show an obtuse angle. What time is it? Find two answers.
 
 :::: {.columns}
 ::: {.column width="55%"}
-::: steps
+::: {.steps .stack}
 1. [Fold a paper to make a square corner. | 把纸折出一个直角。]{.bi}
 2. [Put the corner on the vertex. | 把直角对准顶点。]{.bi}
 3. [Line up one side. | 对齐一条边。]{.bi}
@@ -1256,7 +1256,7 @@ Scan to draw with us. Then write its name.
 
 :::: {.columns}
 ::: {.column width="58%"}
-::: steps
+::: {.steps .stack}
 1. [Find 5 angles in the room. | 在教室里找5个角。]{.bi}
 2. [Draw each one. Mark the vertex. | 画下每个角，标出顶点。]{.bi}
 3. [Name it: acute, right, obtuse, straight. | 写出名称：锐角、直角、钝角、平角。]{.bi}

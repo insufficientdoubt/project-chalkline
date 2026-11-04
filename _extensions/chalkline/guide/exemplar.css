@@ -21,3 +21,10 @@
 
 /* The phase label in each slide's footer: which column of the deck this slide is in */
 .reveal .footer .phase { font-weight: 700; color: var(--accent, #003477); }
+/* The phase label sits left, clear of the slide icons (bottom left) and the ↓ button (bottom centre) */
+.reveal .footer { text-align: left !important; left: 190px !important; right: 120px !important; }
+
+/* Steps stacked one under another, for a narrow column: ::: {.steps .stack} */
+.reveal .steps.stack ol { flex-direction: column; gap: 0.3em; }
+.reveal .steps.stack li { display: flex; align-items: center; gap: 0.6em; padding: 0.4em 0.7em; }
+.reveal .steps.stack li::before { margin: 0; flex: none; }
