@@ -25,6 +25,7 @@ title-slide-attributes:
   data-background-opacity: "0.5"
 bilingual:
   primary: en
+slide-scheme: trail   # this deck's colour scheme (slide-kit-looks.css); try others with the palette, top right
 ---
 
 # [How this deck works | 这套幻灯片怎么用]{.bi} {#how data-menu-title="How this deck works"}
@@ -109,10 +110,12 @@ bilingual:
 :::
 :::
 
-::: {.box .accent style="font-size: 0.62em; margin-top: 0.5em"}
-[See them all · 一览全部]{.kicker}
+::: {.box .accent style="font-size: 0.52em; margin-top: 0.4em"}
+[Tips · 小提示]{.kicker}
 
 [Press **O** to see every slide at once. Click one to go there. | 按 **O** 一次看到所有幻灯片，点击任意一张即可跳转。]{.bi}
+
+[The **palette** (top right, next to the language switch) changes the colours and style, on one slide or all of them. | 右上角的**调色板**（语言切换旁边）可以更换颜色和风格，单页或全部都可以。]{.bi}
 :::
 :::
 ::::
@@ -124,7 +127,7 @@ bilingual:
 ::: notes
 **For teachers, not for class.** This deck is one lesson on angles (Grade 4 math), built to show a solid SIOP lesson and the choices around it. Press **→** to move through the lesson, **↓** to see options for the phase you're in, and **O** (or **Esc**) for an overview of the whole grid: click any slide to jump there.
 
-Every slide's footer names its phase. The **palette** next to the language switch (top right) tries Chalkline's colour schemes and looks on one slide or every slide; **Copy** gives the classes to write in the file. Every option's notes start with **When to choose it**, then **SIOP** (which features it serves) and **Pieces** (what it's made of, so you can copy it).
+Every slide's footer names its phase. The deck's colour scheme is *trail* (`slide-scheme: trail` in its labels). The **palette** next to the language switch (top right) tries Chalkline's colour schemes and looks on one slide or every slide; **Copy** gives the classes to write in the file. Every option's notes start with **When to choose it**, then **SIOP** (which features it serves) and **Pieces** (what it's made of, so you can copy it).
 
 The content is only an example: copy a slide into your own deck and change its words. Pictures and videos still to find are shown as dashed placeholders that say what should go there.
 :::
@@ -354,21 +357,21 @@ The content is only an example: copy a slide into your own deck and change its w
 ::::::: pbl-cal
 [Week 1 [第一周]{.wk-zh}]{.wk}
 
-::: {.day .launch}
+::: {.day .launch .past}
 [Mon 9]{.date} [Launch]{.stage}
 
-- [ ] Hear the big question
-- [ ] Make teams of four
+- [x] Hear the big question
+- [x] Make teams of four
 :::
 
-::: {.day .research}
+::: {.day .research .past}
 [Tue 10]{.date} [Research]{.stage}
 
-- [ ] Hunt for angles
-- [ ] Take photos
+- [x] Hunt for angles
+- [x] Take photos
 :::
 
-::: {.day .research}
+::: {.day .research .today}
 [Wed 11]{.date} [Research]{.stage}
 
 - [ ] Name each angle
@@ -441,7 +444,60 @@ The content is only an example: copy a slide into your own deck and change its w
 
 **SIOP:** features 23–26 (lesson delivery: students know the plan and the deadlines), and features 1–2 (the objectives sit inside a bigger, real task).
 
-**Pieces:** `::::: pbl-cal` (`exemplar.css`): a `[Week 1]{.wk}` label, then five `::: {.day .research}` cards per week. Click a box to tick it. In each card: a `[Tue 10]{.date}`, a `[Research]{.stage}`, a checklist (`- [ ] …`) and, on a due day, a `[Due: …]{.due}` badge. The stage classes are `.launch`, `.research`, `.build`, `.feedback` and `.present`. Change the dates and tasks for your own project.
+**Pieces:** `::::: pbl-cal` (`exemplar.css`): a `[Week 1]{.wk}` label, then five `::: {.day .research}` cards per week. Click a box to tick it. Add `.today` to today's card (it gets a frame and a *Today* label) and `.past` to the days before it (greyed out; write their tasks as `- [x]`, so they start ticked). In each card: a `[Tue 10]{.date}`, a `[Research]{.stage}`, a checklist (`- [ ] …`) and, on a due day, a `[Due: …]{.due}` badge. The stage classes are `.launch`, `.research`, `.build`, `.feedback` and `.present`. Change the dates and tasks for your own project.
+:::
+
+## {#intro-nodonow data-menu-title="1 · Intro without Do now"}
+
+::::: {.intro-grid .no-donow}
+::: {.area .content label="Content objective · 内容目标"}
+![](images/photo-intro-preview.jpg){.preview fig-alt="Today's lesson: clock hands and other things that turn make angles"}
+
+::: lesson-info
+| | |
+|--:|:--|
+| [Math \| 数学]{.bi} | [Grade 4 · [today]{.today} \| 四年级 · [今天]{.today}]{.bi} |
+| [Topic \| 课题]{.bi} | [Turning and angles \| 旋转与角]{.bi} |
+| [Objective \| 学习目标]{.bi} | [I can name five kinds of angle. \| 我能说出五种角的名称。]{.bi} |
+| [Homework \| 作业]{.bi} | [Angle hunt at home \| 在家找角]{.bi} |
+
+: {tbl-colwidths="[25,75]"}
+:::
+:::
+
+::: {.area .language label="Language objective · 语言目标"}
+[I can compare two angles with *bigger than* and *smaller than*. | 我能用 *bigger than* 和 *smaller than* 比较两个角。]{.bi .obj}
+
+[Vocab · 词汇]{.pill .tag}
+
+{{< vocab-gallery "angle, vertex, side, rotate" cols=4 >}}
+
+[Sentence frames · 句型]{.pill .tag}
+
+[A [ ]{.gap} angle is [ ]{.gap} than a right angle. | [ ]{.gap}比直角[ ]{.gap}。]{.bi .frame}
+:::
+:::::
+
+```{=html}
+<script>
+  document.querySelectorAll("#intro-nodonow .today").forEach(function (el) {
+    var d = new Date();
+    el.textContent = el.closest(".bil-zh") ? (d.getMonth() + 1) + "月" + d.getDate() + "日"
+      : d.toLocaleDateString("en-GB", { day: "numeric", month: "long" });
+  });
+</script>
+```
+
+::: footer
+[1 · Lesson intro · 课堂导入]{.phase} · option: intro without a Do now
+:::
+
+::: notes
+**When to choose it:** the lesson starts straight away, with no warm-up task: a short period, a test day, or a class that starts with the teacher. The content objective gets more room, with a picture that previews the lesson; the language objective, the words and the frame sit on the right.
+
+**SIOP:** features 1–2 (content and language objectives, clearly defined and displayed) and feature 9 (key vocabulary).
+
+**Pieces:** `::::: {.intro-grid .no-donow}` (`exemplar.css`): two `.area`s side by side. In the content area, a picture with `{.preview}` (a wide strip, cropped to fit) above the `.lesson-info` table; in the language area, the objective (`{.bi .obj}`), `{{</* vocab-gallery … cols=4 */>}}` and a frame.
 :::
 
 # [New words | 新词]{.bi} {#background data-menu-title="2 · Key vocab, pre-taught"}
@@ -645,7 +701,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 :::: {.columns}
 ::: {.column width="45%"}
-![](images/MTH-001.svg){fig-alt="An angle: two sides that meet at a point" style="max-height: 400px"}
+![](images/MTH-001.svg){fig-alt="An angle: two sides that meet at a point"}
 :::
 ::: {.column width="55%"}
 ::: {.box .plain}
@@ -667,13 +723,13 @@ The point is the {{< vocab "vertex" >}}.
 
 **SIOP:** features 10–12 (speech students can follow, clear explanation, many ways to understand: picture, gesture, words).
 
-**Pieces:** `.columns`, a picture, a `.box` with a `.kicker`, and `{{</* vocab "vertex" */>}}` glosses (a pop-up with picture and 中文).
+**Pieces:** `.columns`, a picture (alone in its column, it fills the column), a `.box` with a `.kicker`, and `{{</* vocab "vertex" */>}}` glosses (a pop-up with picture and 中文).
 :::
 
 ## {#input-picture data-menu-title="3 · Picture only"}
 
-::: {.cover .media}
-![](images/MTH-011.svg){fig-alt="A full angle: one side turned all the way around"}
+::: {.cover .media .bleed}
+![](images/full-angle.svg){fig-alt="A full angle: one side turned all the way around"}
 :::
 
 ::: footer
@@ -685,7 +741,7 @@ The point is the {{< vocab "vertex" >}}.
 
 **SIOP:** feature 12 (a variety of techniques: here, a picture and gesture).
 
-**Pieces:** `.cover .media` with one picture: it fills the slide. Everything else is in the notes.
+**Pieces:** `.cover .media .bleed` with one picture: it fills the whole screen, top to bottom, with no box behind it (`full-angle.svg` is the full-angle drawing without its background). Everything else is in the notes.
 :::
 
 ## [Turn it and watch | 旋转，仔细看]{.bi} {#input-model data-menu-title="3 · Model: turn and watch"}
@@ -739,17 +795,17 @@ When the two sides make one straight line, it is a **straight angle**. When one 
 ::: reading-scroll
 [A Ferris wheel is a very big wheel. It has seats all around it. | 摩天轮是一个非常大的轮子，四周都有座位。]{.bi}
 
-[The center of the wheel does not move. It is like a **vertex**. | 轮子的中心不动，它就像一个**顶点**。]{.bi .fragment}
+[The center of the wheel does not move. It is like a {{< vocab "vertex" >}}. | 轮子的中心不动，它就像一个**顶点**。]{.bi .fragment}
 
-[Long metal arms go out from the center. They are like the **sides** of an angle. | 长长的金属臂从中心伸出来，就像角的**边**。]{.bi .fragment}
+[Long metal arms go out from the center. They are like the {{< vocab "side" text="sides" >}} of an angle. | 长长的金属臂从中心伸出来，就像角的**边**。]{.bi .fragment}
 
-[Look at two arms next to each other. They make a small **acute angle**. | 看相邻的两根臂，它们组成一个小小的**锐角**。]{.bi .fragment}
+[Look at two arms next to each other. They make a small {{< vocab "acute angle" >}}. | 看相邻的两根臂，它们组成一个小小的**锐角**。]{.bi .fragment}
 
-[The wheel turns slowly. Your seat **rotates** around the center. | 轮子慢慢转动，你的座位绕着中心**旋转**。]{.bi .fragment}
+[The wheel turns slowly. Your seat {{< vocab "rotate" text="rotates" >}} around the center. | 轮子慢慢转动，你的座位绕着中心**旋转**。]{.bi .fragment}
 
-[After a quarter turn, you have turned a **right angle**. | 转了四分之一圈，你就转过了一个**直角**。]{.bi .fragment}
+[After a quarter turn, you have turned a {{< vocab "right angle" >}}. | 转了四分之一圈，你就转过了一个**直角**。]{.bi .fragment}
 
-[After half a turn, you are at the top. You have turned a **straight angle**. | 转了半圈，你就到了最高处。你转过了一个**平角**。]{.bi .fragment}
+[After half a turn, you are at the top. You have turned a {{< vocab "straight angle" >}}. | 转了半圈，你就到了最高处。你转过了一个**平角**。]{.bi .fragment}
 
 [Look down! The people below look very small. | 往下看！下面的人看起来很小。]{.bi .fragment}
 
@@ -757,13 +813,13 @@ When the two sides make one straight line, it is a **straight angle**. When one 
 
 [After one full turn, you are back where you started. | 转了一整圈，你又回到了起点。]{.bi .fragment}
 
-[You have turned a **full angle**. That is four right angles! | 你转过了一个**周角**，也就是四个直角！]{.bi .fragment}
+[You have turned a {{< vocab "full angle" >}}. That is four right angles! | 你转过了一个**周角**，也就是四个直角！]{.bi .fragment}
 
 [Next time you see a wheel, look for the angles. | 下次看到轮子时，找一找里面的角吧。]{.bi .fragment}
 :::
 :::
 ::: {.column .hero width="37%"}
-![](images/photo-ferris-wheel.jpg){fig-alt="A Ferris wheel against the sky. Its metal arms go out from the center."}
+![](images/photo-ferris-wheel.jpg){fig-alt="A colourful Ferris wheel in a blue sky. Its metal arms go out from the center."}
 :::
 :::::
 
@@ -772,11 +828,11 @@ When the two sides make one straight line, it is a **straight angle**. When one 
 :::
 
 ::: notes
-**When to choose it:** a longer text (a story, an article, instructions) that would crowd one slide. Each press of **→** shows the next line and scrolls it to the middle; the lines already read stay, lighter, so students can look back. Read each line aloud, then the class reads it with you. Turn 中文 off with the language switch when students are ready to read in English only.
+**When to choose it:** a longer text (a story, an article, instructions) that would crowd one slide. Every line is on the slide; the one being read is highlighted and stays in the middle, and each press of **→** scrolls the page up to the next one. The lines before and after stay in grey, so students can look back and ahead. Tap a dotted word for its card (picture, 中文, read aloud). Read each line aloud, then the class reads it with you. Turn 中文 off with the language switch when students are ready to read in English only.
 
 **SIOP:** features 10 and 12 (adapted text: short sentences, one idea per line, key words in bold), and reading as one of the four skills (feature 22). The picture gives the context before the first line.
 
-**Pieces:** `::: reading-scroll` (`exemplar.css`, and `reading-scroll.html` in the deck's `include-after-body`): one `[English | 中文]{.bi .fragment}` per paragraph; leave `.fragment` off the first line so the slide never starts empty. Beside it, a hero picture (`::: {.column .hero}`). The box also scrolls with the mouse wheel.
+**Pieces:** `::: reading-scroll` (`exemplar.css`, and `reading-scroll.html` in the deck's `include-after-body`): one `[English | 中文]{.bi .fragment}` per paragraph (leave `.fragment` off the first line), with `{{</* vocab "vertex" */>}}` glosses inside the English. Beside it, a hero picture (`::: {.column .hero}`). The box also scrolls with the mouse wheel.
 :::
 
 ## [Five angles | 五种角]{.bi} {#input-compare data-menu-title="3 · Compare"}
@@ -1184,8 +1240,8 @@ A straight angle is just a straight line. It is not an angle.
 ## [Jigsaw: expert groups | 拼图学习：专家组]{.bi} {#interaction-jigsaw data-menu-title="5 · Jigsaw"}
 
 :::: {.columns}
-::: {.column width="31%"}
-::: {style="font-size: 0.5em; --pic-fit: contain; --pic-height: 1.8em; --pad: 0.3em 0.7em; --gap: 0.25em"}
+::: {.column width="36%"}
+::: {.jigsaw-steps style="font-size: 0.5em; --pic-fit: contain; --pic-height: 4.4em; --pad: 0.3em 0.7em; --gap: 0.25em"}
 ::: {.box .plain}
 ![](images/jigsaw-home.svg){fig-alt="Four home groups, each with one A, B, C and D"}
 
@@ -1200,24 +1256,22 @@ A straight angle is just a straight line. It is not an angle.
 [2 · Expert group | 专家组]{.bi .kicker}
 
 [Do your piece. Agree on 3 key points. | 完成你的任务，总结3个要点。]{.bi}
-
-::: {style="font-size: 0.42em; align-self: center"}
-{{< timer 8 >}}
-:::
 :::
 
 ::: {.box .plain}
 [3 · Back home: teach | 回原小组：讲解]{.bi .kicker}
 
 [Teach your 3 points. Take notes. | 讲解3个要点，做笔记。]{.bi}
+:::
 
-::: {style="font-size: 0.42em; align-self: center"}
+::: {.box .dark .jigsaw-timer}
+[8 minutes for each step · 每步8分钟]{.kicker}
+
 {{< timer 8 >}}
 :::
 :::
 :::
-:::
-::: {.column width="69%"}
+::: {.column width="64%"}
 ::: puzzle
 ::: {.box style="--piece: #FFE4C7; --strong: #FF8C0F"}
 ::: row
@@ -1279,49 +1333,57 @@ A straight angle is just a straight line. It is not an angle.
 
 **SIOP:** features 16–17 (interaction, groupings that support the objectives).
 
-**Pieces:** the Slide kit's jigsaw: the three steps on the left with timers, and `::: puzzle` with four `.box`es that lock together, each with its tint (`--piece`) and letter colour (`--strong`).
+**Pieces:** the Slide kit's jigsaw: the three steps on the left (the group pictures large), one timer for steps 2 and 3 (press **Reset** between them), and `::: puzzle` with four `.box`es that lock together, each with its tint (`--piece`) and letter colour (`--strong`).
 :::
 
 ## [Group roles | 小组分工]{.bi} {#interaction-roles data-menu-title="5 · Group roles"}
 
-::: {.tiles style="--cols: 4; text-align: center"}
-::: {.box .plain}
-[1]{.num}
+::: {.tiles .roles style="--cols: 4; text-align: center"}
+::: {.box .plain .role-card}
+![](images/role-reader.svg){fig-alt="A student reading aloud from a book"}
 
 [**Reader** | **朗读员**]{.bi}
 
-[reads the task aloud | 大声读任务]{.bi .small}
+[reads the task card aloud | 大声读任务卡]{.bi .small}
+
+[1]{.num}
 :::
 
-::: {.box .plain}
-[2]{.num}
+::: {.box .plain .role-card}
+![](images/role-writer.svg){fig-alt="A pencil writing on paper"}
 
 [**Writer** | **记录员**]{.bi}
 
-[writes the group's answers | 写下小组的答案]{.bi .small}
+[writes the names on the poster | 把名称写在海报上]{.bi .small}
+
+[2]{.num}
 :::
 
-::: {.box .plain}
-[3]{.num}
+::: {.box .plain .role-card}
+![](images/role-checker.svg){fig-alt="A paper corner held against an angle, and a tick"}
 
 [**Checker** | **检查员**]{.bi}
 
-[checks every angle with a corner | 用直角检查每个角]{.bi .small}
+[checks each angle with a paper corner | 用纸角检查每个角]{.bi .small}
+
+[3]{.num}
 :::
 
-::: {.box .plain}
-[4]{.num}
+::: {.box .plain .role-card}
+![](images/role-reporter.svg){fig-alt="A student speaking to the class"}
 
 [**Reporter** | **汇报员**]{.bi}
 
-[tells the class | 向全班汇报]{.bi .small}
+[presents the poster to the class | 向全班展示海报]{.bi .small}
+
+[4]{.num}
 :::
 :::
 
-::: {.box .plain}
+::: {.box .plain style="font-size: 0.85em"}
 [Task · 任务]{.kicker}
 
-[Find and name five angles in the picture book. | 在图画书里找出五个角并说出名称。]{.bi}
+[Make an angle poster: find five angles in our classroom. Draw each one, name it and check it. | 制作角的海报：在教室里找五个角。画出每个角，写出名称，并检查。]{.bi}
 :::
 
 ::: footer
@@ -1333,7 +1395,7 @@ A straight angle is just a straight line. It is not an angle.
 
 **SIOP:** features 16–17, and feature 25 (all students engaged).
 
-**Pieces:** `.tiles` with four columns, each role a `.box .plain` with a `.num`; a `.box` for the task.
+**Pieces:** `.tiles .roles` with four columns; each role a `.box .plain .role-card` with a line drawing (`images/role-*.svg`, original), the role, what it does, and its `.num` (bottom right, `exemplar.css`); a `.box` for the task. The task needs every role: someone reads it, someone writes, someone checks, someone presents.
 :::
 
 ## [Talk frames | 交流句型]{.bi} {#interaction-frames data-menu-title="5 · Speaking frames"}
@@ -1342,25 +1404,25 @@ A straight angle is just a straight line. It is not an angle.
 ::: {.box .plain}
 [Agree · 同意]{.kicker}
 
-I agree with [ ]{.gap}, because [ ]{.gap}.
+[I agree with [ ]{.gap}, because [ ]{.gap}. | 我同意[ ]{.gap}，因为[ ]{.gap}。]{.bi}
 :::
 
 ::: {.box .plain}
 [Disagree · 不同意]{.kicker}
 
-I see it differently. I think [ ]{.gap}.
+[I see it differently. I think [ ]{.gap}. | 我的看法不一样。我认为[ ]{.gap}。]{.bi}
 :::
 
 ::: {.box .plain}
 [Add on · 补充]{.kicker}
 
-I want to add that [ ]{.gap}.
+[I want to add that [ ]{.gap}. | 我想补充：[ ]{.gap}。]{.bi}
 :::
 
 ::: {.box .plain}
 [Ask · 提问]{.kicker}
 
-Can you say more about [ ]{.gap}?
+[Can you say more about [ ]{.gap}? | 你能再多说说[ ]{.gap}吗？]{.bi}
 :::
 :::
 
@@ -1369,11 +1431,11 @@ Can you say more about [ ]{.gap}?
 :::
 
 ::: notes
-**When to choose it:** discussions, debates, and giving feedback. Leave it up during any talk task, or print it for each table. The frames are English only: they are the language students are practicing.
+**When to choose it:** discussions, debates, and giving feedback. Leave it up during any talk task, or print it for each table. Each frame has its 中文 under it, so students know what they're saying; turn 中文 off with the language switch once they know the frames.
 
 **SIOP:** feature 16 (interaction) and feature 24 (the language objective, supported).
 
-**Pieces:** `.tiles` with two columns; each frame a `.box .plain` with a `.kicker` and `[ ]{.gap}` blanks.
+**Pieces:** `.tiles` with two columns; each frame a `.box .plain` with a `.kicker` and a bilingual frame, `[English [ ]{.gap} | 中文 [ ]{.gap}]{.bi}`.
 :::
 
 ## [Think in any language, report in English | 用任何语言思考，用英语汇报]{.bi} {#interaction-languages data-menu-title="5 · Any language, report in English"}
@@ -1454,23 +1516,25 @@ Scan to draw with us. Then write its name.
 ## [Make a paper clock | 做一个纸钟]{.bi} {#practice-video data-menu-title="6 · Instructions + video"}
 
 :::: {.columns}
-::: {.column width="56%"}
-::: placeholder
+::: {.column width="63%"}
+::: {.placeholder .video-slot}
 [Video: 1 minute, making a paper clock with two hands and a split pin | 视频：一分钟，用两根指针和一个两脚钉做纸钟]{.bi}
 :::
-
-::: {.box .plain style="font-size: 0.85em"}
-[Instructions]{.kicker}
-
-1. Cut out the clock face and two hands.
-2. Join them with a split pin.
-3. Make each angle: acute, right, obtuse, straight.
 :::
+::: {.column width="37%"}
+::: {.box .plain style="font-size: 0.7em"}
+[Instructions · 步骤]{.kicker}
+
+1. [Cut out the clock face and two hands. | 剪下钟面和两根指针。]{.bi}
+2. [Join them with a split pin. | 用两脚钉把它们连起来。]{.bi}
+3. [Make each angle: acute, right, obtuse, straight. | 做出每种角：锐角、直角、钝角、平角。]{.bi}
 :::
-::: {.column width="44%"}
-[Work gallery]{.kicker}
+
+::: {.gallery-slot}
+[Work gallery · 作品展示]{.kicker}
 
 {{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
+:::
 :::
 ::::
 
@@ -1483,50 +1547,49 @@ Scan to draw with us. Then write its name.
 
 **SIOP:** feature 20 (hands-on materials) and feature 11 (clear explanation).
 
-**Pieces:** the Slide kit's instructions slide: `{{</* video URL height="200" */>}}` (here a placeholder), a `.box` with steps, and `{{</* pdf-viewer … layout="gallery" */>}}`.
+**Pieces:** the video gets most of the slide (a real one is 16:9: `{{</* video URL */>}}` in the wide column, here a `.placeholder .video-slot`); beside it a `.box` with the steps and `{{</* pdf-viewer … layout="gallery" */>}}` for the work gallery.
 :::
 
 ## [Stations | 学习站]{.bi} {#practice-stations data-menu-title="6 · Stations"}
 
-::: {.tiles style="--cols: 4; font-size: 0.75em"}
-::: {.box .plain}
+:::: {.columns}
+::: {.column width="56%"}
+![](images/stations-map.svg){fig-alt="A map of the classroom: station 1 in the top left corner, station 2 in the bottom right corner, station 3 at a group of desks, station 4 in the hallway outside the door"}
+:::
+::: {.column width="44%"}
+::: {.station-list style="font-size: 0.74em"}
+::: {.row .st1}
 [1]{.num}
 
-**Clock**
-
-Make 4 angles with the paper clock.
+[**Clock** · Make 4 angles with the paper clock. | **钟** · 用纸钟做出4个角。]{.bi}
 :::
 
-::: {.box .plain}
+::: {.row .st2}
 [2]{.num}
 
-**Draw**
-
-Draw one of each angle. Label them.
+[**Draw** · Draw one of each angle. Label them. | **画** · 每种角画一个，标上名称。]{.bi}
 :::
 
-::: {.box .plain}
+::: {.row .st3}
 [3]{.num}
 
-**Hunt**
-
-Find 3 angles in a picture book.
+[**Hunt** · Find 3 angles in a picture book. | **找** · 在图画书里找3个角。]{.bi}
 :::
 
-::: {.box .plain}
+::: {.row .st4}
 [4]{.num}
 
-**Talk**
-
-Compare two angles with a partner. Use the frames.
+[**Talk** · Compare two angles with a partner. Use the frames. | **说** · 和同伴比较两个角，用句型。]{.bi}
 :::
 :::
 
-::: {.box .dark style="align-items: center; font-size: 0.6em"}
+::: {.box .dark .station-timer}
 [Move every · 每站时间]{.kicker}
 
 {{< timer 6 >}}
 :::
+:::
+::::
 
 ::: footer
 [6 · Practice and application · 练习与运用]{.phase} · option: stations
@@ -1537,7 +1600,7 @@ Compare two angles with a partner. Use the frames.
 
 **SIOP:** features 20–22 (hands-on, all four skills across the stations) and feature 17 (grouping).
 
-**Pieces:** `.tiles` with four columns, each station a `.box .plain` with a `.num`; one timer for the rotation.
+**Pieces:** `.columns`: a map of the room (`images/stations-map.svg`, an original drawing: two stations in corners, one at a desk cluster, one in the hallway) beside the station list, each a `.row` with a coloured `.num` (`.st1` to `.st4`, the map's colours), and one small timer for the rotation. Draw your own room's map, or photograph the room and put numbers on it.
 :::
 
 ## [Make it on the clock | 在钟面上做角]{.bi} {#practice-clock data-menu-title="6 · Hands-on (interactive)"}
@@ -1569,7 +1632,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 [At [ ]{.gap}, the clock hands make a [ ]{.gap} angle. It is [ ]{.gap} than a right angle.]{.frame}
 :::
 ::: {.column width="45%"}
-::: {.box .plain}
+::: {.box .plain .cross-off}
 [Check · 检查]{.kicker}
 
 - [ ] I named the angle.
@@ -1589,11 +1652,12 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 **SIOP:** feature 22 (integrating all four skills: here, writing) and feature 24 (the language objective).
 
-**Pieces:** `.columns`, a model in a `.box`, a frame, and a checklist (`- [ ]`).
+**Pieces:** `.columns`, a model in a `.box`, a frame, and a checklist (`- [ ]`) in a `.box .cross-off`: click a box and its line is crossed out. Read each check aloud and tick it to show students how.
 :::
 
 ## Sort the clocks {#practice-sort data-menu-title="6 · Interactive: sort it"}
 
+::::: act-center
 ::: {.sort}
 - **Acute**
   - ![1:00](images/clock-1.svg) | At 1:00 the hands are close together: smaller than a right angle.
@@ -1609,6 +1673,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 - **Straight**
   - ![6:00](images/clock-6.svg) | At 6:00 the two hands make one straight line.
 :::
+:::::
 
 ::: footer
 [6 · Practice and application · 练习与运用]{.phase} · option: interactive (sort it)
@@ -1619,16 +1684,18 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 **SIOP:** feature 21 (applying content knowledge) and feature 29 (feedback: the reasons).
 
-**Pieces:** `::: {.sort}` with pictures as items: `![1:00](images/clock-1.svg) | reason`.
+**Pieces:** `::: {.sort}` with pictures as items: `![1:00](images/clock-1.svg) | reason`, inside `::::: act-center` (`exemplar.css`): in the middle of the slide.
 :::
 
 ## Label the angle {#practice-label data-menu-title="6 · Interactive: label it"}
 
+::::: act-center
 ::: {.label-it image="images/MTH-001.svg"}
 - Vertex | 29,78 | The vertex is the point where the two sides meet.
 - Side | 75,78 | A side is one of the two lines.
 - Angle | 47,62 | The angle is the opening between the sides.
 :::
+:::::
 
 ::: footer
 [6 · Practice and application · 练习与运用]{.phase} · option: interactive (label it)
@@ -1639,7 +1706,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 **SIOP:** feature 21 (applying content and language knowledge) and feature 9 (key vocabulary).
 
-**Pieces:** `::: {.label-it image="…"}`, one line per label: the label, `|`, where its dot goes (`x,y` in percent: press **L** on the slide and tap the picture to find it), `|`, a reason.
+**Pieces:** `::: {.label-it image="…"}` inside `::::: act-center` (the picture bigger, in the middle of the slide), one line per label: the label, `|`, where its dot goes (`x,y` in percent: press **L** on the slide and tap the picture to find it), `|`, a reason.
 :::
 
 # [Did we do it? | 我们做到了吗？]{.bi} {#review data-menu-title="7 · Objectives check + exit ticket"}
@@ -1747,6 +1814,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 ## [Review: one question at a time | 复习：一题一题来]{.bi} {#review-set data-menu-title="7 · Review set"}
 
+::: {.big-table style="font-size: 0.82em"}
 | | Question | Answer |
 |:--|:--|:--|
 | 1 | What do we call the point where two sides meet? | [the vertex]{.fragment} |
@@ -1756,6 +1824,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 | 5 | Which is bigger: a straight angle or a full angle? Why? | [a full angle: it turns all the way around]{.fragment} |
 
 : {tbl-colwidths="[6,56,38]"}
+:::
 
 ::: footer
 [7 · Review and assessment · 复习与评价]{.phase} · option: review set
@@ -1766,7 +1835,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 **SIOP:** features 27–29 (review of vocabulary and concepts, feedback).
 
-**Pieces:** a Markdown table; each answer a `.fragment`, shown on the next click.
+**Pieces:** a Markdown table in `::: big-table` (bigger text); each answer a `.fragment`, shown on the next click.
 :::
 
 ## [Big idea | 核心概念]{.bi} {#review-bigidea data-menu-title="7 · Big idea summary"}
@@ -1801,35 +1870,71 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 **Pieces:** the Slide kit's big idea: `.big` for the claim and `.chain` (boxes with arrows) for what follows.
 :::
 
-## [How well can I do it? | 我掌握得怎么样？]{.bi} {#review-self data-menu-title="7 · Self-assessment"}
+## [Before you leave: self-check | 离开前：自我检查]{.bi} {#review-self data-menu-title="7 · Self-check (packet page)"}
 
-| I can… | 1 | 2 | 3 | 4 |
-|:--|:-:|:-:|:-:|:-:|
-| [name five kinds of angle \| 说出五种角的名称]{.bi} | ☐ | ☐ | ☐ | ☐ |
-| [find angles around me \| 找到身边的角]{.bi} | ☐ | ☐ | ☐ | ☐ |
-| [compare angles with *bigger than* and *smaller than* \| 用 *bigger than* 和 *smaller than* 比较角]{.bi} | ☐ | ☐ | ☐ | ☐ |
+:::: {.columns}
+::: {.column .packet-page width="42%"}
+![](images/page-self-check.png){fig-alt="The Self-Check page in the packet: three I can lines with four stars each, a box to draw an angle, and a sentence frame"}
+:::
+::: {.column width="58%"}
+::: {.box .plain}
+[Before you leave · 离开教室前]{.kicker}
 
-: {tbl-colwidths="[64,9,9,9,9]"}
+::: {.steps .stack style="font-size: 0.82em"}
+1. [Open your packet to **Self-Check**. | 打开学习包，找到**自我检查**。]{.bi}
+2. [Colour the stars for each line. | 给每一行涂星星。]{.bi}
+3. [Draw and name an angle. Write one sentence. | 画一个角并写出名称，再写一句话。]{.bi}
+4. [Show your teacher at the door. | 在门口给老师看。]{.bi}
+:::
+:::
 
-[1 = I need help · 4 = I can teach it | 1 = 我需要帮助 · 4 = 我能教别人]{.bi .small}
+[1 ★ = I need help · 4 ★ = I can teach it | 1 ★ = 我需要帮助 · 4 ★ = 我能教别人]{.bi .small}
+:::
+::::
 
 ::: footer
-[7 · Review and assessment · 复习与评价]{.phase} · option: self-assessment
+[7 · Review and assessment · 复习与评价]{.phase} · option: self-check (packet page)
 :::
 
 ::: notes
-**When to choose it:** students need practice judging their own learning, or you want to plan the next lesson's groups. Students copy the rows and tick a box for each, or show fingers. A 1 or 2 tells you who to see first next lesson.
+**When to choose it:** students need practice judging their own learning, or you want a record of it. The self-check is a page in the packet; students do it in the last five minutes and show it at the door. A 1 or 2 tells you who to see first next lesson. The next slide is the same check on the board, tap to rate.
 
 **SIOP:** feature 30 (assessment of student learning) and feature 29 (feedback).
 
-**Pieces:** a Markdown table with ☐ boxes, and a `.small` key.
+**Pieces:** `.columns`: a picture of the packet page (`images/page-self-check.png`, page 1 of `self-check.qmd` in this guide; make yours from your own printable's PDF) in a `.packet-page` column (`exemplar.css`: paper with a shadow), and `.steps` in a `.box`.
+:::
+
+## [Rate yourself | 给自己打星]{.bi} {#review-stars data-menu-title="7 · Self-check (tap the stars)"}
+
+[Tap the stars for each line. Then the next student. | 每一行点星星，然后换下一位同学。]{.bi .lead}
+
+::::: at-bottom
+::: {.star-survey stars="4"}
+- [I can name five kinds of angle. | 我能说出五种角的名称。]{.bi}
+- [I can find angles around me. | 我能找到身边的角。]{.bi}
+- [I can compare angles with *bigger than* and *smaller than*. | 我能用 *bigger than* 和 *smaller than* 比较角。]{.bi}
+:::
+:::::
+
+::: footer
+[7 · Review and assessment · 复习与评价]{.phase} · option: self-check (tap the stars)
+:::
+
+::: notes
+**When to choose it:** the same check as the packet page, on the board, as students line up to leave. Each student taps 1 to 4 stars for each line; when all three are done it beeps, says thank you and clears for the next student. **Show results** graphs every answer: how many gave each number of stars, and the average for each line. Answers stay in this browser until you press **Reset**.
+
+**SIOP:** feature 30 (assessment) and feature 25 (all students engaged).
+
+**Pieces:** `::: {.star-survey stars="4"}` with one line per statement (Chalkline's poll code), inside `::::: at-bottom` (`exemplar.css`): low on the screen, so every student can reach it.
 :::
 
 ## [How did you do? | 你学得怎么样？]{.bi} {#review-poll data-menu-title="7 · Exit poll"}
 
+::::: at-bottom
 ::: {.poll type="smileys"}
 How well can you name a straight angle and a full angle?
 :::
+:::::
 
 ::: footer
 [7 · Review and assessment · 复习与评价]{.phase} · option: exit poll
@@ -1840,7 +1945,7 @@ How well can you name a straight angle and a full angle?
 
 **SIOP:** feature 30 (assessment).
 
-**Pieces:** `::: {.poll type="smileys"}`.
+**Pieces:** `::: {.poll type="smileys"}`: three card buttons with faces drawn in SVG, inside `::::: at-bottom` (`exemplar.css`), low on the screen so every student can reach it.
 :::
 
 ## Poll results {.poll-summary-slide data-menu-title="7 · Poll results"}
@@ -1856,19 +1961,23 @@ How well can you name a straight angle and a full angle?
 
 :::: {.columns}
 ::: {.column width="55%"}
-::: {.box .plain}
+::: {.box .plain .homework}
 [Homework · 作业]{.kicker}
 
 [Angle hunt at home: find and draw 5 angles. Name each one. | 在家找角：找出并画下5个角，写出名称。]{.bi}
 
-[Due: next lesson | 下节课交]{.bi .small}
+[Due: next lesson · Packet page: *Angle Hunt* | 下节课交 · 学习包：*找角*]{.bi .small}
+
+![](images/page-angle-hunt.png){.page-peek fig-alt="The Angle Hunt page in the packet"}
 :::
 :::
 ::: {.column width="45%"}
-::: {.box .plain}
+::: {.box .plain .homework}
 [Next time · 下节课]{.kicker}
 
 [Measuring angles with a protractor | 用量角器量角]{.bi}
+
+![](images/photo-measuring.jpg){.next-photo fig-alt="A student measures an angle with a protractor tool"}
 :::
 :::
 ::::
@@ -1878,11 +1987,11 @@ How well can you name a straight angle and a full angle?
 :::
 
 ::: notes
-**When to choose it:** when homework is set. Say what's next, so students see where the lesson leads.
+**When to choose it:** when homework is set. Show the packet page, so students know exactly which page to do, and say what's next, so they see where the lesson leads.
 
 **SIOP:** features 23–26 (lesson delivery).
 
-**Pieces:** `.columns` with two `.box .plain`.
+**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page (`{.page-peek}`, a picture of page 1 of `angle-hunt.qmd`), and a photo for next time (`{.next-photo}`).
 :::
 
 ## [Credits | 来源]{.bi} {#credits .credits}
@@ -1893,14 +2002,15 @@ How well can you name a straight angle and a full angle?
 
 - **Tower clock** (1.2): [*Custom House Tower Clock*](https://www.flickr.com/photos/22714323@N06/3296958273), Tony Fischer Photography, CC BY 2.0
 - **Open scissors** (1.5): [*Open Scissors*](https://www.flickr.com/photos/87316606@N00/3281279553), DaveCrosby, CC BY-SA 2.0
-- **Ferris wheel** (the big wheel reading): [*Ferris wheels are not dramatic*](https://www.flickr.com/photos/12836528@N00/3049370253), Kevin Dooley, CC BY 2.0
+- **Wall clock** (intro without a Do now): [*Early General Electric Colored Wall Clock*](https://www.flickr.com/photos/26354629@N02/2658021420), alexkerhead, CC BY 2.0
+- **Ferris wheel** (the big wheel reading): [*Ferris wheel*](https://www.flickr.com/photos/98846724@N04/37382751555), echilds41, CC BY 2.0
+- **Measuring angles** (next time): [*measuring angles*](https://www.flickr.com/photos/41928829@N00/2351367679), Nathan & Jenny, CC BY 2.0
 - **Sundial**: [*Sundial, Belle Meade Plantation*](https://www.flickr.com/photos/22711505@N05/6012220897), Ron Cogswell, CC BY 2.0 (cropped)
 - **Salisbury Cathedral clock**: [photo](https://www.flickr.com/photos/57868312@N00/32791885583), Matt From London, CC BY 2.0
 - **Huygens' first pendulum clock**, Boerhaave Museum: [photo](https://www.flickr.com/photos/38483926@N07/3775343287), koopmanrob, CC BY-SA 2.0 (cropped)
 - **Quartz watch**: [*Zenith TimeCommand*](https://www.flickr.com/photos/51764518@N02/8598831202), France1978, CC BY-SA 2.0
 - **Atomic clock**: [*Atomic Fountain*](https://www.flickr.com/photos/44124348109@N01/4403205290), Steve Jurvetson, CC BY 2.0
-- **Original drawings, made for Chalkline:** the angle and clock drawings, the vocab pictures, the drum kit, the title picture, the Think-Pair-Share seating and the jigsaw groups. Full list: `images/CREDITS.md` in Chalkline's guide.
-- **Placeholders** (dashed boxes) mark pictures and videos still to find.
+- **Original drawings, made for Chalkline:** the angle and clock drawings, the vocab pictures, the group roles, the classroom map, the drum kit, the title picture, the Think-Pair-Share seating and the jigsaw groups. The packet pages are this guide's own printables. Full list: `images/CREDITS.md` in Chalkline's guide.
 :::
 
 ::: column
@@ -1908,6 +2018,7 @@ How well can you name a straight angle and a full angle?
 
 - **Activities and angle explorer:** adapted from the Chalkline sample's Unit 5, *Turning and Angles*, after a Grade 4 lesson plan, *旋转与角*.
 - **The eight SIOP components and 30 features:** Echevarría, Vogt and Short, *Making Content Comprehensible for English Learners: The SIOP Model*.
+- **Placeholders** (dashed boxes) mark pictures and videos still to find.
 :::
 ::::
 

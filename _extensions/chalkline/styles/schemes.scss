@@ -37,9 +37,12 @@
   --border: 1px;
 }
 
-// Sky: the pale brand blue as the slide, white boxes, navy bands. Calm, for long reading.
+// Sky: the pale brand blue as the slide, white boxes, navy bands. Calm, for long reading. Just the
+// faintest clouds, soft white shapes near the edges, so the middle stays plain for words.
 .reveal.scheme-sky, .reveal .scheme-sky {
   --paper: #{$sky};
+  --paper-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 720' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3Cfilter id='b' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeGaussianBlur stdDeviation='14'/%3E%3C/filter%3E%3C/defs%3E%3Cg fill='%23fff' filter='url(%23b)' opacity='.75'%3E%3Cellipse cx='150' cy='90' rx='150' ry='34'/%3E%3Cellipse cx='240' cy='70' rx='90' ry='38'/%3E%3Cellipse cx='1080' cy='130' rx='170' ry='30'/%3E%3Cellipse cx='1150' cy='108' rx='80' ry='34'/%3E%3Cellipse cx='980' cy='650' rx='190' ry='32'/%3E%3Cellipse cx='1060' cy='630' rx='90' ry='34'/%3E%3Cellipse cx='120' cy='620' rx='130' ry='26'/%3E%3C/g%3E%3C/svg%3E");
+  --paper-size: cover;
   --surface: #fff;
   --surface-2: #{mix($sky, #fff, 50%)};
   --line: #{rgba($navy, 0.14)};
@@ -52,16 +55,17 @@
 // Lagoon: the turquoise of the logo's hills as the slide, navy text (never white on turquoise), white
 // boxes. Loud: for openers, games and the one slide everyone should look at. Navy on turquoise: 7:1.
 .reveal.scheme-lagoon, .reveal .scheme-lagoon {
-  --paper: #{$turquoise};
-  // a slight diagonal: lighter turquoise at the top left, a little bluer at the bottom right.
-  // Navy text stays at 6:1 or better all the way across, quieter text at 4.7:1.
-  --paper-image: linear-gradient(135deg, #{mix($turquoise, #fff, 80%)} 0%, #{$turquoise} 50%, #{mix($turquoise, $blue, 85%)} 100%);
-  --paper-size: cover;
+  // A milder turquoise (about half strength), with fine white wave lines over it, and a slight
+  // diagonal: lighter at the top left. Navy text is 9:1 or better all the way across.
+  --paper: #{mix($turquoise, #fff, 50%)};
+  --paper-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 64'%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' opacity='.55'%3E%3Cpath d='M0 16c20-10 40-10 60 0s40 10 60 0 40-10 60 0 40 10 60 0'/%3E%3Cpath d='M-30 48c20-10 40-10 60 0s40 10 60 0 40-10 60 0 40 10 60 0 40-10 60 0'/%3E%3C/g%3E%3C/svg%3E"),
+                 linear-gradient(135deg, #{mix($turquoise, #fff, 34%)} 0%, #{mix($turquoise, #fff, 50%)} 55%, #{mix(mix($turquoise, $blue, 80%), #fff, 60%)} 100%);
+  --paper-size: 240px 64px, cover;
   --ink: #{$navy};
   --ink-muted: #{mix($navy, $turquoise, 88%)};
   --heading: #{$navy};
   --surface: #fff;
-  --surface-2: #{mix($turquoise, #fff, 18%)};
+  --surface-2: #{mix($turquoise, #fff, 14%)};
   --line: #{$navy};
   --border: 2px;
   --accent: #{$navy};
@@ -71,9 +75,13 @@
   --strong: #{$navy};
 }
 
-// Sunrise: warm paper from the logo's orange sun, orange stripes, turquoise as the highlight.
+// Sunrise: warm paper from the logo's orange sun, orange stripes, turquoise as the highlight. A very
+// mild sunrise behind it: a soft glow low in the middle, warm at the bottom, fading to pale sky at the top.
 .reveal.scheme-sunrise, .reveal .scheme-sunrise {
   --paper: #{mix($orange, #fff, 9%)};
+  --paper-image: radial-gradient(ellipse 60% 45% at 50% 100%, #{rgba(#ffd27a, 0.45)} 0%, #{rgba(#ffd27a, 0)} 70%),
+                 linear-gradient(to top, #{mix($orange, #fff, 22%)} 0%, #{mix($orange, #fff, 10%)} 45%, #{mix($sky, #fff, 60%)} 100%);
+  --paper-size: cover;
   --surface: #{mix($orange, #fff, 20%)};
   --surface-2: #fff;
   --line: #{rgba($navy, 0.16)};

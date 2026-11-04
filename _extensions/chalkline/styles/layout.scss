@@ -105,6 +105,13 @@
 .reveal .row:has(img.thumb) { flex-wrap: nowrap; align-items: center; }
 .reveal .row:has(img.thumb) > :last-child { flex: 1; min-width: 0; }
 
+// A picture alone in a column fills the column's width, as tall as the slide allows (small drawings,
+// like 240 × 180 SVGs, would otherwise stay small). A size written on the picture still wins.
+.reveal .slides .columns > .column:not(.hero) > p:only-child > img:only-child,
+.reveal .slides .columns > .column:not(.hero) > div.quarto-figure:only-child img {
+  width: 100%; height: auto; max-height: 540px; object-fit: contain; margin: 0;
+}
+
 // Columns: Quarto draws slide columns as inline blocks side by side, so they have no gap (only the
 // width of a space), always line up at the top, and a box in one can't be as tall as the other.
 // Here they are a flex row: a real gap, and columns as tall as the tallest, so boxes in them line up.

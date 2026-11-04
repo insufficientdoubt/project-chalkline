@@ -1,24 +1,67 @@
 <!--
-  A longer reading that advances line by line (exemplar deck). Each line is a fragment inside
-  ::: reading-scroll; each → shows the next line and scrolls it to the middle of the box. The
-  lines already read stay, a little lighter; the new one is highlighted. The box also scrolls
-  with the mouse wheel or a finger. Candidate for Chalkline itself (see V1-PLAN.md).
+  A longer reading, line by line (exemplar deck): ::: reading-scroll, one [English | 中文]{.bi .fragment}
+  per paragraph. Every line shows; the current one (the last fragment shown, or the first line) is
+  highlighted and scrolled to the middle of the box, so the page seems to scroll up line by line.
+  Vocab glosses ({{< vocab >}}) inside the box pop up on the slide above it: the scrolling box would cut
+  them off. Candidate for Chalkline itself (see V1-PLAN.md).
 -->
 <script>
 (function () {
   if (!window.Reveal) return;
-  function follow() {
+  function lines(box) { return box.querySelectorAll(":scope > p > .bil"); }
+  function follow(smooth) {
     var slide = Reveal.getCurrentSlide();
     if (!slide) return;
     slide.querySelectorAll(".reading-scroll").forEach(function (box) {
-      var shown = box.querySelectorAll(".fragment.visible");
-      var line = shown.length ? shown[shown.length - 1] : null;
-      var top = line ? line.offsetTop - box.offsetTop - box.clientHeight / 2 + line.offsetHeight / 2 : 0;
-      box.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+      var all = lines(box), current = all[0];
+      all.forEach(function (l) { if (l.classList.contains("fragment") && l.classList.contains("visible")) current = l; });
+      all.forEach(function (l) { l.classList.toggle("rs-current", l === current); });
+      if (!current) return;
+      var top = current.offsetTop - box.clientHeight / 2 + current.offsetHeight / 2;
+      box.scrollTo({ top: Math.max(0, top), behavior: smooth === false ? "auto" : "smooth" });
     });
+    hide();
   }
   Reveal.on("fragmentshown", follow);
   Reveal.on("fragmenthidden", follow);
-  Reveal.on("slidechanged", follow);
+  Reveal.on("slidechanged", function () { follow(false); });
+  if (Reveal.isReady()) follow(false); else Reveal.on("ready", function () { follow(false); });
+
+  // Glosses: the word's card, copied onto the slide just above (or below) the word.
+  var pop = null, owner = null, timer = 0, pinned = false;
+  function hide() { if (pop) { pop.remove(); pop = null; owner = null; } pinned = false; }
+  function show(term) {
+    if (owner === term) return;
+    hide();
+    var src = term.querySelector(".vocab-card"), slide = term.closest("section");
+    if (!src || !slide) return;
+    var scale = Reveal.getScale() || 1, sr = slide.getBoundingClientRect(), tr = term.getBoundingClientRect();
+    pop = src.cloneNode(true);
+    pop.classList.add("rs-pop");
+    slide.appendChild(pop);
+    owner = term;
+    var w = pop.offsetWidth, h = pop.offsetHeight;
+    var x = (tr.left + tr.width / 2 - sr.left) / scale - w / 2;
+    var y = (tr.top - sr.top) / scale - h - 10;
+    if (y < 0) y = (tr.bottom - sr.top) / scale + 10;
+    x = Math.max(0, Math.min(x, slide.offsetWidth - w));
+    pop.style.left = x + "px"; pop.style.top = y + "px"; pop.style.bottom = "auto"; pop.style.transform = "none";
+    pop.addEventListener("mouseenter", function () { clearTimeout(timer); });
+    pop.addEventListener("mouseleave", function () { if (!pinned) timer = setTimeout(hide, 250); });
+  }
+  document.addEventListener("mouseover", function (e) {
+    var t = e.target.closest && e.target.closest(".reading-scroll .vocab-term");
+    if (t) { clearTimeout(timer); show(t); }
+  });
+  document.addEventListener("mouseout", function (e) {
+    var t = e.target.closest && e.target.closest(".reading-scroll .vocab-term");
+    if (t && !pinned && !t.contains(e.relatedTarget) && !(pop && pop.contains(e.relatedTarget))) timer = setTimeout(hide, 250);
+  });
+  document.addEventListener("click", function (e) {
+    if (pop && pop.contains(e.target)) return;
+    var t = e.target.closest && e.target.closest(".reading-scroll .vocab-term");
+    if (t) { if (owner === t && pinned) hide(); else { clearTimeout(timer); show(t); pinned = true; } } else hide();   // a click pins it open
+  });
+  document.addEventListener("scroll", function (e) { if (e.target.classList && e.target.classList.contains("reading-scroll")) hide(); }, true);
 })();
 </script>

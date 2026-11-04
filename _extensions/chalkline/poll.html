@@ -30,6 +30,14 @@
       ::: {.poll-summary}
       :::
 
+  Star survey: a few "I can" lines, each rated 1 to 4 stars by tapping. When a student has rated every
+  line, it beeps, says thank you and fades back to empty for the next student. Show results graphs them.
+
+      ::: {.star-survey stars="4"}
+      - [name five kinds of angle | 说出五种角的名称]{.bi}
+      - [find angles around me | 找到身边的角]{.bi}
+      :::
+
   On a poll slide:  R = show/hide results   1–6 = add a vote   (or use the buttons)
   Votes are saved in this browser, so they survive changing slides or a refresh.
 -->
@@ -81,9 +89,9 @@
   .poll .poll-label { font-size: 0.62em; font-weight: 600; line-height: 1.2; color: #333; max-width: 10em; }
   .poll.cooling .poll-face { filter: grayscale(0.6) opacity(0.55); }
 
-  /* True/false: two cards, each with a badge drawn in inline SVG and its word inside the card */
-  .poll.poll-tf .poll-buttons { gap: 1.6em; }
-  .poll.poll-tf .poll-btn {
+  /* True/false and smileys: cards, each with a badge drawn in inline SVG and its word inside the card */
+  .poll.poll-cards .poll-buttons { gap: 1.6em; }
+  .poll.poll-cards .poll-btn {
     width: 6.8em;
     padding: 0.55em 0.4em 0.45em;
     gap: 0.2em;
@@ -93,14 +101,14 @@
     box-shadow: 0 0.28em 0 color-mix(in srgb, var(--c) 65%, #003477), 0 0.6em 1.2em rgba(0, 52, 119, 0.12);
     transition: transform 0.12s, box-shadow 0.12s, filter 0.2s;
   }
-  .poll.poll-tf .poll-btn:hover { transform: translateY(-3px); box-shadow: 0 0.4em 0 color-mix(in srgb, var(--c) 65%, #003477), 0 0.8em 1.4em rgba(0, 52, 119, 0.16); }
-  .poll.poll-tf .poll-btn:active,
-  .poll.poll-tf .poll-btn.pop { transform: translateY(0.2em); box-shadow: 0 0.08em 0 color-mix(in srgb, var(--c) 65%, #003477); }
-  .poll.poll-tf .poll-btn:focus-visible { outline: 3px solid var(--poll-navy); outline-offset: 4px; }
+  .poll.poll-cards .poll-btn:hover { transform: translateY(-3px); box-shadow: 0 0.4em 0 color-mix(in srgb, var(--c) 65%, #003477), 0 0.8em 1.4em rgba(0, 52, 119, 0.16); }
+  .poll.poll-cards .poll-btn:active,
+  .poll.poll-cards .poll-btn.pop { transform: translateY(0.2em); box-shadow: 0 0.08em 0 color-mix(in srgb, var(--c) 65%, #003477); }
+  .poll.poll-cards .poll-btn:focus-visible { outline: 3px solid var(--poll-navy); outline-offset: 4px; }
   .poll .poll-badge { display: block; width: 3.6em; height: 3.6em; }
   .poll .poll-badge svg { display: block; width: 100%; height: 100%; overflow: visible; }
-  .poll.poll-tf .poll-label { font-size: 0.82em; font-weight: 800; letter-spacing: 0.02em; color: var(--poll-navy); max-width: none; }
-  .poll.poll-tf.cooling .poll-btn { filter: grayscale(0.6) opacity(0.55); cursor: default; }
+  .poll.poll-cards .poll-label { font-size: 0.82em; font-weight: 800; letter-spacing: 0.02em; color: var(--poll-navy); max-width: none; }
+  .poll.poll-cards.cooling .poll-btn { filter: grayscale(0.6) opacity(0.55); cursor: default; }
   .poll.cooling .poll-btn { cursor: default; }
 
   .poll .poll-plus {
@@ -182,6 +190,53 @@
     grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
     gap: 0.8em;
   }
+  /* Star survey */
+  .star-survey { --ss-gold: #fbc400; --ss-navy: #003477; position: relative; }
+  .star-survey > ul { display: none; }
+  .star-survey .ss-form { display: flex; flex-direction: column; gap: 0.35em; transition: opacity 0.5s, transform 0.5s; }
+  .star-survey .ss-form.ss-fade { opacity: 0; transform: translateY(0.4em); }
+  .star-survey .ss-row {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1em;
+    padding: 0.3em 0.4em 0.3em 0.8em; border-radius: 0.5em; background: var(--surface-2, #f4f8fc);
+    border: 1px solid var(--line, rgba(0, 52, 119, 0.15));
+  }
+  .star-survey .ss-row.ss-done { border-color: var(--ss-gold); background: color-mix(in srgb, var(--ss-gold) 10%, var(--surface-2, #fff)); }
+  .star-survey .ss-label { font-size: 0.85em; line-height: 1.2; }
+  .star-survey .ss-label p { margin: 0; }
+  .star-survey .ss-stars { display: flex; gap: 0.15em; }
+  .star-survey .ss-star { all: unset; cursor: pointer; width: 1.9em; height: 1.9em; display: grid; place-items: center; -webkit-tap-highlight-color: transparent; }
+  .star-survey .ss-star svg { width: 100%; height: 100%; overflow: visible; transition: transform 0.12s; }
+  .star-survey .ss-star .ss-fill { fill: #fff; stroke: #b9c4d2; stroke-width: 3; stroke-linejoin: round; transition: fill 0.15s, stroke 0.15s; }
+  .star-survey .ss-star.ss-on .ss-fill { fill: var(--ss-gold); stroke: #d99a00; }
+  .star-survey .ss-star:hover svg { transform: scale(1.12); }
+  .star-survey .ss-star:active svg { transform: scale(0.9); }
+  .star-survey .ss-star:focus-visible { outline: 3px solid #0087ff; outline-offset: 2px; border-radius: 50%; }
+  .star-survey .ss-thanks {
+    position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+    font-size: 1.4em; font-weight: 800; color: var(--ss-navy);
+  }
+  .star-survey .ss-thanks.ss-show { opacity: 1; }
+  .star-survey .ss-controls { display: flex; justify-content: center; align-items: center; gap: 0.6em; margin-top: 0.5em; font-size: 0.5em; color: #555; }
+  .star-survey .ss-controls button {
+    font: inherit; font-weight: 600; padding: 0.35em 1em; border-radius: 2em; cursor: pointer;
+    border: 2px solid var(--ss-navy); background: #fff; color: var(--ss-navy);
+  }
+  .star-survey .ss-controls .ss-show-btn { background: var(--ss-navy); color: #fff; }
+  .star-survey .ss-results { display: none; flex-direction: column; gap: 0.45em; }
+  .star-survey.ss-revealed .ss-results { display: flex; }
+  .star-survey.ss-revealed .ss-form { display: none; }
+  .star-survey .ss-res-row { display: grid; grid-template-columns: 1fr 50% 3.6em; align-items: center; gap: 0.7em; font-size: 0.75em; }
+  .star-survey .ss-res-label { line-height: 1.2; }
+  .star-survey .ss-res-label p { margin: 0; }
+  .star-survey .ss-bars { display: flex; height: 1.5em; border-radius: 0.4em; overflow: hidden; background: rgba(0, 0, 0, 0.06); }
+  .star-survey .ss-seg {
+    display: grid; place-items: center; min-width: 0; color: #10233f; font-size: 0.7em; font-weight: 700;
+    transition: flex-grow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .star-survey .ss-avg { font-weight: 800; color: var(--ss-navy); text-align: right; white-space: nowrap; }
+  .star-survey .ss-key { display: flex; justify-content: center; gap: 1em; font-size: 0.5em; color: #555; }
+  .star-survey .ss-key span::before { content: ""; display: inline-block; width: 0.9em; height: 0.9em; border-radius: 0.2em; margin-right: 0.3em; vertical-align: -0.1em; background: var(--c); }
+
   .poll-summary .poll-sum-card {
     background: #ebf7fd;
     border-radius: 0.8em;
@@ -216,7 +271,7 @@
 <script>
 (function () {
   const polls = document.querySelectorAll(".poll");
-  if (!polls.length) return;
+  if (!polls.length && !document.querySelector(".star-survey")) return;
   const isPreview = /[?&]receiver/.test(window.location.search);  // speaker-view thumbnails
 
   // Brand colors, each with a readable text color (navy on light fills, white on dark).
@@ -238,7 +293,7 @@
   };
   // The true/false buttons' badges: the button's colour (--c), a soft shine on top, an inner ring,
   // and a white mark with a navy shadow under it. No ids, so any number of polls can share a page.
-  function badge(mark) {
+  function badge(mark, eyes) {
     return '<svg viewBox="0 0 80 80" aria-hidden="true">' +
       '<circle cx="40" cy="43" r="35" fill="#003477" opacity="0.18"/>' +
       '<circle cx="40" cy="40" r="35" style="fill: var(--c)"/>' +
@@ -246,9 +301,15 @@
       '<circle cx="40" cy="40" r="29" fill="none" stroke="#fff" stroke-width="2.5" opacity="0.55"/>' +
       '<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="9">' +
       '<path d="' + mark + '" stroke="#003477" opacity="0.35" transform="translate(0 3)"/>' +
-      '<path d="' + mark + '" stroke="#fff"/></g></svg>';
+      '<path d="' + mark + '" stroke="#fff"/>' +
+      (eyes ? '<path d="' + eyes + '" stroke="#003477" opacity="0.35" transform="translate(0 3)" stroke-width="10"/><path d="' + eyes + '" stroke="#fff" stroke-width="10"/>' : "") +
+      "</g></svg>";
   }
-  const BADGE = { check: badge("M24 41l11 11 22-25"), cross: badge("M27 27l26 26M53 27L27 53") };
+  const EYES = "M30 31v2M50 31v2";
+  const BADGE = {
+    check: badge("M24 41l11 11 22-25"), cross: badge("M27 27l26 26M53 27L27 53"),
+    happy: badge("M26 46c7 10 21 10 28 0", EYES), meh: badge("M28 51h24", EYES), sad: badge("M26 56c7-9 21-9 28 0", EYES),
+  };
 
   function attr(el, name) {
     return el.getAttribute("data-" + name) ?? el.getAttribute(name) ?? "";
@@ -258,9 +319,9 @@
     const type = attr(el, "type").toLowerCase() || "choice";
     if (type === "smileys" || type === "smiley") {
       return [
-        { key: "happy", label: "Got it", color: "#14d7cd", text: NAVY, icon: FACE.happy },
-        { key: "meh", label: "Sort of", color: "#fbc400", text: NAVY, icon: FACE.meh },
-        { key: "sad", label: "Not yet", color: "#ff8c0f", text: NAVY, icon: FACE.sad },
+        { key: "happy", label: "Got it", color: "#14d7cd", text: NAVY, icon: FACE.happy, badge: BADGE.happy },
+        { key: "meh", label: "Sort of", color: "#fbc400", text: NAVY, icon: FACE.meh, badge: BADGE.meh },
+        { key: "sad", label: "Not yet", color: "#ff8c0f", text: NAVY, icon: FACE.sad, badge: BADGE.sad },
       ];
     }
     if (type === "truefalse" || type === "true-false" || type === "tf") {
@@ -330,7 +391,7 @@
   polls.forEach(function (el, index) {
     const choices = choicesFor(el);
     if (!choices.length) return;
-    if (choices.some(c => c.badge)) el.classList.add("poll-tf");
+    if (choices.some(c => c.badge)) el.classList.add("poll-cards");
     const storeKey = "poll:" + window.location.pathname + ":" + index;
     const cooldown = Math.max(0, parseFloat(attr(el, "cooldown") || "1")) * 1000;
     const correctRaw = attr(el, "correct").trim().toLowerCase();
@@ -480,6 +541,99 @@
   });
 
   renderSummaries();  // now that every poll is set up
+
+  // --- Star survey ----------------------------------------------------------
+  const STAR = '<svg viewBox="0 0 40 40" aria-hidden="true"><path class="ss-fill" d="M20 3.5l5.1 10.4 11.4 1.7-8.3 8.1 2 11.4L20 29.7 9.8 35.1l2-11.4-8.3-8.1 11.4-1.7z"/></svg>';
+  const SEG = ["#ff8c0f", "#fbc400", "#14d7cd", "#2e9e4f", "#0087ff", "#003477"];
+  function chord() {
+    try {
+      const ctx = blip.ctx || (blip.ctx = new (window.AudioContext || window.webkitAudioContext)());
+      [523.25, 659.25, 783.99].forEach(function (f, i) {
+        const o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime + i * 0.09;
+        o.type = "triangle"; o.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.2, t + 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.4);
+      });
+    } catch (e) { /* no sound available */ }
+  }
+  document.querySelectorAll(".star-survey").forEach(function (el, index) {
+    const items = Array.from(el.querySelectorAll(":scope > ul > li")).map(li => li.innerHTML);
+    if (!items.length) return;
+    const n = Math.min(6, Math.max(2, parseInt(attr(el, "stars"), 10) || 4));
+    const key = "star-survey:" + window.location.pathname + ":" + index;
+    let answers = load(key) || [];   // one array of ratings per student
+    let current = items.map(() => 0), busy = false;
+
+    const form = document.createElement("div"); form.className = "ss-form";
+    const thanks = document.createElement("div"); thanks.className = "ss-thanks"; thanks.textContent = "Thank you! 谢谢！";
+    const results = document.createElement("div"); results.className = "ss-results";
+    const rows = items.map(function (html, r) {
+      const row = document.createElement("div"); row.className = "ss-row";
+      const label = document.createElement("div"); label.className = "ss-label"; label.innerHTML = html;
+      const stars = document.createElement("div"); stars.className = "ss-stars";
+      const btns = [];
+      for (let s = 1; s <= n; s++) {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "ss-star"; b.innerHTML = STAR;
+        b.setAttribute("aria-label", s + (s === 1 ? " star" : " stars"));
+        b.addEventListener("click", function (e) { e.stopPropagation(); rate(r, s); });
+        btns.push(b); stars.appendChild(b);
+      }
+      row.append(label, stars); form.appendChild(row);
+      return { row, btns };
+    });
+    const controls = document.createElement("div"); controls.className = "ss-controls";
+    controls.innerHTML = '<span class="ss-total"></span><button class="ss-show-btn">Show results</button><button class="ss-reset">Reset</button>';
+    el.append(form, thanks, results, controls);
+
+    function paintStars() {
+      rows.forEach(function (o, r) {
+        o.btns.forEach(function (b, i) { b.classList.toggle("ss-on", i < current[r]); });
+        o.row.classList.toggle("ss-done", current[r] > 0);
+      });
+      const t = answers.length;
+      controls.querySelector(".ss-total").textContent = t + (t === 1 ? " response" : " responses");
+    }
+    function rate(r, s) {
+      if (busy || el.classList.contains("ss-revealed")) return;
+      current[r] = s; blip(330 + s * 70); paintStars();
+      if (current.every(v => v > 0)) {   // this student is done: save, thank, fade, clear
+        busy = true;
+        answers.push(current.slice()); save(key, answers);
+        setTimeout(function () { chord(); thanks.classList.add("ss-show"); form.classList.add("ss-fade"); }, 250);
+        setTimeout(function () {
+          current = items.map(() => 0); paintStars();
+          thanks.classList.remove("ss-show"); form.classList.remove("ss-fade"); busy = false;
+        }, 1700);
+      }
+    }
+    function paintResults() {
+      let html = "";
+      items.forEach(function (label, r) {
+        const counts = Array(n).fill(0); let sum = 0;
+        answers.forEach(a => { if (a[r]) { counts[a[r] - 1]++; sum += a[r]; } });
+        const t = answers.length, avg = t ? (sum / t).toFixed(1) : "–";
+        html += '<div class="ss-res-row"><div class="ss-res-label">' + label + '</div><div class="ss-bars">' +
+          counts.map((c, i) => c ? '<span class="ss-seg" style="flex-grow:' + c + ';background:' + SEG[i] + '">' + c + "</span>" : "").join("") +
+          '</div><div class="ss-avg">' + avg + " ★</div></div>";
+      });
+      html += '<div class="ss-key">' + Array.from({ length: n }, (_, i) => '<span style="--c:' + SEG[i] + '">' + (i + 1) + " ★</span>").join("") + "</div>";
+      results.innerHTML = html;
+    }
+    controls.querySelector(".ss-show-btn").addEventListener("click", function (e) {
+      e.stopPropagation();
+      el.classList.toggle("ss-revealed");
+      this.textContent = el.classList.contains("ss-revealed") ? "Back to the survey" : "Show results";
+      paintResults();
+    });
+    controls.querySelector(".ss-reset").addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (!confirm("Clear all " + answers.length + " responses?")) return;
+      answers = []; save(key, answers); current = items.map(() => 0); paintStars(); paintResults();
+    });
+    if (isPreview) controls.style.visibility = "hidden";
+    paintStars();
+  });
 
   // Keyboard shortcuts, only on a slide that has a poll.
   function currentPoll() {

@@ -167,7 +167,28 @@
     link.rel = "noopener";
     join.append(what, link);
     const actions = el("div", "lb-actions");
-    bar.append(mini, join, actions);
+    // Fold: the corner card shrinks to a small tab, so the board gets the whole slide. Remembered.
+    const fold = el("button", "lb-fold");
+    fold.type = "button";
+    const FOLD_KEY = "chalkline-live-board:folded";
+    function folded() { try { return localStorage.getItem(FOLD_KEY) === "1"; } catch (e) { return false; } }
+    function paintFold(on) {
+      box.classList.toggle("lb-folded", on);
+      fold.title = on ? "Show the QR code and buttons" : "Hide the QR code and buttons";
+      fold.setAttribute("aria-label", fold.title);
+      fold.setAttribute("aria-expanded", String(!on));
+      fold.innerHTML = on
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2" stroke="currentColor" stroke-width="2"/></svg><span>Join</span>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+    fold.addEventListener("click", function (e) {
+      e.stopPropagation();
+      const on = !box.classList.contains("lb-folded");
+      try { localStorage.setItem(FOLD_KEY, on ? "1" : "0"); } catch (err) { /* private window */ }
+      paintFold(on);
+    });
+    paintFold(full && folded());
+    bar.append(mini, join, actions, fold);
 
     const field = el("input", "ui-field lb-field");
     field.type = "url";

@@ -37,6 +37,9 @@
 .vocab-gallery .vg-zh { font-size: 0.8em; color: var(--ink-muted, #52606D); line-height: 1.15; }
 .vocab-gallery .vocab-term:hover > .vocab-card, .vocab-gallery .vocab-term:focus-within > .vocab-card { display: none; }
 .vocab-gallery .vocab-term.open > .vocab-card { display: block; }
+/* Each card is its own layer (position + container-type), so the open card is raised above the cards
+   after it: otherwise they cover its pop-up, and a tap on the pop-up opens the card underneath. */
+.vocab-gallery .vg-card.open { z-index: 40; transform: none; }
 .vocab-gallery .vocab-card { cursor: auto; }
 
 /* table: picture, word, 中文, meaning */

@@ -39,7 +39,9 @@ for slides. Credited on the deck's Credits slide too.
 |---|---|---|---|---|
 | `photo-tower-clock.jpg` | Custom House Tower clock, Boston, close-up at night | Tony Fischer Photography | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/22714323@N06/3296958273) |
 | `photo-scissors.jpg` | Open scissors | DaveCrosby | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) | [Flickr](https://www.flickr.com/photos/87316606@N00/3281279553) |
-| `photo-ferris-wheel.jpg` | A Ferris wheel against the sky | Kevin Dooley | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/12836528@N00/3049370253) |
+| `photo-ferris-wheel.jpg` | A colourful Ferris wheel in a blue sky | echilds41 | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/98846724@N04/37382751555) |
+| `photo-intro-preview.jpg` | A red General Electric wall clock | alexkerhead | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/26354629@N02/2658021420) |
+| `photo-measuring.jpg` | A student measures an angle with a protractor tool (a clinometer) | Nathan & Jenny | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/41928829@N00/2351367679) |
 | `photo-sundial.jpg` | Sundial, Belle Meade Plantation, Nashville. Cropped (the caption on the photo removed). | Ron Cogswell | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/22711505@N05/6012220897) |
 | `photo-salisbury-clock.jpg` | Salisbury Cathedral clock (about 1386) | Matt From London | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Flickr](https://www.flickr.com/photos/57868312@N00/32791885583) |
 | `photo-huygens-clock.jpg` | Huygens' first pendulum clock (1656), Boerhaave Museum, Leiden. Cropped to the clock. | koopmanrob | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) | [Flickr](https://www.flickr.com/photos/38483926@N07/3775343287) |
@@ -48,3 +50,8 @@ for slides. Credited on the deck's Credits slide too.
 
 Original drawings for the exemplar deck: `MTH-002.svg` to `MTH-005.svg` (copied from `vocab/images/`, made by
 `vocab/tools/draw_icons.py`) and `clockwise.svg` (drawn in the same style for the word sort). No license needed.
+
+More original drawings for the exemplar deck, no license needed: `role-reader.svg`, `role-writer.svg`, `role-checker.svg`
+and `role-reporter.svg` (group roles), `stations-map.svg` (the classroom map for stations) and `full-angle.svg` (the
+full-angle drawing without its background). `page-self-check.png` and `page-angle-hunt.png` are pictures of page 1 of
+this guide's own printables (`../self-check.qmd`, `../angle-hunt.qmd`); make them again if those pages change.
