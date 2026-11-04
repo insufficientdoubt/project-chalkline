@@ -54,8 +54,7 @@ def word_bank(a):
 
 def catalog_part(a):
     import catalog
-    parts = {"season": catalog.markdown_season, "by-unit": catalog.markdown_by_unit, "by-type": catalog.markdown_by_type,
-             "learning": catalog.markdown_learning, "family-picks": catalog.markdown_family_picks}
+    parts = {"season": catalog.markdown_season, "by-unit": catalog.markdown_by_unit, "by-type": catalog.markdown_by_type}
     return parts[a["groups"][0]]()
 
 

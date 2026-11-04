@@ -3,7 +3,7 @@ title: "Turn an Angle 旋转角"
 type: game
 description: "An interactive page: turn one side of an angle and watch it change from acute to right, obtuse, straight and full. Show the degrees, a protractor, or the angles on a clock. For class and for home."
 order: 4
-audience: [teacher, student, parent]
+audience: [teacher, student]
 format: html
 toc: false
 resources:

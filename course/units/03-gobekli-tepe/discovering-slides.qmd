@@ -4,7 +4,7 @@ subtitle: "哥贝克力石阵：发现 · Göbekli Tepe, part 1"
 type: slides
 description: "Where and when it was built, how it was found, the stone enclosures, T-pillars shaped like people, and the animals carved on them."
 order: 1
-audience: [teacher, student, parent]
+audience: [teacher, student]
 format: revealjs
 title-slide-attributes:
   data-background-color: "#003477"

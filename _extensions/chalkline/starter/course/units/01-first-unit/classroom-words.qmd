@@ -3,7 +3,7 @@ title: "Classroom Words 课堂词汇"
 type: handout
 description: "The four words for Unit 1, with meanings, 中文 and examples, and a box to write a summary."
 order: 2
-audience: [teacher, student, parent]
+audience: [teacher, student]
 doc-type: Handout
 name-box: true
 format:

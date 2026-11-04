@@ -4,7 +4,7 @@ subtitle: "谁建造了它？为什么？ · Göbekli Tepe, part 2"
 type: slides
 description: "Hunter-gatherer builders, cutting and moving the pillars, evidence versus guesses, why archaeologists stopped calling it a temple, and the link to farming."
 order: 2
-audience: [teacher, student, parent]
+audience: [teacher, student]
 format: revealjs
 title-slide-attributes:
   data-background-color: "#003477"

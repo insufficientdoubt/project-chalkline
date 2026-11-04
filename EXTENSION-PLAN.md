@@ -53,7 +53,7 @@ Tested: the whole site built with the extension moved to `_extensions/someowner/
 | `requirements.txt`, `.gitignore`, `.vscode/`, `.github/workflows/publish.yml` | |
 | `brand/_brand.yml`, `brand/logos/`, `brand/fonts/*.ttf` | Placeholders for the school's own. |
 | `brand/styles.scss`, `brand/revealjs.scss` | The school's fonts and overrides only; they load after Chalkline's. |
-| `index.qmd`, `families.qmd`, `all-slides.qmd`, `course/review-games.qmd`, `course/play.qmd` | Thin pages (an overview shortcode, a `{{< game-picker >}}`, a `{{< slide-wall >}}`). |
+| `index.qmd`, `all-slides.qmd`, `course/review-games.qmd`, `course/play.qmd` | Thin pages (an overview shortcode, a `{{< game-picker >}}`, a `{{< slide-wall >}}`). |
 | `vocab/config.js`, `vocab/schema.yaml`, `vocab/index.html` | `schema.yaml` lists the course's own topics and ID prefixes, so it's the course's (not the extension's, as first planned). |
 | `README.md`, `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `brand/README.md`, `vocab/README.md` | Rewrite "Changing the tool" (below). |
 | `TOOL-CHANGES.md` | Empty: the log for a course's own layer. |
