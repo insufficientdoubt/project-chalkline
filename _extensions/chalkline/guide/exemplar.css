@@ -43,5 +43,6 @@
 .reveal .intro-grid > .area.language { grid-column: 1; grid-row: 2; overflow: hidden; }
 .reveal .intro-grid > .area.donow { grid-column: 2; grid-row: 1 / span 2; height: auto; }
 .reveal .intro-grid .area.language .tag { margin-top: 0.2em; }
-.reveal .intro-grid .vocab-gallery { max-width: 64%; }
+.reveal .intro-grid .vocab-gallery { max-width: 64%; --vg-min: 3.2em; }   /* four small cards in one row */
+.reveal .intro-grid .area p:has(> .tag) + .vocab-gallery { margin-top: 0.2em; }   /* under its label (no switch beside it) */
 .reveal .intro-grid .vg-switch { display: none; }   /* the Cards | Table switch: not needed here */
