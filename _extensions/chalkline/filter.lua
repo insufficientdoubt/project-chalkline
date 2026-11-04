@@ -14,7 +14,7 @@ Slides (reveal.js):
       classroom-tools:
         qr-site: "https://example.github.io/my-course/"   # older name for student-site: (below)
     The QR code points at the deck on the student site: student-site: "https://.../" in _quarto.yml
-  - loads the poll code when a slide has  ::: {.poll ...}  or  ::: {.poll-summary}
+  - loads the poll code when a slide has  ::: {.poll ...},  ::: {.poll-summary}  or  ::: {.star-survey}
   - turns  ::: {.jeopardy}  and  ::: {.trivia}  into slide games (see below and games/games.js)
   - View source (U, in the toolbox): each slide's source as typed, from toolbox/source.lua
   - turns  ::: {.quick-ref}  into a quick reference slide: key slides + everything in the unit (quickref.lua)
@@ -361,7 +361,7 @@ local function Div(el)
       el.content:insert(1, pandoc.RawBlock("html", "<!-- box -->"))
       return el
     end
-    if el.classes:includes("poll") or el.classes:includes("poll-summary") then
+    if el.classes:includes("poll") or el.classes:includes("poll-summary") or el.classes:includes("star-survey") then
       if quarto.doc.is_format("revealjs") then include_once("poll.html") end
     end
     if el.classes:includes("value") then

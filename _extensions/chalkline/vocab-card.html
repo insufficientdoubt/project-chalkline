@@ -12,6 +12,7 @@
 .vocab-card.below { bottom: auto; top: calc(100% + 10px); }
 .vocab-card.below::after { top: auto; bottom: 100%; }
 .vocab-term:hover > .vocab-card, .vocab-term:focus-within > .vocab-card, .vocab-term.open > .vocab-card { display: block; }
+.vocab-term.open, .vocab-term:hover, .vocab-term:focus-within { z-index: 40; }   /* above the words and cards after it */
 .vocab-card .vc-pic { display: block; height: 140px; margin-bottom: 4px; border-radius: var(--ui-r, 14px); background: var(--ui-soft, #f3f5f8); overflow: hidden; }
 .vocab-card img, .reveal .vocab-card img { display: block; width: 100%; height: 100%; max-height: none; margin: 0; object-fit: contain; }
 .vocab-card .vc-term { display: flex; align-items: center; gap: 6px; padding: 4px 6px 0; font-size: 20px; font-weight: 700; line-height: 1.15; }
@@ -59,7 +60,7 @@
   // Show the card below the word when there's no room above it, and keep it on screen sideways.
   function place(term) {
     var card = term.querySelector(".vocab-card");
-    card.classList.remove("below"); card.style.left = ""; card.style.transform = "";
+    card.classList.remove("below"); card.style.left = ""; card.style.right = ""; card.style.transform = "";
     var r = card.getBoundingClientRect();
     if (r.top < 8) card.classList.add("below");
     r = card.getBoundingClientRect();
@@ -79,6 +80,7 @@
     if (e.target.closest(".vc-link")) return;
     const sayBtn = e.target.closest(".vc-say");
     if (sayBtn) { e.preventDefault(); say(sayBtn.dataset.say, sayBtn.dataset.lang); return; }
+    if (e.target.closest(".vocab-term.open > .vocab-card")) return;   // a tap inside an open card keeps it open
     var t = e.target.closest(".vocab-term");
     document.querySelectorAll(".vocab-term.open").forEach(function (o) { if (o !== t) o.classList.remove("open"); });
     if (t) { t.classList.toggle("open"); requestAnimationFrame(function () { place(t); }); }

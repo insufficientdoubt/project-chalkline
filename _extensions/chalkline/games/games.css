@@ -293,6 +293,7 @@
   min-height: 470px;
   padding: 24px 40px;
   border-radius: 26px;
+  background: linear-gradient(135deg, var(--cg-back-a, #003477), var(--cg-back-b, #0087ff));
   color: #fff;
   text-align: center;
   box-shadow: 0 12px 30px rgba(0, 20, 60, 0.2);
@@ -1246,3 +1247,41 @@
 :is(.reveal, .cg-host) .cg-venn .cg-sort-col:last-of-type .cg-sort-head { padding-right: 10%; }
 :is(.reveal, .cg-host) .cg-venn .cg-sort-col:nth-of-type(2) .cg-sort-head { top: 46px; font-size: 19px; }
 :is(.reveal, .cg-host) .cg-venn .cg-sort-chip { font-size: 18px; padding: 4px 10px; }
+
+/* ---- On slides, the games follow the slide's colour scheme ----
+   The slide kit's tokens (styles/layout.scss; a scheme in styles/schemes.scss or a course's own sets
+   them) replace the fixed navy and white: Quick-fire, Jeopardy and Sort it, and the buttons of every
+   game. With no scheme, the tokens are the brand colours, so the games look as before. On a web page
+   (.cg-host) nothing changes. */
+.reveal .cg-game { --cg-navy: var(--strong, #003477); color: var(--heading, #003477); }
+.reveal .cg-btn { border-color: var(--strong); background: var(--surface-2, #fff); color: var(--heading); }
+.reveal .cg-btn:hover { background: var(--surface, #eef6ff); }
+.reveal .cg-btn.cg-primary { background: var(--strong); border-color: var(--strong); color: var(--on-strong, #fff); }
+.reveal .cg-status { color: var(--ink); }
+/* Quick-fire: the cover in the scheme's dark colour; each question's colours mixed into it */
+.reveal .cg-quiz-stage {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--cg-back-a) 55%, var(--strong)), color-mix(in srgb, var(--cg-back-b) 55%, var(--strong)));
+  border-radius: calc(var(--radius, 14px) * 1.8);
+  color: var(--on-strong, #fff);
+}
+.reveal .cg-quiz-stage.cg-quiz-cover { background: linear-gradient(135deg, var(--strong), color-mix(in srgb, var(--rule) 60%, var(--strong))); }
+.reveal .cg-quiz-answer { background: var(--surface-2, #fff); color: var(--heading); }
+.reveal .cg-dot { background: var(--line); }
+.reveal .cg-dot.cg-now { background: var(--accent); }
+.reveal .cg-score { color: var(--heading); }
+/* Jeopardy: the cells and the clue card in the scheme's dark colour, categories tinted toward it */
+.reveal .cg-cat { background: color-mix(in srgb, var(--cat) 72%, var(--strong)); border-radius: var(--radius, 12px); }
+.reveal .cg-cell { background: var(--strong); border-radius: var(--radius, 12px); }
+.reveal .cg-cell:hover { background: color-mix(in srgb, var(--strong) 80%, var(--rule)); }
+.reveal .cg-cell.cg-done { background: var(--surface); color: var(--ink-muted); }
+.reveal .cg-clue { background: var(--strong); color: var(--on-strong, #fff); border-radius: calc(var(--radius, 14px) * 1.3); }
+.reveal .cg-clue .cg-btn { background: transparent; color: var(--on-strong, #fff); border-color: var(--on-strong, #fff); }
+.reveal .cg-team { background: var(--surface-2, #fff); }
+.reveal .cg-divider { color: var(--ink-muted); }
+/* Sort it: the bank and the groups are the scheme's boxes; the words are cards on them */
+.reveal .cg-sort-bank { background: var(--surface); border-color: var(--line); border-radius: var(--radius); }
+.reveal .cg-sort-col { background: var(--surface-2); border-color: var(--line); border-radius: var(--radius); }
+.reveal .cg-sort-col.cg-target:hover { background: color-mix(in srgb, var(--cat) 10%, var(--surface-2)); }
+.reveal .cg-sort-head { color: color-mix(in srgb, var(--cat) 70%, var(--heading)); }
+.reveal .cg-sort-chip:not(.cg-ok):not(.cg-no):not(.cg-selected) { background: var(--paper, #fff); border-color: var(--line); color: var(--ink); }
+.reveal .cg-sort-empty { color: var(--ink-muted); }

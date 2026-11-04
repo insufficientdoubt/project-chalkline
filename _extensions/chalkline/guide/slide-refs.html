@@ -1,11 +1,13 @@
 <!--
   TEMPORARY: a reference number on every slide, for editing the deck together ("3.4": phase 3, fourth
-  slide down; "0.1": the how-to slide). Remove it by deleting this file's line in the deck's labels
+  slide down; "0.1": the how-to slide), and which build you're looking at: the pull request (or the
+  commit) and when it was rendered, from build-stamp.lua ("1.8 · #82 · 4 Nov 15:10"). Remove it by deleting this file's line in the deck's labels
   (include-after-body) and this file.
 -->
 <style>
   .slide-ref { position: fixed; top: 8px; left: 8px; z-index: 40; padding: 3px 9px; border-radius: 8px;
     background: #ffe14d; color: #1f2933; font: 700 18px/1.2 "Source Sans 3", system-ui, sans-serif; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+  .slide-ref .slide-ref-build { font-weight: 600; font-size: 14px; opacity: 0.75; }
 </style>
 <script>
 (function () {
@@ -13,9 +15,21 @@
     var badge = document.createElement("div");
     badge.className = "slide-ref";
     document.body.appendChild(badge);
+    // which build: the PR (or commit) and the render time, in this computer's time zone
+    var meta = document.querySelector('meta[name="chalkline-build"]'), build = "";
+    if (meta) {
+      var t = new Date(meta.getAttribute("data-time"));
+      build = meta.content + (isNaN(t) ? "" : " · " + t.toLocaleDateString("en-GB", { day: "numeric", month: "short" }) +
+        " " + t.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }));
+    }
+    var ref = document.createElement("span"), info = document.createElement("span");
+    info.className = "slide-ref-build";
+    info.textContent = build ? " · " + build : "";
+    badge.append(ref, info);
+    badge.title = build ? "This build: " + build : "";
     function show() {
       var i = Reveal.getIndices();
-      badge.textContent = i.h === 0 ? "Title" : (i.h - 1) + "." + ((i.v || 0) + 1);
+      ref.textContent = i.h === 0 ? "Title" : (i.h - 1) + "." + ((i.v || 0) + 1);
     }
     Reveal.on("slidechanged", show);
     show();

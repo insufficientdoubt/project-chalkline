@@ -18,6 +18,7 @@
   color: var(--ink-muted, #52606d); font-style: italic; background: rgba(0, 52, 119, 0.03);
 }
 .reveal .cover .placeholder { flex: 1; }
+.reveal .placeholder + :is(.box, .tiles, .steps, .columns), .reveal :is(.box, .tiles, .steps) + .placeholder { margin-top: var(--gap, 0.6em); }
 
 /* The phase label in each slide's footer: which column of the deck this slide is in */
 .reveal .footer .phase { font-weight: 700; color: var(--accent, #003477); }
@@ -55,7 +56,7 @@
    :::: columns  ... ::: {.column .hero width="36%"}  ![](images/photo.jpg)  :::                         */
 .reveal .slides .columns > .column.hero { display: flex; }
 .reveal .column.hero > p { margin: 0; flex: 1; display: flex; }
-.reveal .column.hero img {
+.reveal .slides .columns > .column.hero > p > img, .reveal .column.hero img {
   width: 100%; height: 100%; max-height: 520px; min-height: 420px; margin: 0;
   object-fit: cover; border-radius: var(--radius, 12px); box-shadow: 0 6px 20px rgba(16, 35, 63, 0.18);
 }
@@ -128,28 +129,125 @@
 .reveal .slides .columns > .column > div > ul { display: block; }
 
 /* A longer reading, line by line: ::: reading-scroll, one [English | 中文]{.bi .fragment} per paragraph
-   (the first line without .fragment, so the slide never starts empty). reading-scroll.html scrolls it. */
+   (the first line without .fragment). Every line shows; the current one is highlighted and kept in the
+   middle (reading-scroll.html scrolls it), the others are grey. Vocab glosses pop up above the box. */
 .reveal .reading-scroll {
-  position: relative; box-sizing: border-box; height: 500px; overflow-y: auto; scroll-behavior: smooth; overscroll-behavior: contain;
-  padding: 1.2em 0.8em 220px 0.4em; font-size: 0.95em; line-height: 1.3;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 88%, transparent 100%);
-          mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 88%, transparent 100%);
+  position: relative; box-sizing: border-box; height: 500px; overflow-y: auto; overscroll-behavior: contain;
+  padding: 230px 0.8em 230px 0.4em; font-size: 0.95em; line-height: 1.3; scrollbar-width: thin;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
 }
 .reveal .reading-scroll > p { margin: 0 0 0.35em; }
-.reveal .reading-scroll .bil {
-  display: block; padding: 0.35em 0.7em; border-left: 5px solid transparent; border-radius: 8px;
-  transition: opacity 0.4s, background-color 0.4s, border-color 0.4s;
+.reveal .reading-scroll .bil,
+.reveal .reading-scroll .fragment, .reveal .reading-scroll .fragment.visible {
+  display: block; visibility: visible; opacity: 0.38; padding: 0.35em 0.7em; border-left: 5px solid transparent; border-radius: 8px;
+  transition: opacity 0.35s, background-color 0.35s, border-color 0.35s;
 }
-.reveal .reading-scroll .fragment.visible:not(.current-fragment),
-.reveal .reading-scroll > p:first-child .bil:not(.fragment) { opacity: 0.5; }
-.reveal .reading-scroll:not(:has(.fragment.visible)) > p:first-child .bil,
-.reveal .reading-scroll .fragment.current-fragment {
+.reveal .reading-scroll .bil.rs-current {
   opacity: 1; background: color-mix(in srgb, var(--accent, #0087ff) 10%, transparent); border-left-color: var(--accent, #0087ff);
 }
 .reveal .reading-scroll .bil-en, .reveal .reading-scroll .bil-zh { display: block; }
+.reveal .reading-scroll .bil-zh { font-size: 0.8em; color: var(--ink-muted, #52606d); margin-top: 0.1em; }
+.reveal .reading-scroll .vocab-term > .vocab-card { display: none !important; }   /* shown above the box instead */
+.reveal .rs-pop { display: block; position: absolute; z-index: 200; }
 .reveal .reading-scroll .bil-zh { font-size: 0.8em; color: var(--ink-muted, #52606d); margin-top: 0.1em; }
 
 /* A table that fills the slide: ::: big-table  (a Markdown table)  ::: */
 .reveal .big-table table { width: 100%; font-size: 1em; margin-top: 0.3em; }
 .reveal .big-table :is(th, td) { padding: 0.55em 0.8em; vertical-align: middle; }
 .reveal .big-table th { font-size: 0.85em; }
+
+/* The project calendar's today and past days: ::: {.day .research .today}  ::: {.day .launch .past} */
+.reveal .pbl-cal .day.past { opacity: 0.5; filter: grayscale(0.7); }
+.reveal .pbl-cal .day.today {
+  position: relative; border-width: 2px; border-color: var(--stage); border-top-width: 7px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--stage) 30%, transparent), 0 8px 18px rgba(16, 35, 63, 0.18);
+  transform: translateY(-3px);
+}
+.reveal .pbl-cal .day.today::after {
+  content: "Today · 今天"; position: absolute; top: -0.95em; right: 0.6em; padding: 0.1em 0.6em; border-radius: 999px;
+  background: var(--stage); color: #fff; font-size: 0.8em; font-weight: 700;
+}
+
+/* The lesson intro without a Do now: content (wider, with a preview picture) and language side by side */
+.reveal .intro-grid.no-donow { grid-template-columns: 58fr 42fr; grid-template-rows: 1fr; }
+.reveal .intro-grid.no-donow > .area.content { grid-column: 1; grid-row: 1; }
+.reveal .intro-grid.no-donow > .area.language { grid-column: 2; grid-row: 1; overflow: hidden; }
+.reveal .intro-grid .area img.preview, .reveal .intro-grid .area p:has(> img.preview) img {
+  display: block; width: 100%; max-width: none; height: 215px; object-fit: cover; margin: 0.3em 0 0.2em; border-radius: 8px;
+}
+.reveal .intro-grid .area p:has(> img.preview) { margin: 0; width: 100%; }
+.reveal .intro-grid.no-donow .area.content .lesson-info { font-size: 1.12em; }
+.reveal .intro-grid.no-donow .area.language .obj { font-size: 1.1em; margin: 0.5em 0 0.2em; }
+.reveal .intro-grid.no-donow .vocab-gallery { max-width: 100%; --vg-min: 3.4em; }
+.reveal .intro-grid.no-donow .area.language .frame { font-size: 1.1em; margin-top: 0.4em; }
+
+/* A picture that fills the whole screen, top to bottom: ::: {.cover .media .bleed} */
+.reveal .slides section:has(> .cover.bleed) { padding: 0 !important; }
+.reveal .cover.media.bleed { position: absolute; inset: -20px 0 -10px; padding: 0; }
+.reveal .cover.media.bleed img { width: 100%; height: 100%; max-height: none; object-fit: contain; }
+
+/* Group roles: a drawing on top, the role and its job, the number in the bottom right corner */
+.reveal .tiles.roles > .role-card { position: relative; padding-bottom: 2.2em; }
+.reveal .tiles.roles > .role-card > p:first-child img { width: 100%; height: auto; max-height: 112px; object-fit: contain; margin: 0 0 0.1em; }
+.reveal .tiles.roles { font-size: 0.9em; }
+.reveal .jigsaw-steps .box > div:has(> .countdown), .reveal .jigsaw-steps .box > div[style*="0.42em"] { font-size: 0.36em !important; }
+.reveal .tiles.roles > .role-card > p:has(> .num) { position: absolute; right: 0.5em; bottom: 0.45em; margin: 0; }
+
+/* Jigsaw steps: the group pictures fill the box's width */
+.reveal .jigsaw-steps .box > p:first-child > img:only-child { width: 100%; object-fit: contain; }
+.reveal .jigsaw-steps .jigsaw-timer { align-items: center; padding: 0.3em 0.6em; }
+.reveal .jigsaw-steps .jigsaw-timer > div, .reveal .jigsaw-steps .jigsaw-timer > p:has(.countdown) { font-size: 0.4em; }
+.reveal .jigsaw-steps .jigsaw-timer .kicker { margin: 0; }
+
+/* A video that will fill a wide column (16:9), still a placeholder */
+.reveal .placeholder.video-slot { aspect-ratio: 16 / 9; width: 100%; box-sizing: border-box; margin-top: 0.2em; }
+.reveal .gallery-slot { margin-top: 0.5em; font-size: 0.8em; }
+.reveal .gallery-slot > p:first-child { margin: 0 0 0.2em; }
+
+/* Stations: the list beside the map, each number in its station's colour; a small timer */
+.reveal .station-list { display: flex; flex-direction: column; gap: 0.7em; margin-top: 0.4em; }
+.reveal .station-list .row { flex-wrap: nowrap; align-items: center; }
+.reveal .station-list .st1 .num { background: #0087ff; }
+.reveal .station-list .st2 .num { background: #ff8c0f; color: #10233f; }
+.reveal .station-list .st3 .num { background: #14b8a6; }
+.reveal .station-list .st4 .num { background: #7a5af8; }
+.reveal .station-timer { margin-top: 0.9em !important; padding: 0.3em 0.8em; font-size: 0.3em; align-items: center; width: 62%; }
+.reveal .station-timer .kicker { margin: 0; }
+
+/* A checklist where a ticked line is crossed out: ::: {.box .cross-off} with - [ ] items */
+.reveal .cross-off ul.task-list { list-style: none; padding-left: 0; margin-left: 0; }
+.reveal .cross-off ul.task-list li { padding: 0; margin: 0.3em 0; }
+.reveal .cross-off ul.task-list li label { display: block; position: relative; padding-left: 1.5em; cursor: pointer; transition: opacity 0.2s; }
+.reveal .cross-off ul.task-list li input[type=checkbox] {
+  font-size: inherit; position: absolute; left: 0; top: 0.2em; width: 1em !important; height: 1em !important; min-width: 1em; margin: 0 !important; cursor: pointer; accent-color: var(--accent, #0087ff);
+}
+.reveal .cross-off ul.task-list li label:has(input:checked) {
+  text-decoration: line-through; text-decoration-thickness: 3px; text-decoration-color: var(--hot, #ff8c0f); opacity: 0.55;
+}
+
+/* An activity in the middle of the slide (not stuck at the top with space below): ::::: act-center */
+.reveal .act-center { min-height: 540px; display: flex; flex-direction: column; justify-content: center; }
+.reveal .act-center .li-img { width: 520px; max-width: 520px; height: auto; max-height: 460px; }
+.reveal .act-center .cg-sort-chip.cg-has-pic img { width: 116px; height: 90px; }
+.reveal .act-center .cg-sort-chip.cg-has-pic span { max-width: 116px; }
+.reveal .act-center .cg-sort-pictures .cg-sort-col { min-height: 230px; }
+
+/* Low on the screen, so every student can reach it: ::::: at-bottom */
+.reveal .at-bottom { position: absolute; left: 0; right: 0; bottom: 34px; }
+
+/* A packet page, shown as paper: ::: {.column .packet-page} with the page's picture */
+.reveal .slides .columns > .column.packet-page > p > img {
+  width: 100%; max-height: 545px; object-fit: contain; object-position: top; margin: 0;
+  border: 1px solid #d6dee8; box-shadow: 0 10px 28px rgba(16, 35, 63, 0.22); transform: rotate(-1.2deg); background: #fff;
+}
+
+/* Homework and next time: the top of the packet page, faded out; a photo */
+.reveal .homework { height: 100%; box-sizing: border-box; }
+.reveal .homework img.page-peek {
+  display: block; width: 100%; height: 215px; object-fit: cover; object-position: top; margin: 0.4em 0 0;
+  border: 1px solid #d6dee8; border-radius: 6px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); mask-image: linear-gradient(to bottom, #000 70%, transparent);
+}
+.reveal .homework img.next-photo { display: block; width: 100%; height: 330px; object-fit: cover; object-position: 50% 30%; margin: 0.4em 0 0; border-radius: 8px; }
+.reveal .homework > p:has(> img) { margin: 0; }

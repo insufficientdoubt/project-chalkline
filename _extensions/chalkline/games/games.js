@@ -437,7 +437,8 @@
       i = -1; marks = [];
       stop();
       stage.textContent = "";
-      stage.style.background = "linear-gradient(135deg, #003477, #0087ff)";
+      stage.style.setProperty("--cg-back-a", "#003477"); stage.style.setProperty("--cg-back-b", "#0087ff");
+      stage.classList.add("cg-quiz-cover");
       stage.append(h("div", { class: "cg-quiz-title", text: cfg.title || "Quick-fire!" }),
         h("div", { class: "cg-quiz-sub", text: qs.length + " questions" + (cfg.seconds ? " · " + cfg.seconds + " seconds each" : "") }),
         h("div", { class: "cg-tools" }, button("Start ▶", next, "cg-big")));
@@ -466,7 +467,9 @@
         stop(); show.hidden = true; answer.hidden = false; marking.hidden = false;
       }, "cg-big");
       stage.textContent = "";
-      stage.style.background = "linear-gradient(135deg, " + back[0] + ", " + back[1] + ")";
+      // the colours go in as variables: on slides, games.css mixes them with the slide's colour scheme
+      stage.style.setProperty("--cg-back-a", back[0]); stage.style.setProperty("--cg-back-b", back[1]);
+      stage.classList.remove("cg-quiz-cover");
       stage.append(h("div", { class: "cg-quiz-num", text: "Question " + (i + 1) + " of " + qs.length }),
         q.image ? h("img", { class: "cg-quiz-img", src: q.image, alt: "" }) : "",
         h("div", { class: "cg-quiz-q", text: q.q }),

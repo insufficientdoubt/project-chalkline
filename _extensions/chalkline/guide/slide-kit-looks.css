@@ -34,7 +34,7 @@
 /* trail: this deck's own colour scheme, for fun, after a handbag catalogue's "循迹" pages: cream paper,
    suede and saddle leather, white stitching, olive line drawings (zigzag "tiger teeth", angled
    connectors, a stitched circle) and turquoise beads. Pick it with Trail in the palette, or {.scheme-trail}. */
-.reveal .scheme-trail {
+:is(.reveal.scheme-trail, .reveal .scheme-trail) {
   --paper: #f3eee6;
   --paper-image: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 1280 720%27 preserveAspectRatio=%27xMidYMid slice%27%3E %3Cg fill=%27none%27 stroke=%27%238a7d4f%27 stroke-width=%272.2%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 opacity=%27.55%27%3E %3Cpath d=%27M1046 96 l14 -9 l14 9 l14 -9 l14 9 l14 -9 l14 9 l16 0%27/%3E %3Cpath d=%27M1030 132 h18 l12 10 l12 -10 l12 10 l12 -10 h40%27/%3E %3Cpath d=%27M1030 166 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 h30%27/%3E %3Cpath d=%27M1066 202 h34 l14 14 l14 -14 h20 l14 14 l14 -14 h40%27/%3E %3Cpath d=%27M34 618 h40 l12 -12 l12 12 h26%27/%3E %3Cpath d=%27M60 650 l10 -7 l10 7 l10 -7 l10 7 l10 -7 l10 7%27/%3E %3Ccircle cx=%271214%27 cy=%27640%27 r=%2730%27 stroke-dasharray=%275 6%27/%3E %3Ccircle cx=%271214%27 cy=%27640%27 r=%276%27/%3E %3Cpath d=%27M1150 690 h40 l10 -10 h28%27/%3E %3C/g%3E %3Cg transform=%27rotate(-24 952 92)%27%3E %3Cellipse cx=%27952%27 cy=%2792%27 rx=%2734%27 ry=%2715%27 fill=%27%233aa8a0%27 opacity=%27.75%27 stroke=%27%238a7d4f%27 stroke-width=%272%27/%3E %3Cpath d=%27M926 92 l8 -6 l8 6 l8 -6 l8 6 l8 -6 l8 6%27 fill=%27none%27 stroke=%27%23f3eee6%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E %3C/g%3E %3Cg transform=%27rotate(62 1002 132)%27%3E %3Cellipse cx=%271002%27 cy=%27132%27 rx=%2722%27 ry=%2711%27 fill=%27%233aa8a0%27 opacity=%27.75%27 stroke=%27%238a7d4f%27 stroke-width=%272%27/%3E %3Cpath d=%27M986 132 l6 -5 l6 5 l6 -5 l6 5%27 fill=%27none%27 stroke=%27%23f3eee6%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E %3C/g%3E %3C/svg%3E");
   --paper-size: cover;
@@ -46,17 +46,17 @@
   --radius: 6px;
   color: var(--ink);
 }
-.reveal .scheme-trail h2 { letter-spacing: 0.03em; }
-.reveal .scheme-trail h2 .bil-zh, .reveal .scheme-trail h2 [lang="zh"] { letter-spacing: 0.18em; }
-.reveal .scheme-trail h2::after { width: 120px; height: 14px; border-radius: 0; background: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 120 14%27%3E%3Cpath d=%27M2 10 l10 -7 l10 7 l10 -7 l10 7 l10 -7 l10 7 h56%27 fill=%27none%27 stroke=%27%238a7d4f%27 stroke-width=%272.4%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E") no-repeat left center / contain; }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) h2 { letter-spacing: 0.03em; }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) h2 .bil-zh, :is(.reveal.scheme-trail, .reveal .scheme-trail) h2 [lang="zh"] { letter-spacing: 0.18em; }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) h2::after { width: 120px; height: 14px; border-radius: 0; background: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 120 14%27%3E%3Cpath d=%27M2 10 l10 -7 l10 7 l10 -7 l10 7 l10 -7 l10 7 h56%27 fill=%27none%27 stroke=%27%238a7d4f%27 stroke-width=%272.4%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E") no-repeat left center / contain; }
 /* white stitching on suede and leather */
-.reveal .scheme-trail .box, .reveal .scheme-trail .strip, .reveal .scheme-trail .steps li { outline: 1.6px dashed rgba(255, 255, 255, 0.8); outline-offset: -7px; }
-.reveal .scheme-trail .box.plain { outline-color: rgba(75, 51, 36, 0.35); }
-.reveal .scheme-trail .tiles > .box.spot, .reveal .scheme-trail .spot { outline: 2px dashed var(--hot); outline-offset: -7px; box-shadow: 0 0 0 3px var(--hot); }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) .box, :is(.reveal.scheme-trail, .reveal .scheme-trail) .strip, :is(.reveal.scheme-trail, .reveal .scheme-trail) .steps li { outline: 1.6px dashed rgba(255, 255, 255, 0.8); outline-offset: -7px; }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) .box.plain { outline-color: rgba(75, 51, 36, 0.35); }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) .tiles > .box.spot, :is(.reveal.scheme-trail, .reveal .scheme-trail) .spot { outline: 2px dashed var(--hot); outline-offset: -7px; box-shadow: 0 0 0 3px var(--hot); }
 /* a stitched ring on each card, like the one on the bag */
-.reveal .scheme-trail .tiles > .box { position: relative; }
-.reveal .scheme-trail .tiles > .box::after { content: ""; position: absolute; right: 14px; bottom: 14px; width: 22px; height: 22px; border-radius: 50%; border: 1.6px dashed rgba(255, 255, 255, 0.85); }
-.reveal .scheme-trail .pill { border-radius: 4px; }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) .tiles > .box { position: relative; }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) .tiles > .box::after { content: ""; position: absolute; right: 14px; bottom: 14px; width: 22px; height: 22px; border-radius: 50%; border: 1.6px dashed rgba(255, 255, 255, 0.85); }
+:is(.reveal.scheme-trail, .reveal .scheme-trail) .pill { border-radius: 4px; }
 
 /* scroll: a mounted hanging scroll. Paper with fibres, a red frame with cloud-curl corners, a brush
    stroke under the title, a seal, and cards hung from wooden rods with round ends. */

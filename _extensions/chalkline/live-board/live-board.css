@@ -69,13 +69,14 @@
 .reveal .live-board.lb-full .lb-frame { border: 0; border-radius: 0; }
 .reveal .live-board.lb-full .lb-stage { border-radius: 0; }
 .reveal .live-board.lb-full .lb-bar {
-  position: absolute; right: 12px; bottom: 64px; z-index: 5; max-width: 46%;
-  flex-wrap: wrap; min-height: 0; padding: 6px; gap: 8px; font-size: 0.42em; opacity: 0.94;
+  position: absolute; right: 80px; bottom: 0; z-index: 5; max-width: 46%;   /* flush with the slide's bottom edge */
+  flex-wrap: wrap; min-height: 0; padding: 6px 34px 6px 6px; gap: 8px; font-size: 0.42em; opacity: 0.96;
+  border-bottom: 0; border-radius: var(--ui-r, 14px) var(--ui-r, 14px) 0 0;
 }
 .reveal .live-board.lb-full .lb-mini { width: 76px; height: 76px; }
 .reveal .live-board.lb-full .lb-join { flex: 1 1 10em; }
 .reveal .live-board.lb-full .lb-actions { flex: 1 1 100%; flex-wrap: wrap; }
-.reveal .live-board.lb-full .lb-field { position: absolute; right: 12px; bottom: 170px; z-index: 6; width: 46%; }
+.reveal .live-board.lb-full .lb-field { position: absolute; right: 80px; bottom: 112px; z-index: 6; width: 46%; }
 .reveal section.lb-full-slide > h2 {
   position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5; margin: 0; padding: 0.15em 0.5em;
   max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.75em; background: rgba(255, 255, 255, 0.92); border-radius: var(--ui-r, 14px);
@@ -92,5 +93,19 @@
 /* The QR code and link are already big in the middle: the corner card keeps only New room and Edit link */
 .reveal .live-board.lb-is-open .lb-mini, .reveal .live-board.lb-is-open .lb-join,
 .reveal .live-board.lb-is-open .lb-needs-link { display: none; }
-.reveal .live-board.lb-full.lb-is-open .lb-bar { bottom: 12px; }
+.reveal .live-board.lb-full.lb-is-open .lb-bar { bottom: 0; }
 .reveal .live-board.lb-full.lb-is-open .lb-bar:not(:has(.lb-btn:not(.lb-needs-link))) { display: none; }
+
+/* The fold button (top right of the corner card) and the folded card: a small "Join" tab */
+.reveal .live-board .lb-fold { display: none; }
+.reveal .live-board.lb-full .lb-fold {
+  display: inline-flex; align-items: center; gap: 4px; position: absolute; top: 4px; right: 4px;
+  min-width: 26px; height: 26px; padding: 0 4px; border: 0; border-radius: 8px; background: transparent;
+  color: var(--ui-muted, #5b6b80); font: 700 13px/1 "Source Sans 3", system-ui, sans-serif; cursor: pointer;
+}
+.reveal .live-board.lb-full .lb-fold:hover { background: var(--ui-soft, #eef3f8); color: var(--ui-ink, #10233f); }
+.reveal .live-board.lb-full .lb-fold svg { width: 20px; height: 20px; }
+.reveal .live-board.lb-full.lb-folded .lb-bar { padding: 0; gap: 0; }
+.reveal .live-board.lb-full.lb-folded .lb-bar > :not(.lb-fold) { display: none; }
+.reveal .live-board.lb-full.lb-folded .lb-fold { position: static; height: 34px; padding: 0 12px; font-size: 15px; color: var(--ui-ink, #10233f); }
+.reveal .live-board.lb-full.lb-is-open.lb-folded .lb-bar { display: flex; }
