@@ -145,9 +145,8 @@ A unit rebuilt from the templates, to show a real unit made the version 1 way: *
 
 - **The guide is a unit on the teacher site, copied in at build time** (see section 2, "How it ships"): no guide files in the teacher's repository; a setting turns it off and back on; turning it off hides the example slides, never the templates themselves.
 - **Teachers can add their own templates**, as their own content, listed in their own folder above Chalkline's.
-- **Design guidance:** the teacher writes the first draft, as a markdown file. A course's own copy overrides the one in the extension. It's guidance for people and AI assistants only: no automatic checks.
+- **Design guidance:** the teacher writes the first draft, as a markdown file. A course's own copy overrides the one in the extension. It's guidance for people and AI assistants only: no automatic checks. A course's copy **replaces** Chalkline's completely (simpler to understand); `chalkline.py` can copy the default in as a starting point.
 
 ## Open questions
 
-- **Design guidance:** does a course's copy replace Chalkline's completely (simpler), or add to it (keeps Chalkline's improvements)?
 - **A streamlined setup:** how exactly (see section 4).
