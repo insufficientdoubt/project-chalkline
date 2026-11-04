@@ -1,0 +1,26 @@
+<!--
+  TEMPORARY: a reference number on every slide, for editing the deck together ("3.4": phase 3, fourth
+  slide down; "0.1": the how-to slide). Remove it by deleting this file's line in the deck's labels
+  (include-after-body) and this file.
+-->
+<style>
+  .slide-ref { position: fixed; top: 8px; left: 8px; z-index: 40; padding: 3px 9px; border-radius: 8px;
+    background: #ffe14d; color: #1f2933; font: 700 18px/1.2 "Source Sans 3", system-ui, sans-serif; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+</style>
+<script>
+(function () {
+  function start() {
+    var badge = document.createElement("div");
+    badge.className = "slide-ref";
+    document.body.appendChild(badge);
+    function show() {
+      var i = Reveal.getIndices();
+      badge.textContent = i.h === 0 ? "Title" : (i.h - 1) + "." + ((i.v || 0) + 1);
+    }
+    Reveal.on("slidechanged", show);
+    show();
+  }
+  if (window.Reveal && Reveal.isReady && Reveal.isReady()) start();
+  else window.addEventListener("load", function () { if (Reveal.isReady()) start(); else Reveal.on("ready", start); });
+})();
+</script>
