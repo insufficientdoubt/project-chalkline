@@ -14,6 +14,11 @@ site with the guide, so keep them small and openly licensed.
 | `sevenstates.jpg` | Map: the Warring States of China, c. 260 BCE. | Philg88 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:EN-WarringStatesAll260BCE.jpg) |
 | `coins.jpg` | Warring States spade coins, Shanghai Museum. | Photo: Gary Lee Todd | CC0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Warring_States_Spade_Coins.jpg) |
 
+Pictures for the exemplar deck (`../exemplar-slides.qmd`), copied from the sample's Unit 5 (*Turning and Angles*): the
+angle drawings `MTH-001.svg`, `MTH-007.svg` to `MTH-011.svg`, the clock faces `clock-*.svg` and `title-angles.svg`. All
+are original drawings made for Chalkline (no outside source, no license needed). So is the angle explorer,
+`../embeds/turning-angle.html`.
+
 Original drawings, made for Chalkline (no outside source, no license needed): `tps-knee.svg`, `tps-face.svg` and
 `tps-class.svg` (where students sit for Think-Pair-Share), the drum kit sprites in `drums/` (after a teacher's own
 ScratchJr slides), the jigsaw group diagrams (`jigsaw-home.svg`, `jigsaw-expert.svg`) and the Lesson summary diagram

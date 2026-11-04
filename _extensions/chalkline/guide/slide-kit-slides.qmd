@@ -2,7 +2,7 @@
 title: "Slide kit: templates"
 type: slides
 description: "Ready-to-copy classroom slides (lesson intro, Think-Pair-Share, jigsaw, exit ticket...) built from a few plain pieces and bilingual text, then the same slides in other looks and colour schemes. Each slide's speaker notes name its pieces."
-order: 1
+order: 2
 audience: [teacher]
 format:
   revealjs:

@@ -1,0 +1,52 @@
+---
+title: "Angle Hunt 找角"
+type: worksheet
+description: "The exemplar lesson's main task: find, draw and name five angles, then compare one with a right angle. Its PDF shows in the exemplar deck's work gallery."
+order: 3
+audience: [teacher]
+doc-type: Worksheet
+name-box: true
+format:
+  html: default
+  typst: default
+---
+
+Find 5 angles in the room. Draw each one and mark the vertex. Then name it.
+
+## 1. Draw and name
+
+**Angle 1.** I found it: {{< blank 2in >}} Its name: {{< blank 1.4in >}}
+
+{{< drawing-box height="0.9in" >}}
+
+**Angle 2.** I found it: {{< blank 2in >}} Its name: {{< blank 1.4in >}}
+
+{{< drawing-box height="0.9in" >}}
+
+**Angle 3.** I found it: {{< blank 2in >}} Its name: {{< blank 1.4in >}}
+
+{{< drawing-box height="0.9in" >}}
+
+**Angle 4.** I found it: {{< blank 2in >}} Its name: {{< blank 1.4in >}}
+
+{{< drawing-box height="0.9in" >}}
+
+**Angle 5.** I found it: {{< blank 2in >}} Its name: {{< blank 1.4in >}}
+
+{{< drawing-box height="0.9in" >}}
+
+Names: acute · right · obtuse · straight · full
+
+## 2. Compare
+
+Choose one of your angles. Finish the sentence.
+
+*My angle is* {{< blank >}} *than a right angle, because* {{< blank 3in >}}.
+
+{{< lines 1 >}}
+
+::: {.content-visible when-profile="teacher"}
+::: {.callout-note title="Look for"}
+Each drawing has a dot for the vertex. The names match the drawings: compare each with a right angle (a folded paper corner). The sentence uses *bigger than* or *smaller than* with a reason.
+:::
+:::
