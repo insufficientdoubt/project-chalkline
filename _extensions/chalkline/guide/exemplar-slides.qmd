@@ -25,6 +25,9 @@ title-slide-attributes:
   data-background-opacity: "0.5"
 bilingual:
   primary: en
+filters:
+  - chalkline
+  - build-stamp.lua   # TEMPORARY, with slide-refs.html: which build this is (the PR number and the time)
 slide-scheme: trail   # this deck's colour scheme (slide-kit-looks.css); try others with the palette, top right
 ---
 

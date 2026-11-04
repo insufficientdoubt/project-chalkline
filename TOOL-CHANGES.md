@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: The exemplar deck's slide badge shows which build it is
+- **Asked for:** "Can you add the PR number to the slide ID tag so we can see when it's been updated? Like {1.8 v82}. Or is there a better way"
+- **Why:** to tell at a glance whether the published deck has the latest changes.
+- **Changed:** `_extensions/chalkline/guide/build-stamp.lua` (new, temporary): at render time, the pull request number from the merge commit's message (or the short commit ID) and the time, as a `<meta>` tag. `guide/slide-refs.html`: the badge reads it ("1.8 · #82 · 4 Nov 15:10", the time in the viewer's time zone). `guide/exemplar-slides.qmd`: `filters: [chalkline, build-stamp.lua]`.
+- **Who it helps:** this deck, while we edit it together; removed with the badge. The idea (a build stamp on published decks) might help any course that publishes with GitHub.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: Exemplar deck, round 2; vocab pop-up fix; text size; star survey; games and schemes
 - **Asked for:** a second list of corrections to the exemplar deck by slide number, plus: "there's a bug where the pop-up card appears over another vocab item, then trying to interact with the pop-up surfaces the other card instead"; "on a slide with only one picture the picture should fill available space"; the live board's "QR code / control panel should be flush with the bottom of the slide… also have a collapse toggle"; "Add a font size increment tool to the slide size tool"; for the self-check, "another version… interactive with clickable star ratings for 1-4 stars… a student can just tap the three of them and the whole thing will beep and then fade so the next kid can do it. Then it will graph the results"; "Make quickfire and jeopardy somewhat responsive to themes. Same for the sorting one."; "Make trail the default style for this deck. Give sky just the faintest suggestion of clouds. Lagoon the background is too strong. Make it more mild. And add a little bit of a light wave pattern in white tracery. Sunrise should also be a little bit of a gradient representing a sunrise. But very mild."
 - **Why:** not given (the deck as a model to copy from; the tools for everyday teaching).
