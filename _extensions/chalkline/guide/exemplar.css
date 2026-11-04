@@ -28,3 +28,6 @@
 .reveal .steps.stack ol { flex-direction: column; gap: 0.3em; }
 .reveal .steps.stack li { display: flex; align-items: center; gap: 0.6em; padding: 0.4em 0.7em; }
 .reveal .steps.stack li::before { margin: 0; flex: none; }
+
+/* Each column's top slide has a level-1 title (#): the same size as the other slides' titles (##) */
+.reveal .slides section:not(#title-slide) > h1 { font-size: var(--r-heading2-size, 1.6em); }

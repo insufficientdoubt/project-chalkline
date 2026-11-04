@@ -120,7 +120,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 # {#intro data-menu-title="1 · Lesson intro: intro + Do now"}
 
-:::: {.columns style="height: 600px"}
+:::: {.columns style="height: 590px; font-size: 0.72em"}
 ::: {.column width="57%"}
 ::: {.area .content label="Content objective · 内容目标"}
 ::: lesson-info
@@ -138,7 +138,7 @@ The content is only an example: copy a slide into your own deck and change its w
 ::: {.area .language label="Language objective · 语言目标"}
 [Vocab · 词汇]{.pill .tag}
 
-::: {style="width: 72%"}
+::: {style="font-size: 0.5em"}
 {{< vocab-gallery "angle, vertex, side, rotate" cols=4 >}}
 :::
 
