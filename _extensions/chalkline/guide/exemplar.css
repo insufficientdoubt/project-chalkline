@@ -1,0 +1,23 @@
+/* exemplar.css: the SIOP exemplar deck's own pieces (loaded by `css:` in the deck's labels, after
+   slide-kit-looks.css). Candidates for Chalkline itself once they're agreed (see V1-PLAN.md). */
+
+/* An interactive page in a frame, filling the slide under its title (the angle explorer) */
+.reveal .angle-frame {
+  display: block; width: 100%; height: 540px;
+  border: 1px solid var(--ui-line, #d6dee8); border-radius: 12px; background: #fff;
+}
+
+/* A placeholder for a picture or video still to find: says what it should show.
+   ::: placeholder
+   [Picture: a clock at 3:00, photo]
+   :::                                                                                     */
+.reveal .placeholder {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  min-height: 5em; padding: 0.6em 1em;
+  border: 3px dashed var(--ink-muted, #7b8794); border-radius: var(--radius, 12px);
+  color: var(--ink-muted, #52606d); font-style: italic; background: rgba(0, 52, 119, 0.03);
+}
+.reveal .cover .placeholder { flex: 1; }
+
+/* The phase label in each slide's footer: which column of the deck this slide is in */
+.reveal .footer .phase { font-weight: 700; color: var(--accent, #003477); }

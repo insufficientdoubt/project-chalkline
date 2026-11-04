@@ -1,7 +1,8 @@
 # The Chalkline guide
 
-The source of the "How to use Chalkline" unit on every course's teacher site: the slide templates (the Slide kit
-deck), their example pictures, and how to use them.
+The source of the "How to use Chalkline" unit on every course's teacher site: the exemplar lesson (`exemplar-slides.qmd`,
+a SIOP lesson as a 2D deck: phases across, options down), the Slide kit deck, their example pictures and worksheets,
+and how to use them.
 
 - **How it gets into a course:** `scripts/guide.py` (the first pre-render step) copies this folder into
   `course/guide/02-chalkline/` for the teacher site, and removes that copy for the student site or when the course
@@ -14,6 +15,7 @@ deck), their example pictures, and how to use them.
   Chalkline pieces or examples (see `V1-PLAN.md`).
 - **Pictures:** small, openly licensed, credited in `images/CREDITS.md` and on the deck's credits slide.
 - **No vocab words or sample units:** the guide must work in any course, so it can't rely on the sample's vocab list
-  or packets. It brings its own example handout (`example-handout.qmd`) for the work gallery.
+  or packets. It brings its own worksheets (`angle-hunt.qmd`, `example-handout.qmd`) for the work galleries. (Its vocab
+galleries still use this sample's words: in another course they're empty, a known gap.)
 - **The draw.io diagram:** after editing `drawio/summary.drawio`, run
   `python chalkline.py drawio _extensions/chalkline/guide/drawio/summary.drawio`.

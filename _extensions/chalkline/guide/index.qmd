@@ -16,7 +16,7 @@ listing:
   sort-ui: false
 ---
 
-Ready-made slides for common classroom activities, and examples of what Chalkline can do. Open a deck, find a slide you like, and copy its source into your own lesson. Each slide's speaker notes (press **S**) name the pieces it's made of.
+Start with the **Exemplar lesson**: one SIOP lesson as a 2D deck. Across, the seven phases of a lesson; down, other ways to run each phase, with a note on when to choose each one. The **Slide kit** has more templates, looks and colour schemes. Find a slide you like and copy its source into your own lesson. Each slide's speaker notes (press **S**) say when to use it and name the pieces it's made of.
 
 Your own templates are in **My templates**, above this section (`course/guide/01-my-templates/`).
 

@@ -16,6 +16,26 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-04: The exemplar lesson: a SIOP lesson as a 2D deck, first draft
+- **Asked for:** "Make the first draft of the exemplar deck and merge it into Main." From the outline agreed in Claude Docs: "a 2d reveal deck ... a couple of options for each phase of a lesson. Teachers shouldn't be blindly copying they should be making decisions according to their students and their content."
+- **Why:** step 2 of `V1-PLAN.md`: a solid SIOP pattern for a lesson, with the choices around it, as the main reference for teachers and AI assistants.
+- **Changed:**
+  - `_extensions/chalkline/guide/exemplar-slides.qmd` (new): one angles lesson (Grade 4, neutral content) in seven columns (Lesson intro, Building background, Input, Strategies, Interaction, Practice and application, Review and assessment). The top slide of each column is the default; the options below each have notes with "When to choose it", the SIOP features they serve, and their pieces. Every slide's footer names its phase. Interactive slides from Units 4 and 5 (angle explorer, sort, label it, put in order, polls, quick-fire, Jeopardy), the Slide kit's templates (lesson intro, Think-Pair-Share, jigsaw), and dashed placeholders for pictures and videos still to find.
+  - `guide/exemplar.css` (new): the angle explorer's frame, the `.placeholder` box, the phase label in the footer.
+  - `guide/angle-hunt.qmd` (new): the lesson's worksheet, shown in the work galleries.
+  - `guide/embeds/` and `guide/images/`: Unit 5's angle explorer and drawings, copied; `images/CREDITS.md` lists them.
+  - `guide/index.qmd`, `guide/README.md`: the exemplar comes first; the Slide kit is now second.
+- **Found:** not rendered yet (no Quarto where it was written). The vocab galleries use this sample's words, so they're empty in other courses (the known gap).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-04: The design guidance draft stays out of new courses
+- **Asked for:** "save this draft" (the design guidance, drafted in Claude Docs).
+- **Why:** it's a planning file for Chalkline, like `V1-PLAN.md`, not something a new course needs.
+- **Changed:** `.quartoignore`: `DESIGN-GUIDANCE-DRAFT.md` added to the planning files a new course leaves out.
+- **Who it helps:** this repository only.
+- **AI assistant:** Claude.
+
 ## 2026-11-04: The Chalkline guide: templates on the teacher site, copied in at build time
 - **Asked for:** "The guide files including the templates should appear as a unit on the rendered teacher's site, with a simple note about how to disable them. But none of those files should appear in the teachers repository. So copied at build time if the flag is set." Teachers can add their own templates, "listed in another folder above chalklines". Turning the guide off "just not rendering them", and it hides the example slides, not the templates: "if the template is used in the teacher's course then of course it still works."
 - **Why:** step 2 of `V1-PLAN.md`: every course gets Chalkline's templates as a reference that updates with Chalkline, without template files the teacher didn't write in their course.

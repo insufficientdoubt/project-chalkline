@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- **The exemplar lesson** (2026-11-04, first draft): `guide/exemplar-slides.qmd`, a SIOP lesson on angles as a 2D deck
+  (seven phases across, options down, each with a note on when to choose it), with its worksheet `guide/angle-hunt.qmd`.
+  Shown first in the teacher site's "How to use Chalkline".
 - **The Chalkline guide: "How to use Chalkline" on the teacher site** (2026-11-04). Chalkline's slide templates
   (the Slide kit deck, with an example handout) live in the extension's `guide/` folder and update with Chalkline.
   `scripts/guide.py`, the first pre-render step, copies them into `course/guide/02-chalkline/` for the teacher site
