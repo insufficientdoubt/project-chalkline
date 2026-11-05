@@ -106,6 +106,27 @@
   .say:hover { border-color: var(--accent); }
   .zh .say { font-size: 0.75em; }
   .no-speech .say { display: none; }
+  /* Language: points beyond vocabulary (../data/frames.csv) */
+  nav a.lang-top { margin-top: 10px; border-top: 1px solid var(--line); border-radius: 0 0 6px 6px; padding-top: 9px; font-weight: 600; }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+  .filters a { padding: 3px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--text);
+               text-decoration: none; font-size: 13px; }
+  .filters a.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .lang-kind { margin: 18px 0 8px; font-size: 13px; font-weight: 700; color: var(--ref-head); text-transform: uppercase; letter-spacing: .05em; }
+  .lang-kind .zh-text { text-transform: none; letter-spacing: 0; margin-left: 4px; }
+  .lang-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; }
+  .lp { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 10px 12px; }
+  .lp.k-grammar { border-left-color: var(--ref-head); }
+  .lp .en { font-size: 17px; font-weight: 600; }
+  .lp.k-grammar .en, .lp.k-question .en { font-weight: 800; }
+  .lp .zh { color: var(--muted); margin-top: 2px; }
+  .lp .gap { display: inline-block; min-width: 2.6em; margin: 0 2px; border-bottom: 2px solid currentColor; }
+  .lp ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 5px; }
+  .lp li { background: var(--chip); border-radius: 6px; padding: 4px 8px 4px 24px; position: relative; }
+  .lp li::before { content: "→"; position: absolute; left: 8px; color: var(--accent); font-weight: 700; }
+  .lp .ex { margin-top: 6px; color: var(--muted); font-style: italic; font-size: 14px; }
+  .lp .meta { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .lp .meta .chip { font-size: 12px; }
 </style>
 <!-- Colors and fonts from brand/_brand.yml (brand.css, made by Chalkline's scripts/vocab_app.py, which also copies this
      app into the course's vocab/app/ and fills in the logo, when the site builds). -->
@@ -115,7 +136,7 @@
 <header>
   <a class="back" href="../../index.html">← Course site</a>
   <a class="home" href="#"><img src="CHALKLINE_LOGO" alt=""><h1>Vocab</h1></a>
-  <input type="search" id="q" placeholder="Search English, 中文, definitions…">
+  <input type="search" id="q" placeholder="Search words, language, 中文, definitions…">
   <label><input type="checkbox" id="zh" checked> 中文</label>
 </header>
 <div class="layout">
@@ -126,7 +147,7 @@
 <script src="../config.js"></script>
 <script>
 // Where the data lives, relative to this page (app/ sits next to data/ and images/).
-const DATA = "../data/vocab.csv", IMAGES = "../images/";
+const DATA = "../data/vocab.csv", IMAGES = "../images/", FRAMES = "../data/frames.csv";
 
 // The course's own settings (title, topic names, quick references) live in ../config.js.
 const CFG = window.VOCAB_CONFIG || {};
@@ -138,7 +159,7 @@ const subZh = (d, s) => (CFG.subdomainZhByDomain || {})[d + "/" + s] || SUB_ZH[s
 if (CFG.title) { document.title = CFG.title; document.querySelector("header h1").textContent = CFG.title; }
 
 
-let rows = [], byId = {}, ver = "";
+let rows = [], byId = {}, ver = "", frames = [];   // frames: the language points, if the course has any
 
 // Minimal RFC 4180 CSV parser (quoted fields, "" escapes, newlines in quotes).
 function parseCSV(text) {
@@ -224,7 +245,56 @@ function buildNav(active) {
       html += `<a href="#${d}/${s}" class="sub ${active === d + "/" + s ? "active" : ""}"><span>${esc(titleSub(s))}<span class="sub-zh zh-text">${esc(subZh(d, s))}</span></span> <span class="count">${items.length}</span></a>`;
     html += `</div>`;
   }
+  if (frames.length) {
+    const k = (active || "").startsWith("lang") ? active : null;
+    html += `<a href="#lang" class="lang-top ${k ? "active" : ""}"><span>Language<span class="sub-zh zh-text">语言点</span></span> <span class="count">${frames.length}</span></a>`;
+    if (k) {
+      html += `<div class="subs">`;
+      for (const [kind, en, zh] of KINDS) {
+        const n = frames.filter(f => kindOf(f) === kind).length;
+        if (n) html += `<a href="#lang/${kind}" class="sub ${active === "lang/" + kind ? "active" : ""}"><span>${en}<span class="sub-zh zh-text">${zh}</span></span> <span class="count">${n}</span></a>`;
+      }
+      html += `</div>`;
+    }
+  }
   document.getElementById("nav").innerHTML = html;
+}
+
+// ---- Language: grammar, phrases, sentence frames and questions (../data/frames.csv) ----------
+const KINDS = [["grammar", "Grammar", "语法"], ["phrase", "Phrases", "短语"], ["frame", "Sentence frames", "句型"], ["question", "Questions", "问答"]];
+const kindOf = f => f.kind === "stem" ? "frame" : f.kind;
+const gaps = s => esc(s).replace(/_+|……|…/g, '<span class="gap"></span>');
+const spoken = s => (s || "").replace(/_+|……|…/g, " … ");
+const unitsOf = f => list(f.units).map(Number).filter(Boolean);
+function lpCard(f) {
+  const ans = list(f.answer_en), ansZh = list(f.answer_zh);
+  const ex = f.kind === "grammar" ? list(f.example).join(" · ") : f.example;
+  const u = unitsOf(f);
+  return `<div class="lp k-${kindOf(f)}">
+    <div class="en">${gaps(f.en)} ${sayBtn(spoken(f.en), "en-US", "Say it in English")}</div>
+    ${f.zh ? `<div class="zh zh-text">${gaps(f.zh)}</div>` : ""}
+    ${ans.length ? `<ul>${ans.map((a, i) => `<li>${gaps(a)} ${sayBtn(spoken(a), "en-US", "Say it in English")}${ansZh[i] ? `<div class="zh zh-text">${gaps(ansZh[i])}</div>` : ""}</li>`).join("")}</ul>` : ""}
+    ${ex ? `<div class="ex">${esc(ex)}</div>` : ""}
+    <div class="meta"><span class="chip">${u.length ? u.map(n => "Unit " + n).join(", ") : "All year · 全年"}</span>${f.function ? `<span class="chip">${esc(f.function)}</span>` : ""}</div>
+  </div>`;
+}
+function showLanguage(kind, unit, items, title) {
+  const allUnits = [...new Set(frames.flatMap(unitsOf))].sort((a, b) => a - b);
+  const base = kind ? "#lang/" + kind : "#lang";
+  const chips = items ? "" : `<div class="filters">` +
+    [["", "All"], ["year", "All year · 全年"]].concat(allUnits.map(n => [String(n), "Unit " + n]))
+      .map(([v, label]) => `<a href="${base}${v ? "?unit=" + v : ""}" class="${(unit || "") === v ? "on" : ""}">${label}</a>`).join("") + `</div>`;
+  let list_ = items || frames.filter(f => (!kind || kindOf(f) === kind) &&
+    (!unit || (unit === "year" ? !unitsOf(f).length : unitsOf(f).includes(Number(unit)))));
+  let html = `<h2>${esc(title || "Language · 语言点")} <span class="count" style="color:var(--muted);font-weight:400">${list_.length}</span></h2>${chips}`;
+  for (const [k, en, zh] of KINDS) {
+    const these = list_.filter(f => kindOf(f) === k);
+    if (!these.length) continue;
+    if (!kind) html += `<div class="lang-kind">${en}<span class="zh-text">${zh}</span></div>`;
+    html += `<div class="lang-list">${these.map(lpCard).join("")}</div>`;
+  }
+  if (!list_.length) html += `<p style="color:var(--muted)">Nothing here yet.</p>`;
+  return html;
 }
 
 function showGrid(title, items) {
@@ -304,7 +374,17 @@ function route() {
     buildNav(null);
     const hits = rows.filter(r => [r.term_en, r.aka, r.zh, r.short_def, r.explanation, r.tags]
       .some(v => v.toLowerCase().includes(q)));
-    return showGrid(`Search: “${q}”`, hits);
+    showGrid(`Search: “${q}”`, hits);
+    const langHits = frames.filter(f => [f.en, f.zh, f.answer_en, f.answer_zh, f.example].some(v => (v || "").toLowerCase().includes(q)));
+    if (langHits.length) document.getElementById("main").insertAdjacentHTML("beforeend", `<div style="margin-top:24px">${showLanguage(null, null, langHits, "Language · 语言点")}</div>`);
+    return;
+  }
+  if (h.startsWith("lang")) {
+    const [path, qs] = h.split("?");
+    const kind = path.split("/")[1] || null, unit = new URLSearchParams(qs || "").get("unit");
+    buildNav(path);
+    document.getElementById("main").innerHTML = showLanguage(kind, unit, null, kind ? (KINDS.find(k => k[0] === kind) || [0, kind])[1] : null);
+    return;
   }
   if (h.startsWith("id=") && byId[h.slice(3)]) { const r = byId[h.slice(3)]; buildNav(`${r.domain}/${r.subdomain}`); return showDetail(r); }
   buildNav(h);
@@ -330,7 +410,10 @@ fetch(DATA, { cache: "no-cache" }).then(r => {
     const lm = r.headers.get("last-modified");
     if (lm) ver = "?v=" + Date.parse(lm);
     return r.text(); })
-  .then(t => { rows = parseCSV(t); byId = Object.fromEntries(rows.map(r => [r.id, r])); route(); })
+  .then(t => { rows = parseCSV(t); byId = Object.fromEntries(rows.map(r => [r.id, r]));
+    // the language points: optional (a course without frames.csv just has no Language section)
+    return fetch(FRAMES, { cache: "no-cache" }).then(r => r.ok ? r.text() : "").catch(() => "")
+      .then(ft => { frames = ft ? parseCSV(ft).filter(f => f.id && f.en) : []; route(); }); })
   .catch(e => { document.getElementById("main").innerHTML =
     `<div class="error">Couldn't load the vocab list (${esc(e.message)}).<br>Open this page through a web server, not as a file — e.g. run <code>python3 -m http.server</code> in the repo folder and go to <code>http://localhost:8000/app/</code>.</div>`; });
 </script>

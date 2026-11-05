@@ -16,6 +16,17 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Language points in the Vocab sidebar and the vocab app
+- **Asked for:** making the language points accessible: "Either a new tool or a modification to the vocabulary tool?" Then: "Yes, do both, starting with the sidebar tab" (a Language tab in the Vocab sidebar, and a Language section in the vocab app).
+- **Why:** frames and grammar at hand during a lesson, and one place to see them all.
+- **Changed:**
+  - `_extensions/chalkline/filter.lua`: the deck's course data also carries the language points (`generated/frames.json`).
+  - `_extensions/chalkline/toolbox/tools/vocab.js`: a **Words | Language** switch (remembered); Language lists the unit's points by kind (grammar, phrases, sentence frames, questions), then the all-year ones; tap one for its card (the sentence with write-on gaps, 中文, its answers or examples, read-aloud buttons); search finds language in every unit.
+  - `_extensions/chalkline/vocab-app/index.html`: a **Language** section (in the menu, with one entry per kind): cards grouped by kind with 中文, answers, examples, the unit and function; filters for All, All year and each unit; the app's search also finds language points. Reads `vocab/data/frames.csv` if the course has one.
+  - `vocab/README.md`: says where they show.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Language points beyond vocab: frames.csv and {{< frames >}}
 - **Asked for:** a sentence frames tool "pretty flexible. It should cover phrases, patterns, and question response format pairs. And like vocabulary we should be able to insert these into packets, and have an overall list somewhere accessible. How can we store the data without making it overly complicated", then (after looking at SIOP and School 21) the simplest version: one file, with grammar points in it too. "Make sure that the lua short code has a smart default for how to display the different types … And make sure that we can choose specific items, not just dump the entire unit. Although dumping the entire unit is also useful."
 - **Why:** frames were written by hand on each slide; a lesson reviews a few of a unit's language points.
