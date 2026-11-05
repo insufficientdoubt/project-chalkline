@@ -536,7 +536,7 @@ Media. The picture is in the slide, not behind it, inside a `.cover .media` bloc
 
 [What is the problem? | 问题是什么？]{.bi .small style="width: 9em"}
 
-[The main problem is [ ]{.gap}. | 我们时代最大的困境是[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-039" >}}
 :::
 :::
 
@@ -546,7 +546,7 @@ Media. The picture is in the slide, not behind it, inside a `.cover .media` bloc
 
 [What is the solution? | 解决方案是什么？]{.bi .small style="width: 9em"}
 
-[Our school believes the best way is [ ]{.gap}. | 我们学派认为最好的办法是[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-040" >}}
 :::
 :::
 
@@ -556,7 +556,7 @@ Media. The picture is in the slide, not behind it, inside a `.cover .media` bloc
 
 [Why does it work? | 为什么这样做？]{.bi .small style="width: 9em"}
 
-[This idea works because [ ]{.gap}. | 这样做的原因是[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-041" >}}
 :::
 :::
 
@@ -566,13 +566,13 @@ Media. The picture is in the slide, not behind it, inside a `.cover .media` bloc
 
 [What will happen? | 期望结果是什么？]{.bi .small style="width: 9em"}
 
-[If rulers follow our idea, [ ]{.gap} will happen. | 如果君主采纳我们的思想，[ ]{.gap}将会发生。]{.bi}
+{{< frame "GD-FRM-042" >}}
 :::
 :::
 :::
 
 ::: notes
-Sentence frames. Pieces: `.tiles` with one column (`style="--cols: 1"`), each frame a `.box .plain` holding a `.row`: a `.num`, the question (`.small`) and the frame, with `[ ]{.gap}` for each blank.
+Sentence frames. Pieces: `.tiles` with one column (`style="--cols: 1"`), each frame a `.box .plain` holding a `.row`: a `.num`, the question (`.small`) and the frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 :::
 
 ## {#lesson-intro data-menu-title="Do now · 课前任务"}
@@ -599,7 +599,7 @@ Sentence frames. Pieces: `.tiles` with one column (`style="--cols: 1"`), each fr
 
 [Sentence frames · 句型]{.pill .tag}
 
-[The [ ]{.gap} school said rulers should [ ]{.gap}. | [ ]{.gap}学派认为统治者应该[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-043" >}}
 :::
 :::
 ::: {.column width="43%"}
@@ -626,7 +626,7 @@ Sentence frames. Pieces: `.tiles` with one column (`style="--cols: 1"`), each fr
 ```
 
 ::: notes
-Lesson intro and Do now, on one slide. Pieces: no slide title (`## {#lesson-intro data-menu-title="Do now"}`: the menu (☰) still lists it by that name), so the Do now runs the slide's full height; the subject, grade and today's date are the first row of the content table, in its colour (the date is filled in when the slide opens: `[today]{.today}` and a few lines of script on the slide); two `.area` blocks, each labelled in its corner (`label="Content objective"`, `label="Language objective"`) so observers find them at once: the content area holds an ordinary Markdown table for topic, objective and homework, in a `.lesson-info` block that right-aligns the labels against a line; the language area holds two `.pill` tags, Vocab and Sentence frames, each followed by its content: `{{</* vocab-gallery "philosopher, empire, artifact, evidence" */>}}` for the words (pictures and words in a grid; click one for its full card with 中文; Cards | Table switches to a table); and a sentence frame with `[ ]{.gap}` for the blanks (all in `slide-kit-looks.css`); an `.area` for the Do now, labelled like the objectives and as tall as the slide, with `{{</* timer 5 */>}}` pushed to its bottom with `.end`.
+Lesson intro and Do now, on one slide. Pieces: no slide title (`## {#lesson-intro data-menu-title="Do now"}`: the menu (☰) still lists it by that name), so the Do now runs the slide's full height; the subject, grade and today's date are the first row of the content table, in its colour (the date is filled in when the slide opens: `[today]{.today}` and a few lines of script on the slide); two `.area` blocks, each labelled in its corner (`label="Content objective"`, `label="Language objective"`) so observers find them at once: the content area holds an ordinary Markdown table for topic, objective and homework, in a `.lesson-info` block that right-aligns the labels against a line; the language area holds two `.pill` tags, Vocab and Sentence frames, each followed by its content: `{{</* vocab-gallery "philosopher, empire, artifact, evidence" */>}}` for the words (pictures and words in a grid; click one for its full card with 中文; Cards | Table switches to a table); and a sentence frame from the language list, `{{</* frame "FRM-…" */>}}` (its 中文 under it, blanks to write on); an `.area` for the Do now, labelled like the objectives and as tall as the slide, with `{{</* timer 5 */>}}` pushed to its bottom with `.end`.
 :::
 
 ## Make a museum card {#instructions}

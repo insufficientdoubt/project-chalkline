@@ -33,7 +33,9 @@ what each one becomes in each output format (slides, web page, PDF, Word).
                                          function= filter. 中文 under each line on slides; in PDF/Word
                                          with zh=true (not on quizzes). Questions are formats, shown with
                                          a worked example (examples=false hides it). answers=false, labels=false,
-                                         group=false (in the order written). {{< frame "FRM-014" >}}: one.
+                                         group=false (in the order written).
+  {{< frame "FRM-014" >}}                one frame, in the line, in the plain frame look (in a box,
+                                         a grid, a table); its 中文 under it (zh=true in PDFs).
 
   {{< snowman >}}                        slide games (slides only). A random word from the vocab
   {{< picture-reveal >}}                 list, with 🔀 for a new one; unit=1 for one unit's words;
@@ -196,6 +198,52 @@ local function load_frames()
     table.insert(frames_list, t)
     frames_index[t.id:upper()] = t
   end
+end
+
+-- {{< frame "FRM-014" >}}: one point, in the line, in the plain sentence-frame look ([…]{.bi .frame}):
+-- the English with write-on gaps, its 中文 under it (the language switch hides it). For a frame inside a
+-- box, a grid or a table, where {{< frames >}}' own strips and labels would be too much. In PDFs and Word
+-- the 中文 only with zh=true. A question shows only its question (its answers: {{< frames >}}).
+local function frame_inline(args, kwargs)
+  load_frames()
+  local id = str(args[1], ""):upper()
+  local t = frames_index[id]
+  if not t then
+    quarto.log.warning('frame shortcode: "' .. id .. '" is not in vocab/data/frames.csv')
+    return pandoc.Str(id)
+  end
+  local zh_opt = str(kwargs["zh"], "")
+  if quarto.doc.is_format("html") then
+    local function gaps(text)
+      local e = html_escape(text)
+      return (e:gsub("_+", '<span class="gap"></span>'):gsub("……", '<span class="gap"></span>'):gsub("…", '<span class="gap"></span>'))
+    end
+    if zh_opt ~= "false" and (t.zh or "") ~= "" then
+      return pandoc.RawInline("html", '<span class="bil frame bil-stack"><span class="bil-en" lang="en">' .. gaps(t.en) ..
+        '</span><span class="bil-zh" lang="zh">' .. gaps(t.zh) .. '</span></span>')
+    end
+    return pandoc.RawInline("html", '<span class="frame">' .. gaps(t.en) .. '</span>')
+  end
+  local typst = quarto.doc.is_format("typst")
+  local function inl(text)
+    local out = pandoc.Inlines({})
+    local rest = text:gsub("……", "___"):gsub("…", "___")
+    local i = 1
+    while true do
+      local a1, b1 = rest:find("_+", i)
+      for chunk, sp in rest:sub(i, a1 and (a1 - 1) or -1):gmatch("([^ ]*)( ?)") do
+        if chunk ~= "" then out:insert(pandoc.Str(chunk)) end
+        if sp ~= "" then out:insert(pandoc.Space()) end
+      end
+      if not a1 then break end
+      out:insert(typst and pandoc.RawInline("typst", "#blank(1.1in)") or pandoc.Str("________"))
+      i = b1 + 1
+    end
+    return out
+  end
+  local out = inl(t.en)
+  if zh_opt == "true" and (t.zh or "") ~= "" then out:insert(pandoc.LineBreak()); out:extend(inl(t.zh)) end
+  return out
 end
 
 local FRAME_GROUPS = {   -- the order groups come in, and their labels
@@ -583,7 +631,7 @@ return {
   ["vocab-gallery"] = vocab_gallery,
 
   ["frames"] = frames_shortcode,
-  ["frame"] = frames_shortcode,   -- the same, for one: {{< frame "FRM-014" >}}
+  ["frame"] = frame_inline,       -- one frame, in the line: {{< frame "FRM-014" >}}
 
   ["vocab"] = function(args, kwargs, meta)
     local key = str(args[1], "")

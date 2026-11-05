@@ -263,3 +263,18 @@
 /* slide PDFs (reveal.js print layout): no buttons, just the pages */
 html.print-pdf .pdfv-bar .pdfv-btn, html.print-pdf .pdfv-pens { display: none; }
 @media print { .pdfv-btn, .pdfv-pens, .pdfv-popup { display: none !important; } }
+
+/* page: one page as a picture, as wide as its box; the box (its height) shows its top; tap: open large */
+.pdfv-page { padding: 0; background: none; border: 0; }
+.pdfv-peek {
+  position: relative; display: block; width: 100%; height: 100%; min-height: 120px; padding: 0; overflow: hidden; cursor: zoom-in;
+  border: 1px solid var(--pdfv-line); border-radius: 6px; background: #fff; touch-action: manipulation;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent); mask-image: linear-gradient(to bottom, #000 72%, transparent);
+}
+.pdfv-peek .pdfv-page { display: block; margin: 0; box-shadow: none; }
+.pdfv-peek-open {
+  position: absolute; top: 8px; right: 8px; padding: 3px 10px; border-radius: 999px; background: var(--pdfv-accent); color: #fff;
+  font: 600 13px/1.3 "Source Sans 3", system-ui, sans-serif; opacity: 0.85; transition: opacity 0.15s;
+}
+.pdfv-peek:hover .pdfv-peek-open, .pdfv-peek:focus-visible .pdfv-peek-open { opacity: 1; }
+.pdfv-peek:focus-visible { outline: 2px solid var(--pdfv-accent); outline-offset: 2px; }

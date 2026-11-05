@@ -2,7 +2,9 @@
 // (see pdf-viewer.lua), or that other code adds later and starts with window.PdfViewer.start(box). Three parts:
 //   Viewer   one page at a time, with ‹ › buttons, zoom and pens (layout="viewer")
 //   Gallery  every page as a thumbnail                       (layout="gallery")
-//   Popup    one big page in a window you can drag and resize; opened from either
+//   Page     one page as a picture (the top of it, fitted to the box's width): tap it to open it large
+//                                                             (layout="page", page=2)
+//   Popup    one big page in a window you can drag and resize; opened from any of them
 // Ink is saved per PDF page in this browser (localStorage) and shows wherever that page is
 // shown, until someone presses Clear.
 
@@ -592,6 +594,34 @@ class Gallery {
   }
 }
 
+// ---- Page: one page as a picture, as wide as its box (a packet page on a slide); tap: the popup ----
+
+class Page {
+  constructor(root) {
+    this.root = root;
+    this.title = root.dataset.title;
+    this.n = parseInt(root.dataset.page, 10) || 1;
+    this.view = new PageView(null, null);
+    this.button = el("button", "pdfv-peek");
+    this.button.type = "button";
+    this.button.setAttribute("aria-label", "Open " + this.title + " large");
+    this.button.title = "Open it large";
+    this.button.append(this.view.el, el("span", "pdfv-peek-open", "⤢ Open"));
+    root.replaceChildren(this.button);
+  }
+  async start() {
+    [this.url, this.doc] = await openPdf(this.root);
+    this.n = Math.min(this.n, this.doc.numPages);
+    this.view.url = this.url;
+    this.button.addEventListener("click", () => popup.open(this.url, this.title, this.n));
+    await this.refresh();
+  }
+  async refresh() {
+    if (!this.doc) return;
+    await this.view.show(this.doc, this.n, Math.max(120, this.button.clientWidth), 100000);   // the full width; the box shows its top
+  }
+}
+
 // ---- Popup: one big page, movable and resizable; arrow keys turn its pages while it's open ----
 
 const popup = {
@@ -700,7 +730,8 @@ const started = [];
 async function start(root) {
   if (root.dataset.started) return;   // a box starts once (the page's boxes, or one the toolbox adds)
   root.dataset.started = "1";
-  const part = root.dataset.layout === "gallery" ? new Gallery(root) : new Viewer(root);
+  const layout = root.dataset.layout;
+  const part = layout === "gallery" ? new Gallery(root) : layout === "page" ? new Page(root) : new Viewer(root);
   try {
     await part.start();
     started.push(part);

@@ -3,6 +3,8 @@ PDF viewer: show a PDF inside a slide or web page, drawn by pdf.js 4.10.38 (pdf.
 Part of the Chalkline extension; it also works on its own in any Quarto project.
 
   {{< pdf-viewer "worksheet.pdf" >}}                  one page at a time, with ‹ › buttons
+  {{< pdf-viewer "sheet.pdf" layout="page" page=2 >}} one page as a picture, as wide as its box (the box
+                                                      shows its top: height="220px"); tap it to open it large
   {{< pdf-viewer "packet.pdf" layout="gallery" >}}    every page as a thumbnail; tap one to open
                                                       it large, in a window you can drag and resize
 
@@ -62,7 +64,8 @@ return {
     else
       prefer = nil
     end
-    local layout = str(kwargs["layout"], "viewer") == "gallery" and "gallery" or "viewer"
+    local layout = str(kwargs["layout"], "viewer")
+    if layout ~= "gallery" and layout ~= "page" then layout = "viewer" end
     local height = str(kwargs["height"], nil)
     local style = height and (' style="height:' .. html_escape(height) .. '"') or ""
     return pandoc.RawBlock("html",

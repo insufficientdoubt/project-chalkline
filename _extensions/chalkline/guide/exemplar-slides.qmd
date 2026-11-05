@@ -158,7 +158,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 [Sentence frames · 句型]{.pill .tag}
 
-[A [ ]{.gap} angle is [ ]{.gap} than a right angle. | [ ]{.gap}比直角[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-014" >}}
 :::
 
 ::: {.area .donow label="Do now · 课前任务"}
@@ -192,7 +192,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 **SIOP:** features 1–2 (content and language objectives, clearly defined and displayed). The objectives come back at the end (column 7).
 
-**Pieces:** `::: intro-grid`, a strict grid (`exemplar.css`): the content and language areas on the left, the Do now on the right, as tall as both, so their top and bottom edges always line up. Inside: two labelled `.area`s (content, language), a `.lesson-info` table, `{{</* vocab-gallery */>}}`, a frame with `[ ]{.gap}`, and a Do now `.area` with `{{</* timer 5 */>}}`. The vocab gallery shows this sample's words; in your course, use your unit's words.
+**Pieces:** `::: intro-grid`, a strict grid (`exemplar.css`): the content and language areas on the left, the Do now on the right, as tall as both, so their top and bottom edges always line up. Inside: two labelled `.area`s (content, language), a `.lesson-info` table, `{{</* vocab-gallery */>}}`, a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and a Do now `.area` with `{{</* timer 5 */>}}`. The vocab gallery shows this sample's words; in your course, use your unit's words.
 :::
 
 ## [Today we will… | 今天我们要…]{.bi} {#intro-objectives data-menu-title="1 · One at a time: objectives"}
@@ -312,7 +312,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 [What do the two hands make? | 两根指针组成了什么？]{.bi .lead}
 
-[The hands make a [ ]{.gap}. | 两根指针组成了一个[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-030" >}}
 :::
 
 {{< timer 3 >}}
@@ -328,7 +328,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 **SIOP:** features 7–8 (links to what students already know), and it starts the lesson's language.
 
-**Pieces:** `.columns`, a picture, a `.box` with a question and a frame, `{{</* timer 3 */>}}`.
+**Pieces:** `.columns`, a picture, a `.box` with a question and a frame (`{{</* frame "FRM-…" */>}}`, from the language list), `{{</* timer 3 */>}}`.
 :::
 
 ## Quick review {#intro-review data-menu-title="1 · Do now: quick review"}
@@ -477,7 +477,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 [Sentence frames · 句型]{.pill .tag}
 
-[A [ ]{.gap} angle is [ ]{.gap} than a right angle. | [ ]{.gap}比直角[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-014" >}}
 :::
 :::::
 
@@ -500,7 +500,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 **SIOP:** features 1–2 (content and language objectives, clearly defined and displayed) and feature 9 (key vocabulary).
 
-**Pieces:** `::::: {.intro-grid .no-donow}` (`exemplar.css`): two `.area`s side by side. In the content area, a picture with `{.preview}` (a wide strip, cropped to fit) above the `.lesson-info` table; in the language area, the objective (`{.bi .obj}`), `{{</* vocab-gallery … cols=4 */>}}` and a frame.
+**Pieces:** `::::: {.intro-grid .no-donow}` (`exemplar.css`): two `.area`s side by side. In the content area, a picture with `{.preview}` (a wide strip, cropped to fit) above the `.lesson-info` table; in the language area, the objective (`{.bi .obj}`), `{{</* vocab-gallery … cols=4 */>}}` and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 :::
 
 # [New words | 新词]{.bi} {#background data-menu-title="2 · Key vocab, pre-taught"}
@@ -589,7 +589,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 [What turns in your home? | 你家里有什么会转动？]{.bi .lead}
 
-[In my home, the [ ]{.gap} turns. | 在我家，[ ]{.gap}会转动。]{.bi .frame}
+{{< frame "GD-FRM-031" >}}
 :::
 :::
 ::::
@@ -603,7 +603,7 @@ The content is only an example: copy a slide into your own deck and change its w
 
 **SIOP:** feature 7 (links to background experiences).
 
-**Pieces:** `.tiles` of pictures (here placeholders), a `.box` with a question and a frame.
+**Pieces:** `.tiles` of pictures (here placeholders), a `.box` with a question and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 :::
 
 ## [Last lesson: the right angle | 上节课：直角]{.bi} {#background-before data-menu-title="2 · What we learned before"}
@@ -965,7 +965,7 @@ A straight angle is just a straight line. It is not an angle.
 3. [Name it. | 说出它的名称。]{.bi}
 :::
 
-[At 4:00, the hands make an [ ]{.gap} angle. | 4点时，两根指针组成一个[ ]{.gap}角。]{.bi .frame}
+{{< frame "GD-FRM-032" >}}
 :::
 ::::
 
@@ -978,7 +978,7 @@ A straight angle is just a straight line. It is not an angle.
 
 **SIOP:** feature 14 (scaffolding: the teacher does less each time) and feature 13 (a strategy students can reuse: compare with a right angle).
 
-**Pieces:** `.columns`, a picture, Chalkline's `.steps`, and a frame with `[ ]{.gap}`.
+**Pieces:** `.columns`, a picture, Chalkline's `.steps`, and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 :::
 
 ## [Fill in the chart | 填一填]{.bi} {#strategies-organizer data-menu-title="4 · Graphic organizer"}
@@ -1100,7 +1100,7 @@ A straight angle is just a straight line. It is not an angle.
 
 [Is a straight angle really an angle? | 平角真的是角吗？]{.bi .big}
 
-[I think [ ]{.gap}, because [ ]{.gap}. | 我认为[ ]{.gap}，因为[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-033" >}}
 :::
 
 ::: footer
@@ -1112,7 +1112,7 @@ A straight angle is just a straight line. It is not an angle.
 
 **SIOP:** feature 15 (a variety of questions that promote higher-order thinking) and feature 18 (wait time).
 
-**Pieces:** `.cover` with a `.kicker`, `.big` text and a frame.
+**Pieces:** `.cover` with a `.kicker`, `.big` text and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 :::
 
 ## [Strategy: check with a corner | 方法：用直角来比]{.bi} {#strategies-strategy data-menu-title="4 · Strategy reminder"}
@@ -1209,7 +1209,7 @@ A straight angle is just a straight line. It is not an angle.
 
 [Where do you see a straight angle at home? | 你在家里哪里能看到平角？]{.bi}
 
-[I see a straight angle when [ ]{.gap}. | 当[ ]{.gap}时，我看到了平角。]{.bi .frame}
+{{< frame "GD-FRM-034" >}}
 :::
 
 ::: {.tiles style="font-size: 0.45em"}
@@ -1237,7 +1237,7 @@ A straight angle is just a straight line. It is not an angle.
 
 **SIOP:** features 16–18 (frequent structured interaction, a grouping that fits, wait time).
 
-**Pieces:** the Slide kit's Think-Pair-Share: a `.box` with the steps, `.tiles` of seating drawings, the question with a frame, and two timers in `.dark` boxes.
+**Pieces:** the Slide kit's Think-Pair-Share: a `.box` with the steps, `.tiles` of seating drawings, the question with a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and two timers in `.dark` boxes.
 
 **No slide needed:** the classroom toolbox (**W**) has **Routines**: Think-Pair-Share and other routines, step by step in both languages, with the question and a timer for each step, on top of any slide.
 :::
@@ -1409,25 +1409,25 @@ A straight angle is just a straight line. It is not an angle.
 ::: {.box .plain}
 [Agree · 同意]{.kicker}
 
-[I agree with [ ]{.gap}, because [ ]{.gap}. | 我同意[ ]{.gap}，因为[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-044" >}}
 :::
 
 ::: {.box .plain}
 [Disagree · 不同意]{.kicker}
 
-[I see it differently. I think [ ]{.gap}. | 我的看法不一样。我认为[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-003" >}}
 :::
 
 ::: {.box .plain}
 [Add on · 补充]{.kicker}
 
-[I want to add that [ ]{.gap}. | 我想补充：[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-035" >}}
 :::
 
 ::: {.box .plain}
 [Ask · 提问]{.kicker}
 
-[Can you say more about [ ]{.gap}? | 你能再多说说[ ]{.gap}吗？]{.bi}
+{{< frame "GD-FRM-036" >}}
 :::
 :::
 
@@ -1452,7 +1452,7 @@ A straight angle is just a straight line. It is not an angle.
 4. [**Report** to the class in English. | 用英语向全班**汇报**。]{.bi}
 :::
 
-[An obtuse angle is bigger than [ ]{.gap}, but smaller than [ ]{.gap}. | 钝角比[ ]{.gap}大，但比[ ]{.gap}小。]{.bi .frame}
+{{< frame "GD-FRM-037" >}}
 
 ::: footer
 [5 · Interaction · 互动交流]{.phase} · option: discuss in any language, report in English
@@ -1463,7 +1463,7 @@ A straight angle is just a straight line. It is not an angle.
 
 **SIOP:** feature 19 (ample opportunity to clarify key concepts in the first language) and feature 24 (the language objective).
 
-**Pieces:** Chalkline's `.steps`, and a frame.
+**Pieces:** Chalkline's `.steps`, and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 :::
 
 ## [Draw an angle you can find at home | 画一个家里能找到的角]{.bi} {#interaction-board data-menu-title="5 · Live board"}
@@ -1626,7 +1626,7 @@ Scan to draw with us. Then write its name.
 At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right angle, but **smaller than** a straight angle.
 :::
 
-[At [ ]{.gap}, the clock hands make a [ ]{.gap} angle. It is [ ]{.gap} than a right angle.]{.frame}
+{{< frame "GD-FRM-038" >}}
 :::
 ::: {.column width="45%"}
 ::: {.box .plain .cross-off}
@@ -1649,7 +1649,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 **SIOP:** feature 22 (integrating all four skills: here, writing) and feature 24 (the language objective).
 
-**Pieces:** `.columns`, a model in a `.box`, a frame, and a checklist (`- [ ]`) in a `.box .cross-off`: click a box and its line is crossed out. Read each check aloud and tick it to show students how.
+**Pieces:** `.columns`, a model in a `.box`, a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and a checklist (`- [ ]`) in a `.box .cross-off`: click a box and its line is crossed out. Read each check aloud and tick it to show students how.
 :::
 
 ## Sort the clocks {#practice-sort data-menu-title="6 · Interactive: sort it"}
@@ -1727,7 +1727,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 ::: {.column width="50%"}
 ::: {.area .donow label="Exit ticket · 出门条"}
 1. Draw an obtuse angle. Mark the vertex.
-2. Finish the sentence: *A straight angle is [ ]{.gap} than a right angle.*
+2. Finish the sentence: {{< frame "GD-FRM-045" zh=false >}}
 
 ::: {.end style="align-self: center; font-size: 0.48em"}
 {{< timer 3 >}}
@@ -1965,7 +1965,7 @@ How well can you name a straight angle and a full angle?
 
 [Due: next lesson · Packet page: *Angle Hunt* | 下节课交 · 学习包：*找角*]{.bi .small}
 
-![](images/page-angle-hunt.png){.page-peek fig-alt="The Angle Hunt page in the packet"}
+{{< pdf-viewer "angle-hunt.pdf" layout="page" title="Angle Hunt" height="215px" >}}
 :::
 :::
 ::: {.column width="45%"}
@@ -1988,7 +1988,7 @@ How well can you name a straight angle and a full angle?
 
 **SIOP:** features 23–26 (lesson delivery).
 
-**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page (`{.page-peek}`, a picture of page 1 of `angle-hunt.qmd`), and a photo for next time (`{.next-photo}`).
+**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page, `{{</* pdf-viewer "angle-hunt.pdf" layout="page" height="215px" */>}}`: page 1 of the printable, drawn from its PDF; tap it to open the page large (the same window as the packet gallery's), and a photo for next time (`{.next-photo}`).
 :::
 
 ## [Credits | 来源]{.bi} {#credits .credits}

@@ -16,6 +16,18 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Every sentence frame from the language list; the homework page opens large
+- **Asked for:** "everywhere where we have sentence frames, update the examples to pull from our new sentence frames data. Should have a short code for this obviously." And, on the exemplar's homework slide: "I love the way that the homework is displayed, but I'd like it to be clickable and open that page using the packet popup."
+- **Why:** one source for frames; the packet page should open like the gallery's pages.
+- **Changed:**
+  - `_extensions/chalkline/shortcodes.lua`: `{{< frame "FRM-014" >}}` is now one frame **in the line**, in the plain sentence-frame look (its 中文 under it, write-on gaps; `zh=false` for none; in PDFs 中文 only with `zh=true`), for frames inside boxes, grids and tables. `{{< frames >}}` stays the grouped block.
+  - `_extensions/chalkline/guide/data/frames.csv`: 16 more frames (`GD-FRM-030` to `045`), the ones the guide's decks used.
+  - `guide/exemplar-slides.qmd`, `slide-kit-slides.qmd`, `templates-slides.qmd`: all 33 hand-written frames replaced with `{{< frame >}}`; the notes say so.
+  - `_extensions/chalkline/pdf-viewer/` (`.js`, `.lua`, `.css`): `layout="page"`: one page of a PDF as a picture, as wide as its box (`height=` shows its top), drawn from the PDF; tap it to open it large in the viewer's popup. The homework slides (exemplar 7.10, Template Library) use it instead of a static picture.
+  - `course/guide/01-my-themes/theme-preview-slides.qmd` (content): its frame from the course's list.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: The Template Library, Printable templates and My themes
 - **Asked for:** "We need a deck with all templates/example layouts. These should be sorted in the columns to make it easy for teachers and AIs to find related slides. Eventually we're ditching the sample units entirely and relying on these during the content creation process. So we need every good slide, game, etc that's been made so far to go into the master template deck… We will use the note section of each slide to list potential uses for it… we have the my templates thing? We also need to have a my themes thing." Then: "Build the slide decks… A lot of the old slides will need to be rewritten to be theme compliant and have layouts that look right. No broken grids." Decisions: keep each example's own subject unless unclear; copy the data the slides need; the exemplar stays separate; printables on a page of their own.
 - **Why:** one library to make lessons from, for teachers and AI assistants, once the sample units are gone.
