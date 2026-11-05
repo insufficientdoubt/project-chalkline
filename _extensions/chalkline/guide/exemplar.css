@@ -45,7 +45,7 @@
 }
 .reveal .intro-grid > .area { margin: 0; min-height: 0; }
 .reveal .intro-grid > .area.content { grid-column: 1; grid-row: 1; }
-.reveal .intro-grid > .area.language { grid-column: 1; grid-row: 2; overflow: hidden; }
+.reveal .intro-grid > .area.language { grid-column: 1; grid-row: 2; }   /* no overflow: hidden: it would cut off the vocab pop-ups */
 .reveal .intro-grid > .area.donow { grid-column: 2; grid-row: 1 / span 2; height: auto; }
 .reveal .intro-grid .area.language .tag { margin-top: 0.2em; }
 .reveal .intro-grid .vocab-gallery { max-width: 64%; --vg-min: 3.2em; }   /* four small cards in one row */
@@ -172,7 +172,7 @@
 /* The lesson intro without a Do now: content (wider, with a preview picture) and language side by side */
 .reveal .intro-grid.no-donow { grid-template-columns: 58fr 42fr; grid-template-rows: 1fr; }
 .reveal .intro-grid.no-donow > .area.content { grid-column: 1; grid-row: 1; }
-.reveal .intro-grid.no-donow > .area.language { grid-column: 2; grid-row: 1; overflow: hidden; }
+.reveal .intro-grid.no-donow > .area.language { grid-column: 2; grid-row: 1; }
 .reveal .intro-grid .area img.preview, .reveal .intro-grid .area p:has(> img.preview) img {
   display: block; width: 100%; max-width: none; height: 215px; object-fit: cover; margin: 0.3em 0 0.2em; border-radius: 8px;
 }

@@ -16,6 +16,32 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Routines, easier to read, with pictures and the slide's theme; Crazy 8s
+- **Asked for:** "Bring in the graphics from the Think Pair Share slide. Make the tool more student friendly, easier to read. Make it follow the slide theme, if possible. Add the ideation routine crazy 8s. 8 minutes to write/draw 8 ideas on sticky notes (timer that gives a soft chime every minute), then group/sort ideas with your team."
+- **Why:** students read it from their seats; it should look like the slides around it.
+- **Changed:**
+  - `_extensions/chalkline/toolbox/tools/routines.js`: a new layout: the question big at the top; the step you're on in a big card (a picture, the step's name, what to do in English and 中文, a big time with its bar); all the steps in a strip of pills under it; the controls small. It copies the slide's colour-scheme tokens, fonts and corners onto itself (they don't reach the tools, which float outside the slides) and follows palette changes. Pictures: the Think-Pair-Share slide's seating drawings and new ones in the same style (think, share, sticky notes, sorting), in the theme's colour. Think-Pair-Share now has the slide's steps (Listen, Think, Talk, Share). New routine, **Crazy 8s**: get ready, 8 ideas in 8 minutes with a soft chime each minute and an "idea 3 / 8" counter, show, group and sort. Steps can now have `chime` (seconds) and `count`.
+  - `guide/exemplar-slides.qmd`: the Think-Pair-Share slide's notes point to Routines.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
+## 2026-11-05: Routines, a new classroom tool; the vocab pop-up link says "Vocab"
+- **Asked for:** "Change the link to vocab. Add a new tool called 'routines'. All it does is pop up a window with bilingual instructions [for] common classroom routines like Think Pair Share. (Instructions, timer, space to write a question). Add 2-3 other routines too. The idea is to have routine process instructions always available."
+- **Why:** routine process instructions always at hand, in both languages.
+- **Changed:**
+  - `_extensions/chalkline/toolbox/tools/routines.js` (new): pick a routine (Think-Pair-Share, Numbered Heads Together, Gallery Walk, Stand Up Hand Up Pair Up); its steps in English and 中文 (中 hides the 中文), a box for today's question (kept for each routine), and a timer that runs through the steps with a beep at each one; a step without a time waits for ▶. More routines: add them to ROUTINES at the top of the file.
+  - `_extensions/chalkline/toolbox/toolbox.js`: Routines in the menu's Time row. `_extensions/chalkline/filter.lua`: loads it. `_extensions/chalkline/ui/icons.js`: two Lucide icons (repeat, skip-forward).
+  - `_quarto.yml`: `vocab-title: "Vocab"` (the link on vocab pop-ups said "History Vocab").
+- **Who it helps:** Routines: probably every Chalkline course. The link label: this course.
+- **AI assistant:** Claude (Claude Code).
+
+## 2026-11-05: Vocab pop-ups no longer cut off by the box around them
+- **Asked for:** "New bug on 1.1. vocab popup appearing under the content objective box"
+- **Why:** the pop-up's top half was hidden.
+- **Changed:** `_extensions/chalkline/guide/exemplar.css`: the lesson intro's language area (1.1 and 1.9) no longer has `overflow: hidden`, which cut off everything sticking out of it, so the pop-up looked as if it were under the content-objective box. `_extensions/chalkline/vocab-card.html`: a pop-up opens below its word when there's no room above inside the screen *or* inside any box around it that cuts off what sticks out (overflow hidden or auto), not only the screen.
+- **Who it helps:** probably every Chalkline course (any vocab word in a box that clips).
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: The official style in the palette, and 16:9 by default
 - **Asked for:** "Yes, add it to the palette and make 16:9 default" (after asking whether the official style was a regular theme or specific to one deck).
 - **Why:** to try the official style on any slide, and to get the PowerPoint's shape without setting it in each deck.

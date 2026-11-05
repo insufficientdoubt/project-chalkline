@@ -57,12 +57,22 @@
   }
   if (!window.speechSynthesis) document.documentElement.classList.add("no-speech");
 
-  // Show the card below the word when there's no room above it, and keep it on screen sideways.
+  // Show the card below the word when there's no room above it, and keep it on screen sideways. "Room"
+  // means inside the screen and inside any box around the word that cuts off what sticks out of it
+  // (overflow: hidden or auto): there, the top of the card would be clipped.
+  function clipTop(el) {
+    var top = 8;
+    for (var p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      var o = getComputedStyle(p);
+      if (o.overflowY !== "visible" || o.overflowX !== "visible") top = Math.max(top, p.getBoundingClientRect().top);
+    }
+    return top;
+  }
   function place(term) {
     var card = term.querySelector(".vocab-card");
     card.classList.remove("below"); card.style.left = ""; card.style.right = ""; card.style.transform = "";
     var r = card.getBoundingClientRect();
-    if (r.top < 8) card.classList.add("below");
+    if (r.top < clipTop(term)) card.classList.add("below");
     r = card.getBoundingClientRect();
     if (r.left < 8) { card.style.left = "0"; card.style.transform = "none"; }
     else if (r.right > window.innerWidth - 8) { card.style.left = "auto"; card.style.right = "0"; card.style.transform = "none"; }
