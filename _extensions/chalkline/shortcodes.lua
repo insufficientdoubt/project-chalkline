@@ -885,6 +885,7 @@ return {
 
   -- {{< timer 6 >}}: a countdown (countdown.html). layout="row": one narrow strip, the instruction on the
   -- left (label="English | 中文"), the time in the middle, the buttons stacked on the right.
+  -- layout="radial": a disc that empties like a clock hand sweeping, no numbers (shape="square", size="6em").
   ["timer"] = function(args, kwargs)
     local minutes = tonumber(str(args[1], "5")) or 5
     if quarto.doc.is_format("revealjs") then
@@ -902,6 +903,13 @@ return {
         end
         return pandoc.RawBlock("html", '<div class="countdown cd-row" data-minutes="' .. minutes .. '">' ..
           '<div class="cd-label">' .. html .. '</div></div>')
+      end
+      if layout == "radial" then
+        -- a circle (or shape="square") that slowly empties, with no numbers: tap it to start or pause
+        local shape = str(kwargs["shape"], "") == "square" and " cd-square" or ""
+        local size = str(kwargs["size"], "")
+        local style = size:match("^[%d.]+%a*$") and (' style="--cd-size: ' .. size .. '"') or ""
+        return pandoc.RawBlock("html", '<div class="countdown cd-radial' .. shape .. '" data-minutes="' .. minutes .. '"' .. style .. '></div>')
       end
       return pandoc.RawBlock("html", '<div class="countdown" data-minutes="' .. minutes .. '"></div>')
     end

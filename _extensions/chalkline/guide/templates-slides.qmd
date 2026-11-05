@@ -1838,6 +1838,46 @@ Atoms keep the time. These clocks are the most accurate in the world.
 **Also see:** Packet page on the screen.
 :::
 
+## [Look closely: children's games | 仔细看：儿童游戏]{.bi} {#zoom data-menu-title="5 · Zoom into a big picture"}
+
+::: {.zoom-image start="0.56,0.88,5" height="560"}
+![](images/bruegel-childrens-games.jpg){fig-alt="Pieter Bruegel the Elder, Children's Games, 1560: a town square full of children playing"}
+:::
+
+::: footer
+[5 · Watch and look · 观看]{.phase} · zoom into a big picture
+:::
+
+::: notes
+**Use it for:** start on one detail, ask "What is happening here?", then zoom out to the whole · a painting or a primary source, part by part · a map: zoom from the city to the country · a microscope or space photo · a detailed diagram (a cell, an engine) · "find and count" (how many games can you find?).
+
+**How it works:** scroll or pinch to zoom, drag to move, double-tap to zoom in. The buttons: − and +, **Whole picture** (a slow zoom out: the reveal), ↺ back to the start, and ⌖, which copies the view on the screen as `start="x,y,zoom"` to paste into the slide. Every time the slide comes up it starts at `start`.
+
+**Pieces:** `::: {.zoom-image start="0.56,0.88,5"}` around one picture (`zoom.html`). Use a big file (3000 px or more wide) so the details stay sharp. Here: Pieter Bruegel the Elder, *Children's Games* (1560), public domain, from Wikimedia Commons.
+
+**Also see:** A picture, full screen; A picture that fills the screen (column 3).
+:::
+
+## {#full-picture data-menu-title="5 · A picture, full screen" background-image="images/units/colosseum-forum.jpg" background-size="cover" background-color="#000"}
+
+::: notes
+**Use it for:** a picture with nothing on it: "What do you see?" · a quiet moment before a topic · a place to imagine yourself in · a photo to talk about in pairs.
+
+**Pieces:** a slide with no title or footer, only `background-image="images/your-picture.jpg"` in its heading's `{}`. `background-size="cover"` fills the screen (and may cut the edges); `"contain"` shows the whole picture with bars, here black (`background-color="#000"`). Credit the picture in `images/CREDITS.md` and on the Credits slide.
+
+**Also see:** Zoom into a big picture; YouTube, full screen.
+:::
+
+## {#full-youtube data-menu-title="5 · YouTube, full screen" background-iframe="https://www.youtube.com/embed/8Z9FQxcCAZ0?rel=0" background-interactive="true"}
+
+::: notes
+**Use it for:** a video with nothing around it: a song, a clip to discuss, a how-to.
+
+**Pieces:** a slide with no title or footer, only `background-iframe="https://www.youtube.com/embed/VIDEO-ID?rel=0"` and `background-interactive="true"` (so you can press play) in its heading's `{}`. Use the *embed* link: `youtube.com/embed/` and the video's ID (the letters after `v=`). If YouTube is blocked at school, use a video file: `background-video="clip.mp4"`. The slide PDF shows it blank, so put the link in the notes or on the slide before. Here: TED-Ed, the Odyssey in five minutes.
+
+**Also see:** Video that fills the slide; Video with instructions.
+:::
+
 # [Angle hunt | 找角游戏]{.bi} {#task data-menu-title="6 · A task with a timer"}
 
 :::: {.columns}
@@ -2318,11 +2358,10 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 [Teach your 3 points. Take notes. | 讲解3个要点，做笔记。]{.bi}
 :::
 
-::: {.box .dark .jigsaw-timer}
-[8 minutes for each step · 每步8分钟]{.kicker}
-
-{{< timer 8 >}}
 :::
+
+::: {style="font-size: 0.72em"}
+{{< timer 8 layout="row" label="8 minutes for each step | 每步8分钟" >}}
 :::
 :::
 ::: {.column width="64%"}
@@ -2568,9 +2607,31 @@ How many right angles make one full angle?
 ::: notes
 **Use it for:** one question with three or four answers · a vote (no right answer: leave out `correct`) · a prediction before an experiment.
 
-**Pieces:** `::: {.poll type="choice" options="2 | 3 | 4" correct="C"}`; the results collect on the Poll results slide (column 10).
+**Pieces:** `::: {.poll type="choice" options="2 | 3 | 4" correct="C"}`: each answer big on its own tile (long answers get smaller type). The results collect on the Poll results slide (column 10).
 
-**Also see:** True or false.
+**Also see:** Multiple choice with pictures; True or false.
+:::
+
+## Quick check: pictures {#choice-pictures data-menu-title="8 · Multiple choice: pictures"}
+
+::: {.poll type="choice" correct="B"}
+Which clock shows a right angle?
+
+- ![](images/clock-1.svg) 1:00
+- ![](images/clock-3.svg) 3:00
+- ![](images/clock-6.svg) 6:00
+:::
+
+::: footer
+[8 · Check understanding · 检查理解]{.phase} · multiple choice: pictures
+:::
+
+::: notes
+**Use it for:** which picture shows it? · which graph matches? · which map, flag, shape or animal? · choose a photo to write about.
+
+**Pieces:** `::: {.poll type="choice" correct="B"}` with the question, then a list: one answer per line, a picture and a few words (`- ![](images/clock-3.svg) 3:00`). Each card gets its letter, A, B, C, so students can call out an answer too.
+
+**Also see:** Multiple choice (words); Sort it (pictures).
 :::
 
 ## [Vote! | 投票！]{.bi} {#pie-vote data-menu-title="8 · Pie vote"}
@@ -3651,7 +3712,13 @@ A deck: `slide-scheme: night` in its labels · one slide: `## Title {.scheme-nig
 
 {{< timer 6 layout="row" label="Then move to the next station | 然后换到下一站" >}}
 
-[Press **T** on a timer slide to start or pause. A running timer follows you to other slides (bottom centre).]{.fine}
+[Radial: no numbers. Tap it to start. · 圆形：没有数字，点一下开始。]{.fine}
+
+::: {.row style="justify-content: flex-start; gap: 1.5em"}
+{{< timer 5 layout="radial" size="4.2em" >}}
+
+{{< timer 10 layout="radial" shape="square" size="4.2em" >}}
+:::
 :::
 :::::
 
@@ -3662,7 +3729,7 @@ A deck: `slide-scheme: night` in its labels · one slide: `## Title {.scheme-nig
 ::: notes
 **Use it for:** any timed task · Do now (5 min) · stations · tests.
 
-**Pieces:** `{{</* timer 5 */>}}` (big, alone or in a `.box .dark`); `{{</* timer 6 layout="row" label="English | 中文" */>}}` (one row). The Routines tool (W) times a whole routine, step by step.
+**Pieces:** `{{</* timer 5 */>}}` (big, alone or in a `.box .dark`); `{{</* timer 6 layout="row" label="English | 中文" */>}}` (one row); `{{</* timer 5 layout="radial" */>}}` (a disc that empties, no numbers: for quiet work, younger students, or when watching the clock makes it worse; `shape="square"`, `size="8em"`). Press **T** on a timer slide to start or pause; a running timer follows you to other slides (bottom centre), except a radial one. Point at a radial timer to set its minutes. The Routines tool (W) times a whole routine, step by step.
 
 **Also see:** A task with a timer (column 6).
 :::
@@ -3678,6 +3745,7 @@ A deck: `slide-scheme: night` in its labels · one slide: `## Title {.scheme-nig
 - **Theatre of Epidaurus:** Olecorre, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0), [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Theatre_of_Epidaurus_OLC.jpg)
 - **Pont du Gard:** Benh LIEU SONG, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0), [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pont_du_Gard_BLS.jpg)
 - **Colosseum and forum:** Wilfredor, CC0, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Colosseum_of_Rome_and_Roman_forum.jpg)
+- **Children's Games:** Pieter Bruegel the Elder, 1560, public domain, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_Children%E2%80%99s_Games_-_Google_Art_Project.jpg)
 - **Parthenon; Via Appia; Augustus; the Senate (Maccari); Trajan's Column:** public domain, Wikimedia Commons (details: `images/units/CREDITS.md`)
 - **Original drawings for Chalkline:** angles, clocks, roles, the classroom map, the drum kit, the vocab drawings.
 :::
