@@ -1238,6 +1238,8 @@ A straight angle is just a straight line. It is not an angle.
 **SIOP:** features 16–18 (frequent structured interaction, a grouping that fits, wait time).
 
 **Pieces:** the Slide kit's Think-Pair-Share: a `.box` with the steps, `.tiles` of seating drawings, the question with a frame, and two timers in `.dark` boxes.
+
+**No slide needed:** the classroom toolbox (**W**) has **Routines**: Think-Pair-Share and other routines, step by step in both languages, with the question and a timer for each step, on top of any slide.
 :::
 
 ## [Jigsaw: expert groups | 拼图学习：专家组]{.bi} {#interaction-jigsaw data-menu-title="5 · Jigsaw"}

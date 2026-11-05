@@ -16,6 +16,15 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Routines, easier to read, with pictures and the slide's theme; Crazy 8s
+- **Asked for:** "Bring in the graphics from the Think Pair Share slide. Make the tool more student friendly, easier to read. Make it follow the slide theme, if possible. Add the ideation routine crazy 8s. 8 minutes to write/draw 8 ideas on sticky notes (timer that gives a soft chime every minute), then group/sort ideas with your team."
+- **Why:** students read it from their seats; it should look like the slides around it.
+- **Changed:**
+  - `_extensions/chalkline/toolbox/tools/routines.js`: a new layout: the question big at the top; the step you're on in a big card (a picture, the step's name, what to do in English and 中文, a big time with its bar); all the steps in a strip of pills under it; the controls small. It copies the slide's colour-scheme tokens, fonts and corners onto itself (they don't reach the tools, which float outside the slides) and follows palette changes. Pictures: the Think-Pair-Share slide's seating drawings and new ones in the same style (think, share, sticky notes, sorting), in the theme's colour. Think-Pair-Share now has the slide's steps (Listen, Think, Talk, Share). New routine, **Crazy 8s**: get ready, 8 ideas in 8 minutes with a soft chime each minute and an "idea 3 / 8" counter, show, group and sort. Steps can now have `chime` (seconds) and `count`.
+  - `guide/exemplar-slides.qmd`: the Think-Pair-Share slide's notes point to Routines.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Routines, a new classroom tool; the vocab pop-up link says "Vocab"
 - **Asked for:** "Change the link to vocab. Add a new tool called 'routines'. All it does is pop up a window with bilingual instructions [for] common classroom routines like Think Pair Share. (Instructions, timer, space to write a question). Add 2-3 other routines too. The idea is to have routine process instructions always available."
 - **Why:** routine process instructions always at hand, in both languages.
