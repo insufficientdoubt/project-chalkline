@@ -1,6 +1,6 @@
 # Outline: the master template deck
 
-**Status:** draft outline for review (2026-11-05). Nothing is built yet.
+**Status:** outline agreed (2026-11-05), see Decisions. Nothing is built yet.
 
 One deck with every good slide, game and layout made so far, sorted into columns by **what the slide is for**, so a teacher (or an AI assistant) looking for "a way to check understanding" or "a long reading" finds every option in one column. When the sample units go, this deck is what new lessons are built from. Teachers see the word *templates*; most slides are really **tested example layouts** to copy and change, not shortcodes.
 
@@ -177,12 +177,12 @@ A gallery, one slide per kind, each showing page 1 and linking to the printable 
 - **The slide style experiment** (`slide-style-slides.qmd`): retired, as planned.
 - **Repeats:** the slide kit's thinker slides in four looks become one slide in column 3 plus the looks in column 11; unit decks' plain "two columns of text" slides are covered by column 3.
 
-## To decide
+## Decisions (2026-11-05)
 
-1. **Content of the examples.** Keep each slide's own subject (angles, Greece, Rome, coding, Warring States), so the deck shows the layouts work in any subject (my recommendation), or redo them all on one neutral topic?
-2. **The guide's own data.** Slides that read the course's lists (vocab pop-ups, galleries, `{{< frames >}}`, the games) are empty in a new course. The guide needs a small vocab and language list of its own (about 20 words, 10 points), with its pictures. Same note as in `V1-PLAN.md`.
-3. **The exemplar deck:** keep it as the "how to plan a lesson" walkthrough beside this catalogue (my recommendation), or fold it in?
-4. **Printables:** a column of this deck (as above), or a printables page of their own?
+1. **Example content:** keep each slide's own subject (angles, Greece, Rome, coding, Warring States); redo an example only where it isn't clear.
+2. **The guide's own data:** yes: copy the words, language points and pictures the slides use into the guide (its own small vocab and language lists), so every slide works in a new course.
+3. **The exemplar deck stays separate.** It uses slides by function and assumes a lesson structure (the SIOP phases); the template deck is a library of options, some of them subject-specific or for special cases.
+4. **Printables (proposed):** a page of their own in the guide, "Printable templates": each one with its PDF preview, a download and the file to copy, and when to use it. Column 12 becomes one slide in column 0 that points to it.
 
 ## My themes
 
