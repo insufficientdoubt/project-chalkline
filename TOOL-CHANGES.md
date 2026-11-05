@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Feelings check-ins (mood meter, feelings pie), a pie-chart vote, and a recall mode for draw.io diagrams
+- **Asked for:** recall mode for the lesson-summary diagram ("Add 1"), then "let's add some sel functions. Do a mood survey board. 1 in a mood meter grid with anonymous responses, one where the results show live in a pie chart (pie chart voting can be useful for other activities anyways - make a blank version where the teacher can add options and kids can vote)." The teacher shared three classroom feelings charts as ideas (a colour list, a four-colour poster, a tap-to-vote screen); the faces and layouts here are original.
+- **Why:** check-ins at the start of a lesson; pie votes for any class decision.
+- **Changed:** `mood.html` (new, loaded by `filter.lua` when a slide uses it): `::: {.mood-meter}`, a 4 × 4 grid of feelings in four colours (energy up, pleasant right), with original drawn faces and 中文, where a tap shows only "Thank you!" and Show results (or R) shows the counts and colour totals; own words with `red=`, `yellow=`, `blue=`, `green=`. `::: {.pie-vote}`: tap an answer and a donut chart grows live; `preset="feelings"` (eight feelings with faces), a list for your own answers, or `editable="true"` (blank: the teacher types a question and 2 to 8 answers on the slide); `hidden="true"` covers the chart until shown. Both have Undo and Clear (two taps), and keep the answers in the browser. `guide/drawio/drawio-live.js` and `.css`: `data-mode="recall"` blanks the end boxes with a "?" (tap to show, Show all / Hide all); `data-hide=` picks other boxes. `guide/templates-slides.qmd`: 1.11 Check-in: mood meter, 1.12 Check-in: feelings pie, 8.3 Pie vote; 10.6 now uses recall mode.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-05: draw.io diagrams: a lifted box's glow no longer cut off
 - **Asked for:** "10.6 - the glow effect cuts off at the edges."
 - **Why:** not given.

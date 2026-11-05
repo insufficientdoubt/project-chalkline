@@ -710,6 +710,52 @@ A label, a tag, a number (`.num`).
 **Also see:** Do now: picture prompt; Video that fills the slide (column 5).
 :::
 
+## [How do you feel? | 你感觉怎么样？]{.bi} {#mood-meter data-menu-title="1 · Check-in: mood meter"}
+
+::: {.mood-meter}
+[Tap how you feel right now. Nobody sees your answer. | 点一下你现在的感觉。没有人会看到你的答案。]{.bi}
+:::
+
+::: footer
+[1 · Start a lesson · 开始上课]{.phase} · check-in: mood meter
+:::
+
+::: notes
+**Use it for:** a check-in as students come in (one tap each, on the board) · after a test or a break · before a hard conversation · teaching feeling words (the 中文 is under each one).
+
+**How it works:** each tap says only "Thank you!", so the next student can't see what was chosen. **Show results** (or R) when everyone is done: each feeling shows its count, and each colour its total. Read the room, not the names: lots of red or blue? Start with something calm. **Undo** takes back the last tap; **Clear** (tap twice) starts again. Answers stay in this browser until you clear them.
+
+**The colours:** up is more energy, right is more pleasant. Red: high energy, unpleasant. Yellow: high energy, pleasant. Blue: low energy, unpleasant. Green: low energy, pleasant. Every colour is OK to feel.
+
+**Pieces:** `::: {.mood-meter}` with the instruction inside (`mood.html`). Your own words for a colour: `yellow="Excited|兴奋, Proud|自豪, Happy|开心, Silly|调皮"` (four, top to bottom, left to right; known feelings get their face).
+
+**Also see:** Check-in: feelings pie; Pie vote (column 8).
+:::
+
+## [How are you feeling today? | 你今天感觉怎么样？]{.bi} {#mood-pie data-menu-title="1 · Check-in: feelings pie"}
+
+::: {.pie-vote preset="feelings"}
+[Tap the feeling that fits you best. | 点一下最像你的感觉。]{.bi}
+:::
+
+::: {.fine style="text-align: center; margin-top: 0.4em"}
+[It's OK to feel any way. Every feeling matters. | 什么感觉都可以。每一种感觉都很重要。]{.bi}
+:::
+
+::: footer
+[1 · Start a lesson · 开始上课]{.phase} · check-in: feelings pie
+:::
+
+::: notes
+**Use it for:** a quick check-in the class can see · "How do you feel about the test?" · a feeling before and after a story or a game.
+
+**How it works:** each tap adds a slice to the pie as it happens, so everyone sees the class's mood grow. Want it private? Add `hidden="true"`: the chart stays covered until you press **Show chart** (or R).
+
+**Pieces:** `::: {.pie-vote preset="feelings"}` (`mood.html`): eight feelings, each with its face and 中文.
+
+**Also see:** Check-in: mood meter; Pie vote with your own answers (column 8).
+:::
+
 # [New words | 新词]{.bi} {#words data-menu-title="2 · Key words, pre-taught"}
 
 :::: {.columns}
@@ -2527,6 +2573,25 @@ How many right angles make one full angle?
 **Also see:** True or false.
 :::
 
+## [Vote! | 投票！]{.bi} {#pie-vote data-menu-title="8 · Pie vote"}
+
+::: {.pie-vote editable="true"}
+:::
+
+::: footer
+[8 · Check understanding · 检查理解]{.phase} · pie vote
+:::
+
+::: notes
+**Use it for:** any vote where the class should see the result grow: which topic next? · which answer is right? · predict the experiment · pick the class reward · which character is to blame?
+
+**How it works:** blank to start: **Edit answers**, type the question and two to eight answers, **Done**. Students tap their answer; the pie grows with each vote. **Hide chart** (or R) covers it until everyone has voted. Your answers and votes stay in this browser.
+
+**Pieces:** `::: {.pie-vote editable="true"}` (`mood.html`). Answers written in the slide instead: a list inside, one per line (`- Mars`, `- [Jupiter | 木星]{.bi}`), with the question above it.
+
+**Also see:** Multiple choice; Check-in: feelings pie (column 1).
+:::
+
 ## True or false? {#quiz-list data-menu-title="8 · Quiz list"}
 
 [Guess first, then click to see each answer.]{.fine}
@@ -3174,7 +3239,7 @@ How well can you name a straight angle and a full angle?
 ## [Lesson summary | 课堂小结]{.bi} [made in draw.io]{.drawio-label} {#summary data-menu-title="10 · Lesson summary"}
 
 <link rel="stylesheet" href="drawio/drawio-live.css">
-<div class="drawio-live" data-src="drawio/summary.svg"></div>
+<div class="drawio-live" data-mode="recall" data-src="drawio/summary.svg"></div>
 <script src="drawio/drawio-live.js"></script>
 
 ::: footer
@@ -3182,7 +3247,11 @@ How well can you name a straight angle and a full angle?
 :::
 
 ::: notes
-**Use it for:** a mind map of what the lesson covered · the links between ideas · a unit summary.
+**Recall mode:** the details start blank with a "?". Students say (or write) what goes there, then tap the box to check. **Show all** at the bottom right. Leave out `data-mode="recall"` for the plain diagram.
+
+**Use it for:** a summary students rebuild from memory · the same diagram as next lesson's Do now · a mind map of what the lesson covered · the links between ideas · a unit summary.
+
+**Pieces:** a draw.io SVG in `<div class="drawio-live" data-mode="recall" data-src="…">` (`drawio/drawio-live.js`). It blanks the end boxes (the ones only one line touches); to choose others, add `data-hide="id1, id2"` with draw.io's cell ids.
 
 **Also see:** Diagram from draw.io (column 3).
 :::

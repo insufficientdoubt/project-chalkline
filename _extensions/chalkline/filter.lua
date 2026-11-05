@@ -369,6 +369,9 @@ local function Div(el)
     if el.classes:includes("poll") or el.classes:includes("poll-summary") or el.classes:includes("star-survey") then
       if quarto.doc.is_format("revealjs") then include_once("poll.html") end
     end
+    if el.classes:includes("mood-meter") or el.classes:includes("pie-vote") then
+      if quarto.doc.is_format("revealjs") then include_once("mood.html") end
+    end
     if el.classes:includes("value") then
       el.content:insert(1, value_heading_html(el))
       return el

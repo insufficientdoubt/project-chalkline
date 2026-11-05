@@ -15,3 +15,18 @@
   display: inline-block; font-size: 0.45em; font-weight: 700; color: #003477; background: #fff1e2;
   border: 1.5px solid #ff8c0f; border-radius: 999px; padding: 0.1em 0.8em; vertical-align: middle;
 }
+/* Recall mode (data-mode="recall"): blank boxes with a "?", tap to show. */
+.drawio-live { position: relative; }
+.drawio-live .recall foreignObject, .drawio-live .recall text:not(.recall-q) { transition: opacity 0.3s; }
+.drawio-live .recall:not(.shown) foreignObject, .drawio-live .recall:not(.shown) text:not(.recall-q) { opacity: 0; }
+.drawio-live .recall:not(.shown) :is(rect, path) { stroke-dasharray: 7 5; stroke-width: 2; }
+.drawio-live .recall-q {
+  font: 800 28px "Source Sans 3", sans-serif; fill: #003477; opacity: 0.5; text-anchor: middle; dominant-baseline: central;
+  pointer-events: none; transition: opacity 0.3s;
+}
+.drawio-live .recall.shown .recall-q { opacity: 0; }
+.drawio-live .drawio-recall-btn {
+  position: absolute; right: 0; bottom: -2.4em; font: 700 0.42em "Source Sans 3", sans-serif; cursor: pointer;
+  padding: 0.35em 1em; border-radius: 999px; border: 1.5px solid var(--line, #c9d6ea); background: var(--surface-2, #fff); color: var(--heading, #003477);
+}
+.drawio-live .drawio-recall-btn:hover { border-color: var(--accent, #14d7cd); }
