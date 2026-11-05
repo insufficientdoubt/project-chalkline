@@ -1,0 +1,56 @@
+<mxfile host="drawio" agent="Chalkline sample">
+  <diagram id="republic" name="How the Roman Republic worked">
+    <mxGraphModel dx="0" dy="0" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="960" pageHeight="520" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="How the Roman Republic worked" style="text;html=1;fontFamily=Poppins;fontSize=26;fontStyle=1;fontColor=#003477;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="620" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="title-zh" value="罗马共和国如何运作 · 509–27 BC" style="text;html=1;fontFamily=Source Sans 3;fontSize=16;fontColor=#ff8c0f;fontStyle=1;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="20" y="48" width="620" height="26" as="geometry" />
+        </mxCell>
+
+        <!-- Consuls -->
+        <mxCell id="consuls" value="&lt;b style=&quot;font-size:20px&quot;&gt;2 Consuls 执政官&lt;/b&gt;&lt;br&gt;Lead the government and the army.&lt;br&gt;Chosen for &lt;b&gt;one year&lt;/b&gt;. Each one can block (veto) the other." style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#003477;strokeColor=#003477;fontColor=#FFFFFF;fontFamily=Source Sans 3;fontSize=15;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="100" width="340" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Senate -->
+        <mxCell id="senate" value="&lt;b style=&quot;font-size:20px&quot;&gt;Senate 元老院&lt;/b&gt;&lt;br&gt;About 300 powerful men, members for life.&lt;br&gt;Advise the consuls. Control money and talks with other countries." style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#ebf7fd;strokeColor=#0087ff;strokeWidth=2;fontColor=#1F2933;fontFamily=Source Sans 3;fontSize=15;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="690" y="100" width="250" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Assemblies -->
+        <mxCell id="assemblies" value="&lt;b style=&quot;font-size:20px&quot;&gt;Citizen assemblies 公民大会&lt;/b&gt;&lt;br&gt;Roman &lt;b&gt;citizens&lt;/b&gt; vote: they elect the consuls every year,&lt;br&gt;and vote on laws and on going to war." style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#fff1e2;strokeColor=#ff8c0f;strokeWidth=2;fontColor=#1F2933;fontFamily=Source Sans 3;fontSize=15;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="230" y="370" width="440" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Army and government -->
+        <mxCell id="army" value="&lt;b style=&quot;font-size:18px&quot;&gt;Army and government&lt;/b&gt;&lt;br&gt;Legions, laws, courts, roads" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;fillColor=#e3f9f7;strokeColor=#14d7cd;strokeWidth=2;fontColor=#1F2933;fontFamily=Source Sans 3;fontSize=15;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="20" y="120" width="190" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="elect" value="elect every year" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#ff8c0f;strokeWidth=4;fontFamily=Source Sans 3;fontSize=15;fontStyle=1;fontColor=#003477;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="assemblies" target="consuls">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="advise" value="advises" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#0087ff;strokeWidth=4;fontFamily=Source Sans 3;fontSize=15;fontStyle=1;fontColor=#003477;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="senate" target="consuls">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="650" y="160" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lead" value="lead" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#14d7cd;strokeWidth=4;fontFamily=Source Sans 3;fontSize=15;fontStyle=1;fontColor=#003477;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="consuls" target="army">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Footnote -->
+        <mxCell id="note" value="No one person could hold all the power: that was the point." style="text;html=1;whiteSpace=wrap;fontFamily=Source Sans 3;fontSize=14;fontStyle=2;fontColor=#52606d;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="20" y="300" width="200" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

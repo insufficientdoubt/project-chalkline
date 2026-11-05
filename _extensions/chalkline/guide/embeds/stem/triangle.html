@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Angles in a triangle</title>
+<link rel="stylesheet" href="embed.css">
+<link rel="stylesheet" href="jsxgraph/jsxgraph.css">
+<style>
+  #board { flex: 1; min-height: 0; border: 1px solid var(--line); border-radius: var(--r); }
+  .sum { font-size: 26px; font-weight: 700; }
+  .sum .a { color: #0087ff; } .sum .b { color: #d6458f; } .sum .c { color: #23824a; }
+</style>
+</head>
+<body>
+  <div class="bar">
+    <span class="sum" id="sum"></span>
+    <span class="grow"></span>
+    <span class="note">Drag the corners. What stays the same?</span>
+    <button id="reset">Reset</button>
+  </div>
+  <div id="board" class="jxgbox"></div>
+
+<!-- JSXGraph (MIT or LGPL): see jsxgraph/LICENSE.MIT -->
+<script src="jsxgraph/jsxgraphcore.js"></script>
+<script>
+  JXG.Options.text.fontSize = 22;
+  const board = JXG.JSXGraph.initBoard("board", {
+    boundingbox: [-1, 7, 11, -1], axis: false, grid: false, keepaspectratio: true,
+    showCopyright: false, showNavigation: false, pan: { enabled: false }, zoom: { enabled: false },
+  });
+  const START = [[1, 1], [9, 1], [4, 6]];
+  const pt = { size: 7, strokeColor: "#003477", fillColor: "#fff", strokeWidth: 3, label: { fontSize: 24, offset: [10, 10] } };
+  const A = board.create("point", START[0], Object.assign({ name: "A" }, pt));
+  const B = board.create("point", START[1], Object.assign({ name: "B" }, pt));
+  const C = board.create("point", START[2], Object.assign({ name: "C" }, pt));
+  board.create("polygon", [A, B, C], { fillColor: "#e6edf7", fillOpacity: 0.6, borders: { strokeColor: "#003477", strokeWidth: 3 }, vertices: { visible: false } });
+  // The angle at q, inside the triangle (always under 180°), rounded to a whole degree. C's is
+  // 180 minus the other two, so the three labels always add up to 180 on the screen too.
+  function deg(p, q, r) { const t = JXG.Math.Geometry.trueAngle(p, q, r); return Math.round(t > 180 ? 360 - t : t); }
+  const value = {
+    A: function () { return deg(C, A, B); },
+    B: function () { return deg(A, B, C); },
+    C: function () { return 180 - deg(C, A, B) - deg(A, B, C); },
+  };
+  function ang(p, q, r, color, v) {
+    return board.create("nonreflexangle", [p, q, r], { radius: 1, fillColor: color, fillOpacity: 0.35, strokeColor: color,
+      name: function () { return v() + "°"; }, label: { fontSize: 22, strokeColor: color } });
+  }
+  ang(C, A, B, "#0087ff", value.A);
+  ang(A, B, C, "#d6458f", value.B);
+  ang(B, C, A, "#23824a", value.C);
+  function paint() {
+    document.getElementById("sum").innerHTML = '<span class="a">' + value.A() + '°</span> + <span class="b">' + value.B() +
+      '°</span> + <span class="c">' + value.C() + "°</span> = 180°";
+  }
+  board.on("update", paint);
+  paint();
+  document.getElementById("reset").onclick = function () {
+    [A, B, C].forEach(function (p, i) { p.moveTo(START[i]); });
+    board.update();
+  };
+</script>
+</body>
+</html>

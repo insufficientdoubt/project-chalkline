@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parabolas in GeoGebra</title>
+<link rel="stylesheet" href="embed.css">
+<style>
+  body { padding: 0; }
+  #ggb { flex: 1; min-height: 0; }
+  #offline { margin: auto; max-width: 520px; text-align: center; }
+</style>
+</head>
+<body>
+  <div id="ggb"><p id="offline" class="note">GeoGebra loads from geogebra.org, so this needs the internet. Loading…</p></div>
+
+<!-- GeoGebra (free for non-commercial use, from geogebra.org): the Graphing app, with three sliders -->
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+<script>
+  if (window.GGBApplet) {
+    const box = document.getElementById("ggb");
+    new GGBApplet({
+      appName: "graphing",
+      width: box.clientWidth, height: box.clientHeight,
+      showToolBar: false, showMenuBar: false, showAlgebraInput: false, showResetIcon: true,
+      enableShiftDragZoom: true, language: "en",
+      appletOnLoad: function (api) {
+        // y = a·x² + b·x + c, with a slider for each number
+        [
+          "a = Slider(-3, 3, 0.1)", "SetValue(a, 1)",
+          "b = Slider(-6, 6, 0.5)", "SetValue(b, 0)",
+          "c = Slider(-6, 6, 0.5)", "SetValue(c, -3)",
+          "f(x) = a x^2 + b x + c",
+          "SetColor(f, \"#003477\")", "SetLineThickness(f, 8)",
+          "ZoomIn(-8, -8, 8, 8)",
+        ].forEach(function (cmd) { api.evalCommand(cmd); });
+      },
+    }, true).inject("ggb");
+  }
+</script>
+</body>
+</html>

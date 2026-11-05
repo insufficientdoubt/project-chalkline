@@ -52,6 +52,7 @@
 // Every slide's text follows the tokens, so a colour scheme reaches Chalkline's own pieces too.
 .reveal .slides section { color: var(--ink); }
 .reveal .slides section :is(h3, h4) { color: var(--heading); }
+.reveal .slides section > h1 { color: var(--heading); }   // a column's first slide (#) too, in every scheme
 .reveal .slides section a { color: var(--link); }
 
 // A slide with no title (## {#id}): no title line either.
@@ -164,7 +165,9 @@
 .reveal .box.accent { background: var(--accent); color: var(--on-accent); }
 .reveal .box.hot { background: var(--hot); color: var(--on-hot); }
 .reveal .box.dark { background: var(--strong); color: var(--on-strong); }
-.reveal .box.dark, .reveal .strip { --hot-text: var(--hot); }   // the bright one reads well on dark
+.reveal .box.dark, .reveal .strip { --hot-text: var(--hot); }
+// Inline code on a dark or coloured box takes the box's own text colour (not the page's dark code colour)
+.reveal :is(.box.dark, .box.accent, .box.hot, .strip) code { color: inherit; background: rgba(255, 255, 255, 0.16); }   // the bright one reads well on dark
 .reveal .box.accent, .reveal .box.hot { --hot-text: currentColor; }
 .reveal .box.accent, .reveal .box.hot, .reveal .box.dark {
   --heading: currentColor;

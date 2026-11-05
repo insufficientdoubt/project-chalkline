@@ -42,6 +42,7 @@ what each one becomes in each output format (slides, web page, PDF, Word).
                                          Your own Jeopardy and quick-fire questions: a ::: div
                                          (see filter.lua). Options: tiles=16 (picture-reveal),
                                          rows=4 teams=2 (jeopardy), count=5 seconds=10 title="..." (trivia).
+                                         Any game: words="angle, vertex, side" for these words (a lesson's).
   {{< matching unit=1 >}}                pairs: tap a word, then its meaning (with="picture": its picture)
   {{< memory unit=1 >}}                  pairs: turn over two cards (a word and its picture, or with="meaning")
                                          count=6 pairs. Your own pairs: ::: {.matching} or {.memory} (filter.lua).
@@ -138,10 +139,23 @@ local function game_config(args, kwargs, kind)
     return { words = { w }, random = false }
   end
   vocab_lookup("")   -- loads the list
+  -- words="angle, vertex, side": these words (a lesson's), instead of a unit's or the whole list
+  local named = str(kwargs["words"], nil)
+  if named then
+    local words = {}
+    for w in named:gmatch("[^,]+") do
+      w = w:match("^%s*(.-)%s*$")
+      local t = w ~= "" and vocab_lookup(w)
+      if t then
+        if kind ~= "picture-reveal" or t.image ~= "" then table.insert(words, game_word(t, up)) end
+      elseif w ~= "" then quarto.log.warning(kind .. ' shortcode: "' .. w .. '" is not in vocab/data/vocab.csv') end
+    end
+    return { words = words, random = true, units = vocab_units, unit = nil, named = true }
+  end
   local unit = tonumber(str(kwargs["unit"], ""))
   local words = {}
   for _, t in ipairs(vocab_list or {}) do
-    local in_unit = not unit
+    local in_unit = not unit and not t.guide   -- the guide's own words only when named
     for _, u in ipairs(t.units or {}) do
       if u == unit then in_unit = true end
     end
@@ -473,7 +487,7 @@ local function vocab_card_html(t, meta)
   return '<span class="vocab-card" role="tooltip">' .. img ..
     '<span class="vc-term">' .. html_escape(t.term) .. say(t.term, "en-US", "Say it in English") .. '</span>' .. zh ..
     '<span class="vc-def">' .. html_escape(t.definition) .. '</span>' ..
-    '<a class="vc-link" href="' .. html_escape(up .. t.url) .. '" target="_blank" rel="noopener">' .. html_escape(str(meta and meta["vocab-title"], "Vocab")) .. ARROW .. '</a>' ..
+    ((t.url or "") ~= "" and ('<a class="vc-link" href="' .. html_escape(up .. t.url) .. '" target="_blank" rel="noopener">' .. html_escape(str(meta and meta["vocab-title"], "Vocab")) .. ARROW .. '</a>') or "") ..
     '</span>'
 end
 
@@ -789,7 +803,8 @@ return {
     local up = quarto.project.offset and (quarto.project.offset .. "/") or ""
     local c = game_config({}, kwargs, "blitz")
     c.all = {}   -- every word, for the wrong answers (one of the four comes from another unit)
-    for _, t in ipairs(vocab_list or {}) do table.insert(c.all, game_word(t, up)) end
+    if c.named then c.all = c.words
+    else for _, t in ipairs(vocab_list or {}) do if not t.guide then table.insert(c.all, game_word(t, up)) end end end
     c.count = tonumber(str(kwargs["count"], ""))   -- nil: games.js decides (20, or 10 for a small course)
     c.seconds = tonumber(str(kwargs["seconds"], "10")) or 10
     c.ask = str(kwargs["ask"], "both")
@@ -805,7 +820,7 @@ return {
     local up = quarto.project.offset and (quarto.project.offset .. "/") or ""
     vocab_lookup("")   -- loads the list
     local words = {}
-    for _, t in ipairs(vocab_list or {}) do table.insert(words, game_word(t, up)) end
+    for _, t in ipairs(vocab_list or {}) do if not t.guide then table.insert(words, game_word(t, up)) end end
     local only = {}
     for id in str(kwargs and kwargs["games"], ""):gmatch("[%w-]+") do table.insert(only, id) end
     return games.div("picker", { words = words, units = vocab_units, random = true, games = only,
