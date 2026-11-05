@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Vocab pop-ups no longer cut off by the box around them
+- **Asked for:** "New bug on 1.1. vocab popup appearing under the content objective box"
+- **Why:** the pop-up's top half was hidden.
+- **Changed:** `_extensions/chalkline/guide/exemplar.css`: the lesson intro's language area (1.1 and 1.9) no longer has `overflow: hidden`, which cut off everything sticking out of it, so the pop-up looked as if it were under the content-objective box. `_extensions/chalkline/vocab-card.html`: a pop-up opens below its word when there's no room above inside the screen *or* inside any box around it that cuts off what sticks out (overflow hidden or auto), not only the screen.
+- **Who it helps:** probably every Chalkline course (any vocab word in a box that clips).
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-04: The official style in the palette, and 16:9 by default
 - **Asked for:** "Yes, add it to the palette and make 16:9 default" (after asking whether the official style was a regular theme or specific to one deck).
 - **Why:** to try the official style on any slide, and to get the PowerPoint's shape without setting it in each deck.
