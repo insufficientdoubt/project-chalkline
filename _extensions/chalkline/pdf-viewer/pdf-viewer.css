@@ -197,7 +197,7 @@
 }
 
 /* gallery */
-.pdfv-gallery { padding: 8px; }
+.pdfv-gallery { padding: 8px; background: transparent; }   /* the pages sit on the slide itself, not on a grey panel */
 .pdfv-strip {
   display: flex;
   gap: 12px;

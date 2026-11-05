@@ -1269,11 +1269,10 @@ A straight angle is just a straight line. It is not an angle.
 [Teach your 3 points. Take notes. | 讲解3个要点，做笔记。]{.bi}
 :::
 
-::: {.box .dark .jigsaw-timer}
-[8 minutes for each step · 每步8分钟]{.kicker}
-
-{{< timer 8 >}}
 :::
+
+::: {style="font-size: 0.72em"}
+{{< timer 8 layout="row" label="8 minutes for each step | 每步8分钟" >}}
 :::
 :::
 ::: {.column width="64%"}

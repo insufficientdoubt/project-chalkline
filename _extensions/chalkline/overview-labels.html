@@ -4,17 +4,21 @@
     - data-column-label="Practice" on the column's first slide:  # Title {data-column-label="Practice"}
     - the phase in its first slide's footer (.phase, as in the exemplar deck)
     - its menu title (data-menu-title=), or its title
-  And a faint line between the columns, as tall as the longest column.
+  And a faint line between the columns, as tall as the longest column, with more room between the
+  columns than reveal.js leaves (GAP), and the selected slide outlined.
+  Zoom: reveal.js draws the overview at a fixed size (each slide 1/5 of the screen). Here it starts
+  bigger (OVERVIEW_ZOOM), and + and − change it while the overview is open (remembered in this browser).
+  Enter opens the selected slide (reveal.js itself only closes the overview with O, Esc or a click).
   Only in a deck with columns (stacks of slides); a flat deck gets neither.
   Added to every deck by filter.lua; turn off with `overview-labels: false`.
 -->
 <style>
   .reveal .slides > section > .ov-label { display: none; }
   .reveal.overview .slides > section > .ov-label {
-    display: block; position: absolute; left: 0; right: 0; bottom: calc(100% + 28px); z-index: 5;
-    padding: 18px 24px; border-radius: 22px; text-align: center; transform: none;
+    display: block; position: absolute; left: 0; right: 0; bottom: calc(100% + 34px); z-index: 5;
+    padding: 22px 28px; border-radius: 26px; text-align: center; transform: none;
     background: var(--strong, #003477); color: var(--on-strong, #fff);
-    font: 700 64px/1.15 var(--r-heading-font, "Source Sans 3", sans-serif); letter-spacing: 0.01em;
+    font: 700 96px/1.12 var(--r-heading-font, "Source Sans 3", sans-serif); letter-spacing: 0.01em;
     white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
     pointer-events: none;
   }
@@ -22,13 +26,21 @@
   /* the line between columns: in the 70px reveal.js leaves between them, from the label to the longest column's end */
   .reveal .slides > section > .ov-line { display: none; }
   .reveal.overview .slides > section > .ov-line {
-    display: block; position: absolute; top: -150px; right: -40px; width: 10px; border-radius: 5px; pointer-events: none;
-    height: calc(var(--ov-rows, 1) * (100% + 70px) + 80px);
+    display: block; position: absolute; top: -330px; right: calc(-35px - var(--ov-gap, 0px) / 2 - 5px); width: 10px; border-radius: 5px; pointer-events: none;
+    height: calc(var(--ov-rows, 1) * (100% + 70px) + 260px);
     background: var(--ink, #1f2933); opacity: 0.22;
   }   /* a one-slide column: its label sits above it */
   .reveal.overview .slides > section.present > .ov-label { background: var(--accent, #14d7cd); color: var(--on-accent, #003477); }
   .reveal.overview .slides > section > .ov-label .ov-zh { display: block; font-size: 0.7em; font-weight: 600; opacity: 0.85; }
   html.print-pdf .ov-label { display: none !important; }
+  /* the selected slide: a thick outline in the scheme's accent and a glow; the others a little faded */
+  .reveal.overview .slides section:not(.stack) { transition: opacity 0.2s; }
+  .reveal.overview .slides section:not(.stack):not(.present) { opacity: 0.6 !important; }
+  .reveal.overview .slides section:not(.stack):not(.present):hover { opacity: 1 !important; }
+  .reveal.overview .slides section:not(.stack).present {
+    opacity: 1 !important; outline: 26px solid var(--hot, #ff8c0f); outline-offset: 16px; border-radius: 6px;
+    box-shadow: 0 0 0 16px var(--paper, #fff), 0 0 120px 60px color-mix(in srgb, var(--hot, #ff8c0f) 40%, transparent);
+  }
 </style>
 <script>
 (function () {
@@ -77,5 +89,52 @@
     });
   }
   if (Reveal.isReady()) start(); else Reveal.on("ready", start);
+
+  // ---- Spacing: reveal.js puts the columns 70px apart; GAP more between them ----
+  const GAP = 180;
+  document.querySelector(".reveal").style.setProperty("--ov-gap", GAP + "px");
+  function space(t) {
+    const W = Reveal.getConfig().width + 70, cols = Reveal.getHorizontalSlides();
+    cols.forEach(function (c, i) { c.style.transform = "translate3d(" + i * (W + GAP) + "px, 0, 0)"; });
+    document.querySelectorAll(".reveal .backgrounds > .slide-background").forEach(function (b, i) {
+      b.style.transform = "translate3d(" + i * (W + GAP) + "px, 0, 0)";
+    });
+    const h = Reveal.getIndices().h;
+    return t.replace(/translateX\(-?[\d.]+px\)/, "translateX(" + (-h * (W + GAP)) + "px)");
+  }
+
+  // ---- Zoom: reveal.js sets the overview's scale itself; this multiplies it ----
+  const KEY = "chalkline-overview-zoom", OVERVIEW_ZOOM = 1.4;
+  let zoom = OVERVIEW_ZOOM;
+  try { zoom = parseFloat(localStorage.getItem(KEY)) || OVERVIEW_ZOOM; } catch (e) { /* private window */ }
+  function applyZoom() {
+    if (!Reveal.isOverview()) return;
+    const slides = document.querySelector(".reveal .slides");
+    const t = slides.style.transform || "";
+    const all = t.match(/scale\([\d.]+\)/g);   // the slide size's scale, then the overview's: change the last
+    if (!all) return;
+    const last = all[all.length - 1], m = last.match(/([\d.]+)/), at = t.lastIndexOf(last);
+    if (!slides.dataset.ovBase || Math.abs(parseFloat(slides.dataset.ovSet) - parseFloat(m[1])) > 1e-6) slides.dataset.ovBase = m[1];
+    const scale = parseFloat(slides.dataset.ovBase) * zoom;
+    slides.dataset.ovSet = String(scale);
+    slides.style.transform = space(t.slice(0, at) + "scale(" + scale + ")" + t.slice(at + last.length));
+  }
+  function later() { requestAnimationFrame(applyZoom); }
+  ["overviewshown", "slidechanged", "resize"].forEach(function (ev) { Reveal.on(ev, later); });
+  window.addEventListener("resize", function () { setTimeout(later, 50); });
+  document.addEventListener("keydown", function (e) {
+    if (!Reveal.isOverview() || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === "Enter" && !(e.target && e.target.closest && e.target.closest("input, textarea, button, a, select"))) {
+      e.preventDefault(); e.stopPropagation(); Reveal.toggleOverview(false); return;   // open the selected slide (reveal.js has no key for it)
+    }
+    let z = null;
+    if (e.key === "+" || e.key === "=") z = Math.min(3, zoom * 1.2);
+    if (e.key === "-" || e.key === "_") z = Math.max(0.5, zoom / 1.2);
+    if (z === null) return;
+    e.preventDefault(); e.stopPropagation();
+    zoom = z;
+    try { localStorage.setItem(KEY, String(zoom)); } catch (err) { /* private window */ }
+    applyZoom();
+  }, true);
 })();
 </script>

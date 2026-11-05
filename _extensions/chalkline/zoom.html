@@ -1,0 +1,190 @@
+<!--
+  Zoom and pan around a big picture (a painting, a map, a diagram, a microscope photo). Included by
+  filter.lua when a slide has one.
+
+      ::: {.zoom-image start="0.62,0.71,6"}
+      ![](images/bruegel-childrens-games.jpg)
+      :::
+
+  start   optional: where the slide opens, "x,y,zoom": x and y from 0 to 1 (0,0 is the top left), zoom 1 = the
+          whole picture. Every time the slide comes up it starts there, so you can begin on one detail and
+          zoom out to the whole. Leave it out to start with the whole picture.
+  height  optional: the viewer's height on the slide (default: the room left, about 560px).
+
+  Scroll or pinch to zoom, drag to move, double-tap to zoom in. Buttons: − + / Whole picture / Back to the
+  start / ⌖ copies the view you are looking at as start="…", to paste into the slide.
+-->
+<style>
+  .zoom-image { position: relative; margin: 0.2em 0 0; }
+  .zoom-image .zi-view {
+    position: relative; overflow: hidden; height: var(--zi-h, 560px); border-radius: var(--radius, 14px);
+    background: #10151d; cursor: grab; touch-action: none; user-select: none;
+  }
+  .zoom-image .zi-view.zi-drag { cursor: grabbing; }
+  .zoom-image .zi-view img {
+    position: absolute; left: 0; top: 0; max-width: none; max-height: none; width: auto; height: auto; margin: 0;
+    transform-origin: 0 0; -webkit-user-drag: none; pointer-events: none;
+  }
+  .zoom-image .zi-view.zi-anim img { transition: transform var(--zi-t, 0.5s) cubic-bezier(0.3, 0.7, 0.2, 1); }
+  .zoom-image .zi-bar {
+    position: absolute; right: 10px; bottom: 10px; display: flex; gap: 4px; padding: 4px; border-radius: 999px;
+    background: rgba(16, 21, 29, 0.6); backdrop-filter: blur(6px); font: 600 16px/1 "Source Sans 3", system-ui, sans-serif;
+  }
+  .zoom-image .zi-bar button {
+    all: unset; cursor: pointer; min-width: 34px; height: 34px; padding: 0 10px; box-sizing: border-box; border-radius: 999px;
+    display: grid; place-items: center; color: #fff; white-space: nowrap;
+  }
+  .zoom-image .zi-bar button:hover { background: rgba(255, 255, 255, 0.18); }
+  .zoom-image .zi-bar .zi-big { font-size: 22px; font-weight: 700; }
+  .zoom-image .zi-level { color: rgba(255, 255, 255, 0.75); min-width: 3.2em; text-align: center; align-self: center; font-variant-numeric: tabular-nums; }
+  .zoom-image .zi-toast {
+    position: absolute; left: 50%; top: 12px; transform: translateX(-50%); padding: 6px 14px; border-radius: 999px; background: rgba(16, 21, 29, 0.75);
+    color: #fff; font: 600 15px "Source Sans 3", system-ui, sans-serif; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+  .zoom-image .zi-toast.zi-show { opacity: 1; }
+  .zoom-image > p:not(.zi-keep) { display: none; }   /* the picture's own paragraph: the viewer replaces it */
+</style>
+<script>
+(function () {
+  const boxes = document.querySelectorAll(".zoom-image");
+  if (!boxes.length) return;
+  function attr(el, n) { return el.getAttribute("data-" + n) ?? el.getAttribute(n) ?? ""; }
+
+  boxes.forEach(function (el) {
+    const src = el.querySelector("img");
+    if (!src) return;
+    const h = attr(el, "height");
+    if (/^[\d.]+(px|em|vh|%)?$/.test(h)) el.style.setProperty("--zi-h", /^[\d.]+$/.test(h) ? h + "px" : h);
+    const view = document.createElement("div");
+    view.className = "zi-view"; view.setAttribute("data-prevent-swipe", "");   // reveal.js: a drag here isn't a slide change
+    const img = document.createElement("img");
+    img.src = src.getAttribute("src") || src.getAttribute("data-src"); img.alt = src.alt || "";   // reveal.js lazy-loads: data-src
+    img.loading = "eager";
+    view.appendChild(img);
+    const bar = document.createElement("div"); bar.className = "zi-bar";
+    bar.innerHTML = '<button class="zi-big zi-out" title="Zoom out" aria-label="Zoom out">−</button><span class="zi-level"></span>' +
+      '<button class="zi-big zi-in" title="Zoom in" aria-label="Zoom in">+</button>' +
+      '<button class="zi-all" title="The whole picture">Whole picture</button>' +
+      '<button class="zi-home" title="Back to where it started" aria-label="Back to the start">↺</button>' +
+      '<button class="zi-copy" title="Copy this view as start=&quot;x,y,zoom&quot;" aria-label="Copy this view">⌖</button>';
+    const toast = document.createElement("div"); toast.className = "zi-toast";
+    view.append(bar, toast);
+    el.appendChild(view);
+
+    let W = 0, H = 0;          // the picture's own size
+    let fit = 1;               // the scale that shows the whole picture
+    let s = 1, x = 0, y = 0;   // the current scale (screen px per picture px) and offset
+    const MAX = 12;            // up to 12 × the whole picture
+    const start = attr(el, "start").split(",").map(Number);
+
+    function size() { return { w: view.clientWidth, h: view.clientHeight }; }
+    function clamp() {
+      const v = size(), iw = W * s, ih = H * s;
+      x = iw <= v.w ? (v.w - iw) / 2 : Math.min(0, Math.max(v.w - iw, x));
+      y = ih <= v.h ? (v.h - ih) / 2 : Math.min(0, Math.max(v.h - ih, y));
+    }
+    function paint(anim, t) {
+      clamp();
+      view.classList.toggle("zi-anim", !!anim);
+      view.style.setProperty("--zi-t", (t || 0.5) + "s");
+      img.style.transform = "translate(" + x + "px," + y + "px) scale(" + s + ")";
+      bar.querySelector(".zi-level").textContent = Math.round(s / fit * 10) / 10 + "×";
+    }
+    // centre the picture point (px, py: 0 to 1) at zoom z (1 = whole picture)
+    function look(px, py, z, anim, t) {
+      const v = size();
+      s = fit * Math.max(1, Math.min(MAX, z));
+      x = v.w / 2 - px * W * s; y = v.h / 2 - py * H * s;
+      paint(anim, t);
+    }
+    function home(anim) {
+      if (start.length === 3 && start.every(isFinite)) look(start[0], start[1], start[2], anim);
+      else look(0.5, 0.5, 1, anim);
+    }
+    // zoom by factor k about the view point (cx, cy)
+    function zoomAt(k, cx, cy, anim) {
+      const ns = Math.max(fit, Math.min(fit * MAX, s * k));
+      x = cx - (cx - x) * ns / s; y = cy - (cy - y) * ns / s; s = ns;
+      paint(anim);
+    }
+    function setup() {
+      W = img.naturalWidth; H = img.naturalHeight;
+      const v = size(); if (!W || !v.w) return;
+      fit = Math.min(v.w / W, v.h / H);
+      home(false);
+    }
+    if (img.complete && img.naturalWidth) setup(); else img.addEventListener("load", setup);
+
+    // the view's own coordinates, under reveal.js's scaling of the whole slide
+    function local(e) {
+      const r = view.getBoundingClientRect(), k = view.offsetWidth / r.width;
+      return { x: (e.clientX - r.left) * k, y: (e.clientY - r.top) * k };
+    }
+    view.addEventListener("wheel", function (e) {
+      if (e.target.closest(".zi-bar")) return;
+      e.preventDefault(); e.stopPropagation();
+      const p = local(e);
+      zoomAt(Math.exp(-e.deltaY * 0.0022), p.x, p.y, false);
+    }, { passive: false });
+    // drag with one finger or the mouse; pinch with two
+    const pts = new Map();
+    let pinch = null, moved = 0, lastTap = 0;
+    view.addEventListener("pointerdown", function (e) {
+      if (e.target.closest(".zi-bar")) return;
+      view.setPointerCapture(e.pointerId);
+      pts.set(e.pointerId, local(e)); moved = 0;
+      view.classList.add("zi-drag");
+      if (pts.size === 2) {
+        const [a, b] = Array.from(pts.values());
+        pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), s: s };
+      }
+    });
+    view.addEventListener("pointermove", function (e) {
+      if (!pts.has(e.pointerId)) return;
+      const p = local(e), old = pts.get(e.pointerId);
+      pts.set(e.pointerId, p);
+      if (pts.size === 1) {
+        x += p.x - old.x; y += p.y - old.y; moved += Math.abs(p.x - old.x) + Math.abs(p.y - old.y);
+        paint(false);
+      } else if (pinch && pts.size === 2) {
+        const [a, b] = Array.from(pts.values()), d = Math.hypot(a.x - b.x, a.y - b.y);
+        zoomAt((pinch.s * d / pinch.d) / s, (a.x + b.x) / 2, (a.y + b.y) / 2, false);
+        moved += 10;
+      }
+    });
+    function up(e) {
+      if (!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      pts.delete(e.pointerId);
+      if (pts.size < 2) pinch = null;
+      if (!pts.size) view.classList.remove("zi-drag");
+      if (moved < 6 && !pts.size) {   // a tap: two quick taps zoom in there
+        const now = Date.now();
+        if (now - lastTap < 350) { zoomAt(2.2, p.x, p.y, true); lastTap = 0; } else lastTap = now;
+      }
+    }
+    view.addEventListener("pointerup", up);
+    view.addEventListener("pointercancel", up);
+
+    const v0 = function () { const v = size(); return [v.w / 2, v.h / 2]; };
+    bar.querySelector(".zi-in").addEventListener("click", function () { zoomAt(1.6, ...v0(), true); });
+    bar.querySelector(".zi-out").addEventListener("click", function () { zoomAt(1 / 1.6, ...v0(), true); });
+    bar.querySelector(".zi-all").addEventListener("click", function () { look(0.5, 0.5, 1, true, 1.6); });   // slowly: the reveal
+    bar.querySelector(".zi-home").addEventListener("click", function () { home(true); });
+    bar.querySelector(".zi-copy").addEventListener("click", function () {
+      const v = size(), r3 = function (n) { return Math.round(n * 1000) / 1000; };
+      const text = 'start="' + r3((v.w / 2 - x) / (W * s)) + "," + r3((v.h / 2 - y) / (H * s)) + "," + Math.round(s / fit * 10) / 10 + '"';
+      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { say("Copied: " + text); }, function () { say(text); });
+    });
+    function say(t) { toast.textContent = t; toast.classList.add("zi-show"); clearTimeout(say.t); say.t = setTimeout(function () { toast.classList.remove("zi-show"); }, 3500); }
+    bar.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
+
+    // every time its slide comes up: start where the slide says
+    if (window.Reveal) {
+      const again = function () { const sl = Reveal.getCurrentSlide(); if (sl && sl.contains(el)) setup(); };
+      Reveal.on("slidechanged", again); Reveal.on("ready", again); Reveal.on("resize", again);
+    }
+    window.addEventListener("resize", function () { if (W) { const keep = s / fit; fit = Math.min(size().w / W, size().h / H); s = fit * keep; paint(false); } });
+  });
+})();
+</script>

@@ -27,6 +27,10 @@
   --on-strong: #fff;
   --rule: #{$blue};              // the line under slide titles, timeline dots, big numbers
   --link: #{$navy};
+  // the pill's own look, so each scheme gives it a personality (every scheme sets all nine, so a slide
+  // in one scheme inside a deck in another doesn't mix them)
+  --pill-bg: var(--hot); --pill-ink: var(--on-hot); --pill-border: 0 solid transparent; --pill-radius: 999px;
+  --pill-shadow: none; --pill-outline: none; --pill-case: none; --pill-track: normal; --pill-blur: none;
   // a slide's own background (a colour scheme sets these; schemes.html paints them behind the slide)
   --paper-image: none;           // a pattern or picture over --paper (night's grid)
   --paper-size: auto;            // its background-size: 40px 40px for a tile, cover for one picture
@@ -210,9 +214,17 @@
   gap: 0.3em;
   flex-shrink: 0;
   padding: 0.12em 0.7em;
-  background: var(--hot);
-  color: var(--on-hot);
-  border-radius: 999px;
+  background: var(--pill-bg);
+  color: var(--pill-ink);
+  border: var(--pill-border);
+  border-radius: var(--pill-radius);
+  box-shadow: var(--pill-shadow);
+  outline: var(--pill-outline);
+  outline-offset: -0.22em;
+  text-transform: var(--pill-case);
+  letter-spacing: var(--pill-track);
+  -webkit-backdrop-filter: var(--pill-blur);
+  backdrop-filter: var(--pill-blur);
   font-size: var(--step--1);
   font-weight: 700;
 }

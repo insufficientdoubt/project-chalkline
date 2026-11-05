@@ -10,6 +10,10 @@
   Or a row, one narrow strip: the instruction, the time, the buttons stacked:
       {{< timer 6 layout="row" label="Move to the next station | 换到下一站" >}}
 
+  Or radial: a disc (or a square) that slowly empties, with no numbers, for quiet work. Tap it to start or
+  pause; the minutes and Reset show faintly under it when you point at it:
+      {{< timer 5 layout="radial" >}}        {{< timer 5 layout="radial" shape="square" size="8em" >}}
+
   Buttons: Start / Pause, Reset, +1 min. Keyboard on the timer slide: T = start/pause.
   While it runs, a small copy follows you onto other slides (bottom center).
   It turns orange at 5 minutes left, red at 1 minute, and chimes at zero.
@@ -87,6 +91,35 @@
   .countdown.cd-row .cd-controls button { margin: 0; padding: 0.2em 0.9em; font-size: max(0.42em, 15px); }
   @keyframes cd-pulse { 50% { opacity: 0.35; } }
 
+  /* Radial: the time left as a slice that sweeps away clockwise. No numbers on the slide. */
+  .countdown.cd-radial { display: flex; flex-direction: column; align-items: center; gap: 0.35em; margin: 0.3em auto; --cd-size: 6em; }
+  .countdown.cd-radial .cd-time, .countdown.cd-radial .cd-bar { display: none; }
+  .countdown.cd-radial .cd-dial {
+    all: unset; box-sizing: border-box; cursor: pointer; position: relative; width: var(--cd-size); height: var(--cd-size); border-radius: 50%;
+    background: var(--surface, #ebf7fd); box-shadow: inset 0 0 0 3px var(--line, rgba(0, 52, 119, 0.18));
+  }
+  .countdown.cd-radial.cd-square .cd-dial, .countdown.cd-radial.cd-square .cd-disc { border-radius: var(--radius, 14px); }
+  .countdown.cd-radial .cd-disc {
+    position: absolute; inset: 6%; border-radius: 50%;
+    background: conic-gradient(var(--accent, var(--cd-ok)) calc(var(--p, 1) * 360deg), transparent 0);
+    transform: scaleX(-1);   /* the slice left is the part still to come, shrinking clockwise */
+  }
+  .countdown.cd-radial .cd-dial::after {   /* a small dot in the middle, like a clock's pin */
+    content: ""; position: absolute; left: 50%; top: 50%; width: 8%; height: 8%; transform: translate(-50%, -50%); border-radius: 50%;
+    background: var(--heading, #003477); opacity: 0.5;
+  }
+  .countdown.cd-radial .cd-dial:focus-visible { outline: 3px solid #0087ff; outline-offset: 4px; }
+  .countdown.cd-radial:not(.cd-running) .cd-dial::before {   /* paused: a soft play sign */
+    content: ""; position: absolute; z-index: 1; left: 50%; top: 50%; transform: translate(-35%, -50%);
+    border-left: calc(var(--cd-size) * 0.16) solid rgba(255, 255, 255, 0.9); border-top: calc(var(--cd-size) * 0.1) solid transparent; border-bottom: calc(var(--cd-size) * 0.1) solid transparent;
+    filter: drop-shadow(0 1px 3px rgba(0, 30, 70, 0.35));
+  }
+  .countdown.cd-radial.done .cd-dial { animation: cd-pulse 1.2s ease-in-out 3; }
+  .countdown.cd-radial .cd-set { display: flex; align-items: center; gap: 0.3em; opacity: 0; transition: opacity 0.3s; font-size: max(0.4em, 14px); color: var(--ink-muted, #52606d); }
+  .countdown.cd-radial:hover .cd-set, .countdown.cd-radial:focus-within .cd-set { opacity: 1; }
+  .countdown.cd-radial .cd-set button { font-size: 1em; padding: 0.1em 0.6em; margin: 0; }
+  .countdown.cd-radial .cd-mins { min-width: 3.5em; text-align: center; font-weight: 700; }
+
   #cd-mini {
     position: fixed;
     bottom: 12px;
@@ -133,13 +166,20 @@
   document.body.appendChild(mini);
 
   document.querySelectorAll(".countdown").forEach(function (el) {
-    const total = Math.round(parseFloat(el.dataset.minutes || "5") * 60);
+    let total = Math.round(parseFloat(el.dataset.minutes || "5") * 60);
     let left = total, timer = null, endAt = 0, full = total;
 
     const buttons = '<button class="cd-primary cd-go">Start</button>' +
       '<button class="cd-reset">Reset</button>' +
       '<button class="cd-add">+1 min</button>';
-    if (el.classList.contains("cd-row")) {   // instruction | time and bar | buttons
+    const radial = el.classList.contains("cd-radial");
+    if (radial) {   // the dial, and faint controls under it: minutes − / +, Reset (the hidden ones keep paint() simple)
+      el.innerHTML = '<button class="cd-dial" aria-label="Timer: tap to start or pause"><span class="cd-disc"></span></button>' +
+        '<div class="cd-set"><button class="cd-less" aria-label="One minute less">−</button><span class="cd-mins"></span>' +
+        '<button class="cd-more" aria-label="One minute more">+</button><button class="cd-reset">Reset</button></div>' +
+        '<div class="cd-time"></div><div class="cd-bar"><div class="cd-fill"></div></div>' +
+        '<span hidden><button class="cd-go"></button><button class="cd-add"></button></span>';
+    } else if (el.classList.contains("cd-row")) {   // instruction | time and bar | buttons
       const label = el.querySelector(".cd-label");
       el.innerHTML = '<div class="cd-clock"><div class="cd-time"></div><div class="cd-bar"><div class="cd-fill"></div></div></div>' +
         '<div class="cd-controls">' + buttons + "</div>";
@@ -151,14 +191,18 @@
           go = el.querySelector(".cd-go");
 
     function paint() {
+      if (radial) {
+        el.style.setProperty("--p", full ? left / full : 0);
+        el.classList.toggle("cd-running", !!timer);
+        el.querySelector(".cd-mins").textContent = Math.round(total / 60) + " min";
+      }
       time.textContent = left > 0 ? fmt(left) : "Time's up!";
       fill.style.width = (100 * left / full) + "%";
       const state = left <= 0 ? "end" : left <= 60 ? "end" : left <= 300 ? "warn" : "";
       el.classList.toggle("warn", state === "warn");
       el.classList.toggle("end", state === "end");
       el.classList.toggle("done", left <= 0);
-      mini.textContent = left > 0 ? fmt(left) : "0:00";
-      mini.className = state;
+      if (!radial) { mini.textContent = left > 0 ? fmt(left) : "0:00"; mini.className = state; }
       go.textContent = timer ? "Pause" : (left < total && left > 0 ? "Resume" : "Start");
       showMini();
     }
@@ -175,6 +219,13 @@
       paint();
     }
     function stop() { clearInterval(timer); timer = null; paint(); }
+    if (radial) {
+      el.querySelector(".cd-dial").addEventListener("click", function () { if (left <= 0) { left = total; full = total; } timer ? stop() : start(); });
+      // set the time (only while stopped): a minute at a time, 1 to 60
+      const setMins = function (d) { if (timer) return; total = Math.max(60, Math.min(3600, total + d * 60)); left = total; full = total; paint(); };
+      el.querySelector(".cd-less").addEventListener("click", function () { setMins(-1); });
+      el.querySelector(".cd-more").addEventListener("click", function () { setMins(1); });
+    }
 
     go.addEventListener("click", function () { timer ? stop() : start(); });
     el.querySelector(".cd-reset").addEventListener("click", function () {
@@ -195,6 +246,7 @@
       return window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide().contains(el);
     }
     function showMini() {
+      if (radial) return;   // no numbers anywhere for a radial timer
       mini.style.display = (timer || (left < total)) && !onTimerSlide() ? "block" : "none";
     }
     mini.addEventListener("click", function () {

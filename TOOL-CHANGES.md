@@ -16,6 +16,48 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Timeline pictures stay, big multiple-choice answers and picture answers, radial timer, zoom-and-pan pictures, full-screen picture and YouTube slides
+- **Asked for:** "8.13 - keep pictures visible when the items are on the timeline. 8.2 instead of ABC, show the answers in a large font. Then make another version with picture answers, and give those ABC labels. 7.2 use the other layout for the timer. For timers in general - add a radial timer option. Just a circle or square slowly disappearing, no visible number (maybe teacher can set time on click). 5.4 can we give the printables insert a transparent background so it looks less out of place? Add an image zoom in/zoom out slide. For using high rez images and zooming and panning around. Include an option to start super zoomed in on a particular point. Add general slides for just full screen images and full screen YouTube (no text or anything)."
+- **Why:** not given.
+- **Changed:** `games/timeline.js`, `games/timeline.css`: a placed event keeps its picture, small, beside its words. `poll.html`: a choice poll shows each answer big on its own tile (no letters); answers can be a list in the poll, and answers with pictures become picture cards with A, B, C; the results and the summary show the pictures small. `countdown.html`, `shortcodes.lua`: `{{< timer 5 layout="radial" >}}`, a disc (or `shape="square"`) that empties with no numbers; tap to start or pause; − / + set the minutes; no corner copy on other slides. `pdf-viewer/pdf-viewer.css`: the gallery has no grey panel. `zoom.html` (new, loaded by `filter.lua`): `::: {.zoom-image start="x,y,zoom"}` around a big picture: scroll or pinch to zoom, drag to move, double-tap; Whole picture (a slow zoom out), back to the start, and ⌖ copies the current view as `start=`. Template Library: 7.2 (and the exemplar's jigsaw) use the row timer; 8.3 Multiple choice: pictures; 5.5 Zoom into a big picture (Bruegel's *Children's Games*, public domain, added to `guide/images/`); 5.6 A picture, full screen; 5.7 YouTube, full screen; radial timers on 11.6.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-05: Feelings check-ins (mood meter, feelings pie), a pie-chart vote, and a recall mode for draw.io diagrams
+- **Asked for:** recall mode for the lesson-summary diagram ("Add 1"), then "let's add some sel functions. Do a mood survey board. 1 in a mood meter grid with anonymous responses, one where the results show live in a pie chart (pie chart voting can be useful for other activities anyways - make a blank version where the teacher can add options and kids can vote)." The teacher shared three classroom feelings charts as ideas (a colour list, a four-colour poster, a tap-to-vote screen); the faces and layouts here are original.
+- **Why:** check-ins at the start of a lesson; pie votes for any class decision.
+- **Changed:** `mood.html` (new, loaded by `filter.lua` when a slide uses it): `::: {.mood-meter}`, a 4 × 4 grid of feelings in four colours (energy up, pleasant right), with original drawn faces and 中文, where a tap shows only "Thank you!" and Show results (or R) shows the counts and colour totals; own words with `red=`, `yellow=`, `blue=`, `green=`. `::: {.pie-vote}`: tap an answer and a donut chart grows live; `preset="feelings"` (eight feelings with faces), a list for your own answers, or `editable="true"` (blank: the teacher types a question and 2 to 8 answers on the slide); `hidden="true"` covers the chart until shown. Both have Undo and Clear (two taps), and keep the answers in the browser. `guide/drawio/drawio-live.js` and `.css`: `data-mode="recall"` blanks the end boxes with a "?" (tap to show, Show all / Hide all); `data-hide=` picks other boxes. `guide/templates-slides.qmd`: 1.11 Check-in: mood meter, 1.12 Check-in: feelings pie, 8.3 Pie vote; 10.6 now uses recall mode.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-05: draw.io diagrams: a lifted box's glow no longer cut off
+- **Asked for:** "10.6 - the glow effect cuts off at the edges."
+- **Why:** not given.
+- **Changed:** `guide/drawio/drawio-live.css`: the diagram's SVG shows what spills past its edge (`overflow: visible`), so a box at the edge keeps its whole shadow when it lifts.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-05: Pills with a personality in each colour scheme
+- **Asked for:** "Templates 11.1 - I noticed that all the pills look the same except for trail. What can we do to get them a little more distinctive personality?"
+- **Why:** not given (the schemes changed everything but the pill, which stayed an orange capsule).
+- **Changed:** `styles/layout.scss`: the pill reads nine new tokens (`--pill-bg`, `-ink`, `-border`, `-radius`, `-shadow`, `-outline`, `-case`, `-track`, `-blur`), defaulting to today's round `--hot` pill. `styles/schemes.scss`: night a glowing neon outline, sky a white cloud, lagoon a sticker (navy edge, hard shadow), sunrise a warm gradient with a glow. `guide/slide-kit-looks.css`: trail a stitched leather tag, glass frosted with an orange edge (their old pill overrides removed). `brand/themes/official.scss`: a square label in capitals, yellow with a blue edge. `brand/themes/my-theme.scss.example`: the tokens explained.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-05: overview: more space between columns, an obvious selected slide, Enter opens it
+- **Asked for:** "Add a little more space between columns on the overview. And make the selected slide a bit more obvious."
+- **Why:** not given (columns ran together; the selected slide was hard to spot).
+- **Changed:** `_extensions/chalkline/overview-labels.html`: 180px more between columns (slides and backgrounds moved, the column lines kept centred in the gap); the selected slide gets a thick outline in the scheme's highlight colour (`--hot`) with a glow, and the other slides fade a little (full again on hover); Enter opens the selected slide (reveal.js has no key for this).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-05: A bigger slide overview, with zoom
+- **Asked for:** "Make the text bigger on the overview. Are there any common changes to overview? Settings or options built in to reveal.js?"
+- **Why:** the overview's slides and labels were too small to read.
+- **Changed:** `_extensions/chalkline/overview-labels.html`: the column labels are half as big again; the overview opens 40% bigger than reveal.js draws it, and **+** / **−** zoom it while it's open (remembered in this browser). reveal.js 5.1 itself has no setting for the overview's size (each slide is 1/5 of the screen's shorter side, 70px apart): only `overview: false` to turn it off, the O and Esc keys, `Reveal.toggleOverview()` and the `overviewshown` / `overviewhidden` events; so the zoom multiplies the scale reveal.js sets.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Every sentence frame from the language list; the homework page opens large
 - **Asked for:** "everywhere where we have sentence frames, update the examples to pull from our new sentence frames data. Should have a short code for this obviously." And, on the exemplar's homework slide: "I love the way that the homework is displayed, but I'd like it to be clickable and open that page using the packet popup."
 - **Why:** one source for frames; the packet page should open like the gallery's pages.

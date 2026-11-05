@@ -291,7 +291,7 @@
     function paintLane() {
       lane.textContent = "";
       const rows = [[], [], [], []];
-      const room = 128 / (track.offsetWidth || 900);   // a placed card's width, as a share of the line
+      const room = (events.some(function (e) { return e.image; }) ? 160 : 128) / (track.offsetWidth || 900);   // a placed card's width, as a share of the line
       items.filter(function (it) { return it.y !== null; }).sort(function (a, b) { return a.y - b.y; }).forEach(function (it) {
         const f = at(it.y);
         let r = rows.findIndex(function (row) { return row.every(function (g) { return Math.abs(g - f) > room; }); });

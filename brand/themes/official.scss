@@ -35,6 +35,9 @@
   --rule: #00aeef;
   --link: #004694;
   --radius: 6px;
+  // pill: a label, square, in capitals, the school's yellow with a blue edge like the bands
+  --pill-bg: #f2b726; --pill-ink: #10233f; --pill-border: 0 solid transparent; --pill-radius: 2px;
+  --pill-shadow: inset 5px 0 0 #004694; --pill-outline: none; --pill-case: uppercase; --pill-track: 0.08em; --pill-blur: none;
 }
 // Titles: 中文 first and bolder, then the English, on one line; black, in the body font; under them a
 // thin line in three pale colours (turquoise, peach, blue), as in the PowerPoint.

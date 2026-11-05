@@ -1,0 +1,494 @@
+<!--
+  Feelings check-ins and pie-chart votes for reveal.js slides. No server, no student devices: students
+  tap the board as they come in (or you tap while they point). Included by filter.lua when a slide uses one.
+
+  Mood meter: a 4 × 4 grid of feelings in four colours, by energy (up: more) and how pleasant it feels
+  (right: more). Answers are anonymous: a tap shows only "thank you", never what was chosen; the results
+  (a dot in each feeling, a total in each colour) show only when you press Show results.
+
+      ::: {.mood-meter}
+      How do you feel right now?
+      :::
+
+    Your own words for a colour (four each, "English|中文", top to bottom, left to right):
+      ::: {.mood-meter yellow="Excited|兴奋, Proud|自豪, Happy|开心, Silly|调皮"}
+
+  Pie vote: tap an answer, the pie chart grows as the votes come in. One tap, one vote.
+
+      ::: {.pie-vote preset="feelings"}            eight feelings, each with its face
+      How are you feeling today?
+      :::
+
+      ::: {.pie-vote}                              your own answers, one per line
+      Which planet should we visit?
+      - Mars
+      - [Jupiter | 木星]{.bi}
+      :::
+
+      ::: {.pie-vote editable="true"}              blank: type the answers on the slide (Edit)
+      :::
+
+    hidden="true": the chart stays covered until you press Show chart (for anonymous votes).
+
+  Keys on these slides: R = show/hide results. Votes are kept in this browser (they survive a refresh);
+  Clear starts again.
+-->
+<style>
+  .mood-meter, .pie-vote {
+    --mm-ink: var(--heading, #003477);
+    --mm-card: var(--surface-2, #fff);
+    --mm-line: var(--line, rgba(0, 52, 119, 0.18));
+    position: relative; text-align: center;
+  }
+  :is(.mood-meter, .pie-vote) .mm-q { font-size: 0.95em; font-weight: 700; color: var(--mm-ink); margin: 0 0 0.35em; }
+  :is(.mood-meter, .pie-vote) .mm-q p { margin: 0; }
+  :is(.mood-meter, .pie-vote) .mm-q:empty { display: none; }
+  :is(.mood-meter, .pie-vote) > ul { display: none; }
+  :is(.mood-meter, .pie-vote) .mm-face { display: block; width: 100%; height: 100%; overflow: visible; }
+  :is(.mood-meter, .pie-vote) .bil-zh { font-size: 0.82em; }
+  :is(.mood-meter, .pie-vote) .bil.bil-stack { display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
+
+  /* controls under each tool */
+  :is(.mood-meter, .pie-vote) .mm-controls {
+    display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0.5em; margin-top: 0.55em; font-size: 0.45em; color: var(--ink-muted, #52606d);
+  }
+  :is(.mood-meter, .pie-vote) .mm-controls button {
+    all: unset; cursor: pointer; padding: 0.3em 0.95em; border-radius: 999px; font-weight: 700;
+    border: 1.5px solid var(--mm-line); background: var(--mm-card); color: var(--mm-ink);
+  }
+  :is(.mood-meter, .pie-vote) .mm-controls button:hover { border-color: var(--accent, #14d7cd); }
+  :is(.mood-meter, .pie-vote) .mm-controls button.mm-main { background: var(--strong, #003477); color: var(--on-strong, #fff); border-color: transparent; }
+  :is(.mood-meter, .pie-vote) .mm-count { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  /* ---- Mood meter ---- */
+  .mood-meter .mm-wrap { display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; gap: 0.2em 0.4em; max-width: 30em; margin: 0 auto; }
+  .mood-meter .mm-yaxis {
+    font-size: 0.42em; font-weight: 700; color: var(--ink-muted, #52606d); display: flex; flex-direction: column; justify-content: space-between;
+    padding: 0.3em 0; text-align: right; width: 5.5em;
+  }
+  .mood-meter .mm-yaxis .bil.bil-stack { align-items: flex-end; }
+  .mood-meter .mm-yaxis::before { content: ""; order: 1; flex: 1; width: 2px; margin: 0.4em 0 0.4em auto; background: linear-gradient(var(--mm-line), var(--mm-line)); }
+  .mood-meter .mm-yaxis > span:last-child { order: 2; }
+  .mood-meter .mm-xaxis { grid-column: 2; display: flex; justify-content: space-between; font-size: 0.42em; font-weight: 700; color: var(--ink-muted, #52606d); }
+  .mood-meter .mm-grid {
+    position: relative; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr);
+    border-radius: var(--radius, 14px); overflow: hidden; box-shadow: 0 0 0 2px var(--mm-line);
+  }
+  .mood-meter .mm-cell {
+    all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.05em; padding: 0.2em 0.15em; aspect-ratio: 2.75; background: var(--q); color: #13233f; font-size: 0.44em; font-weight: 700;
+    -webkit-tap-highlight-color: transparent; transition: filter 0.15s, transform 0.12s;
+  }
+  .mood-meter .mm-cell .mm-icon { width: 2.1em; height: 2.1em; transition: transform 0.15s; }
+  .mood-meter .mm-cell:hover .mm-icon { transform: scale(1.12); }
+  .mood-meter .mm-cell:active { transform: scale(0.95); }
+  .mood-meter .mm-cell:focus-visible { outline: 3px solid #0087ff; outline-offset: -3px; }
+  .mood-meter .mm-cell .mm-n {
+    position: absolute; top: 0.25em; right: 0.3em; min-width: 1.5em; padding: 0 0.3em; border-radius: 999px; background: #13233f; color: #fff;
+    font-size: 1.05em; line-height: 1.5; display: none;
+  }
+  .mood-meter .mm-thanks {
+    position: absolute; inset: 0; display: grid; place-items: center; background: color-mix(in srgb, var(--paper, #fff) 92%, transparent);
+    font-size: 0.9em; font-weight: 800; color: var(--mm-ink); opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  }
+  .mood-meter .mm-thanks.mm-show { opacity: 1; pointer-events: auto; }
+  .mood-meter .mm-thanks svg { width: 2.4em; height: 2.4em; display: block; margin: 0 auto 0.2em; }
+  .mood-meter .mm-totals { display: none; gap: 0.4em; font-weight: 800; }
+  .mood-meter .mm-quad { padding: 0.15em 0.8em; border-radius: 999px; background: var(--q); color: #13233f; }
+  /* results: each feeling as strong as its share, the counts, a total per colour */
+  .mood-meter.mm-revealed .mm-cell { filter: saturate(calc(0.25 + var(--share, 0) * 1.5)) opacity(calc(0.45 + var(--share, 0) * 2)); }
+  .mood-meter.mm-revealed .mm-cell.mm-has { filter: none; }
+  .mood-meter.mm-revealed .mm-cell.mm-has .mm-n { display: block; }
+  .mood-meter.mm-revealed .mm-totals { display: flex; }
+  .mood-meter.mm-revealed .mm-cell { cursor: default; }
+
+  /* ---- Pie vote ---- */
+  .pie-vote .pv-body { display: grid; grid-template-columns: 1fr minmax(0, 9.5em) 1fr; align-items: center; gap: 0.8em; }
+  .pie-vote .pv-side { display: flex; flex-direction: column; gap: 0.35em; }
+  .pie-vote .pv-side.pv-left { align-items: flex-end; }
+  .pie-vote .pv-side.pv-right { align-items: flex-start; }
+  .pie-vote .pv-opt {
+    all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 0.45em; min-width: 7.5em; max-width: 100%;
+    padding: 0.2em 0.8em 0.2em 0.25em; border-radius: 999px; background: var(--mm-card); border: 2px solid var(--mm-line);
+    box-shadow: 0 2px 8px rgba(0, 20, 60, 0.08); font-size: 0.6em; font-weight: 700; color: var(--ink, #1f2933); text-align: left;
+    -webkit-tap-highlight-color: transparent; transition: transform 0.12s, border-color 0.15s;
+  }
+  .pie-vote .pv-opt:hover { border-color: var(--c); }
+  .pie-vote .pv-opt:active { transform: scale(0.95); }
+  .pie-vote .pv-opt.pv-pop { animation: pv-pop 0.35s; }
+  @keyframes pv-pop { 40% { transform: scale(1.08); border-color: var(--c); } }
+  .pie-vote .pv-dot { flex: none; width: 2.1em; height: 2.1em; border-radius: 50%; background: var(--c); display: grid; place-items: center; color: #fff; font-weight: 800; }
+  .pie-vote .pv-dot svg { width: 100%; height: 100%; }
+  .pie-vote .pv-side .pv-opt { width: 9.5em; }
+  .pie-vote .pv-label { flex: 1; line-height: 1.15; }
+  .pie-vote .pv-label p { margin: 0; }
+  .pie-vote .pv-label .bil.bil-stack { align-items: flex-start; }
+  .pie-vote .pv-n { font-variant-numeric: tabular-nums; color: var(--ink-muted, #52606d); font-size: 0.9em; }
+  .pie-vote.pv-covered .pv-n { visibility: hidden; }
+  .pie-vote .pv-chart { position: relative; aspect-ratio: 1; }
+  .pie-vote .pv-chart svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .pie-vote .pv-slice { transition: d 0.4s; stroke: var(--paper, #fff); stroke-width: 1.5; }
+  .pie-vote .pv-pct { font: 800 11px "Source Sans 3", sans-serif; fill: #13233f; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .pie-vote .pv-center { font: 800 24px "Source Sans 3", sans-serif; fill: var(--mm-ink); text-anchor: middle; dominant-baseline: central; }
+  .pie-vote .pv-center-sub { font: 600 9px "Source Sans 3", sans-serif; fill: var(--ink-muted, #52606d); text-anchor: middle; }
+  .pie-vote .pv-cover {
+    position: absolute; inset: 0; border-radius: 50%; display: none; place-items: center; text-align: center; padding: 1em;
+    background: var(--surface, #ebf7fd); border: 3px dashed var(--mm-line); color: var(--mm-ink); font-size: 0.5em; font-weight: 800;
+  }
+  .pie-vote.pv-covered .pv-cover { display: grid; }
+  /* editing the answers */
+  .pie-vote .pv-edit { display: none; flex-direction: column; gap: 0.3em; max-width: 22em; margin: 0 auto; font-size: 0.55em; }
+  .pie-vote.pv-editing .pv-edit { display: flex; }
+  .pie-vote.pv-editing .pv-body { display: none; }
+  .pie-vote.pv-editing .mm-controls > :not(.pv-editbtn) { display: none; }
+  .pie-vote.pv-editing .mm-controls .pv-editbtn { background: var(--strong, #003477); color: var(--on-strong, #fff); border-color: transparent; }
+  .pie-vote .pv-edit-row { display: flex; align-items: center; gap: 0.4em; }
+  .pie-vote .pv-edit-row .pv-dot { width: 1.4em; height: 1.4em; font-size: 0.9em; }
+  .pie-vote .pv-edit input {
+    flex: 1; font: inherit; padding: 0.3em 0.6em; border-radius: 8px; border: 1.5px solid var(--mm-line); background: var(--mm-card); color: var(--ink, #1f2933);
+  }
+  .pie-vote .pv-edit .pv-x { all: unset; cursor: pointer; padding: 0 0.4em; font-size: 1.2em; color: var(--ink-muted, #52606d); }
+  .pie-vote .pv-edit .pv-question { font-weight: 700; font-size: 1.1em; margin-bottom: 0.3em; }
+  .pie-vote .pv-edit .pv-hint { font-size: 0.75em; color: var(--ink-muted, #52606d); }
+</style>
+<script>
+(function () {
+  const meters = document.querySelectorAll(".mood-meter"), pies = document.querySelectorAll(".pie-vote");
+  if (!meters.length && !pies.length) return;
+  const isPreview = /[?&]receiver/.test(window.location.search);   // speaker-view thumbnails
+
+  // ---- Faces: original drawings, one per feeling (a coloured circle, a shine, navy features) ----
+  const INK = "#13233f";
+  const EYES = {
+    dot: '<circle cx="14" cy="17" r="2.2" fill="' + INK + '"/><circle cx="26" cy="17" r="2.2" fill="' + INK + '"/>',
+    big: '<circle cx="14" cy="16.5" r="3.6" fill="#fff" stroke="' + INK + '" stroke-width="1.4"/><circle cx="26" cy="16.5" r="3.6" fill="#fff" stroke="' + INK + '" stroke-width="1.4"/><circle cx="14.5" cy="17" r="1.7" fill="' + INK + '"/><circle cx="26.5" cy="17" r="1.7" fill="' + INK + '"/>',
+    joy: '<path d="M11 18q3-4.5 6 0M23 18q3-4.5 6 0"/>',
+    closed: '<path d="M11 16.5q3 3 6 0M23 16.5q3 3 6 0"/>',
+    sleepy: '<path d="M11 17.5h6M23 17.5h6"/><path d="M11.5 15.5q2.5-1 5 0M23.5 15.5q2.5-1 5 0" stroke-width="1.4" opacity=".6"/>',
+    wink: '<circle cx="14" cy="17" r="2.2" fill="' + INK + '"/><path d="M23 18q3-4.5 6 0"/>',
+    squeeze: '<path d="M11 14l5 3-5 3M29 14l-5 3 5 3"/>',
+    down: '<circle cx="14" cy="19" r="2" fill="' + INK + '"/><circle cx="26" cy="19" r="2" fill="' + INK + '"/>',
+    side: '<path d="M11 17.5h6M23 17.5h6"/><circle cx="16" cy="17.9" r="1.3" fill="' + INK + '"/><circle cx="28" cy="17.9" r="1.3" fill="' + INK + '"/>',
+  };
+  const BROWS = {
+    angry: '<path d="M10 11.5l7 3M30 11.5l-7 3"/>',
+    worried: '<path d="M10.5 13l6-2.5M29.5 13l-6-2.5"/>',
+    focus: '<path d="M11 12h6M23 12h6"/>',
+  };
+  const MOUTH = {
+    smile: '<path d="M13 24q7 7 14 0"/>',
+    soft: '<path d="M15.5 25q4.5 3 9 0"/>',
+    grin: '<path d="M12 23h16q-1 8.5-8 8.5T12 23z" fill="' + INK + '"/><path d="M15.5 28.5q4.5-3 9 0q-4.5 3.6-9 0z" fill="#ff7b8a" stroke="none"/>',
+    tongue: '<path d="M13 24q7 6 14 0"/><path d="M21 26.5q0 5 3 5t3-5" fill="#ff7b8a" stroke-width="1.6"/>',
+    flat: '<path d="M15 26.5h10"/>',
+    side: '<path d="M15 27l10-1.5"/>',
+    frown: '<path d="M13 29.5q7-6 14 0"/>',
+    small: '<path d="M16 28.5q4-3 8 0"/>',
+    wavy: '<path d="M13 27.5q2-2.4 3.5 0t3.5 0 3.5 0 3.5 0"/>',
+    o: '<ellipse cx="20" cy="27.5" rx="3" ry="3.6" fill="' + INK + '"/>',
+    yawn: '<ellipse cx="20" cy="27.5" rx="3.6" ry="2.6" fill="' + INK + '"/>',
+    teeth: '<rect x="12.5" y="23.5" width="15" height="6.5" rx="2.5" fill="#fff"/><path d="M17.5 23.5v6.5M22.5 23.5v6.5M12.5 26.75h15" stroke-width="1.2"/>',
+    shout: '<path d="M12.5 29q7.5-9 15 0z" fill="' + INK + '"/>',
+  };
+  const EXTRA = {
+    tear: '<path d="M28.5 21q2 3 0 4.4q-2-1.4 0-4.4z" fill="#58b4ff" stroke="none"/>',
+    sweat: '<path d="M32 9q2.2 3 0 4.6q-2.2-1.6 0-4.6z" fill="#58b4ff" stroke="none"/>',
+    zz: '<path d="M30 6h4l-4 4h4M35 1h3l-3 3h3" stroke-width="1.4"/>',
+    spark: '<path d="M34 5v5M31.5 7.5h5M5 26v4M3 28h4" stroke="#fff" stroke-width="1.6"/>',
+    puff: '<path d="M3 9q-1.5-3 1.5-3.5q.5-2.5 3-1.5q2-1.5 3 1" stroke-width="1.4"/>',
+    blush: '<ellipse cx="10" cy="23" rx="2.6" ry="1.5" fill="#ff7b8a" opacity=".55" stroke="none"/><ellipse cx="30" cy="23" rx="2.6" ry="1.5" fill="#ff7b8a" opacity=".55" stroke="none"/>',
+  };
+  function face(f, color) {
+    return '<svg class="mm-face" viewBox="0 0 40 40" aria-hidden="true">' +
+      '<circle cx="20" cy="21" r="17" fill="' + INK + '" opacity=".14"/><circle cx="20" cy="20" r="17" fill="' + color + '"/>' +
+      '<path d="M6 17a14.5 14.5 0 0 1 28 0c-4-3.5-9-5-14-5s-10 1.5-14 5z" fill="#fff" opacity=".3"/>' +
+      '<g fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      (EXTRA[f.x2] || "") + (BROWS[f.b] || "") + (EYES[f.e] || EYES.dot) + (MOUTH[f.m] || MOUTH.smile) + (EXTRA[f.x] || "") +
+      "</g></svg>";
+  }
+  // Every feeling Chalkline knows: English, 中文, face. Teachers' own words get a face by name, or a plain one.
+  const FEEL = {
+    angry: ["Angry", "生气", { e: "dot", b: "angry", m: "frown", x: "puff" }],
+    worried: ["Worried", "担心", { e: "dot", b: "worried", m: "wavy", x: "sweat" }],
+    frustrated: ["Frustrated", "烦躁", { e: "squeeze", m: "teeth" }],
+    scared: ["Scared", "害怕", { e: "big", b: "worried", m: "o" }],
+    excited: ["Excited", "兴奋", { e: "big", m: "grin", x: "spark" }],
+    proud: ["Proud", "自豪", { e: "joy", m: "smile", x: "spark" }],
+    happy: ["Happy", "开心", { e: "dot", m: "grin" }],
+    silly: ["Silly", "调皮", { e: "wink", m: "tongue" }],
+    sad: ["Sad", "难过", { e: "dot", b: "worried", m: "frown", x: "tear" }],
+    lonely: ["Lonely", "孤单", { e: "down", b: "worried", m: "small" }],
+    bored: ["Bored", "无聊", { e: "side", m: "side" }],
+    tired: ["Tired", "累", { e: "sleepy", m: "yawn", x: "zz" }],
+    calm: ["Calm", "平静", { e: "closed", m: "soft" }],
+    relaxed: ["Relaxed", "放松", { e: "closed", m: "smile", x: "blush" }],
+    focused: ["Focused", "专注", { e: "dot", b: "focus", m: "flat" }],
+    ready: ["Ready", "准备好了", { e: "dot", m: "smile", x: "blush" }],
+    yelling: ["Yelling", "大喊", { e: "squeeze", m: "shout" }],
+    nervous: ["Nervous", "紧张", { e: "big", b: "worried", m: "teeth" }],
+    sick: ["Sick", "不舒服", { e: "sleepy", b: "worried", m: "wavy" }],
+  };
+  const QUAD = {   // top left, top right, bottom left, bottom right; two shades each, outer corner stronger
+    red: { name: ["Red", "红色"], c: ["#ff9b92", "#ffb8b1"], f: "#ff5a4f", words: ["angry", "frustrated", "worried", "scared"] },
+    yellow: { name: ["Yellow", "黄色"], c: ["#ffd56b", "#ffe49a"], f: "#ffb703", words: ["excited", "proud", "happy", "silly"] },
+    blue: { name: ["Blue", "蓝色"], c: ["#9ccbff", "#bcdcff"], f: "#3d8bfd", words: ["sad", "lonely", "bored", "tired"] },
+    green: { name: ["Green", "绿色"], c: ["#9fe0a8", "#bfeac4"], f: "#3cb55a", words: ["calm", "relaxed", "focused", "ready"] },
+  };
+  function bil(en, zh) {
+    return zh ? '<span class="bil bil-stack"><span class="bil-en" lang="en">' + en + '</span><span class="bil-zh" lang="zh">' + zh + "</span></span>" : en;
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function attr(el, name) { return el.getAttribute("data-" + name) ?? el.getAttribute(name) ?? ""; }
+  // "Excited|兴奋, Proud" -> [{ en, zh, f }]
+  function words(spec, fallback) {
+    if (!spec) return fallback.map(function (k) { return { en: FEEL[k][0], zh: FEEL[k][1], f: FEEL[k][2] }; });
+    return spec.split(",").map(function (w) {
+      const [en, zh] = w.split("|").map(function (x) { return x.trim(); }), k = (en || "").toLowerCase();
+      return { en: esc(en || ""), zh: esc(zh || (FEEL[k] ? FEEL[k][1] : "")), f: FEEL[k] ? FEEL[k][2] : { e: "dot", m: "soft" } };
+    }).slice(0, 4);
+  }
+  function load(key) { try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; } }
+  function save(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) { /* private window */ } }
+  function chime(freqs) {
+    try {
+      const ctx = chime.ctx || (chime.ctx = new (window.AudioContext || window.webkitAudioContext)());
+      freqs.forEach(function (f, i) {
+        const o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime + i * 0.09;
+        o.type = "sine"; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.16, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.4);
+      });
+    } catch (e) { /* no sound */ }
+  }
+  function takeQuestion(el) {
+    const q = document.createElement("div"); q.className = "mm-q";
+    Array.from(el.childNodes).forEach(function (n) { if (!(n.nodeType === 1 && n.tagName === "UL")) q.appendChild(n); });
+    if (!q.textContent.trim()) q.innerHTML = "";
+    return q;
+  }
+  function confirmClear(btn, fn) {   // two taps, so a stray tap doesn't wipe the class's answers
+    if (btn.dataset.sure) { fn(); delete btn.dataset.sure; btn.textContent = btn.dataset.label; return; }
+    btn.dataset.sure = "1"; btn.dataset.label = btn.textContent; btn.textContent = "Sure? Tap again";
+    setTimeout(function () { if (btn.dataset.sure) { delete btn.dataset.sure; btn.textContent = btn.dataset.label; } }, 2500);
+  }
+  const controllers = [];   // each: { el, toggle() } for the R key
+
+  // ---- Mood meter ----
+  meters.forEach(function (el, index) {
+    const key = "mood:" + location.pathname + ":" + index;
+    const quads = ["red", "yellow", "blue", "green"].map(function (q) { return { id: q, ...QUAD[q], w: words(attr(el, q), QUAD[q].words) }; });
+    let votes = load(key) || [];   // a list of cell numbers, in the order tapped (Undo takes the last)
+    const q = takeQuestion(el);
+    el.innerHTML = "";
+    el.appendChild(q);
+    const wrap = document.createElement("div"); wrap.className = "mm-wrap";
+    const grid = document.createElement("div"); grid.className = "mm-grid";
+    // cell n: row r (0 top), column c (0 left); quadrant from the half it's in; outer corners stronger
+    const cells = [];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+      const qi = (r < 2 ? 0 : 2) + (c < 2 ? 0 : 1), Q = quads[qi], w = Q.w[(r % 2) * 2 + (c % 2)] || { en: "", zh: "", f: {} };
+      const outer = (r === 0 || r === 3) || (c === 0 || c === 3) ? 0 : 1;
+      const b = document.createElement("button");
+      b.className = "mm-cell"; b.type = "button";
+      b.style.setProperty("--q", Q.c[outer]);
+      b.setAttribute("aria-label", w.en.replace(/<[^>]+>/g, ""));
+      b.innerHTML = '<span class="mm-icon">' + face(w.f, Q.f) + "</span>" + bil(w.en, w.zh) + '<span class="mm-n"></span>';
+      b.addEventListener("click", function () { tap(r * 4 + c); });
+      grid.appendChild(b); cells.push({ b: b, q: qi });
+    }
+    const totals = document.createElement("div"); totals.className = "mm-totals";
+    const quadTags = quads.map(function (Q) {
+      const t = document.createElement("span"); t.className = "mm-quad"; t.style.setProperty("--q", Q.c[0]);
+      totals.appendChild(t); return t;
+    });
+    const thanks = document.createElement("div"); thanks.className = "mm-thanks";
+    thanks.innerHTML = '<div><svg viewBox="0 0 40 40" fill="none" stroke="#2f9e6b" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="20" r="17" fill="#e5f6ea" stroke="none"/><path d="M12 21l6 6 11-13"/></svg>' + bil("Thank you!", "谢谢！") + "</div>";
+    grid.appendChild(thanks);
+    const yaxis = document.createElement("div"); yaxis.className = "mm-yaxis";
+    yaxis.innerHTML = "<span>" + bil("↑ More energy", "精力多") + "</span><span>" + bil("↓ Less energy", "精力少") + "</span>";
+    const xaxis = document.createElement("div"); xaxis.className = "mm-xaxis";
+    xaxis.innerHTML = "<span>" + bil("← Not so pleasant", "不太舒服") + "</span><span>" + bil("Pleasant →", "舒服") + "</span>";
+    wrap.append(yaxis, grid, xaxis);
+    el.append(wrap);
+    const controls = document.createElement("div"); controls.className = "mm-controls";
+    const count = document.createElement("span"); count.className = "mm-count";
+    const show = document.createElement("button"); show.className = "mm-main";
+    const undo = document.createElement("button"); undo.textContent = "Undo";
+    const clear = document.createElement("button"); clear.textContent = "Clear";
+    controls.append(count, totals, show, undo, clear);
+    el.appendChild(controls);
+    let busy = false;
+    function tap(n) {
+      if (busy || el.classList.contains("mm-revealed") || isPreview) return;
+      busy = true; votes.push(n); save(key, votes); paint();
+      chime([660, 880]);
+      thanks.classList.add("mm-show");
+      setTimeout(function () { thanks.classList.remove("mm-show"); busy = false; }, 1200);
+    }
+    function paint() {
+      const n = votes.length, per = new Array(16).fill(0), perQ = [0, 0, 0, 0];
+      votes.forEach(function (v) { per[v]++; perQ[cells[v].q]++; });
+      count.textContent = n + (n === 1 ? " check-in" : " check-ins");
+      cells.forEach(function (c, i) {
+        c.b.querySelector(".mm-n").textContent = per[i];
+        c.b.classList.toggle("mm-has", per[i] > 0);
+        c.b.style.setProperty("--share", n ? per[i] / n : 0);
+      });
+      quadTags.forEach(function (t, i) { t.innerHTML = quads[i].name[0] + " " + perQ[i] + " · " + (n ? Math.round(perQ[i] / n * 100) : 0) + "%"; });
+      show.textContent = el.classList.contains("mm-revealed") ? "Hide results" : "Show results";
+    }
+    function toggle() { el.classList.toggle("mm-revealed"); paint(); }
+    show.addEventListener("click", toggle);
+    undo.addEventListener("click", function () { votes.pop(); save(key, votes); paint(); });
+    clear.addEventListener("click", function () { confirmClear(clear, function () { votes = []; save(key, votes); el.classList.remove("mm-revealed"); paint(); }); });
+    paint();
+    controllers.push({ el: el, toggle: toggle });
+  });
+
+  // ---- Pie vote ----
+  const PALETTE = ["#0087ff", "#ff8c0f", "#14d7cd", "#fbc400", "#8a5cd6", "#e8579b", "#5ba045", "#003477"];
+  const PRESETS = {
+    feelings: [["happy", "#fbc400"], ["calm", "#5cc46b"], ["excited", "#ff9f1c"], ["focused", "#2bb5a8"],
+               ["tired", "#9aa6c4"], ["sad", "#4a90e2"], ["worried", "#a77be0"], ["angry", "#ef5a50"]],
+  };
+  pies.forEach(function (el, index) {
+    const key = "pievote:" + location.pathname + ":" + index;
+    const editable = /^(true|yes|1)$/i.test(attr(el, "editable"));
+    const hidden = /^(true|yes|1)$/i.test(attr(el, "hidden"));
+    const preset = PRESETS[attr(el, "preset").toLowerCase()];
+    // answers: the preset, the list in the slide, or (editable) what the teacher typed last time
+    let opts;
+    if (preset) opts = preset.map(function (p) { return { html: bil(FEEL[p[0]][0], FEEL[p[0]][1]), face: FEEL[p[0]][2], c: p[1] }; });
+    else opts = Array.from(el.querySelectorAll(":scope > ul > li")).map(function (li, i) { return { html: li.innerHTML, c: PALETTE[i % 8] }; });
+    const stored = load(key) || {};
+    let question = editable && stored.question ? stored.question : null;
+    if (editable && stored.labels) opts = stored.labels.map(function (t, i) { return { text: t, html: esc(t), c: PALETTE[i % 8] }; });
+    if (editable && !opts.length) opts = [{ text: "", html: "", c: PALETTE[0] }, { text: "", html: "", c: PALETTE[1] }];
+    opts = opts.slice(0, 8);
+    let counts = Array.isArray(stored.counts) && stored.counts.length === opts.length ? stored.counts : opts.map(function () { return 0; });
+    let history = [];
+    const q = takeQuestion(el);
+    if (question != null) q.textContent = question;
+    el.innerHTML = ""; el.appendChild(q);
+    if (hidden) el.classList.add("pv-covered");
+    const body = document.createElement("div"); body.className = "pv-body";
+    const left = document.createElement("div"); left.className = "pv-side pv-left";
+    const right = document.createElement("div"); right.className = "pv-side pv-right";
+    const chart = document.createElement("div"); chart.className = "pv-chart";
+    body.append(left, chart, right); el.appendChild(body);
+    const edit = document.createElement("div"); edit.className = "pv-edit"; el.appendChild(edit);
+    const controls = document.createElement("div"); controls.className = "mm-controls";
+    const count = document.createElement("span"); count.className = "mm-count";
+    const cover = document.createElement("button"); cover.className = "mm-main";
+    const undo = document.createElement("button"); undo.textContent = "Undo";
+    const editBtn = document.createElement("button"); editBtn.textContent = "Edit answers"; editBtn.className = "pv-editbtn";
+    const clear = document.createElement("button"); clear.textContent = "Clear";
+    controls.append(count, cover, undo);
+    if (editable) controls.append(editBtn);
+    controls.append(clear);
+    el.appendChild(controls);
+    function store() { save(key, { counts: counts, question: editable ? question : undefined, labels: editable ? opts.map(function (o) { return o.text ?? o.html.replace(/<[^>]+>/g, ""); }) : undefined }); }
+    function buildButtons() {
+      left.innerHTML = ""; right.innerHTML = "";
+      const half = Math.ceil(opts.length / 2);
+      opts.forEach(function (o, i) {
+        const b = document.createElement("button"); b.className = "pv-opt"; b.type = "button";
+        b.style.setProperty("--c", o.c);
+        const dot = o.face ? face(o.face, o.c) : String.fromCharCode(65 + i);
+        b.innerHTML = '<span class="pv-dot"' + (o.face ? ' style="background:none"' : "") + ">" + dot + '</span><span class="pv-label">' + (o.html || "<em>…</em>") + '</span><span class="pv-n"></span>';
+        b.addEventListener("click", function () { vote(i, b); });
+        (i < half ? left : right).appendChild(b); o.btn = b;
+      });
+    }
+    let cooling = false;
+    function vote(i, b) {
+      if (cooling || isPreview) return;
+      cooling = true; setTimeout(function () { cooling = false; }, 700);
+      counts[i]++; history.push(i); store(); paint();
+      chime([520 + i * 60]);
+      b.classList.remove("pv-pop"); void b.offsetWidth; b.classList.add("pv-pop");
+    }
+    function arc(cx, cy, r, a0, a1) {
+      const p = function (a) { return [cx + r * Math.sin(a), cy - r * Math.cos(a)]; };
+      const [x0, y0] = p(a0), [x1, y1] = p(a1), big = a1 - a0 > Math.PI ? 1 : 0;
+      return [x0, y0, x1, y1, big];
+    }
+    function paint() {
+      const n = counts.reduce(function (a, b) { return a + b; }, 0);
+      count.textContent = n + (n === 1 ? " vote" : " votes");
+      cover.textContent = el.classList.contains("pv-covered") ? "Show chart" : "Hide chart";
+      opts.forEach(function (o, i) { if (o.btn) o.btn.querySelector(".pv-n").textContent = counts[i]; });
+      const R = 96, r = 50, C = 100;
+      let svg = '<svg viewBox="0 0 200 200" role="img" aria-label="Votes so far">';
+      if (!n) svg += '<circle cx="100" cy="100" r="' + (R + r) / 2 + '" fill="none" stroke="var(--mm-line)" stroke-width="' + (R - r) + '" opacity="0.6"/><text class="pv-center-sub" x="100" y="160">' + "Tap to vote · 点一下投票" + "</text>";
+      let a = 0;
+      opts.forEach(function (o, i) {
+        if (!counts[i]) return;
+        const share = counts[i] / n, a1 = a + share * 2 * Math.PI;
+        if (share >= 0.999) {
+          svg += '<circle class="pv-slice" cx="100" cy="100" r="' + (R + r) / 2 + '" fill="none" stroke="' + o.c + '" stroke-width="' + (R - r) + '" style="stroke:' + o.c + '"/>';
+        } else {
+          const [x0, y0, x1, y1, big] = arc(C, C, R, a, a1), [i0, j0, i1, j1] = arc(C, C, r, a, a1);
+          svg += '<path class="pv-slice" fill="' + o.c + '" d="M' + x0 + " " + y0 + "A" + R + " " + R + " 0 " + big + " 1 " + x1 + " " + y1 +
+            "L" + i1 + " " + j1 + "A" + r + " " + r + " 0 " + big + " 0 " + i0 + " " + j0 + 'Z"/>';
+        }
+        if (share >= 0.06) {
+          const m = (a + a1) / 2, rr = (R + r) / 2;
+          svg += '<text class="pv-pct" x="' + (C + rr * Math.sin(m)) + '" y="' + (C - rr * Math.cos(m)) + '">' + Math.round(share * 100) + "%</text>";
+        }
+        a = a1;
+      });
+      svg += '<text class="pv-center" x="100" y="96">' + n + '</text><text class="pv-center-sub" x="100" y="116">' + (n === 1 ? "vote · 票" : "votes · 票") + "</text></svg>";
+      chart.innerHTML = svg + '<div class="pv-cover">' + bil("Votes are hidden", "投票结果已隐藏") + "</div>";
+    }
+    function buildEdit() {
+      edit.innerHTML = "";
+      const qi = document.createElement("input"); qi.className = "pv-question";
+      qi.value = question != null ? question : q.textContent.trim(); qi.placeholder = "The question (optional)";
+      qi.addEventListener("input", function () { question = qi.value; q.textContent = qi.value; store(); });
+      qi.addEventListener("keydown", function (e) { e.stopPropagation(); });
+      edit.appendChild(qi);
+      opts.forEach(function (o, i) {
+        const row = document.createElement("div"); row.className = "pv-edit-row";
+        const input = document.createElement("input");
+        input.value = o.text ?? o.html.replace(/<[^>]+>/g, ""); input.placeholder = "Answer " + String.fromCharCode(65 + i);
+        input.addEventListener("input", function () { o.text = input.value; o.html = esc(input.value); store(); });
+        input.addEventListener("keydown", function (e) { e.stopPropagation(); if (e.key === "Enter") { e.preventDefault(); (row.nextElementSibling?.querySelector("input") || edit.querySelector(".mm-main")).focus(); } });
+        const x = document.createElement("button"); x.className = "pv-x"; x.textContent = "×"; x.title = "Remove";
+        x.addEventListener("click", function () { if (opts.length <= 2) return; opts.splice(i, 1); counts.splice(i, 1); recolour(); store(); buildEdit(); });
+        row.innerHTML = '<span class="pv-dot" style="--c:' + o.c + '">' + String.fromCharCode(65 + i) + "</span>";
+        row.append(input, x); edit.appendChild(row);
+      });
+      const addBtn = document.createElement("button"); addBtn.className = "mm-main";
+      addBtn.textContent = "+ Add an answer"; addBtn.disabled = opts.length >= 8;
+      addBtn.style.cssText = "all:unset;cursor:pointer;align-self:flex-start;font-weight:700;color:var(--mm-ink);padding:.2em .4em";
+      addBtn.addEventListener("click", function () { if (opts.length >= 8) return; opts.push({ text: "", html: "", c: PALETTE[opts.length % 8] }); counts.push(0); store(); buildEdit(); edit.querySelectorAll(".pv-edit-row input")[opts.length - 1].focus(); });
+      const hint = document.createElement("div"); hint.className = "pv-hint";
+      hint.textContent = "Type a question and 2 to 8 answers, then press Done. Saved in this browser.";
+      edit.append(addBtn, hint);
+    }
+    function recolour() { opts.forEach(function (o, i) { o.c = PALETTE[i % 8]; }); }
+    function toggle() { el.classList.toggle("pv-covered"); paint(); }
+    cover.addEventListener("click", toggle);
+    undo.addEventListener("click", function () { const i = history.pop(); if (i != null && counts[i] > 0) { counts[i]--; store(); paint(); } });
+    clear.addEventListener("click", function () { confirmClear(clear, function () { counts = counts.map(function () { return 0; }); history = []; store(); paint(); }); });
+    editBtn.addEventListener("click", function () {
+      const on = el.classList.toggle("pv-editing");
+      editBtn.textContent = on ? "Done" : "Edit answers";
+      if (on) { buildEdit(); const first = edit.querySelector(".pv-edit-row input"); if (first && !first.value) first.focus(); }
+      else { buildButtons(); paint(); }
+    });
+    buildButtons(); paint();
+    if (editable && !opts.some(function (o) { return (o.text ?? o.html).trim(); })) editBtn.click();   // a blank vote opens ready to type
+    controllers.push({ el: el, toggle: toggle });
+  });
+
+  // R on a slide with one of these: show or hide its results
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "r" && e.key !== "R") return;
+    if (e.target.closest && e.target.closest("input, textarea, [contenteditable]")) return;
+    const slide = window.Reveal && Reveal.getCurrentSlide();
+    controllers.forEach(function (c) { if (slide && slide.contains(c.el)) c.toggle(); });
+  });
+})();
+</script>
