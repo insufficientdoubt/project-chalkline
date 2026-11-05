@@ -16,6 +16,16 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Routines, a new classroom tool; the vocab pop-up link says "Vocab"
+- **Asked for:** "Change the link to vocab. Add a new tool called 'routines'. All it does is pop up a window with bilingual instructions [for] common classroom routines like Think Pair Share. (Instructions, timer, space to write a question). Add 2-3 other routines too. The idea is to have routine process instructions always available."
+- **Why:** routine process instructions always at hand, in both languages.
+- **Changed:**
+  - `_extensions/chalkline/toolbox/tools/routines.js` (new): pick a routine (Think-Pair-Share, Numbered Heads Together, Gallery Walk, Stand Up Hand Up Pair Up); its steps in English and 中文 (中 hides the 中文), a box for today's question (kept for each routine), and a timer that runs through the steps with a beep at each one; a step without a time waits for ▶. More routines: add them to ROUTINES at the top of the file.
+  - `_extensions/chalkline/toolbox/toolbox.js`: Routines in the menu's Time row. `_extensions/chalkline/filter.lua`: loads it. `_extensions/chalkline/ui/icons.js`: two Lucide icons (repeat, skip-forward).
+  - `_quarto.yml`: `vocab-title: "Vocab"` (the link on vocab pop-ups said "History Vocab").
+- **Who it helps:** Routines: probably every Chalkline course. The link label: this course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Vocab pop-ups no longer cut off by the box around them
 - **Asked for:** "New bug on 1.1. vocab popup appearing under the content objective box"
 - **Why:** the pop-up's top half was hidden.

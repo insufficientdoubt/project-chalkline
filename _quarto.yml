@@ -33,7 +33,7 @@ project:
     browser: true            # open it in the browser when the preview starts
 
 brand: brand/_brand.yml      # colors, fonts, logos (see brand/README.md)
-vocab-title: "History Vocab"  # name of the vocab app, used on {{< vocab >}} pop-up links
+vocab-title: "Vocab"          # the label of the link on {{< vocab >}} pop-ups (to the vocab app)
 # chalkline-guide: false     # hides "How to use Chalkline" (Chalkline's templates) from the teacher site; your own
 #                             # templates (course/guide/01-my-templates/) and every template piece keep working
 # student-site: "https://example.github.io/my-course/"   # the published STUDENT site: the teacher's QR codes

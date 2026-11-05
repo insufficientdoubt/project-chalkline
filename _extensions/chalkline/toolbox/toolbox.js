@@ -8,7 +8,8 @@
 
     People      picker.js (Name picker), groups.js (Groups), scoreboard.js; classes.js is their class lists
     Attention   voice.js (Voice level and the noise meter), traffic.js (Traffic light), spotlight.js
-    Time        clock.js (open unless you close it; K shows and hides it), stopwatch.js
+    Time        clock.js (open unless you close it; K shows and hides it), stopwatch.js,
+                routines.js (a routine's steps, bilingual, with a question box and a timer for each step)
     This unit   vocab.js, packet.js, qr.js (QR code for this deck on the student site)
     More        music.js (YouTube), dice.js, slide.js (Slide size), source.js (View source)
     Not in the menu  style.js (to be removed; Slide style: opened from the corner of a styled slide, see slide-style/)
@@ -274,7 +275,7 @@
   const MENU = [
     ["People", ["picker", "groups", "scoreboard"]],
     ["Attention", ["voice", "traffic", "spotlight"]],
-    ["Time", ["clock", "stopwatch"]],
+    ["Time", ["clock", "stopwatch", "routines"]],
     ["This unit", ["vocab", "packet", "qr"]],
     ["More", ["music", "dice", "slide"]],
   ];

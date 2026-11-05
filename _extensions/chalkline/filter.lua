@@ -434,6 +434,7 @@ local function Meta(meta)
         { path = "toolbox/tools/spotlight.js", afterBody = true },
         { path = "toolbox/tools/clock.js", afterBody = true },
         { path = "toolbox/tools/stopwatch.js", afterBody = true },
+        { path = "toolbox/tools/routines.js", afterBody = true },
         { path = "toolbox/tools/vocab.js", afterBody = true },
         { path = "toolbox/tools/packet.js", afterBody = true },
         { path = "toolbox/tools/qr.js", afterBody = true },
