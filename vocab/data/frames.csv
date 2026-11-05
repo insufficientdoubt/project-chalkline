@@ -6,14 +6,14 @@ FRM-004,frame,"One reason ___ is that ___. For example, ___.",___的一个原因
 FRM-005,stem,I would like to start by saying …,我想先说……,,,,start,,draft
 FRM-006,stem,"Building on that idea, I think …",在这个想法的基础上，我认为……,,,,add,,draft
 FRM-007,stem,I disagree with you because …,我不同意你的看法，因为……,,,,disagree,,draft
-FRM-008,question,Can you give an example?,你能举个例子吗？,"For example, …",例如，……,,ask,,draft
-FRM-009,question,What do you mean when you say …?,你说……是什么意思？,I mean that …,我的意思是……,,clarify,,draft
+FRM-008,question,Can you give an example of ___?,你能举一个___的例子吗？,"One example is ___.; For example, ___.",一个例子是___。; 例如，___。,Can you give an example of a right angle? → One example is the corner of a book.,ask,,draft
+FRM-009,question,What do you mean by ___?,你说的___是什么意思？,"I mean that ___.; In other words, ___.",我的意思是___。; 换句话说，___。,"What do you mean by ""turn""? → I mean that one side moves around the vertex.",clarify,,draft
 FRM-010,stem,"Overall, the main points were …",总的来说，要点是……,,,,summarise,,draft
 FRM-011,grammar,short adjective + -er + than,短形容词 + -er + than,,,big → bigger than; small → smaller than,compare,,draft
 FRM-012,grammar,more + long adjective + than,more + 长形容词 + than,,,more accurate than; more useful than,compare,,draft
 FRM-013,grammar,the same as,和……一样,,,Two right angles are the same as one straight angle.,compare,,draft
 FRM-014,frame,A ___ angle is ___ than a right angle.,___角比直角___。,,,An obtuse angle is bigger than a right angle.,compare,5,draft
-FRM-015,question,Is it bigger or smaller than a right angle?,它比直角大还是小？,It is ___ than a right angle.; It is the same as a right angle.,它比直角___。; 它和直角一样大。,,compare,5,draft
+FRM-015,question,Is it ___ or ___?,它是___还是___？,"It is ___, because ___.; It isn't ___. It is ___.",它是___，因为___。; 它不是___，它是___。,"Is this angle acute or obtuse? → It is obtuse, because it is bigger than a right angle.",describe,,draft
 FRM-016,phrase,a quarter turn,转四分之一圈,,,"After a quarter turn, the hand points to 3.",describe,5,draft
 FRM-017,phrase,turn all the way around,转一整圈,,,The minute hand turns all the way around in one hour.,describe,5,draft
 FRM-018,phrase,a square corner,方方正正的角,,,A book has a square corner.,describe,5,draft
@@ -21,3 +21,10 @@ FRM-019,stem,Today I learned …,今天我学到了……,,,,summarise,,draft
 FRM-020,stem,A straight angle is …,平角是……,,,,describe,5,draft
 FRM-021,stem,A full angle is …,周角是……,,,,describe,5,draft
 FRM-022,stem,I saw a straight angle / a full angle when …,我在……的时候看到了平角／周角。,,,,describe,5,draft
+FRM-023,question,What do you think about ___?,你觉得___怎么样？,"I think ___ because ___.; In my opinion, ___.",我认为___，因为___。; 在我看来，___。,What do you think about the new playground? → I think it is fun because it has a big slide.,opinion,,draft
+FRM-024,question,How are ___ and ___ alike?,___和___有什么相同的地方？,They are both ___.; ___ and ___ are alike because ___.,它们都___。; ___和___相同，因为___。,How are a clock and a wheel alike? → They both turn around a center.,compare,,draft
+FRM-025,question,How are ___ and ___ different?,___和___有什么不同？,"___ is ___, but ___ is ___.; One difference is ___.",___是___，但___是___。; 一个不同点是___。,"How are Athens and Sparta different? → Athens had voting, but Sparta had kings.",compare,,draft
+FRM-026,question,What would happen if ___?,如果___，会发生什么？,"If ___, then ___.; I predict that ___ because ___.",如果___，那么___。; 我预测___，因为___。,"What would happen if the hand kept turning? → If it kept turning, then it would make a full angle.",cause,,draft
+FRM-027,question,How do you ___?,你怎么___？,"First, ___. Then, ___. Finally, ___.",首先，___。然后，___。最后，___。,"How do you draw an angle? → First, draw a dot. Then, draw two lines from it. Finally, mark the angle.",sequence,,draft
+FRM-028,question,Do you agree with ___?,你同意___吗？,"Yes, I agree because ___.; No, I see it differently. I think ___.",是的，我同意，因为___。; 不，我的看法不一样。我认为___。,"Do you agree with Lin? → Yes, I agree because a straight angle has a vertex too.",agree,,draft
+FRM-029,question,Why do you think ___?,你为什么认为___？,I think so because ___.; One reason is ___.,我这样认为，因为___。; 一个原因是___。,Why do you think Rome built roads? → One reason is that soldiers could move fast.,explain,,draft

@@ -16,6 +16,16 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Questions are formats for oracy practice, with a worked example
+- **Asked for:** "Change the question and answer forms and examples. I'm not trying to get the kids to memorize specific questions and answers, it's more of the oracy practice of different formats of questions and answers."
+- **Why:** as asked.
+- **Changed:**
+  - `vocab/data/frames.csv` (content): the question rows are now general formats with gaps and their answer frames, each with one worked example ("Q → A") as a model: asking for an example, clarifying, choosing (Is it ___ or ___?), opinion, alike, different, predicting (What would happen if ___?), explaining steps (How do you ___?), agreeing, giving reasons. All year (no unit).
+  - `_extensions/chalkline/shortcodes.lua`, `frames.html`: `{{< frames >}}` shows a question's (and a grammar point's) example under it, as "e.g. …"; `examples=false` hides it, `examples=true` also shows frames' and stems' examples.
+  - `vocab/schema.yaml`, `vocab/README.md`: say what a question row is for.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Language points in the Vocab sidebar and the vocab app
 - **Asked for:** making the language points accessible: "Either a new tool or a modification to the vocabulary tool?" Then: "Yes, do both, starting with the sidebar tab" (a Language tab in the Vocab sidebar, and a Language section in the vocab app).
 - **Why:** frames and grammar at hand during a lesson, and one place to see them all.

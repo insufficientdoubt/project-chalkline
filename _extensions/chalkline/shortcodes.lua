@@ -31,7 +31,8 @@ what each one becomes in each output format (slides, web page, PDF, Word).
                                          labelled when mixed. Pick IDs for one lesson, or unit=5 for a
                                          unit's (general=true adds the all-year ones); kind= and
                                          function= filter. 中文 under each line on slides; in PDF/Word
-                                         with zh=true (not on quizzes). answers=false, labels=false,
+                                         with zh=true (not on quizzes). Questions are formats, shown with
+                                         a worked example (examples=false hides it). answers=false, labels=false,
                                          group=false (in the order written). {{< frame "FRM-014" >}}: one.
 
   {{< snowman >}}                        slide games (slides only). A random word from the vocab
@@ -160,7 +161,9 @@ end
 --   {{< frames function=compare >}}        or kind=grammar, or both; with unit= too; no filter: all of them
 -- Each kind has its own look: grammar as a rule with examples, phrases as chips, stems and frames as
 -- sentences with gaps (___ and … become write-on lines), questions with their answer frames under them
--- (answers=false hides them). Mixed kinds are grouped, with a small label each (labels=false: none;
+-- (answers=false hides them). A question is a format to practise (Can you give an example of ___?),
+-- not a content question to memorise: its example (a worked use, "Q → A") shows under it as a model;
+-- examples=false hides it, examples=true also shows the frames' and stems' examples. Mixed kinds are grouped, with a small label each (labels=false: none;
 -- group=false: exactly in the order written). 中文: under each line on slides and web pages (the
 -- language switch hides it); in PDFs only with zh=true, never on quizzes. zh=false: none anywhere.
 local frames_index, frames_list
@@ -230,6 +233,12 @@ local function frames_shortcode(args, kwargs)
   local zh_opt = str(kwargs["zh"], "")
   local with_zh = (zh_opt == "true") or (html and zh_opt ~= "false")
   local answers = str(kwargs["answers"], "true") ~= "false"
+  local ex_opt = str(kwargs["examples"], "")
+  local function show_example(t)   -- grammar and questions by default; frames and stems with examples=true
+    if ex_opt == "false" then return false end
+    if ex_opt == "true" then return true end
+    return t.kind == "grammar" or t.kind == "question"
+  end
   -- groups (or one list in the order written)
   local groups = {}
   if str(kwargs["group"], "true") == "false" then
@@ -281,10 +290,12 @@ local function frames_shortcode(args, kwargs)
                 table.insert(a, '<li>' .. bil(ans, (t.answers_zh or {})[i]) .. "</li>")
               end
             end
+            local ex = (show_example(t) and (t.examples or {})[1]) and ('<span class="lp-model">e.g. ' .. html_escape(t.examples[1]) .. "</span>") or ""
             table.insert(out, '<div class="lp-item lp-question">' .. bil(t.en, t.zh, "lp-ask") ..
-              (#a > 0 and ('<ul class="lp-answers">' .. table.concat(a) .. "</ul>") or "") .. "</div>")
+              (#a > 0 and ('<ul class="lp-answers">' .. table.concat(a) .. "</ul>") or "") .. ex .. "</div>")
           else
-            table.insert(out, '<div class="lp-item lp-' .. t.kind .. '">' .. bil(t.en, t.zh) .. "</div>")
+            local ex = (show_example(t) and (t.examples or {})[1]) and ('<span class="lp-model">e.g. ' .. html_escape(t.examples[1]) .. "</span>") or ""
+            table.insert(out, '<div class="lp-item lp-' .. t.kind .. '">' .. bil(t.en, t.zh) .. ex .. "</div>")
           end
         end
       end
@@ -339,7 +350,7 @@ local function frames_shortcode(args, kwargs)
         if #chips > 0 then blocks:insert(pandoc.Para(chips)); chips = pandoc.Inlines({}) end
         if t.kind == "grammar" then
           local inl = line(t.en, t.zh, true)
-          if #(t.examples or {}) > 0 then inl:insert(pandoc.LineBreak()); inl:insert(pandoc.Emph({ pandoc.Str(table.concat(t.examples, " · ")) })) end
+          if show_example(t) and #(t.examples or {}) > 0 then inl:insert(pandoc.LineBreak()); inl:insert(pandoc.Emph({ pandoc.Str(table.concat(t.examples, " · ")) })) end
           blocks:insert(pandoc.Para(inl))
         elseif t.kind == "question" then
           blocks:insert(pandoc.Para(line(t.en, t.zh, true)))
@@ -348,8 +359,10 @@ local function frames_shortcode(args, kwargs)
             for i, ans in ipairs(t.answers_en) do table.insert(li, { pandoc.Plain(line(ans, (t.answers_zh or {})[i])) }) end
             blocks:insert(pandoc.BulletList(li))
           end
+          if show_example(t) and (t.examples or {})[1] then blocks:insert(pandoc.Para({ pandoc.Emph({ pandoc.Str("e.g. " .. t.examples[1]) }) })) end
         else
           blocks:insert(pandoc.Para(line(t.en, t.zh)))
+          if show_example(t) and (t.examples or {})[1] then blocks:insert(pandoc.Para({ pandoc.Emph({ pandoc.Str("e.g. " .. t.examples[1]) }) })) end
         end
       end
     end

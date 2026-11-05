@@ -39,7 +39,9 @@ frames:
   #   phrase    words that go together (a quarter turn)
   #   stem      a sentence starter, finished by the student (Today I learned …)
   #   frame     a whole sentence with ___ gaps (A ___ angle is ___ than a right angle.)
-  #   question  a question, with its answer frames in answer_en / answer_zh (several: separate them with ;)
+  #   question  a question format to practise (Can you give an example of ___?), not a content question to
+  #             memorise: its answer frames in answer_en / answer_zh (several: separate them with ;), and in
+  #             example one worked use, as a model ("Q → A")
   # units: the unit numbers that use it (2; 5), or empty for all year.
   file: data/frames.csv
   id_pattern: "^FRM-\\d{3}$"
