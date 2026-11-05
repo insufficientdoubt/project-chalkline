@@ -1,6 +1,6 @@
 # Outline: the master template deck
 
-**Status:** outline agreed (2026-11-05), see Decisions. Nothing is built yet.
+**Status:** built (2026-11-05): `_extensions/chalkline/guide/templates-slides.qmd`, "Template Library" (104 slides in 12 columns: 0 to 11 as below; the printables became a page of their own, `guide/printables.qmd`). My themes: `brand/themes/`, `course/guide/01-my-themes/`.
 
 One deck with every good slide, game and layout made so far, sorted into columns by **what the slide is for**, so a teacher (or an AI assistant) looking for "a way to check understanding" or "a long reading" finds every option in one column. When the sample units go, this deck is what new lessons are built from. Teachers see the word *templates*; most slides are really **tested example layouts** to copy and change, not shortcodes.
 

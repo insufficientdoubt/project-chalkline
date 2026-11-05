@@ -1,0 +1,66 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+
+// ---- Official: Mingwan's official presentation style ----
+// The colour bands around the edge, the emblem top right and the thin three-colour line under each title,
+// exactly as in the marketing department's PowerPoint (2026). For presentations to families and visitors.
+//   A deck:     slide-scheme: official        (in the deck's labels)
+//   One slide:  ## Title {.scheme-official}
+// The bands are drawn from the PowerPoint's own measurements (a 720 × 405 grid): the bottom band is the
+// top one mirrored, the two sides are the same. Their colours are marketing's, not the slide palette's:
+// process cyan, the school's #004694 blue, navy, a warm yellow and two greens.
+.reveal.scheme-official, .reveal .scheme-official {
+  --paper: #fff;
+  --paper-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 405' preserveAspectRatio='none' shape-rendering='crispEdges'%3E%3Crect x='0' y='0' width='50' height='11' fill='%230f3668'/%3E%3Crect x='50' y='0' width='66' height='11' fill='%2300aeef'/%3E%3Crect x='116' y='0' width='114' height='11' fill='%23004694'/%3E%3Crect x='230' y='0' width='90' height='11' fill='%2300aeef'/%3E%3Crect x='320' y='0' width='79' height='11' fill='%23ffffff'/%3E%3Crect x='399' y='0' width='63' height='11' fill='%23f2b726'/%3E%3Crect x='462' y='0' width='42' height='11' fill='%237c9f2b'/%3E%3Crect x='504' y='0' width='66' height='11' fill='%2300aeef'/%3E%3Crect x='570' y='0' width='81' height='11' fill='%23003477'/%3E%3Crect x='651' y='0' width='60' height='11' fill='%2300aeef'/%3E%3Crect x='711' y='0' width='9' height='11' fill='%230f3668'/%3E%3Crect x='0' y='394' width='10' height='11' fill='%230f3668'/%3E%3Crect x='10' y='394' width='62' height='11' fill='%2300aeef'/%3E%3Crect x='72' y='394' width='79' height='11' fill='%23003477'/%3E%3Crect x='151' y='394' width='66' height='11' fill='%2300aeef'/%3E%3Crect x='217' y='394' width='42' height='11' fill='%235ba045'/%3E%3Crect x='259' y='394' width='64' height='11' fill='%23f2b726'/%3E%3Crect x='323' y='394' width='79' height='11' fill='%23ffffff'/%3E%3Crect x='402' y='394' width='89' height='11' fill='%2300aeef'/%3E%3Crect x='491' y='394' width='115' height='11' fill='%23004694'/%3E%3Crect x='606' y='394' width='66' height='11' fill='%2300aeef'/%3E%3Crect x='672' y='394' width='48' height='11' fill='%230f3668'/%3E%3Crect x='0' y='0' width='11' height='12' fill='%230f3668'/%3E%3Crect x='709' y='0' width='11' height='12' fill='%230f3668'/%3E%3Crect x='0' y='12' width='11' height='22' fill='%2300aeef'/%3E%3Crect x='709' y='12' width='11' height='22' fill='%2300aeef'/%3E%3Crect x='0' y='34' width='11' height='74' fill='%23004694'/%3E%3Crect x='709' y='34' width='11' height='74' fill='%23004694'/%3E%3Crect x='0' y='108' width='11' height='114' fill='%23ffffff'/%3E%3Crect x='709' y='108' width='11' height='114' fill='%23ffffff'/%3E%3Crect x='0' y='222' width='11' height='183' fill='%23002966'/%3E%3Crect x='709' y='222' width='11' height='183' fill='%23002966'/%3E%3C/svg%3E");
+  --paper-size: 100% 100%;
+  --paper-position: center;
+  --paper-repeat: no-repeat;
+  --deck-width: 1280;    // 16:9, like the PowerPoint: a deck with slide-scheme: official gets 1280 × 720
+  --deck-height: 720;    // (unless it sets its own width and height); schemes.html applies it
+  --ink: #2b2b2b;
+  --ink-muted: #5f6368;
+  --heading: #111;
+  --surface: #f2f9fd;
+  --surface-2: #fff;
+  --line: rgba(0, 70, 148, 0.18);
+  --border: 1px;
+  --accent: #00aeef;
+  --on-accent: #fff;
+  --hot: #f2b726;
+  --on-hot: #10233f;
+  --hot-text: #8a5f00;
+  --strong: #004694;
+  --on-strong: #fff;
+  --rule: #00aeef;
+  --link: #004694;
+  --radius: 6px;
+}
+// Titles: 中文 first and bolder, then the English, on one line; black, in the body font; under them a
+// thin line in three pale colours (turquoise, peach, blue), as in the PowerPoint.
+:is(.reveal.scheme-official, .reveal .scheme-official) h2 {
+  font-family: var(--r-main-font); font-weight: 400; font-size: 1.15em; letter-spacing: 0; color: var(--heading); padding-right: 3.2em;
+}
+:is(.reveal.scheme-official, .reveal .scheme-official) h2 .bil {
+  display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: baseline; flex-wrap: wrap; gap: 0 0.45em;
+}
+:is(.reveal.scheme-official, .reveal .scheme-official) h2 .bil-zh { font-size: 1em; font-weight: 700; color: var(--heading); letter-spacing: 0.02em; }
+:is(.reveal.scheme-official, .reveal .scheme-official) h2 .bil-en { font-weight: 400; }
+:is(.reveal.scheme-official, .reveal .scheme-official) h2::after {
+  width: 420px; height: 3px; border-radius: 0; margin-top: 0.35em;
+  background: linear-gradient(90deg, #9fd8dc 0 32%, #f5c98e 32% 64%, #8ab8d8 64% 100%);
+}
+// The emblem, top right of every official slide, on the slide's background layer (reveal.js draws
+// backgrounds outside the slide; schemes.html tags each one with its slide's scheme). Here in the
+// stylesheet, so its path is from this file and works wherever the site is published. A whole deck, one
+// slide ({.scheme-official}) or the palette; a slide with its own picture (the title slide) gets it too.
+.reveal .backgrounds .slide-background[data-scheme="official"]:not(.stack)::after {
+  content: ""; position: absolute; top: 5.5%; right: 2.4%; height: 13%; aspect-ratio: 1;
+  background: url("../../../../brand/logos/logo-emblem.png") center / contain no-repeat; pointer-events: none;
+}
+// The title slide: white, the title in the school blue (its own picture, if any, below)
+.reveal.scheme-official #title-slide { text-align: center; padding-top: 70px !important; top: 0 !important; height: 100%; }
+.reveal.scheme-official #title-slide .title { color: #1a7fe0; font-family: var(--r-main-font); font-weight: 600; font-size: 1.6em; text-shadow: none; }
+.reveal.scheme-official #title-slide .subtitle { text-shadow: none; }
+.reveal.scheme-official #title-slide .subtitle { color: #1a7fe0; font-family: var(--r-main-font); }
+.reveal.scheme-official #title-slide .title::after, .reveal.scheme-official #title-slide h1::after { display: none; }

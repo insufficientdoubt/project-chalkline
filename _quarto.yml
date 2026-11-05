@@ -84,7 +84,7 @@ format:
     papersize: a4              # posters override this with papersize: a3
   docx: default
   revealjs:
-    theme: [brand/revealjs.scss]   # the school's fonts, after Chalkline's slide design
+    theme: [brand/revealjs.scss, brand/themes/official.scss]   # the school's fonts, then its own colour schemes (My themes: brand/themes/)
     logo: /brand/logos/icon-sailboat.svg
     slide-number: true
     transition: fade                 # none, fade, slide, convex, concave or zoom

@@ -1,0 +1,35 @@
+---
+title: "Printable Templates"
+type: reference
+description: "The printables to copy: worksheet, handout, checklist. Each with its pages, what it's for, and the file to copy. More kinds of printable are coming."
+order: 4
+audience: [teacher]
+format: html
+---
+
+Printables are files, not slides: copy one into your unit folder, change its words, and render it. Its labels at the top (`title`, `type`, `order`, `audience`, `description`) put it in the unit's page and its packet. The pieces they use (blanks, lines, drawing boxes, word banks, vocab with 中文) are listed in each file's comments and in `_extensions/chalkline/shortcodes.lua`.
+
+::: {.callout-note title="Coming next"}
+A full set of printable examples, sorted by what they're for (like the Template Library): readings with a glossary, labelled pictures, compare pages, timelines, word banks, review pages, posters and cards.
+:::
+
+## Worksheet: Angle Hunt
+
+**Use it for:** the lesson's main task: find, draw and name, then one sentence with a frame · any "find it in the room" task · a lab record sheet.
+**Pieces:** `{{</* blank */>}}` (a line to write on), `{{</* drawing-box */>}}`, `{{</* lines */>}}`, a frame. **File:** `course/guide/02-chalkline/angle-hunt.qmd` (copy it from Chalkline's `guide/angle-hunt.qmd`).
+
+{{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle Hunt" >}}
+
+## Handout: Thinker Card
+
+**Use it for:** a card students fill in about a person, a place or a thing · a museum card · a character profile.
+**Pieces:** headed sections, blanks, a drawing box, a frame to say to a partner. **File:** `guide/example-handout.qmd`.
+
+{{< pdf-viewer "example-handout.pdf" layout="gallery" title="Thinker Card" >}}
+
+## Checklist: Self-Check
+
+**Use it for:** the packet page students do before they leave: rate each "I can" with stars, show it, write one sentence · a self-assessment before a test · peer feedback.
+**Pieces:** a table of "I can" lines with stars, a drawing box, a frame; teacher look-fors in a teacher-only block. **File:** `guide/self-check.qmd`.
+
+{{< pdf-viewer "self-check.pdf" layout="gallery" title="Self-Check" >}}

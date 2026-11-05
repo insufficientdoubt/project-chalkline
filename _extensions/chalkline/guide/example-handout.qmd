@@ -2,7 +2,7 @@
 title: "Thinker Card 思想家卡片"
 type: handout
 description: "An example handout for the Slide kit's instructions slide: students make a card for one thinker. Its PDF shows in that slide's work gallery."
-order: 4
+order: 12
 audience: [teacher]
 doc-type: Handout
 name-box: true

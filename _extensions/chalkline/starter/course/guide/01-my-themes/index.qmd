@@ -1,0 +1,30 @@
+---
+title: "My Themes"
+short-title: "My themes"
+order: 1
+audience: [teacher]
+format: html
+description: "Your own colour schemes for slides, kept next to Chalkline's. Teacher site only."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+Your own colour schemes for slides. They live in `brand/themes/`, one file each, outside Chalkline, so updating Chalkline never touches them. Every Chalkline piece (boxes, tables, timers, games, vocab cards, language points) takes its colours from a scheme.
+
+**To add one:**
+
+1. Copy `brand/themes/my-theme.scss.example` to `brand/themes/<name>.scss`, for example `forest.scss`.
+2. In the file, change `mine` to the same name, and the colours to yours. Every setting is explained there.
+3. Add the file to `_quarto.yml`, under `format: revealjs: theme:`, after `brand/revealjs.scss`.
+4. Use it: `slide-scheme: forest` in a deck's labels, `{.scheme-forest}` on one slide, or the palette in the guide's decks.
+
+**To see it:** open **Theme preview** (below) and pick it from the buttons at the top: the same slides in every scheme, yours and Chalkline's.
+
+## My themes

@@ -1,0 +1,142 @@
+---
+title: "Theme Preview"
+type: slides
+order: 1
+audience: [teacher]
+description: "The same slides in every colour scheme, the course's own (brand/themes/) and Chalkline's: pick one with the buttons at the top."
+format: revealjs
+---
+
+## [Text and a picture | 文字和图片]{.bi} {#text}
+
+:::: {.columns}
+::: {.column width="55%"}
+- [One idea per bullet. | 每条一个要点。]{.bi}
+- [Short sentences, simple words. | 句子简短，用词简单。]{.bi}
+- [A key word: {{< vocab "angle" >}}. | 关键词：角。]{.bi}
+:::
+::: {.column width="45%"}
+::: {.box .plain}
+[Key idea · 要点]{.kicker}
+
+[An angle is two sides that meet at a point. | 角是两条边在一个点相交。]{.bi .lead}
+:::
+:::
+::::
+
+## [Boxes | 方框]{.bi} {#boxes}
+
+::: {.tiles style="--cols: 4"}
+::: box
+[Box · 方框]{.kicker}
+
+A box.
+:::
+
+::: {.box .plain}
+[Plain · 浅色]{.kicker}
+
+A quieter box.
+:::
+
+::: {.box .dark}
+[Dark · 深色]{.kicker}
+
+A dark band.
+:::
+
+::: {.box .accent}
+[Accent · 强调]{.kicker}
+
+The accent.
+:::
+:::
+
+::: strip
+[Say it]{.pill}
+
+[It is [ ]{.gap} than a right angle. | 它比直角[ ]{.gap}。]{.bi}
+:::
+
+## [A table | 表格]{.bi} {#table}
+
+| Angle | Compared with a right angle |
+|:--|:--|
+| [Acute \| 锐角]{.bi} | smaller |
+| [Right \| 直角]{.bi} | the same |
+| [Obtuse \| 钝角]{.bi} | bigger |
+
+## [Steps and a timer | 步骤和计时器]{.bi} {#steps}
+
+:::: {.columns}
+::: {.column width="58%"}
+::: {.steps .stack}
+1. [Find 5 angles in the room. | 在教室里找5个角。]{.bi}
+2. [Draw each one. | 画下每个角。]{.bi}
+3. [Name it. | 写出名称。]{.bi}
+:::
+:::
+::: {.column width="42%"}
+{{< timer 10 layout="row" label="Work on your angle hunt | 完成找角任务" >}}
+:::
+::::
+
+## A game {#game}
+
+::: {.trivia title="Quick-fire!" seconds="10"}
+- An angle smaller than a right angle | An acute angle
+- 1 straight angle = how many right angles? | 2
+:::
+
+```{=html}
+<style>
+  .theme-bar { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; flex-wrap: wrap; gap: 6px;
+    justify-content: center; max-width: 70vw; padding: 6px 8px; border-radius: 999px; background: rgba(255,255,255,.92);
+    box-shadow: 0 2px 10px rgba(0,0,0,.15); font: 600 13px/1 "Source Sans 3", system-ui, sans-serif; }
+  .theme-bar button { border: 1px solid #d6dee8; background: #fff; border-radius: 999px; padding: 5px 10px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+  .theme-bar button[aria-pressed="true"] { background: #003477; color: #fff; border-color: #003477; }
+  .theme-bar .dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(0,0,0,.2); }
+  .theme-bar .mine::after { content: "mine"; font-size: 10px; opacity: .7; }
+  html.print-pdf .theme-bar { display: none; }
+</style>
+<script>
+(function () {
+  // Every colour scheme the page knows (Chalkline's, and the course's own from brand/themes/), as buttons
+  const CHALKLINE = ["night", "sky", "lagoon", "sunrise"];
+  function start() {
+    const names = [];
+    [].forEach.call(document.styleSheets, function (sheet) {
+      let rules; try { rules = sheet.cssRules; } catch (e) { return; }
+      [].forEach.call(rules || [], function (r) {
+        (r.selectorText || "").replace(/\.scheme-([a-z0-9-]+)/g, function (m, n) { if (names.indexOf(n) < 0) names.push(n); });
+      });
+    });
+    const reveal = document.querySelector(".reveal"), bar = document.createElement("div");
+    bar.className = "theme-bar";
+    const probe = document.createElement("div"); reveal.appendChild(probe);
+    function set(name) {
+      [].slice.call(reveal.classList).forEach(function (c) { if (c.indexOf("scheme-") === 0) reveal.classList.remove(c); });
+      if (name) reveal.classList.add("scheme-" + name);
+      document.documentElement.style.setProperty("--r-background-color", getComputedStyle(reveal).getPropertyValue("--paper").trim() || "#fff");
+      document.querySelectorAll(".reveal .slides section").forEach(function (s) { if (window.ChalklineSchemes) ChalklineSchemes.paint(s); });
+      bar.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.name === name)); });
+      Reveal.layout();
+    }
+    [""].concat(names).forEach(function (n) {
+      probe.className = n ? "scheme-" + n : "";
+      const b = document.createElement("button"), d = document.createElement("span");
+      d.className = "dot"; d.style.background = getComputedStyle(probe).getPropertyValue("--paper").trim() || "#fff";
+      b.dataset.name = n; b.append(d, n ? n.charAt(0).toUpperCase() + n.slice(1) : "Default");
+      if (n && CHALKLINE.indexOf(n) < 0) b.classList.add("mine");
+      b.onclick = function () { set(n); };
+      bar.appendChild(b);
+    });
+    probe.remove();
+    document.body.appendChild(bar);
+    set("");
+  }
+  function go() { if (Reveal.isReady()) start(); else Reveal.on("ready", start); }
+  if (window.Reveal) go(); else window.addEventListener("load", go);   // this script comes before reveal.js
+})();
+</script>
+```
