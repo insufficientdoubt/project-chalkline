@@ -1,5 +1,5 @@
 /* Live draw.io infographics (drawio-live.js): hover or tap a box to lift it and fade the rest. */
-.drawio-live svg { width: 100%; height: auto; display: block; }
+.drawio-live svg { width: 100%; height: auto; display: block; overflow: visible; }   /* visible: a lifted box's glow and grow aren't cut off at the edges */
 .drawio-live svg g[data-cell-id] { transition: opacity 0.25s, filter 0.25s, transform 0.25s; }
 .drawio-live .live-box { cursor: pointer; transform-box: fill-box; transform-origin: center; }
 .drawio-live .live-box:hover, .drawio-live .live-box.focus {

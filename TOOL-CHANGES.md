@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: draw.io diagrams: a lifted box's glow no longer cut off
+- **Asked for:** "10.6 - the glow effect cuts off at the edges."
+- **Why:** not given.
+- **Changed:** `guide/drawio/drawio-live.css`: the diagram's SVG shows what spills past its edge (`overflow: visible`), so a box at the edge keeps its whole shadow when it lifts.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-05: Pills with a personality in each colour scheme
 - **Asked for:** "Templates 11.1 - I noticed that all the pills look the same except for trail. What can we do to get them a little more distinctive personality?"
 - **Why:** not given (the schemes changed everything but the pill, which stayed an orange capsule).
