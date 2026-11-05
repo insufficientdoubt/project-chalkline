@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: A bigger slide overview, with zoom
+- **Asked for:** "Make the text bigger on the overview. Are there any common changes to overview? Settings or options built in to reveal.js?"
+- **Why:** the overview's slides and labels were too small to read.
+- **Changed:** `_extensions/chalkline/overview-labels.html`: the column labels are half as big again; the overview opens 40% bigger than reveal.js draws it, and **+** / **−** zoom it while it's open (remembered in this browser). reveal.js 5.1 itself has no setting for the overview's size (each slide is 1/5 of the screen's shorter side, 70px apart): only `overview: false` to turn it off, the O and Esc keys, `Reveal.toggleOverview()` and the `overviewshown` / `overviewhidden` events; so the zoom multiplies the scale reveal.js sets.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Every sentence frame from the language list; the homework page opens large
 - **Asked for:** "everywhere where we have sentence frames, update the examples to pull from our new sentence frames data. Should have a short code for this obviously." And, on the exemplar's homework slide: "I love the way that the homework is displayed, but I'd like it to be clickable and open that page using the packet popup."
 - **Why:** one source for frames; the packet page should open like the gallery's pages.
