@@ -8,12 +8,6 @@ Newest entries first.
 
 <!-- Entries go below this line. Copy this template:
 
-## 2026-11-05: overview: more space between columns, an obvious selected slide, Enter opens it
-- **Asked for:** "Add a little more space between columns on the overview. And make the selected slide a bit more obvious."
-- **Why:** not given (columns ran together; the selected slide was hard to spot).
-- **Changed:** `_extensions/chalkline/overview-labels.html`: 180px more between columns (slides and backgrounds moved, the column lines kept centred in the gap); the selected slide gets a thick outline in the scheme's highlight colour (`--hot`) with a glow, and the other slides fade a little (full again on hover); Enter opens the selected slide (reveal.js has no key for this).
-- **Who it helps:** probably every Chalkline course.
-- **AI assistant:** Claude.
 ## YYYY-MM-DD: short title
 - **Asked for:** what the teacher wanted, in their words if they gave them.
 - **Why:** the reason they gave, or "not given".
@@ -21,6 +15,13 @@ Newest entries first.
 - **Who it helps:** this course only, or probably every Chalkline course.
 - **AI assistant:** which one made the change.
 -->
+
+## 2026-11-05: overview: more space between columns, an obvious selected slide, Enter opens it
+- **Asked for:** "Add a little more space between columns on the overview. And make the selected slide a bit more obvious."
+- **Why:** not given (columns ran together; the selected slide was hard to spot).
+- **Changed:** `_extensions/chalkline/overview-labels.html`: 180px more between columns (slides and backgrounds moved, the column lines kept centred in the gap); the selected slide gets a thick outline in the scheme's highlight colour (`--hot`) with a glow, and the other slides fade a little (full again on hover); Enter opens the selected slide (reveal.js has no key for this).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
 
 ## 2026-11-05: A bigger slide overview, with zoom
 - **Asked for:** "Make the text bigger on the overview. Are there any common changes to overview? Settings or options built in to reveal.js?"
