@@ -4,7 +4,8 @@
     - data-column-label="Practice" on the column's first slide:  # Title {data-column-label="Practice"}
     - the phase in its first slide's footer (.phase, as in the exemplar deck)
     - its menu title (data-menu-title=), or its title
-  Only for columns of more than one slide, unless every column is one slide (then none: nothing to group).
+  And a faint line between the columns, as tall as the longest column.
+  Only in a deck with columns (stacks of slides); a flat deck gets neither.
   Added to every deck by filter.lua; turn off with `overview-labels: false`.
 -->
 <style>
@@ -17,7 +18,14 @@
     white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
     pointer-events: none;
   }
-  .reveal.overview .slides > section:not(.stack):has(> .ov-label) { overflow: visible; }   /* a one-slide column: its label sits above it */
+  .reveal.overview .slides > section:not(.stack):has(> .ov-label, > .ov-line) { overflow: visible; }
+  /* the line between columns: in the 70px reveal.js leaves between them, from the label to the longest column's end */
+  .reveal .slides > section > .ov-line { display: none; }
+  .reveal.overview .slides > section > .ov-line {
+    display: block; position: absolute; top: -150px; right: -40px; width: 10px; border-radius: 5px; pointer-events: none;
+    height: calc(var(--ov-rows, 1) * (100% + 70px) + 80px);
+    background: var(--ink, #1f2933); opacity: 0.22;
+  }   /* a one-slide column: its label sits above it */
   .reveal.overview .slides > section.present > .ov-label { background: var(--accent, #14d7cd); color: var(--on-accent, #003477); }
   .reveal.overview .slides > section > .ov-label .ov-zh { display: block; font-size: 0.7em; font-weight: 600; opacity: 0.85; }
   html.print-pdf .ov-label { display: none !important; }
@@ -48,7 +56,15 @@
     const cols = Reveal.getHorizontalSlides();
     const anyStack = cols.some(function (c) { return c.classList.contains("stack"); });
     if (!anyStack) return;   // a flat deck: nothing to group
-    cols.forEach(function (col) {
+    // as many rows as the longest column, for the lines' length
+    const rows = Math.max.apply(null, cols.map(function (c) { return c.classList.contains("stack") ? c.querySelectorAll(":scope > section").length : 1; }));
+    document.querySelector(".reveal").style.setProperty("--ov-rows", rows);
+    cols.forEach(function (col, i) {
+      if (i < cols.length - 1 && !col.querySelector(":scope > .ov-line")) {
+        const line = document.createElement("div");
+        line.className = "ov-line"; line.setAttribute("aria-hidden", "true");
+        col.append(line);
+      }
       if (col.id === "title-slide" || col.querySelector(":scope > .ov-label")) return;
       const l = labelFor(col);
       if (!l || !l.en) return;

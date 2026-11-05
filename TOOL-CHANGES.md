@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: A faint line between columns in the slide overview
+- **Asked for:** "Can you add a faint line between columns? No need to do this on regular slides. But in cases where there's a stack of slides I'd like some visual distinction."
+- **Why:** to tell the columns of a 2D deck apart in the overview.
+- **Changed:** `_extensions/chalkline/overview-labels.html`: in the overview only, a faint vertical line in the gap between columns, from the labels down to the end of the longest column, in the scheme's text colour (so it shows on light and dark schemes). Only in decks with stacks; off with the labels (`overview-labels: false`).
+- **Who it helps:** probably every Chalkline course with 2D decks.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Column labels in the slide overview
 - **Asked for:** "On reveal.js' overview, can we add labels to the columns? Is that possible?"
 - **Why:** not given (a 2D deck like the exemplar, a column per lesson phase, is easier to find your way in).
