@@ -251,3 +251,10 @@
 }
 .reveal .homework img.next-photo { display: block; width: 100%; height: 330px; object-fit: cover; object-position: 50% 30%; margin: 0.4em 0 0; border-radius: 8px; }
 .reveal .homework > p:has(> img) { margin: 0; }
+
+/* A work gallery under other things in a column: smaller page pictures, so it fits above the footer */
+.reveal .gallery-slot .pdfv-thumb { height: 120px; }
+
+/* A column's first slide (a # title) is centred by Quarto; here it starts at the top like the slides
+   under it, so a column's slides line up. A .cover slide still fills and centres itself. */
+.reveal .slides > section.stack > section.level1.center:not(:has(> .cover)) { top: 0 !important; }

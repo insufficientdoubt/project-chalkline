@@ -2,7 +2,7 @@
 title: "Angle Hunt 找角"
 type: worksheet
 description: "The exemplar lesson's main task: find, draw and name five angles, then compare one with a right angle. Its PDF shows in the exemplar deck's work gallery."
-order: 3
+order: 11
 audience: [teacher]
 doc-type: Worksheet
 name-box: true

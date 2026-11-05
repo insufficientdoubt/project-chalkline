@@ -1,0 +1,44 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+
+// A starter for a colour scheme of your own (My themes). To use it:
+//   1. Copy this file to brand/themes/<name>.scss (for example brand/themes/forest.scss).
+//   2. Change "mine" below to the same name, and the colours to yours.
+//   3. Add the file to _quarto.yml, under format: revealjs: theme: (after brand/revealjs.scss).
+//   4. Use it: slide-scheme: forest in a deck's labels, {.scheme-forest} on one slide, or the palette.
+// The palette (top right of the guide's decks) lists it by itself, and the My themes page shows it.
+// Every Chalkline piece (boxes, tables, timers, games, vocab cards) takes its colours from these tokens.
+
+.reveal.scheme-mine, .reveal .scheme-mine {
+  // the slide
+  --paper: #fdfaf3;            // the slide's colour
+  --paper-image: none;         // a picture or pattern over it: url("…"), or a CSS gradient
+  --paper-size: cover;         // its size: cover (one picture), or 40px 40px (a tile)
+  --paper-position: center;    // where it sits
+  --paper-repeat: no-repeat;   // or repeat, for a tile
+  // text
+  --ink: #2b2b2b;              // body text
+  --ink-muted: #6b6b6b;        // quieter text: 中文 under English, small notes
+  --heading: #1d3b2a;          // titles and box titles
+  --link: #1d6b48;
+  // boxes
+  --surface: #eef5ee;          // a box (.box)
+  --surface-2: #ffffff;        // a quieter box (.box .plain), cards
+  --line: rgba(29, 59, 42, 0.18);   // borders
+  --border: 1px;               // a box's border width (0px for none)
+  --radius: 12px;              // corners (0px: square)
+  --shadow: none;              // a box's shadow, e.g. 0 2px 10px rgba(0,0,0,.08)
+  // colours with a job
+  --accent: #2f9e6b;           // stripes, bars, the current step
+  --on-accent: #ffffff;        // text on --accent
+  --hot: #f2a33a;              // the one thing to look at: pills, labels
+  --on-hot: #1d1d1d;
+  --hot-text: #9a5b00;         // the same, dark enough for words on the slide
+  --strong: #1d3b2a;           // dark bands (.box .dark), timers, the games' cards
+  --on-strong: #ffffff;
+  --rule: #2f9e6b;             // the line under titles, timeline dots
+  // the slide's shape, for a whole deck with this scheme (leave out to keep the deck's own)
+  // --deck-width: 1280;
+  // --deck-height: 720;
+}

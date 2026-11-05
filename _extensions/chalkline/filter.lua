@@ -78,12 +78,12 @@ local function course_data()
     table.insert(data.units, { id = u.id, number = u.number, title = u.short, packet = packets[u.id] and packets[u.id].pdf or nil })
   end
   for _, w in ipairs((read("vocab-terms.json") or {}).terms or {}) do
-    table.insert(data.words, { term = w.term, zh = w.zh, def = w.definition, example = w.example, image = w.image, url = w.url, units = w.units })
+    if not w.guide then table.insert(data.words, { term = w.term, zh = w.zh, def = w.definition, example = w.example, image = w.image, url = w.url, units = w.units }) end   -- the guide's own words: not in the sidebar
   end
   data.frames = {}   -- the language points (vocab/data/frames.csv, via generated/frames.json), for the Vocab sidebar's Language tab
   for _, f in ipairs((read("frames.json") or {}).frames or {}) do
-    table.insert(data.frames, { id = f.id, kind = f.kind, en = f.en, zh = f.zh, answers_en = f.answers_en, answers_zh = f.answers_zh,
-      examples = f.examples, units = f.units })
+    if not f.guide then table.insert(data.frames, { id = f.id, kind = f.kind, en = f.en, zh = f.zh, answers_en = f.answers_en, answers_zh = f.answers_zh,
+      examples = f.examples, units = f.units }) end
   end
   return '<script type="application/json" id="chalkline-course">' .. quarto.json.encode(data):gsub("</", "<\\/") .. '</script>'
 end

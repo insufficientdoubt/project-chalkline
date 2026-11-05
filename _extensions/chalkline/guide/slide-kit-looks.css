@@ -147,6 +147,8 @@
    Each box's colour is --piece; a round tab of that colour sticks out into its neighbour. */
 .reveal .puzzle { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 510px; font-size: 0.7em; --thumb: 2.8em; }
 .reveal .slides .puzzle > .box.box { position: relative; margin: 0; background: var(--piece); border-radius: 0; padding: 0.7em 1.4em; justify-content: center; gap: 0.5em; }
+/* the pieces are always light: their text stays dark, in a dark scheme too */
+.reveal .slides .puzzle > .box.box { color: #1f2933; --ink: #1f2933; --ink-muted: #52606d; --heading: #003477; }
 .reveal .slides .puzzle > .box.box:nth-child(1) { border-top-left-radius: var(--radius); z-index: 2; }
 .reveal .slides .puzzle > .box.box:nth-child(2) { border-top-right-radius: var(--radius); }
 .reveal .slides .puzzle > .box.box:nth-child(3) { border-bottom-left-radius: var(--radius); }

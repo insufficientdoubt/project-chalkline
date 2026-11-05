@@ -2,7 +2,7 @@
 title: "Self-Check 自我检查"
 type: checklist
 description: "The exemplar lesson's self-check, the packet page students fill in before they leave: rate each 'I can' from 1 to 4 stars, then write one sentence. The exemplar deck shows this page, and a tap-to-rate version of it."
-order: 5
+order: 13
 audience: [teacher]
 doc-type: Checklist
 name-box: true
