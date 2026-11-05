@@ -258,3 +258,4 @@
 /* A column's first slide (a # title) is centred by Quarto; here it starts at the top like the slides
    under it, so a column's slides line up. A .cover slide still fills and centres itself. */
 .reveal .slides > section.stack > section.level1.center:not(:has(> .cover)) { top: 0 !important; }
+.reveal .homework .pdfv-page { margin-top: 0.4em; }

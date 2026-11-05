@@ -28,3 +28,19 @@ GD-FRM-026,question,What would happen if ___?,如果___，会发生什么？,"If
 GD-FRM-027,question,How do you ___?,你怎么___？,"First, ___. Then, ___. Finally, ___.",首先，___。然后，___。最后，___。,"How do you draw an angle? → First, draw a dot. Then, draw two lines from it. Finally, mark the angle.",sequence,,draft
 GD-FRM-028,question,Do you agree with ___?,你同意___吗？,"Yes, I agree because ___.; No, I see it differently. I think ___.",是的，我同意，因为___。; 不，我的看法不一样。我认为___。,"Do you agree with Lin? → Yes, I agree because a straight angle has a vertex too.",agree,,draft
 GD-FRM-029,question,Why do you think ___?,你为什么认为___？,I think so because ___.; One reason is ___.,我这样认为，因为___。; 一个原因是___。,Why do you think Rome built roads? → One reason is that soldiers could move fast.,explain,,draft
+GD-FRM-030,frame,The hands make a ___.,两根指针组成了一个___。,,,,describe,5,draft
+GD-FRM-031,frame,"In my home, the ___ turns.",在我家，___会转动。,,,,describe,5,draft
+GD-FRM-032,frame,"At 4:00, the hands make an ___ angle.",4点时，两根指针组成一个___角。,,,,describe,5,draft
+GD-FRM-033,frame,"I think ___, because ___.",我认为___，因为___。,,,,opinion,,draft
+GD-FRM-034,frame,I see a straight angle when ___.,当___时，我看到了平角。,,,,describe,5,draft
+GD-FRM-035,frame,I want to add that ___.,我想补充：___。,,,,add,,draft
+GD-FRM-036,frame,Can you say more about ___?,你能再多说说___吗？,,,,ask,,draft
+GD-FRM-037,frame,"An obtuse angle is bigger than ___, but smaller than ___.",钝角比___大，但比___小。,,,,compare,5,draft
+GD-FRM-038,frame,"At ___, the clock hands make a ___ angle. It is ___ than a right angle.",___时，两根指针组成一个___角。它比直角___。,,,,describe,5,draft
+GD-FRM-039,frame,The main problem is ___.,我们时代最大的困境是___。,,,,explain,,draft
+GD-FRM-040,frame,Our school believes the best way is ___.,我们学派认为最好的办法是___。,,,,opinion,,draft
+GD-FRM-041,frame,This idea works because ___.,这样做的原因是___。,,,,explain,,draft
+GD-FRM-042,frame,"If rulers follow our idea, ___ will happen.",如果君主采纳我们的思想，___将会发生。,,,,cause,,draft
+GD-FRM-043,frame,The ___ school said rulers should ___.,___学派认为统治者应该___。,,,,explain,,draft
+GD-FRM-044,frame,"I agree with ___, because ___.",我同意___，因为___。,,,,agree,,draft
+GD-FRM-045,frame,A straight angle is ___ than a right angle.,平角比直角___。,,,,compare,5,draft

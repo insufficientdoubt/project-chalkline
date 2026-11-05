@@ -55,7 +55,7 @@ The accent.
 ::: strip
 [Say it]{.pill}
 
-[It is [ ]{.gap} than a right angle. | 它比直角[ ]{.gap}。]{.bi}
+{{< frame "FRM-014" >}}
 :::
 
 ## [A table | 表格]{.bi} {#table}

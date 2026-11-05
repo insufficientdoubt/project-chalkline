@@ -237,7 +237,7 @@ A label, a tag, a number (`.num`).
 ::: {.box .plain}
 [Gaps and frames]{.kicker}
 
-[It is [ ]{.gap} than [ ]{.gap}.]{.frame}
+{{< frame "GD-FRM-014" >}}
 :::
 
 ::: {.box .plain}
@@ -288,7 +288,7 @@ A label, a tag, a number (`.num`).
 
 [Sentence frames · 句型]{.pill .tag}
 
-[A [ ]{.gap} angle is [ ]{.gap} than a right angle. | [ ]{.gap}比直角[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-014" >}}
 :::
 
 ::: {.area .donow label="Do now · 课前任务"}
@@ -320,7 +320,7 @@ A label, a tag, a number (`.num`).
 ::: notes
 **Use it for:** the first slide of every lesson: students start the Do now while you take the register · a substitute's lesson (everything on one slide) · an observation lesson (objectives visible at once).
 
-**Pieces:** `::: intro-grid`, a strict grid (`exemplar.css`): the content and language areas on the left, the Do now on the right, as tall as both, so their top and bottom edges always line up. Inside: two labelled `.area`s (content, language), a `.lesson-info` table, `{{</* vocab-gallery */>}}`, a frame with `[ ]{.gap}`, and a Do now `.area` with `{{</* timer 5 */>}}`. The vocab gallery shows this sample's words; in your course, use your unit's words.
+**Pieces:** `::: intro-grid`, a strict grid (`exemplar.css`): the content and language areas on the left, the Do now on the right, as tall as both, so their top and bottom edges always line up. Inside: two labelled `.area`s (content, language), a `.lesson-info` table, `{{</* vocab-gallery */>}}`, a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and a Do now `.area` with `{{</* timer 5 */>}}`. The vocab gallery shows this sample's words; in your course, use your unit's words.
 
 **Also see:** Lesson intro without a Do now; Objectives one at a time; Project calendar.
 :::
@@ -352,7 +352,7 @@ A label, a tag, a number (`.num`).
 
 [Sentence frames · 句型]{.pill .tag}
 
-[A [ ]{.gap} angle is [ ]{.gap} than a right angle. | [ ]{.gap}比直角[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-014" >}}
 :::
 :::::
 
@@ -373,7 +373,7 @@ A label, a tag, a number (`.num`).
 ::: notes
 **Use it for:** a lesson that starts with the teacher · a test or presentation day · a lesson whose picture says what it's about.
 
-**Pieces:** `::::: {.intro-grid .no-donow}` (`exemplar.css`): two `.area`s side by side. In the content area, a picture with `{.preview}` (a wide strip, cropped to fit) above the `.lesson-info` table; in the language area, the objective (`{.bi .obj}`), `{{</* vocab-gallery … cols=4 */>}}` and a frame.
+**Pieces:** `::::: {.intro-grid .no-donow}` (`exemplar.css`): two `.area`s side by side. In the content area, a picture with `{.preview}` (a wide strip, cropped to fit) above the `.lesson-info` table; in the language area, the objective (`{.bi .obj}`), `{{</* vocab-gallery … cols=4 */>}}` and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 
 **Also see:** Lesson intro (with a Do now).
 :::
@@ -456,7 +456,7 @@ A label, a tag, a number (`.num`).
 
 [What do the two hands make? | 两根指针组成了什么？]{.bi .lead}
 
-[The hands make a [ ]{.gap}. | 两根指针组成了一个[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-030" >}}
 :::
 
 {{< timer 3 >}}
@@ -470,7 +470,7 @@ A label, a tag, a number (`.num`).
 ::: notes
 **Use it for:** a new topic: everyone can look and point · a math 'notice and wonder' · a science phenomenon to explain · an artwork or primary source.
 
-**Pieces:** `.columns`, a picture, a `.box` with a question and a frame, `{{</* timer 3 */>}}`.
+**Pieces:** `.columns`, a picture, a `.box` with a question and a frame (`{{</* frame "FRM-…" */>}}`, from the language list), `{{</* timer 3 */>}}`.
 
 **Also see:** Interest hook; A picture that fills the screen (column 3).
 :::
@@ -865,25 +865,25 @@ A label, a tag, a number (`.num`).
 ::: {.box .plain}
 [Agree · 同意]{.kicker}
 
-[I agree with [ ]{.gap}, because [ ]{.gap}. | 我同意[ ]{.gap}，因为[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-044" >}}
 :::
 
 ::: {.box .plain}
 [Disagree · 不同意]{.kicker}
 
-[I see it differently. I think [ ]{.gap}. | 我的看法不一样。我认为[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-003" >}}
 :::
 
 ::: {.box .plain}
 [Add on · 补充]{.kicker}
 
-[I want to add that [ ]{.gap}. | 我想补充：[ ]{.gap}。]{.bi}
+{{< frame "GD-FRM-035" >}}
 :::
 
 ::: {.box .plain}
 [Ask · 提问]{.kicker}
 
-[Can you say more about [ ]{.gap}? | 你能再多说说[ ]{.gap}吗？]{.bi}
+{{< frame "GD-FRM-036" >}}
 :::
 :::
 
@@ -2063,7 +2063,7 @@ Make a clock show an obtuse angle. What time is it? Find two answers.
 At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right angle, but **smaller than** a straight angle.
 :::
 
-[At [ ]{.gap}, the clock hands make a [ ]{.gap} angle. It is [ ]{.gap} than a right angle.]{.frame}
+{{< frame "GD-FRM-038" >}}
 :::
 ::: {.column width="45%"}
 ::: {.box .plain .cross-off}
@@ -2084,7 +2084,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 ::: notes
 **Use it for:** a writing task with a model, a frame and a checklist · a lab conclusion · a paragraph answer · peer marking (tick the checklist together).
 
-**Pieces:** `.columns`, a model in a `.box`, a frame, and a checklist (`- [ ]`) in a `.box .cross-off`: click a box and its line is crossed out. Read each check aloud and tick it to show students how.
+**Pieces:** `.columns`, a model in a `.box`, a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and a checklist (`- [ ]`) in a `.box .cross-off`: click a box and its line is crossed out. Read each check aloud and tick it to show students how.
 
 **Also see:** Language points (column 2).
 :::
@@ -2214,7 +2214,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 [Where do you see a straight angle at home? | 你在家里哪里能看到平角？]{.bi}
 
-[I see a straight angle when [ ]{.gap}. | 当[ ]{.gap}时，我看到了平角。]{.bi .frame}
+{{< frame "GD-FRM-034" >}}
 :::
 
 ::: {.tiles style="font-size: 0.45em"}
@@ -2240,7 +2240,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 ::: notes
 **Use it for:** any question everyone should answer · before a whole-class discussion · checking an idea with a partner first.
 
-**Pieces:** the Slide kit's Think-Pair-Share: a `.box` with the steps, `.tiles` of seating drawings, the question with a frame, and two timers in `.dark` boxes.
+**Pieces:** the Slide kit's Think-Pair-Share: a `.box` with the steps, `.tiles` of seating drawings, the question with a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and two timers in `.dark` boxes.
 
 **Also see:** The Routines tool (W) does it on top of any slide.
 :::
@@ -2415,7 +2415,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 4. [**Report** to the class in English. | 用英语向全班**汇报**。]{.bi}
 :::
 
-[An obtuse angle is bigger than [ ]{.gap}, but smaller than [ ]{.gap}. | 钝角比[ ]{.gap}大，但比[ ]{.gap}小。]{.bi .frame}
+{{< frame "GD-FRM-037" >}}
 
 ::: footer
 [7 · Talk and work together · 交流合作]{.phase} · any language, report in English
@@ -2424,7 +2424,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 ::: notes
 **Use it for:** a hard new idea: think and talk in any language, then report in English with a frame · newcomers in a group.
 
-**Pieces:** Chalkline's `.steps`, and a frame.
+**Pieces:** Chalkline's `.steps`, and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 
 **Also see:** Question formats (column 2).
 :::
@@ -2436,7 +2436,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 [Is a straight angle really an angle? | 平角真的是角吗？]{.bi .big}
 
-[I think [ ]{.gap}, because [ ]{.gap}. | 我认为[ ]{.gap}，因为[ ]{.gap}。]{.bi .frame}
+{{< frame "GD-FRM-033" >}}
 :::
 
 ::: footer
@@ -2446,7 +2446,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 ::: notes
 **Use it for:** a question to argue, with a frame for the reason · an ethics question · a 'would you rather' · a prediction.
 
-**Pieces:** `.cover` with a `.kicker`, `.big` text and a frame.
+**Pieces:** `.cover` with a `.kicker`, `.big` text and a frame (`{{</* frame "FRM-…" */>}}`, from the language list).
 
 **Also see:** Think-Pair-Share.
 :::
@@ -3068,7 +3068,7 @@ Tap a word, then tap its meaning.
 ::: {.column width="50%"}
 ::: {.area .donow label="Exit ticket · 出门条"}
 1. Draw an obtuse angle. Mark the vertex.
-2. Finish the sentence: *A straight angle is [ ]{.gap} than a right angle.*
+2. Finish the sentence: {{< frame "GD-FRM-045" zh=false >}}
 
 ::: {.end style="align-self: center; font-size: 0.48em"}
 {{< timer 3 >}}
@@ -3093,7 +3093,7 @@ Tap a word, then tap its meaning.
 
 ::: {.box .plain style="font-size: 0.9em"}
 1. [Draw an obtuse angle. Mark the vertex. | 画一个钝角，标出顶点。]{.bi}
-2. [Finish the sentence: *A straight angle is [ ]{.gap} than a right angle.* | 完成句子：*平角比直角[ ]{.gap}。*]{.bi}
+2. [Finish the sentence. | 完成句子。]{.bi} {{< frame "GD-FRM-045" >}}
 :::
 
 {{< timer 3 layout="row" label="Write it on a sticky note | 写在便利贴上" >}}
@@ -3198,7 +3198,7 @@ How well can you name a straight angle and a full angle?
 
 [Due: next lesson · Packet page: *Angle Hunt* | 下节课交 · 学习包：*找角*]{.bi .small}
 
-![](images/page-angle-hunt.png){.page-peek fig-alt="The Angle Hunt page in the packet"}
+{{< pdf-viewer "angle-hunt.pdf" layout="page" title="Angle Hunt" height="215px" >}}
 :::
 :::
 ::: {.column width="45%"}
@@ -3219,7 +3219,7 @@ How well can you name a straight angle and a full angle?
 ::: notes
 **Use it for:** homework with its packet page · what's next, with a picture · a project's next step.
 
-**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page (`{.page-peek}`, a picture of page 1 of `angle-hunt.qmd`), and a photo for next time (`{.next-photo}`).
+**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page, `{{</* pdf-viewer "angle-hunt.pdf" layout="page" height="215px" */>}}`: page 1 of the printable, drawn from its PDF; tap it to open the page large (the same window as the packet gallery's), and a photo for next time (`{.next-photo}`).
 
 **Also see:** Packet page (column 5).
 :::
