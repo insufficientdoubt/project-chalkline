@@ -59,7 +59,7 @@ local function is_teacher()
 end
 
 -- The course's units, packets and vocab words, for the toolbox's Vocab and Packet tools: read from
--- generated/ (units.json and packets.json from scripts/catalog.py, vocab-terms.json from
+-- generated/ (units.json and packets.json from scripts/catalog.py, vocab-terms.json and frames.json from
 -- scripts/vocab_terms.py) and put in the page as JSON. Paths are from the project root; `root` is
 -- the way up to it from this deck, and `unit` is this deck's unit folder, if it's in one.
 local function course_data()
@@ -79,6 +79,11 @@ local function course_data()
   end
   for _, w in ipairs((read("vocab-terms.json") or {}).terms or {}) do
     table.insert(data.words, { term = w.term, zh = w.zh, def = w.definition, example = w.example, image = w.image, url = w.url, units = w.units })
+  end
+  data.frames = {}   -- the language points (vocab/data/frames.csv, via generated/frames.json), for the Vocab sidebar's Language tab
+  for _, f in ipairs((read("frames.json") or {}).frames or {}) do
+    table.insert(data.frames, { id = f.id, kind = f.kind, en = f.en, zh = f.zh, answers_en = f.answers_en, answers_zh = f.answers_zh,
+      examples = f.examples, units = f.units })
   end
   return '<script type="application/json" id="chalkline-course">' .. quarto.json.encode(data):gsub("</", "<\\/") .. '</script>'
 end

@@ -4,6 +4,9 @@
   example, with 🔊 to read it aloud. Starts on this deck's unit; the menu picks another, or all of
   them. Search finds a word in every unit (by the word, its 中文 or its meaning), for a course with
   hundreds of words. The words come from vocab/data/vocab.csv.
+  Language (the Words | Language switch at the top, when the course has any): the unit's language
+  points from vocab/data/frames.csv (grammar, phrases, stems, frames, questions), grouped, then the
+  all-year ones; tap one for its card: the sentence with its gaps, 中文, its answers or examples.
   No shadow root: the word card opens on the tools' layer, beside the list.
 */
 (function () {
@@ -12,9 +15,14 @@
 
   function build(body, panel) {
     const data = course();
-    if (!data || !data.words.length) { body.append(h("div", { class: "ui-empty", text: "This course has no vocab list yet." })); return {}; }
-    const inUnit = function (w, u) { return (w.units || []).indexOf(u.number) >= 0; };
-    const units = data.units.filter(function (u) { return data.words.some(function (w) { return inUnit(w, u); }); });
+    const arr = function (x) { return Array.isArray(x) ? x : []; };   // an empty list comes as {} from Lua
+    const frames = arr(data && data.frames);
+    if (!data || (!data.words.length && !frames.length)) { body.append(h("div", { class: "ui-empty", text: "This course has no vocab list yet." })); return {}; }
+    const inUnit = function (w, u) { return arr(w.units).indexOf(u.number) >= 0; };
+    const units = data.units.filter(function (u) {
+      return data.words.some(function (w) { return inUnit(w, u); }) || frames.some(function (f) { return inUnit(f, u); });
+    });
+    let mode = frames.length ? load("vocab-mode", "words") : "words";   // Words or Language
     let unit = units.some(function (u) { return u.id === data.unit; }) ? data.unit : "all";
     const list = h("div", { class: "ct-vocab-list ct-nodrag" }), count = h("div", { class: "ct-vocab-count" });
     const byTerm = function (a, b) { return a.term.localeCompare(b.term, "en", { sensitivity: "base" }); };
@@ -27,6 +35,12 @@
         if (e.key === "Escape") { e.preventDefault(); if (find.value) { find.value = ""; paint(); } else find.blur(); }
       } });
     const menu = unitMenu(units, unit, ["all", "All units"], function (v) { unit = v; find.value = ""; hideCard(); paint(); });
+    // Words | Language
+    const tabWords = h("button", { text: "Words", onclick: function () { setMode("words"); } });
+    const tabLang = h("button", { text: "Language", title: "Grammar, phrases, sentence frames and questions", onclick: function () { setMode("lang"); } });
+    const tabs = frames.length ? h("div", { class: "ui-seg ct-vocab-tabs" }, tabWords, tabLang) : null;
+    function setMode(m) { mode = m; save("vocab-mode", m); find.value = ""; hideCard(); paint(); }
+    if (tabs) body.append(tabs);
     body.append(h("label", { class: "ct-vocab-search" }, icon("search"), find), menu, count, list);
     let card = null, current = null;
 
@@ -44,9 +58,80 @@
       const u = units.find(function (x) { return x.number === (w.units || [])[0]; });
       return u ? u.title.split(" · ")[0] : "";
     }
+    // ---- Language: the unit's points, by kind; tap one for its card ----
+    const KINDS = [["grammar", "Grammar"], ["phrase", "Phrases"], ["frame", "Sentence frames"], ["question", "Questions"]];
+    const kindOf = function (f) { return f.kind === "stem" ? "frame" : f.kind; };
+    const plain = function (t) { return (t || "").replace(/_+/g, "___"); };
+    function paintLang(q) {
+      let shown;
+      if (q) {
+        shown = frames.filter(function (f) {
+          return (f.en || "").toLowerCase().indexOf(q) >= 0 || (f.zh || "").indexOf(q) >= 0 ||
+            arr(f.answers_en).some(function (a) { return a.toLowerCase().indexOf(q) >= 0; });
+        });
+        count.textContent = shown.length + (shown.length === 1 ? " match" : " matches") + " in all units";
+        section(shown, null);
+        if (!shown.length) list.append(h("div", { class: "ct-vocab-none", text: "Nothing matches that." }));
+        return;
+      }
+      const u = units.find(function (x) { return x.id === unit; });
+      const mine = frames.filter(function (f) { return u ? inUnit(f, u) : arr(f.units).length > 0; });
+      const always = frames.filter(function (f) { return !arr(f.units).length; });
+      count.textContent = (mine.length + always.length) + " language points";
+      section(mine, null);
+      if (always.length) { list.append(h("div", { class: "ct-vocab-head ct-vocab-year", text: "All year · 全年" })); section(always, null); }
+    }
+    function section(items, title) {
+      KINDS.forEach(function (k) {
+        const these = items.filter(function (f) { return kindOf(f) === k[0]; });
+        if (!these.length) return;
+        list.append(h("div", { class: "ct-vocab-head", text: k[1] }));
+        these.forEach(function (f) {
+          const b = h("button", { class: "ct-vocab-word ct-vocab-point ct-k-" + kindOf(f), onclick: function () { if (current === f) hideCard(); else showPoint(f, b); } },
+            h("span", { text: plain(f.en) }));
+          list.append(b);
+        });
+      });
+    }
+    function gapped(text) {   // ___ and … as write-on lines
+      const out = h("span");
+      (text || "").split(/(_+|……|…)/).forEach(function (part) {
+        if (!part) return;
+        if (/^(_+|……|…)$/.test(part)) out.append(h("span", { class: "ct-gap" })); else out.append(part);
+      });
+      return out;
+    }
+    const spoken = function (t) { return (t || "").replace(/_+|……|…/g, " … "); };
+    function showPoint(f, button) {
+      hideCard();
+      current = f;
+      button.classList.add("ct-on");
+      const label = (KINDS.find(function (k) { return k[0] === kindOf(f); }) || ["", ""])[1];
+      const answers = arr(f.answers_en), zhAnswers = arr(f.answers_zh), examples = arr(f.examples);
+      card = h("div", { class: "ct-vcard ct-pcard ct-k-" + kindOf(f), role: "dialog", "aria-label": f.en },
+        h("button", { class: "ct-ctrl ct-close", "aria-label": "Close", title: "Close (Esc)", onclick: hideCard }, icon("x")),
+        h("div", { class: "ct-vcard-text" },
+          h("div", { class: "ct-pcard-kind", text: label }),
+          h("div", { class: "ct-vcard-term ct-pcard-en" }, gapped(f.en), say(spoken(f.en), "en-US")),
+          f.zh ? h("div", { class: "ct-vcard-zh" }, gapped(f.zh), say(spoken(f.zh), "zh-CN")) : null,
+          answers.length ? h.apply(null, ["ul", { class: "ct-pcard-answers" }].concat(answers.map(function (a, i) {
+            return h("li", {}, h("div", { class: "ct-pcard-a" }, gapped(a), say(spoken(a), "en-US")), zhAnswers[i] ? h("div", { class: "ct-pcard-azh" }, gapped(zhAnswers[i])) : null);
+          }))) : null,
+          examples.length ? h("div", { class: "ct-vcard-ex", text: examples.join(" · ") }) : null));
+      card.style.zIndex = 99990;
+      document.getElementById("ct-layer").append(card);
+      const p = panel.getBoundingClientRect(), b = button.getBoundingClientRect(), c = card.getBoundingClientRect();
+      const x = p.left >= c.width + 16 ? p.left - c.width - 8 : Math.min(p.right + 8, window.innerWidth - c.width - 8);
+      card.style.left = Math.max(8, x) + "px";
+      card.style.top = Math.max(8, Math.min(b.top - 24, window.innerHeight - c.height - 8)) + "px";
+    }
+
     function paint() {
       list.textContent = "";
       const q = find.value.trim().toLowerCase();
+      if (tabs) { tabWords.classList.toggle("ui-on", mode === "words"); tabLang.classList.toggle("ui-on", mode === "lang"); }
+      find.placeholder = mode === "lang" ? "Search all language" : "Search all units";
+      if (mode === "lang") { menu.classList.toggle("ct-off", !!q); paintLang(q); return; }
       menu.classList.toggle("ct-off", !!q);   // the search looks in every unit
       let words;
       if (q) {
@@ -124,6 +209,27 @@ ct-vocab > .ui-select.ct-off { opacity: 0.45; }
 .ct-vocab-find.ui-field { width: 100%; min-width: 0; padding: 7px 10px 7px 32px; background: var(--ui-surface); font-size: 15px; cursor: text; user-select: text; }
 .ct-vocab-unit { display: block; margin-top: 1px; color: var(--ui-muted); font-size: 12px; font-weight: 600; }
 .ct-vocab-none { padding: 12px 16px; color: var(--ui-muted); font-size: 15px; }
+/* Words | Language */
+.ct-vocab-tabs { display: flex; margin: 0 10px; font-size: 14px; }
+.ct-vocab-tabs > button { flex: 1; }
+/* Language: a small heading per kind, and longer lines than words */
+.ct-vocab-head {
+  flex: none; padding: 10px 16px 3px; color: var(--ui-muted); font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.ct-vocab-head.ct-vocab-year { margin-top: 8px; padding-top: 12px; border-top: 3px solid var(--ui-line); color: var(--ui-ink); }
+.ct-vocab-word.ct-vocab-point { font-size: clamp(14px, 6.6cqw, 19px) !important; line-height: 1.25; }
+.ct-vocab-point.ct-k-grammar { font-weight: 800 !important; }
+.ct-vocab-point.ct-k-phrase span { padding: 1px 8px; border: 1px solid var(--ui-line); border-radius: 999px; }
+/* A language point's card */
+.ct-gap { display: inline-block; min-width: 2.6em; margin: 0 0.12em; border-bottom: 2px solid currentColor; vertical-align: baseline; }
+.ct-pcard .ct-vcard-text { padding-top: 6px; padding-right: 40px; }
+.ct-pcard-kind { color: var(--ui-muted); font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.ct-pcard .ct-pcard-en { font-size: 26px; flex-wrap: wrap; }
+.ct-pcard-answers { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ct-pcard-answers li { padding: 6px 10px 6px 30px; position: relative; border-radius: 10px; background: var(--ui-soft); }
+.ct-pcard-answers li::before { content: "→"; position: absolute; left: 10px; top: 6px; color: var(--ui-accent); font-weight: 800; }
+.ct-pcard-a { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 600; }
+.ct-pcard-azh { color: var(--ui-muted); font-size: 16px; margin-top: 2px; }
 .ct-vocab-count {
   flex: none; padding: 4px 16px 6px; border-bottom: 1px solid var(--ui-line);
   color: var(--ui-muted); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
