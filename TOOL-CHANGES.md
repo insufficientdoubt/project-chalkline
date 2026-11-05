@@ -16,6 +16,55 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: A faint line between columns in the slide overview
+- **Asked for:** "Can you add a faint line between columns? No need to do this on regular slides. But in cases where there's a stack of slides I'd like some visual distinction."
+- **Why:** to tell the columns of a 2D deck apart in the overview.
+- **Changed:** `_extensions/chalkline/overview-labels.html`: in the overview only, a faint vertical line in the gap between columns, from the labels down to the end of the longest column, in the scheme's text colour (so it shows on light and dark schemes). Only in decks with stacks; off with the labels (`overview-labels: false`).
+- **Who it helps:** probably every Chalkline course with 2D decks.
+- **AI assistant:** Claude (Claude Code).
+
+## 2026-11-05: Column labels in the slide overview
+- **Asked for:** "On reveal.js' overview, can we add labels to the columns? Is that possible?"
+- **Why:** not given (a 2D deck like the exemplar, a column per lesson phase, is easier to find your way in).
+- **Changed:** `_extensions/chalkline/overview-labels.html` (new): in the overview (O or Esc), a label above each column: the column's `data-column-label` if it has one, else the phase in its first slide's footer (English, with the 中文 on its own line), else its menu title or heading; the column you're on is highlighted; in the slide scheme's colours. Only in decks that have columns (a flat deck gets none). `_extensions/chalkline/filter.lua`: adds it to every deck; `overview-labels: false` in a deck's labels turns it off.
+- **Who it helps:** probably every Chalkline course with 2D decks.
+- **AI assistant:** Claude (Claude Code).
+
+## 2026-11-05: Questions are formats for oracy practice, with a worked example
+- **Asked for:** "Change the question and answer forms and examples. I'm not trying to get the kids to memorize specific questions and answers, it's more of the oracy practice of different formats of questions and answers."
+- **Why:** as asked.
+- **Changed:**
+  - `vocab/data/frames.csv` (content): the question rows are now general formats with gaps and their answer frames, each with one worked example ("Q → A") as a model: asking for an example, clarifying, choosing (Is it ___ or ___?), opinion, alike, different, predicting (What would happen if ___?), explaining steps (How do you ___?), agreeing, giving reasons. All year (no unit).
+  - `_extensions/chalkline/shortcodes.lua`, `frames.html`: `{{< frames >}}` shows a question's (and a grammar point's) example under it, as "e.g. …"; `examples=false` hides it, `examples=true` also shows frames' and stems' examples.
+  - `vocab/schema.yaml`, `vocab/README.md`: say what a question row is for.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
+## 2026-11-05: Language points in the Vocab sidebar and the vocab app
+- **Asked for:** making the language points accessible: "Either a new tool or a modification to the vocabulary tool?" Then: "Yes, do both, starting with the sidebar tab" (a Language tab in the Vocab sidebar, and a Language section in the vocab app).
+- **Why:** frames and grammar at hand during a lesson, and one place to see them all.
+- **Changed:**
+  - `_extensions/chalkline/filter.lua`: the deck's course data also carries the language points (`generated/frames.json`).
+  - `_extensions/chalkline/toolbox/tools/vocab.js`: a **Words | Language** switch (remembered); Language lists the unit's points by kind (grammar, phrases, sentence frames, questions), then the all-year ones; tap one for its card (the sentence with write-on gaps, 中文, its answers or examples, read-aloud buttons); search finds language in every unit.
+  - `_extensions/chalkline/vocab-app/index.html`: a **Language** section (in the menu, with one entry per kind): cards grouped by kind with 中文, answers, examples, the unit and function; filters for All, All year and each unit; the app's search also finds language points. Reads `vocab/data/frames.csv` if the course has one.
+  - `vocab/README.md`: says where they show.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
+## 2026-11-05: Language points beyond vocab: frames.csv and {{< frames >}}
+- **Asked for:** a sentence frames tool "pretty flexible. It should cover phrases, patterns, and question response format pairs. And like vocabulary we should be able to insert these into packets, and have an overall list somewhere accessible. How can we store the data without making it overly complicated", then (after looking at SIOP and School 21) the simplest version: one file, with grammar points in it too. "Make sure that the lua short code has a smart default for how to display the different types … And make sure that we can choose specific items, not just dump the entire unit. Although dumping the entire unit is also useful."
+- **Why:** frames were written by hand on each slide; a lesson reviews a few of a unit's language points.
+- **Changed:**
+  - `vocab/data/frames.csv` (content) and `vocab/schema.yaml`: a new format: `kind` (grammar, phrase, stem, frame, question), `en`, `zh`, `answer_en` / `answer_zh` (a question's answer frames, `;` between them), `example`, `function`, `units` (empty: all year), `status`. The four frames kept their IDs; new rows: School 21 stems and unit 5's language (comparatives, the angle frame and question, phrases, the Activity 3 stems).
+  - `_extensions/chalkline/scripts/validate_vocab.py`: checks the new table (a question needs answers; as many in 中文 as in English); `level` is optional for a table.
+  - `_extensions/chalkline/scripts/vocab_terms.py`: also writes `generated/frames.json` before each render.
+  - `_extensions/chalkline/shortcodes.lua`: `{{< frames >}}` (and `{{< frame >}}`): pick IDs (a lesson's points, in that order) or `unit=5` (`general=true` adds all-year ones), filter with `kind=` and `function=`. Each kind its own look: grammar as a rule with examples, phrases as chips, stems and frames as sentences with write-on gaps, questions with their answers under them; grouped with small labels when mixed. 中文 under each line on slides (the language switch hides it); in PDFs and Word only with `zh=true`. Options: `answers=false`, `labels=false`, `group=false`. PDFs get real write-on lines (`#blank`).
+  - `_extensions/chalkline/frames.html` (new): the styles, from the slide's tokens, so colour schemes restyle them.
+  - `course/units/05-angles/turning-angles-slides.qmd` (content): Activity 3's stems now come from the list.
+  - `vocab/README.md`, `CLAUDE.md`, `IDEAS.md`: say how.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Routines, easier to read, with pictures and the slide's theme; Crazy 8s
 - **Asked for:** "Bring in the graphics from the Think Pair Share slide. Make the tool more student friendly, easier to read. Make it follow the slide theme, if possible. Add the ideation routine crazy 8s. 8 minutes to write/draw 8 ideas on sticky notes (timer that gives a soft chime every minute), then group/sort ideas with your team."
 - **Why:** students read it from their seats; it should look like the slides around it.

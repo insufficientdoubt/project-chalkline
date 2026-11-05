@@ -26,6 +26,14 @@ what each one becomes in each output format (slides, web page, PDF, Word).
                                          (for reference sheets; leave it off on quizzes).
                                          Terms come from vocab/data/vocab.csv
                                          (via scripts/vocab_terms.py). PDF/Word: the word in bold.
+  {{< frames "FRM-014, FRM-015" >}}      language points (vocab/data/frames.csv): grammar, phrases,
+  {{< frames unit=5 >}}                  stems, frames, questions, each in its own look, grouped and
+                                         labelled when mixed. Pick IDs for one lesson, or unit=5 for a
+                                         unit's (general=true adds the all-year ones); kind= and
+                                         function= filter. 中文 under each line on slides; in PDF/Word
+                                         with zh=true (not on quizzes). Questions are formats, shown with
+                                         a worked example (examples=false hides it). answers=false, labels=false,
+                                         group=false (in the order written). {{< frame "FRM-014" >}}: one.
 
   {{< snowman >}}                        slide games (slides only). A random word from the vocab
   {{< picture-reveal >}}                 list, with 🔀 for a new one; unit=1 for one unit's words;
@@ -144,6 +152,223 @@ local function game_config(args, kwargs, kind)
       " (is the unit's list in course/vocab/?)")
   end
   return { words = words, random = true, units = vocab_units, unit = unit }
+end
+
+-- Language points beyond vocabulary (vocab/data/frames.csv, read into generated/frames.json before each
+-- render): grammar, phrases, sentence stems, frames and questions with answer frames.
+--   {{< frames "FRM-014, FRM-015" >}}      these, in this order (one lesson's points)
+--   {{< frames unit=5 >}}                  every point for unit 5 (general=true adds the all-year ones)
+--   {{< frames function=compare >}}        or kind=grammar, or both; with unit= too; no filter: all of them
+-- Each kind has its own look: grammar as a rule with examples, phrases as chips, stems and frames as
+-- sentences with gaps (___ and … become write-on lines), questions with their answer frames under them
+-- (answers=false hides them). A question is a format to practise (Can you give an example of ___?),
+-- not a content question to memorise: its example (a worked use, "Q → A") shows under it as a model;
+-- examples=false hides it, examples=true also shows the frames' and stems' examples. Mixed kinds are grouped, with a small label each (labels=false: none;
+-- group=false: exactly in the order written). 中文: under each line on slides and web pages (the
+-- language switch hides it); in PDFs only with zh=true, never on quizzes. zh=false: none anywhere.
+local frames_index, frames_list
+local function load_frames()
+  if frames_list then return end
+  frames_index, frames_list = {}, {}
+  local path = (quarto.project.directory or ".") .. "/generated/frames.json"
+  local f = io.open(path, "r")
+  if not f then
+    quarto.log.warning("frames shortcode: can't read " .. path .. " (run scripts/vocab_terms.py)")
+    return
+  end
+  local data = quarto.json.decode(f:read("a"))
+  f:close()
+  for _, t in ipairs(data.frames or {}) do
+    table.insert(frames_list, t)
+    frames_index[t.id:upper()] = t
+  end
+end
+
+local FRAME_GROUPS = {   -- the order groups come in, and their labels
+  { kinds = { grammar = true }, en = "Grammar", zh = "语法" },
+  { kinds = { phrase = true }, en = "Phrases", zh = "短语" },
+  { kinds = { stem = true, frame = true }, en = "Sentence frames", zh = "句型" },
+  { kinds = { question = true }, en = "Questions and answers", zh = "问答" },
+}
+
+local function frames_shortcode(args, kwargs)
+  load_frames()
+  -- which points
+  local ids = {}
+  for _, a in ipairs(args) do
+    for w in pandoc.utils.stringify(a):gmatch("[^,%s]+") do table.insert(ids, w:upper()) end
+  end
+  local function set_of(v)
+    local out = nil
+    for w in (v or ""):gmatch("[^,%s]+") do out = out or {}; out[w:lower()] = true end
+    return out
+  end
+  local unit = tonumber(str(kwargs["unit"], ""))
+  local kinds, funcs = set_of(str(kwargs["kind"], "")), set_of(str(kwargs["function"], ""))
+  local general = str(kwargs["general"], "false") == "true"
+  local items = {}
+  if #ids > 0 then
+    for _, id in ipairs(ids) do
+      local t = frames_index[id]
+      if t then table.insert(items, t) else quarto.log.warning('frames shortcode: "' .. id .. '" is not in vocab/data/frames.csv') end
+    end
+  else
+    for _, t in ipairs(frames_list) do
+      local ok = true
+      if unit then
+        local in_unit = general and #(t.units or {}) == 0
+        for _, u in ipairs(t.units or {}) do if u == unit then in_unit = true end end
+        ok = in_unit
+      end
+      if ok and kinds and not kinds[t.kind] then ok = false end
+      if ok and funcs and not funcs[t["function"]] then ok = false end
+      if ok then table.insert(items, t) end
+    end
+  end
+  if #items == 0 then
+    if #ids == 0 then quarto.log.warning("frames shortcode: no language points" .. (unit and (" for unit " .. unit) or "") .. " in vocab/data/frames.csv") end
+    return pandoc.Null()
+  end
+  local html = quarto.doc.is_format("html")
+  local zh_opt = str(kwargs["zh"], "")
+  local with_zh = (zh_opt == "true") or (html and zh_opt ~= "false")
+  local answers = str(kwargs["answers"], "true") ~= "false"
+  local ex_opt = str(kwargs["examples"], "")
+  local function show_example(t)   -- grammar and questions by default; frames and stems with examples=true
+    if ex_opt == "false" then return false end
+    if ex_opt == "true" then return true end
+    return t.kind == "grammar" or t.kind == "question"
+  end
+  -- groups (or one list in the order written)
+  local groups = {}
+  if str(kwargs["group"], "true") == "false" then
+    groups = { { label = nil, items = items } }
+  else
+    for _, g in ipairs(FRAME_GROUPS) do
+      local list = {}
+      for _, t in ipairs(items) do if g.kinds[t.kind] then table.insert(list, t) end end
+      if #list > 0 then table.insert(groups, { label = g, items = list }) end
+    end
+  end
+  local labels = str(kwargs["labels"], #groups > 1 and "true" or "false") == "true"
+
+  if html then
+    include_once("frames.html")
+    local function gaps(text)   -- ___ and … become write-on lines
+      local e = html_escape(text)
+      e = e:gsub("_+", '<span class="gap"></span>'):gsub("……", '<span class="gap"></span>'):gsub("…", '<span class="gap"></span>')
+      return e
+    end
+    local function bil(en, zh, cls)
+      if with_zh and zh and zh ~= "" then
+        return '<span class="bil bil-stack ' .. (cls or "") .. '"><span class="bil-en" lang="en">' .. gaps(en) ..
+          '</span><span class="bil-zh" lang="zh">' .. gaps(zh) .. '</span></span>'
+      end
+      return '<span class="' .. (cls or "") .. '">' .. gaps(en) .. '</span>'
+    end
+    local out = { '<div class="lang-points">' }
+    for _, g in ipairs(groups) do
+      table.insert(out, '<div class="lp-group">')
+      if labels and g.label then
+        table.insert(out, '<p class="lp-label">' .. g.label.en .. (with_zh and (" · " .. g.label.zh) or "") .. "</p>")
+      end
+      local chips = {}
+      for _, t in ipairs(g.items) do
+        if t.kind == "phrase" then
+          table.insert(chips, '<span class="lp-chip">' .. bil(t.en, t.zh) .. "</span>")
+        else
+          if #chips > 0 then table.insert(out, '<div class="lp-chips">' .. table.concat(chips) .. "</div>"); chips = {} end
+          if t.kind == "grammar" then
+            local ex = {}
+            for _, e in ipairs(t.examples or {}) do table.insert(ex, html_escape(e)) end
+            table.insert(out, '<div class="lp-item lp-grammar">' .. bil(t.en, t.zh, "lp-rule") ..
+              (#ex > 0 and ('<span class="lp-examples">' .. table.concat(ex, " · ") .. "</span>") or "") .. "</div>")
+          elseif t.kind == "question" then
+            local a = {}
+            if answers then
+              for i, ans in ipairs(t.answers_en or {}) do
+                table.insert(a, '<li>' .. bil(ans, (t.answers_zh or {})[i]) .. "</li>")
+              end
+            end
+            local ex = (show_example(t) and (t.examples or {})[1]) and ('<span class="lp-model">e.g. ' .. html_escape(t.examples[1]) .. "</span>") or ""
+            table.insert(out, '<div class="lp-item lp-question">' .. bil(t.en, t.zh, "lp-ask") ..
+              (#a > 0 and ('<ul class="lp-answers">' .. table.concat(a) .. "</ul>") or "") .. ex .. "</div>")
+          else
+            local ex = (show_example(t) and (t.examples or {})[1]) and ('<span class="lp-model">e.g. ' .. html_escape(t.examples[1]) .. "</span>") or ""
+            table.insert(out, '<div class="lp-item lp-' .. t.kind .. '">' .. bil(t.en, t.zh) .. ex .. "</div>")
+          end
+        end
+      end
+      if #chips > 0 then table.insert(out, '<div class="lp-chips">' .. table.concat(chips) .. "</div>") end
+      table.insert(out, "</div>")
+    end
+    table.insert(out, "</div>")
+    return pandoc.RawBlock("html", table.concat(out, "\n"))
+  end
+
+  -- PDF and Word: plain blocks; gaps are write-on lines in PDFs
+  local typst = quarto.doc.is_format("typst")
+  local function words(piece, inl)   -- plain text as inlines, keeping its spaces
+    for chunk, sp in piece:gmatch("([^ ]*)( ?)") do
+      if chunk ~= "" then inl:insert(pandoc.Str(chunk)) end
+      if sp ~= "" then inl:insert(pandoc.Space()) end
+    end
+  end
+  local function gap_inlines(text)   -- ___ and … become write-on lines
+    local inl = pandoc.Inlines({})
+    local rest = text:gsub("……", "___"):gsub("…", "___")
+    local i = 1
+    while true do
+      local s1, e1 = rest:find("_+", i)
+      words(rest:sub(i, s1 and (s1 - 1) or -1), inl)
+      if not s1 then break end
+      inl:insert(typst and pandoc.RawInline("typst", "#blank(1.1in)") or pandoc.Str("________"))
+      i = e1 + 1
+    end
+    return inl
+  end
+  local function line(en, zh, strong)
+    local inl = gap_inlines(en)
+    if strong then inl = pandoc.Inlines({ pandoc.Strong(inl) }) end
+    if with_zh and zh and zh ~= "" then
+      inl:insert(pandoc.LineBreak()); inl:extend(gap_inlines(zh))
+    end
+    return inl
+  end
+  local blocks = pandoc.Blocks({})
+  for _, g in ipairs(groups) do
+    if labels and g.label then
+      blocks:insert(pandoc.Para({ pandoc.Strong({ pandoc.Str(g.label.en .. (with_zh and (" · " .. g.label.zh) or "")) }) }))
+    end
+    local chips = pandoc.Inlines({})
+    for _, t in ipairs(g.items) do
+      if t.kind == "phrase" then
+        if #chips > 0 then chips:insert(pandoc.Space()); chips:insert(pandoc.Str("·")); chips:insert(pandoc.Space()) end
+        chips:insert(pandoc.Strong(gap_inlines(t.en)))   -- a phrase and its 中文 on one line
+        if with_zh and t.zh and t.zh ~= "" then chips:insert(pandoc.Space()); chips:extend(gap_inlines(t.zh)) end
+      else
+        if #chips > 0 then blocks:insert(pandoc.Para(chips)); chips = pandoc.Inlines({}) end
+        if t.kind == "grammar" then
+          local inl = line(t.en, t.zh, true)
+          if show_example(t) and #(t.examples or {}) > 0 then inl:insert(pandoc.LineBreak()); inl:insert(pandoc.Emph({ pandoc.Str(table.concat(t.examples, " · ")) })) end
+          blocks:insert(pandoc.Para(inl))
+        elseif t.kind == "question" then
+          blocks:insert(pandoc.Para(line(t.en, t.zh, true)))
+          if answers and #(t.answers_en or {}) > 0 then
+            local li = {}
+            for i, ans in ipairs(t.answers_en) do table.insert(li, { pandoc.Plain(line(ans, (t.answers_zh or {})[i])) }) end
+            blocks:insert(pandoc.BulletList(li))
+          end
+          if show_example(t) and (t.examples or {})[1] then blocks:insert(pandoc.Para({ pandoc.Emph({ pandoc.Str("e.g. " .. t.examples[1]) }) })) end
+        else
+          blocks:insert(pandoc.Para(line(t.en, t.zh)))
+          if show_example(t) and (t.examples or {})[1] then blocks:insert(pandoc.Para({ pandoc.Emph({ pandoc.Str("e.g. " .. t.examples[1]) }) })) end
+        end
+      end
+    end
+    if #chips > 0 then blocks:insert(pandoc.Para(chips)) end
+  end
+  return blocks
 end
 
 -- Outside PDFs: page counts from generated/pdf-pages.json, and paths from the project root.
@@ -342,6 +567,9 @@ return {
   end,
 
   ["vocab-gallery"] = vocab_gallery,
+
+  ["frames"] = frames_shortcode,
+  ["frame"] = frames_shortcode,   -- the same, for one: {{< frame "FRM-014" >}}
 
   ["vocab"] = function(args, kwargs, meta)
     local key = str(args[1], "")

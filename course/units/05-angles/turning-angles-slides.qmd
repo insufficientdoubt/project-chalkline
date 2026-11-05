@@ -292,10 +292,7 @@ How many right angles make one full angle?
 ::: {.box .plain}
 [Sentence frames · 句型]{.kicker}
 
-- [Today I learned … | 今天我学到了……]{.bi}
-- [A straight angle is … | 平角是……]{.bi}
-- [A full angle is … | 周角是……]{.bi}
-- [I saw a straight angle / a full angle when … | 我在……的时候看到了平角／周角。]{.bi}
+{{< frames "FRM-019, FRM-020, FRM-021, FRM-022" >}}
 :::
 
 ::: notes

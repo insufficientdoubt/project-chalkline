@@ -12,6 +12,8 @@ Things we've talked about but not built yet. Add to this list; move an idea out 
 
 ## Language goals: a list of lists (plan)
 
+**Built 2026-11-05, simpler than planned:** one list, `vocab/data/frames.csv`, with a `kind` column (grammar, phrase, stem, frame, question) instead of a list per format, and one shortcode, `{{< frames >}}`, that draws each kind its own way (see `vocab/README.md`). Looked at first: SIOP's language objectives (vocabulary, functions, structures, strategies) and School 21 / Voice 21's oracy framework and discussion roles. Left for later: talk roles (School 21's six) and a grammar-pattern column, each one more column; strategies stay out (teaching moves, not student language). Still to decide: where the whole list is shown (the vocab sidebar, the vocab app, or a page).
+
 Language goals come in different formats, and each needs its own fields and its own look. Sentence frames are only one of them. The plan: store each format as its own list, in its own terms, and inject any of them with shortcodes.
 
 **Formats** (a first list; more can be added the same way):

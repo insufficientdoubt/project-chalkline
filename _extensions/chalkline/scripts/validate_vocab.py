@@ -140,7 +140,7 @@ def check_table(key, schema):
                     err(where, f'subdomain "{sub}" not allowed for {domain}{suggest(sub, domains[domain])}')
 
         # Shared enums
-        if row["level"] and row["level"] not in levels:
+        if row.get("level") and row["level"] not in levels:
             err(where, f'level "{row["level"]}" must be one of {", ".join(levels)}')
         status = row["status"]
         if status and status not in statuses:
@@ -177,6 +177,17 @@ def check_table(key, schema):
             if c.get("refs"):
                 for ref in split_list(value, sep):
                     deferred_refs.append((where, col, ref))
+
+        # Frames: a question needs its answer frames, and as many in 中文 as in English
+        if key == "frames":
+            answers = split_list(row.get("answer_en", ""), sep)
+            if row.get("kind") == "question" and not answers:
+                err(where, "a question needs answer_en (its answer frames)")
+            if row.get("kind") != "question" and answers:
+                warn(where, "answer_en is only used for questions")
+            zh_answers = split_list(row.get("answer_zh", ""), sep)
+            if answers and zh_answers and len(answers) != len(zh_answers):
+                err(where, f"answer_en has {len(answers)} answers but answer_zh has {len(zh_answers)}")
 
     return seen, deferred_refs
 
