@@ -1,5 +1,23 @@
-id,situation,function,frame_en,zh,example,level,vocab_ids,notes,status
-FRM-001,discussion,compare,I think ___ was better than ___ because ___.,我认为___比___更好，因为___。,I think Athens was better than Sparta because citizens could vote.,1,GRC-002; GRC-003,,reviewed
-FRM-002,discussion,agree,I agree with ___ because ___.,我同意___，因为___。,I agree with Lin because the aqueduct helped everyone get clean water.,1,,,reviewed
-FRM-003,discussion,disagree,I see it differently. I think ___.,我的看法不同。我认为___。,I see it differently. I think the senate had more power than the consuls.,1,ROM-002; ROM-003,,reviewed
-FRM-004,writing,explain,"One reason ___ is that ___. For example, ___.",___的一个原因是___。例如，___。,"One reason Rome grew is that its roads connected the empire. For example, legions could move fast.",2,ROM-005; ROM-012,,reviewed
+id,kind,en,zh,answer_en,answer_zh,example,function,units,status
+FRM-001,frame,I think ___ was better than ___ because ___.,我认为___比___更好，因为___。,,,I think Athens was better than Sparta because citizens could vote.,opinion,,reviewed
+FRM-002,frame,I agree with ___ because ___.,我同意___，因为___。,,,I agree with Lin because the aqueduct helped everyone get clean water.,agree,,reviewed
+FRM-003,frame,I see it differently. I think ___.,我的看法不同。我认为___。,,,I see it differently. I think the senate had more power than the consuls.,disagree,,reviewed
+FRM-004,frame,"One reason ___ is that ___. For example, ___.",___的一个原因是___。例如，___。,,,"One reason Rome grew is that its roads connected the empire. For example, legions could move fast.",explain,,reviewed
+FRM-005,stem,I would like to start by saying …,我想先说……,,,,start,,draft
+FRM-006,stem,"Building on that idea, I think …",在这个想法的基础上，我认为……,,,,add,,draft
+FRM-007,stem,I disagree with you because …,我不同意你的看法，因为……,,,,disagree,,draft
+FRM-008,question,Can you give an example?,你能举个例子吗？,"For example, …",例如，……,,ask,,draft
+FRM-009,question,What do you mean when you say …?,你说……是什么意思？,I mean that …,我的意思是……,,clarify,,draft
+FRM-010,stem,"Overall, the main points were …",总的来说，要点是……,,,,summarise,,draft
+FRM-011,grammar,short adjective + -er + than,短形容词 + -er + than,,,big → bigger than; small → smaller than,compare,,draft
+FRM-012,grammar,more + long adjective + than,more + 长形容词 + than,,,more accurate than; more useful than,compare,,draft
+FRM-013,grammar,the same as,和……一样,,,Two right angles are the same as one straight angle.,compare,,draft
+FRM-014,frame,A ___ angle is ___ than a right angle.,___角比直角___。,,,An obtuse angle is bigger than a right angle.,compare,5,draft
+FRM-015,question,Is it bigger or smaller than a right angle?,它比直角大还是小？,It is ___ than a right angle.; It is the same as a right angle.,它比直角___。; 它和直角一样大。,,compare,5,draft
+FRM-016,phrase,a quarter turn,转四分之一圈,,,"After a quarter turn, the hand points to 3.",describe,5,draft
+FRM-017,phrase,turn all the way around,转一整圈,,,The minute hand turns all the way around in one hour.,describe,5,draft
+FRM-018,phrase,a square corner,方方正正的角,,,A book has a square corner.,describe,5,draft
+FRM-019,stem,Today I learned …,今天我学到了……,,,,summarise,,draft
+FRM-020,stem,A straight angle is …,平角是……,,,,describe,5,draft
+FRM-021,stem,A full angle is …,周角是……,,,,describe,5,draft
+FRM-022,stem,I saw a straight angle / a full angle when …,我在……的时候看到了平角／周角。,,,,describe,5,draft

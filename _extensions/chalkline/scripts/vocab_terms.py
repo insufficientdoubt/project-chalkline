@@ -8,8 +8,12 @@ Each term also gets the units whose word list (course/vocab/*.yml) has it, and i
 sentence and topic, for the slide games ({{< snowman unit=1 >}} and the others). "units" lists each
 unit's number and title, for the Review games page.
 
+Also reads vocab/data/frames.csv, the language points beyond vocabulary (grammar, phrases, stems,
+frames and questions), for {{< frames >}}.
+
 Writes:
     generated/vocab-terms.json
+    generated/frames.json
 """
 
 import csv
@@ -22,6 +26,8 @@ from genfile import write_if_changed
 
 from extension import ROOT  # noqa: E402  (the course folder)
 SRC = ROOT / "vocab" / "data" / "vocab.csv"
+FRAMES = ROOT / "vocab" / "data" / "frames.csv"
+FRAMES_OUT = ROOT / "generated" / "frames.json"
 OUT = ROOT / "generated" / "vocab-terms.json"
 UNITS = ROOT / "course" / "vocab"
 
@@ -56,7 +62,22 @@ def main():
             })
     OUT.parent.mkdir(exist_ok=True)
     write_if_changed(OUT, json.dumps({"terms": terms, "units": unit_titles}, ensure_ascii=False, indent=0))
-    print(f"vocab_terms.py: {len(terms)} terms")
+    frames = []
+    if FRAMES.exists():
+        with open(FRAMES, encoding="utf-8", newline="") as f:
+            for r in csv.DictReader(f):
+                if not r.get("id"):
+                    continue
+                split = lambda cell: [a.strip() for a in (cell or "").split(";") if a.strip()]
+                frames.append({
+                    "id": r["id"], "kind": r.get("kind", "frame"), "en": r.get("en", ""), "zh": r.get("zh", ""),
+                    "answers_en": split(r.get("answer_en")), "answers_zh": split(r.get("answer_zh")),
+                    "examples": split(r.get("example")) if r.get("kind") == "grammar" else ([r["example"]] if r.get("example") else []),
+                    "function": r.get("function", ""),
+                    "units": [int(u) for u in split(r.get("units")) if u.isdigit()],   # empty: all year
+                })
+    write_if_changed(FRAMES_OUT, json.dumps({"frames": frames}, ensure_ascii=False, indent=0))
+    print(f"vocab_terms.py: {len(terms)} terms, {len(frames)} frames")
 
 
 if __name__ == "__main__":

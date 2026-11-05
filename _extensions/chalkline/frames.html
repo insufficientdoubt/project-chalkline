@@ -1,0 +1,50 @@
+<!-- Language points ({{< frames >}}, shortcodes.lua): each kind in its own look. Colours, corners and
+     lines come from the slide's tokens (styles/layout.scss), so a colour scheme restyles them like
+     boxes; on web pages the fallbacks apply. The 中文 lines are .bil spans: the language switch hides
+     them, so nothing here sets their display. -->
+<style>
+.lang-points {
+  --lp-line: var(--line, rgba(0, 52, 119, 0.18)); --lp-soft: var(--surface, #ebf7fd); --lp-card: var(--surface-2, #fff);
+  --lp-head: var(--heading, #003477); --lp-muted: var(--ink-muted, #52606d); --lp-accent: var(--accent, #14d7cd);
+  display: flex; flex-direction: column; gap: 0.55em; margin: 0.3em 0; text-align: left;
+}
+.lang-points p { margin: 0; }
+.lang-points .lp-group { display: flex; flex-direction: column; gap: 0.35em; }
+.lang-points .lp-label {
+  font-size: 0.62em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--hot-text, #8a5200);
+}
+.lang-points .bil.bil-stack { display: flex; flex-direction: column; align-items: flex-start; }   /* also in a deck without the bilingual styles */
+.lang-points .bil-zh { font-size: 0.8em; color: var(--lp-muted); }
+.lang-points .gap {
+  display: inline-block; min-width: 3.2em; margin: 0 0.15em; border-bottom: 2px solid currentColor; vertical-align: baseline;
+}
+/* stems and frames: a sentence on a soft strip */
+.lang-points .lp-stem, .lang-points .lp-frame {
+  padding: 0.3em 0.7em; border-left: 4px solid var(--lp-accent); border-radius: 0 var(--radius, 10px) var(--radius, 10px) 0;
+  background: var(--lp-soft); line-height: 1.3;
+}
+.lang-points .lp-stem .gap:last-child { min-width: 6em; }
+/* grammar: the rule, bold, with its examples under it */
+.lang-points .lp-grammar {
+  display: flex; flex-direction: column; gap: 0.15em; padding: 0.35em 0.75em;
+  border: 2px solid var(--lp-head); border-radius: var(--radius, 10px); background: var(--lp-card);
+}
+.lang-points .lp-rule { font-weight: 800; color: var(--lp-head); letter-spacing: 0.01em; }
+.lang-points .lp-rule .bil-zh { font-weight: 600; }
+.lang-points .lp-examples { font-style: italic; color: var(--lp-muted); font-size: 0.85em; }
+/* phrases: chips */
+.lang-points .lp-chips { display: flex; flex-wrap: wrap; gap: 0.3em 0.4em; }
+.lang-points .lp-chip {
+  display: inline-block; padding: 0.15em 0.75em; border-radius: 999px; border: 1px solid var(--lp-line);
+  background: var(--lp-card); font-weight: 700; color: var(--lp-head); line-height: 1.2;
+}
+.lang-points .lp-chip .bil-zh { font-weight: 500; }
+/* questions: the question, and its answer frames under it with an arrow */
+.lang-points .lp-question {
+  padding: 0.35em 0.75em; border-radius: var(--radius, 10px); background: var(--lp-soft); border: 1px solid var(--lp-line);
+}
+.lang-points .lp-ask { font-weight: 800; color: var(--lp-head); }
+.lang-points .lp-answers { list-style: none; margin: 0.2em 0 0; padding: 0; }
+.lang-points .lp-answers li { position: relative; padding-left: 1.3em; margin: 0.15em 0; }
+.lang-points .lp-answers li::before { content: "→"; position: absolute; left: 0; color: var(--lp-accent); font-weight: 800; }
+</style>

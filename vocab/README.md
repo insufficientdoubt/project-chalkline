@@ -3,7 +3,7 @@
 A bilingual (English / 简体中文) vocab list for the two sample units, and the vocab app that shows it (on the site under **History vocab** in the sidebar). The app is part of Chalkline: before each build it is copied into `app/` (not saved in git), and `config.js` here sets its title, topic names and links.
 
 - `data/vocab.csv`: the terms. **The source of truth**: slides' vocab pop-ups (`{{< vocab "democracy" >}}`) and the unit vocab cards read it.
-- `data/frames.csv`: sentence frames for discussion and writing.
+- `data/frames.csv`: **language points beyond vocabulary**, one row each, with a `kind`: `grammar` (a pattern like *short adjective + -er + than*, with examples), `phrase` (words that go together: *a quarter turn*), `stem` (a sentence starter: *Today I learned …*), `frame` (a sentence with `___` gaps) or `question` (with its answer frames in `answer_en` / `answer_zh`, several separated by `;`). `function` (agree, compare, explain…) groups them; `units` is the unit numbers that use it, or empty for all year. Put them on slides and printables with `{{< frames "FRM-014, FRM-015" >}}` (one lesson's) or `{{< frames unit=5 >}}` (a unit's). The same rules as vocab: IDs are permanent, 中文 is support, and never on quizzes.
 - `images/`: one picture per term, named by ID (`GRC-010.jpg`, or `.svg` for a drawing). Photos are credited in `images/CREDITS.md`. The sample's first pictures are simple drawings made by `tools/draw_icons.py`; replace them with photos where a photo is better (see "Pictures" below).
 - `config.js`: the app's title, topic names (in English and 中文) and quick-reference links.
 - `schema.yaml`: the column rules. Run `python chalkline.py validate` after editing the CSV.

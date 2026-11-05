@@ -16,6 +16,20 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Language points beyond vocab: frames.csv and {{< frames >}}
+- **Asked for:** a sentence frames tool "pretty flexible. It should cover phrases, patterns, and question response format pairs. And like vocabulary we should be able to insert these into packets, and have an overall list somewhere accessible. How can we store the data without making it overly complicated", then (after looking at SIOP and School 21) the simplest version: one file, with grammar points in it too. "Make sure that the lua short code has a smart default for how to display the different types … And make sure that we can choose specific items, not just dump the entire unit. Although dumping the entire unit is also useful."
+- **Why:** frames were written by hand on each slide; a lesson reviews a few of a unit's language points.
+- **Changed:**
+  - `vocab/data/frames.csv` (content) and `vocab/schema.yaml`: a new format: `kind` (grammar, phrase, stem, frame, question), `en`, `zh`, `answer_en` / `answer_zh` (a question's answer frames, `;` between them), `example`, `function`, `units` (empty: all year), `status`. The four frames kept their IDs; new rows: School 21 stems and unit 5's language (comparatives, the angle frame and question, phrases, the Activity 3 stems).
+  - `_extensions/chalkline/scripts/validate_vocab.py`: checks the new table (a question needs answers; as many in 中文 as in English); `level` is optional for a table.
+  - `_extensions/chalkline/scripts/vocab_terms.py`: also writes `generated/frames.json` before each render.
+  - `_extensions/chalkline/shortcodes.lua`: `{{< frames >}}` (and `{{< frame >}}`): pick IDs (a lesson's points, in that order) or `unit=5` (`general=true` adds all-year ones), filter with `kind=` and `function=`. Each kind its own look: grammar as a rule with examples, phrases as chips, stems and frames as sentences with write-on gaps, questions with their answers under them; grouped with small labels when mixed. 中文 under each line on slides (the language switch hides it); in PDFs and Word only with `zh=true`. Options: `answers=false`, `labels=false`, `group=false`. PDFs get real write-on lines (`#blank`).
+  - `_extensions/chalkline/frames.html` (new): the styles, from the slide's tokens, so colour schemes restyle them.
+  - `course/units/05-angles/turning-angles-slides.qmd` (content): Activity 3's stems now come from the list.
+  - `vocab/README.md`, `CLAUDE.md`, `IDEAS.md`: say how.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Routines, easier to read, with pictures and the slide's theme; Crazy 8s
 - **Asked for:** "Bring in the graphics from the Think Pair Share slide. Make the tool more student friendly, easier to read. Make it follow the slide theme, if possible. Add the ideation routine crazy 8s. 8 minutes to write/draw 8 ideas on sticky notes (timer that gives a soft chime every minute), then group/sort ideas with your team."
 - **Why:** students read it from their seats; it should look like the slides around it.

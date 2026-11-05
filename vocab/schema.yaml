@@ -34,16 +34,23 @@ vocab:
     MTH: [angles, measuring]
 
 frames:
+  # Language points beyond vocabulary: one row each. kind says what it is (and how {{< frames >}} shows it):
+  #   grammar   a pattern (short adjective + -er + than), with examples
+  #   phrase    words that go together (a quarter turn)
+  #   stem      a sentence starter, finished by the student (Today I learned …)
+  #   frame     a whole sentence with ___ gaps (A ___ angle is ___ than a right angle.)
+  #   question  a question, with its answer frames in answer_en / answer_zh (several: separate them with ;)
+  # units: the unit numbers that use it (2; 5), or empty for all year.
   file: data/frames.csv
   id_pattern: "^FRM-\\d{3}$"
   columns:
     - {name: id,        required: true}
-    - {name: situation, required: true, allowed: [discussion, writing]}
-    - {name: function,  required: true, allowed: [agree, disagree, explain, compare, ask]}
-    - {name: frame_en,  required: true}
+    - {name: kind,      required: true, allowed: [grammar, phrase, stem, frame, question]}
+    - {name: en,        required: true}
     - {name: zh,        required_when_status: [verified]}
+    - {name: answer_en}
+    - {name: answer_zh}
     - {name: example}
-    - {name: level,     required: true}
-    - {name: vocab_ids, list: true, refs: vocab}
-    - {name: notes}
+    - {name: function,  required: true, allowed: [start, agree, disagree, add, ask, clarify, compare, describe, explain, opinion, sequence, cause, summarise]}
+    - {name: units,     pattern: "^\\d+(\\s*;\\s*\\d+)*$"}
     - {name: status,    required: true}
