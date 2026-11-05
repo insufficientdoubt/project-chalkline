@@ -1,0 +1,65 @@
+<!--
+  Column labels in the slide overview (press O or Esc): above each column of slides, a label naming it,
+  so a 2D deck (a column per lesson phase, say) reads like a table. The label is, in order:
+    - data-column-label="Practice" on the column's first slide:  # Title {data-column-label="Practice"}
+    - the phase in its first slide's footer (.phase, as in the exemplar deck)
+    - its menu title (data-menu-title=), or its title
+  Only for columns of more than one slide, unless every column is one slide (then none: nothing to group).
+  Added to every deck by filter.lua; turn off with `overview-labels: false`.
+-->
+<style>
+  .reveal .slides > section > .ov-label { display: none; }
+  .reveal.overview .slides > section > .ov-label {
+    display: block; position: absolute; left: 0; right: 0; bottom: calc(100% + 28px); z-index: 5;
+    padding: 18px 24px; border-radius: 22px; text-align: center; transform: none;
+    background: var(--strong, #003477); color: var(--on-strong, #fff);
+    font: 700 64px/1.15 var(--r-heading-font, "Source Sans 3", sans-serif); letter-spacing: 0.01em;
+    white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    pointer-events: none;
+  }
+  .reveal.overview .slides > section:not(.stack):has(> .ov-label) { overflow: visible; }   /* a one-slide column: its label sits above it */
+  .reveal.overview .slides > section.present > .ov-label { background: var(--accent, #14d7cd); color: var(--on-accent, #003477); }
+  .reveal.overview .slides > section > .ov-label .ov-zh { display: block; font-size: 0.7em; font-weight: 600; opacity: 0.85; }
+  html.print-pdf .ov-label { display: none !important; }
+</style>
+<script>
+(function () {
+  if (!window.Reveal || /[?&](receiver|print-pdf)/.test(location.search)) return;
+  function text(el) { return el ? el.textContent.replace(/\s+/g, " ").trim() : ""; }
+  function labelFor(col) {
+    const first = col.classList.contains("stack") ? col.querySelector(":scope > section") : col;
+    if (!first) return null;
+    const own = first.getAttribute("data-column-label") || col.getAttribute("data-column-label");
+    if (own) return { en: own };
+    const phase = first.querySelector(".footer .phase");
+    if (phase) {
+      const parts = text(phase).split(" · ");   // "1 · Lesson intro · 课堂导入": the 中文 on its own line
+      const last = parts[parts.length - 1];
+      if (parts.length > 1 && /[㐀-鿿]/.test(last)) return { en: parts.slice(0, -1).join(" · "), zh: last };
+      return { en: text(phase) };
+    }
+    const menu = first.getAttribute("data-menu-title");
+    if (menu) return { en: menu.split(":")[0] };
+    const h = first.querySelector("h1, h2");
+    const en = h && (h.querySelector(".bil-en") || h);
+    return en ? { en: text(en) } : null;
+  }
+  function start() {
+    const cols = Reveal.getHorizontalSlides();
+    const anyStack = cols.some(function (c) { return c.classList.contains("stack"); });
+    if (!anyStack) return;   // a flat deck: nothing to group
+    cols.forEach(function (col) {
+      if (col.id === "title-slide" || col.querySelector(":scope > .ov-label")) return;
+      const l = labelFor(col);
+      if (!l || !l.en) return;
+      const div = document.createElement("div");
+      div.className = "ov-label";
+      div.setAttribute("aria-hidden", "true");
+      div.textContent = l.en;
+      if (l.zh) { const z = document.createElement("span"); z.className = "ov-zh"; z.textContent = l.zh; div.append(z); }
+      col.prepend(div);
+    });
+  }
+  if (Reveal.isReady()) start(); else Reveal.on("ready", start);
+})();
+</script>

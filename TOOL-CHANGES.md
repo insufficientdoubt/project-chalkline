@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Column labels in the slide overview
+- **Asked for:** "On reveal.js' overview, can we add labels to the columns? Is that possible?"
+- **Why:** not given (a 2D deck like the exemplar, a column per lesson phase, is easier to find your way in).
+- **Changed:** `_extensions/chalkline/overview-labels.html` (new): in the overview (O or Esc), a label above each column: the column's `data-column-label` if it has one, else the phase in its first slide's footer (English, with the 中文 on its own line), else its menu title or heading; the column you're on is highlighted; in the slide scheme's colours. Only in decks that have columns (a flat deck gets none). `_extensions/chalkline/filter.lua`: adds it to every deck; `overview-labels: false` in a deck's labels turns it off.
+- **Who it helps:** probably every Chalkline course with 2D decks.
+- **AI assistant:** Claude (Claude Code).
+
 ## 2026-11-05: Questions are formats for oracy practice, with a worked example
 - **Asked for:** "Change the question and answer forms and examples. I'm not trying to get the kids to memorize specific questions and answers, it's more of the oracy practice of different formats of questions and answers."
 - **Why:** as asked.

@@ -385,6 +385,9 @@ local function Meta(meta)
   local down = meta["down-arrow"]
   local down_off = down ~= nil and pandoc.utils.stringify(down) == "false"
   if quarto.doc.is_format("revealjs") and not down_off then include_once("down-arrow.html") end
+  -- Slides: a label above each column in the overview (O); turn off with `overview-labels: false`.
+  local ovl = meta["overview-labels"]
+  if quarto.doc.is_format("revealjs") and not (ovl ~= nil and pandoc.utils.stringify(ovl) == "false") then include_once("overview-labels.html") end
   -- Slides: a {{< video >}} with no size of its own fills the room left on its slide.
   if quarto.doc.is_format("revealjs") then include_once("video-fit.html") end
   -- Slides: colour schemes (styles/schemes.scss) painted behind the slide; `slide-scheme: night` for a whole deck.
