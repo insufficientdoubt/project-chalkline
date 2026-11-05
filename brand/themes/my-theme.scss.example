@@ -38,6 +38,13 @@
   --strong: #1d3b2a;           // dark bands (.box .dark), timers, the games' cards
   --on-strong: #ffffff;
   --rule: #2f9e6b;             // the line under titles, timeline dots
+  // the pill's own look (optional; leave out for a round pill in --hot). Set all nine together.
+  // --pill-bg: var(--hot); --pill-ink: var(--on-hot);      // fill (a gradient works) and words
+  // --pill-border: 0 solid transparent; --pill-radius: 999px; // edge and corners (2px: a square label)
+  // --pill-shadow: none;                                    // e.g. 3px 3px 0 #1d3b2a for a sticker
+  // --pill-outline: none;                                   // e.g. 1.4px dashed #fff for stitching
+  // --pill-case: none; --pill-track: normal;                // uppercase and letter spacing
+  // --pill-blur: none;                                      // e.g. blur(10px) for frosted glass
   // the slide's shape, for a whole deck with this scheme (leave out to keep the deck's own)
   // --deck-width: 1280;
   // --deck-height: 720;

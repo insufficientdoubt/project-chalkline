@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-05: Pills with a personality in each colour scheme
+- **Asked for:** "Templates 11.1 - I noticed that all the pills look the same except for trail. What can we do to get them a little more distinctive personality?"
+- **Why:** not given (the schemes changed everything but the pill, which stayed an orange capsule).
+- **Changed:** `styles/layout.scss`: the pill reads nine new tokens (`--pill-bg`, `-ink`, `-border`, `-radius`, `-shadow`, `-outline`, `-case`, `-track`, `-blur`), defaulting to today's round `--hot` pill. `styles/schemes.scss`: night a glowing neon outline, sky a white cloud, lagoon a sticker (navy edge, hard shadow), sunrise a warm gradient with a glow. `guide/slide-kit-looks.css`: trail a stitched leather tag, glass frosted with an orange edge (their old pill overrides removed). `brand/themes/official.scss`: a square label in capitals, yellow with a blue edge. `brand/themes/my-theme.scss.example`: the tokens explained.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-05: overview: more space between columns, an obvious selected slide, Enter opens it
 - **Asked for:** "Add a little more space between columns on the overview. And make the selected slide a bit more obvious."
 - **Why:** not given (columns ran together; the selected slide was hard to spot).
