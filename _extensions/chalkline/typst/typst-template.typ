@@ -4,6 +4,13 @@
 // and the school's name from `school:` in its _quarto.yml, so a course never edits this file.
 // This file is the *layout*: title banner, name box, headings, answer-key boxes, header, and footer.
 
+// The packet kit (typst/packet/): every printable's page layout, and its pieces (kit.work-space,
+// org.venn, hist.source-card …). filter.lua sets the path. This file keeps the poster layout and the older
+// helpers (drawing-box, answer-lines, blank) that some printables still use.
+#import "$chalkline-kit$/kit.typ" as kit
+#import "$chalkline-kit$/organizers.typ" as org
+#import "$chalkline-kit$/history.typ" as hist
+
 // Brand logo paths are relative to the project folder; "/" tells Typst to start there.
 #let root-path(p) = if p.starts-with("/") { p } else { "/" + p }
 

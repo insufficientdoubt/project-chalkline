@@ -473,6 +473,13 @@ local function Meta(meta)
   if quarto.doc.is_format("html") and not quarto.doc.is_format("revealjs") and not nt_off then
     include_once("new-tab.html")
   end
+  -- PDFs: where the packet kit is (typst/packet/), as a path from the course folder, for typst-template.typ's
+  -- imports. Worked out here so it's right wherever Chalkline is installed (_extensions/<owner>/chalkline/).
+  if quarto.doc.is_format("typst") and quarto.project.directory then
+    local kit = pandoc.path.make_relative(quarto.utils.resolve_path("typst/packet"), quarto.project.directory):gsub("\\", "/")
+    meta["chalkline-kit"] = pandoc.MetaInlines({ pandoc.RawInline("typst", "/" .. kit) })   -- raw: no escaping of the _
+    return meta
+  end
   return nil
 end
 

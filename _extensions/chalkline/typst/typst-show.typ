@@ -1,6 +1,18 @@
-// Passes document settings (title, fonts, brand colors, logos) into the
-// `article` layout defined in typst-template.typ. Replaces Quarto's default.
-#show: doc => article(
+// Every printable is laid out by the packet kit (kit.worksheet: A4, the theme in `packet-theme:`, Name /
+// Class / Date, the title, "Page 1 of 2"; the teacher edition when the page has `edition:`). Posters
+// (`layout: poster`) keep the older `article` layout in typst-template.typ. Replaces Quarto's default.
+#let chalkline-layout = "$if(layout)$$layout$$endif$"
+#show: doc => if chalkline-layout != "poster" {
+  kit.worksheet(
+    theme: "$if(packet-theme)$$packet-theme$$else$sky$endif$",
+    title: [$if(title)$$title$$endif$],
+    subtitle: $if(subtitle)$[$subtitle$]$else$none$endif$,
+    unit: [$if(unit-name)$$unit-name$$endif$],
+    teacher: $if(edition)$true$else$false$endif$,
+    name: $if(name-box)$true$else$true$endif$,
+    doc,
+  )
+} else { article(
 $if(title)$
   title: [$title$],
 $endif$
@@ -50,3 +62,4 @@ $if(school)$
 $endif$
   doc,
 )
+}
