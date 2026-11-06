@@ -11,7 +11,6 @@ format:
     height: 720
     css: [slide-kit-looks.css, exemplar.css]   # the slide kit's areas and puzzle; this deck's placeholders and phase labels
     include-after-body:
-      - slide-kit-style.html   # the style picker (the palette next to the language switch): try colour schemes and looks
       - slide-refs.html        # TEMPORARY: a reference number on every slide, for editing together
       - reading-scroll.html    # the longer reading: each → shows the next line and scrolls it into view
     chalkboard:

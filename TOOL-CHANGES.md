@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: The palette (theme picker) on every deck in the teacher site
+- **Asked for:** "Let's make the theme selector available by default on the teacher build."
+- **Why:** not given (it was only on the guide's three decks).
+- **Changed:** `_extensions/chalkline/guide/slide-kit-style.html` moved to `_extensions/chalkline/scheme-picker.html`, loaded by `filter.lua` on every slide deck in the teacher site (not the student site); `palette: false` in a deck's labels, or the course's `_quarto.yml`, turns it off. It lists Chalkline's schemes plus any the deck or course has (brand/themes, the guide's trail and glass), and shows Looks only when the deck's CSS has some. The guide decks no longer load it themselves (`exemplar-slides.qmd`, `templates-slides.qmd`, `slide-kit-slides.qmd`; `guide/README.md` updated).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Overview: labels in a strip across the top, an on-screen zoom bar
 - **Asked for:** "On the overview page I have a functioning zoom function using the plus and minus keys but I don't see any on-screen control for that, or a way to discover it. Also the labels are a bit hard to read, and come out at different heights."
 - **Why:** the zoom couldn't be found without knowing the keys; the labels sat on each column's first slide, so they were small, came out at different heights (a two-line label stood taller) and went off the screen lower down a column.

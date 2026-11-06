@@ -403,6 +403,9 @@ local function Meta(meta)
       quarto.doc.include_text("after-body", '<script type="text/plain" id="chalkline-scheme">' .. scheme .. "</script>")
     end
     include_once("schemes.html")
+    -- the palette (top right): try the colour schemes on a slide or the deck; teacher site only, `palette: false` turns it off
+    local pal = meta["palette"]
+    if is_teacher() and not (pal ~= nil and pandoc.utils.stringify(pal) == "false") then include_once("scheme-picker.html") end
   end
   -- Slides: the classroom toolbox (toolbox/toolbox.js; turn off with `classroom-tools: false`).
   -- Teacher build only: students (and families) never see it.
