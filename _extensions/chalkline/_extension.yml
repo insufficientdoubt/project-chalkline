@@ -31,6 +31,7 @@ contributes:
         - scripts/packets.py       # each unit's printables as one packet PDF, plus a year packet (full renders only)
         - scripts/slides_pdf.py    # every slide deck as a PDF, one slide per page (full renders only)
         - scripts/slide_pictures.py   # a picture of every slide, for the All slides page (full renders only)
+        - scripts/packet_kit.py    # the guide's packet samples (typst/packet/) as PDFs, teacher site only (full renders only)
     format:
       html:
         theme: [cosmo, styles/styles.scss]

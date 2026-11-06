@@ -1,6 +1,6 @@
 // A printer check: one page per theme with every tint, line, surface and text size the themes use.
 // Print it once on the school's printer (and photocopy it once): whatever vanishes or turns muddy needs changing.
-#import "kit.typ": *
+#import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/kit.typ": *
 #set page(paper: "a4", margin: 15mm)
 #set text(font: ("Source Sans 3", "Noto Sans SC"), size: 10pt)
 

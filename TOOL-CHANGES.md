@@ -16,6 +16,21 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: The packet kit moves into Chalkline: a Packet Templates page in the guide
+- **Asked for:** "Okay I'm sold. Put the remaining worksheets on the ideas list and implement what we have already into chalk line. It goes in the guide. If you can have hidden metadata on the pages - make sure they're annotated with potential uses."
+- **Why:** to settle the packet design before teachers start writing packets.
+- **Changed:**
+  - `prototypes/packet-kit/` is gone. The kit (`kit.typ`, `organizers.typ`, `history.typ`, README) is now `_extensions/chalkline/typst/packet/`, imported by a path the build passes, so it works wherever Chalkline is installed.
+  - Its word and language lists (`vocab`, `frames`, `vocab-images`) are inputs: a course's own by default, the guide's own for the samples.
+  - New `about()`: a hidden note on each page (name, uses, pieces, page).
+  - The samples (Rome, 32 pages; Mesopotamia, 12 pages; three loose sheets; the printer check) are in `guide/packet/`, using the guide's own data (`GD-` ids), with every page annotated. The Hammurabi stele and the Burney Relief photos are in `guide/images/units/` (credited).
+  - New `scripts/packet_kit.py` (post-render, teacher site, full renders; `python chalkline.py packet-kit` by hand) builds them in three themes plus teacher editions, puts loose sheets' spreads on A3, caches with `build_cache`, and writes `packet-templates.json` from the notes.
+  - New guide page `guide/packet-templates.qmd`: how packets work, a table of every page and its uses (from the JSON), and galleries of both samples. `guide/printables.qmd` points to it.
+  - `_extension.yml`: the new post-render script.
+  - `IDEAS.md`: "Packet templates: next steps" (writing packet pages from `.qmd`, the remaining page types, the rest of the Mesopotamia dossier, the printer check).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Packet kit: a bigger Venn diagram, on a diagonal
 - **Asked for:** "I still don't like that Venn diagram. Try another layout to give it more space. Maybe we put this so what in the bottom right and the other instructions in the top left? Comparison sentence starters along the bottom in a line?"
 - **Why:** more room to write in the diagram.

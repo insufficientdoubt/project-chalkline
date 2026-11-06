@@ -39,6 +39,25 @@ Language goals come in different formats, and each needs its own fields and its 
 
 **To decide:** CSV or YAML (frames with several responses are a list inside a list); one folder for all language lists or next to vocab; whether units pick their points in `course/vocab/<unit>.yml` or a new `course/language/<unit>.yml`; how the angles unit's hand-written frames (Activity 3 slide) move to the list as a test.
 
+## Packet templates: next steps
+
+The packet kit is in Chalkline since 2026-11-06 (`_extensions/chalkline/typst/packet/`, samples in `guide/packet/`, the **Packet Templates** guide page). Still to do:
+
+- **Write packet pages from a unit's `.qmd` files.** Today a packet page is a short Typst file. Next:
+  - shortcodes and classes for the pieces (`::: {.work-space size="half"}`, `{{< vocab-hunt >}}`, `::: kwl`);
+  - a `packet-theme:` setting;
+  - `packets.py` building each unit's booklet with the kit: A3 folded, padded to a multiple of 4, a teacher edition, loose sheets with "Goes with packet page …" filled in automatically.
+- **More page types** (from the list of common packet pages, upper primary to high school):
+  - **Reading and content:** cloze / gap-fill with a word bank; primary source page (source, context, "Who? When? Why?"); annotated diagram / label the picture; data page (a chart or table to read, with questions).
+  - **Organizing thinking:** T-chart; Cornell notes; guided notes with blanks; fishbone; storyboard; decision matrix.
+  - **Language:** word-building (roots, prefixes, suffixes, word families); matching; crossword and word search, generated from the vocab list.
+  - **Practice and tasks:** worked example beside "now you try" (math, science); multiple-choice and short-answer quiz page; lab or investigation report (question, hypothesis, materials, method, results table, graph grid, conclusion); writing planner (PEEL / TEEL paragraph, essay outline) and drafting pages; blank map to label.
+  - **Collaboration:** discussion or debate prep (roles, for and against, stems); peer feedback ("two stars and a wish"); group project tracker.
+  - **End of a unit:** reflection page; unit review / study guide; exit tickets (several small boxes per page, to cut out).
+  - **Booklet furniture:** a glossary at the back, generated from the words used in the packet, with page numbers; homework or reading log; a page for teacher stamps and comments.
+- **The rest of the Mesopotamia source dossier:** four more sources (Marduk's cylinder seal, the Humbaba mask, the Flood Tablet, a Gilgamesh tablet), the same way as the first two, with openly licensed museum photos.
+- **Print the printer check** on the school's copier and adjust any tint or line that vanishes or comes out too dark.
+
 ## Build speed: next steps
 
 Since 2026-11-06 the publish step reuses slide PDFs, slide pictures and packets whose sources didn't change (`scripts/build_cache.py`). What's left:

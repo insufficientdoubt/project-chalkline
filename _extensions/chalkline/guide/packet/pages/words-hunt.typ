@@ -1,8 +1,9 @@
 // Shared by the packet (mini-packet.typ) and the loose sheet (sheets/). Images by absolute path.
-#import "../kit.typ": *
-#let img(name) = "/_extensions/chalkline/guide/images/units/" + name
+#import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/kit.typ": *
+#let img(name) = sys.inputs.at("guide", default: "/_extensions/chalkline/guide") + "/images/units/" + name   // root-relative: kit functions place the pictures
 #let pn(n) = context box(text(font: TH.get().label-font, size: 8pt, weight: "bold", fill: TH.get().accent, "¶" + str(n)) + h(3pt))
 
+#about("Vocabulary hunt", uses: ("finding words in a reading from clues", "word parts: prefixes and suffixes", "a class novel chapter by chapter",), pieces: ("vocab-hunt", "panel",))
 #section("A", "Vocabulary hunt", instructions: [Go to the paragraph in the reading (¶3 = paragraph 3). Find the word that matches the clue and write it in the Word box. A bold word part (*un-*, *-ly*) means the word has that prefix or suffix.])
 #vocab-hunt((
   ("¶1", none, [_n._ a group of lands ruled by one leader], "empire"),
@@ -37,6 +38,7 @@
 #pagebreak()
 
 // ---------------------------------------------------------------- 5 · recall, sequence, a prompt
+#about("Recall and sequence", uses: ("comprehension questions in full sentences", "putting events or steps in order", "a novel study page",), pieces: ("recall", "sequence", "panel",))
 #section("B", "Reading recall", instructions: [Answer each question in a complete sentence.])
 #recall((
   ([Why did Rome need roads?], [To move soldiers, letters and food quickly around the empire.]),

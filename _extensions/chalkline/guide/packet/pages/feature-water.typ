@@ -1,6 +1,6 @@
 // Shared by the packet (mini-packet.typ) and the loose sheet (sheets/). Images by absolute path.
-#import "../kit.typ": *
-#let img(name) = "/_extensions/chalkline/guide/images/units/" + name
+#import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/kit.typ": *
+#let img(name) = sys.inputs.at("guide", default: "/_extensions/chalkline/guide") + "/images/units/" + name   // root-relative: kit functions place the pictures
 #let pn(n) = context box(text(font: TH.get().label-font, size: 8pt, weight: "bold", fill: TH.get().accent, "¶" + str(n)) + h(3pt))
 
 #feature-spread(
@@ -13,6 +13,7 @@
   left-box: [#context { if MODE.get() == "sheet" { name-row(); v(2mm) } } #context text(font: TH.get().head-font, weight: "bold", size: 12pt, fill: TH.get().head, "Reflect · 想一想") #v(1mm) #reflect-items(1, ([What surprised you most about the aqueducts?], [Why did the builders need to know about gravity?]))],
   right-box: [#v(5.5mm) #reflect-items(3, ([What does your city do to bring you clean water today?], [If you were a Roman engineer, what problem would you want to solve next?]))],
 )[
+  #about("Magazine feature spread", uses: ("an exciting opener for a topic", "a long reading with photos", "a reading with reflection questions across the spread", "an article in the style of a magazine",), pieces: ("feature-spread", "lead-in", "col-picture", "pull-quote", "reflect-items",))
   #lead-in[Imagine a city] with no taps, no pipes under the street and no water trucks. Every drop for drinking, cooking and washing has to be carried from a river or a well. That was life in many towns two thousand years ago. Rome was different. By the first century AD, about a million people lived there, and water flowed into the city day and night, into fountains on the street corners, into public baths and into the houses of the rich.
 
   The water came through aqueducts. The first, the Aqua Appia, was built in 312 BC by Appius Claudius, the same official who built the famous road, the Via Appia. Over the next five hundred years, Rome built ten more. Together they brought in more water for each person than many cities use today.

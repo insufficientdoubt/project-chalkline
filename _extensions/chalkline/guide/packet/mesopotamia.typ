@@ -1,13 +1,15 @@
 // A second sample: a colleague's Mesopotamia worksheets, rebuilt with the kit (a 12-page booklet).
 //   python prototypes/packet-kit/build.py   ->   out/mesopotamia-<theme>.pdf (and -teacher)
-#import "kit.typ": *
-#import "history.typ": *
+#import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/kit.typ": *
+#import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/history.typ": *
 #let theme = sys.inputs.at("theme", default: "trail")
-#let H = "images/hammurabi.jpg"      // the Code of Hammurabi, Louvre (Mbzt, CC BY 3.0), 1215 × 2000 px
-#let B = "images/burney.jpg"         // the Burney Relief, British Museum (CC0), 1280 × 1703 px
+#let U = sys.inputs.at("guide", default: "/_extensions/chalkline/guide") + "/images/units/"
+#let H = U + "hammurabi-stele.jpg"      // the Code of Hammurabi, Louvre (Mbzt, CC BY 3.0), 1215 × 2000 px
+#let B = U + "burney-relief.jpg"         // the Burney Relief, British Museum (CC0), 1280 × 1703 px
 
 #show: packet.with(theme: theme, title: "Gods, kings and laws", unit: "Unit 1 · Mesopotamia")
 
+#about("Title page (decoration)", uses: ("the front of any unit packet",), pieces: ("title-page",))
 #title-page(course: "Grade 6 Social Studies", unit: "Mesopotamia", unit-number: "1", teacher: "Ms. Teacher Name",
   school: "School Name", year: "2026–27 · Term 1",
   hero: none)
@@ -16,6 +18,7 @@
 #spread-start()
 #unit-start("1", "Mesopotamia")
 #subunit("1.1", "Sources")
+#about("Source dossier card", uses: ("one primary source per page: an artifact, painting, map, photo or document", "museum and gallery studies", "science specimens with labelled features",), pieces: ("source-card", "crop", "marker", "quote-box",))
 #source-card(region: "Babylon · 巴比伦", number: 1, title: "The Code of Hammurabi", title-zh: "《汉谟拉比法典》石碑：太阳与正义之神沙马什",
   picture: grid(columns: (1fr, 15mm), column-gutter: 3mm, align: bottom,
     crop(H, 1215, 2000, 400, 30, 850, 590, width: 66mm, markers: ((1, 760, 175), (2, 612, 330), (3, 545, 150), (4, 650, 505))),
@@ -64,17 +67,20 @@
 // ---------------------------------------------------------------- 4–5 · two investigations, facing
 #spread-start()
 #subunit("1.2", "Investigating sources")
+#about("Source investigation (Observe, Infer, Evidence)", uses: ("analysing any primary source", "a picture or artwork study", "a science observation: observe, infer, conclude",), pieces: ("investigation",))
 #investigation("A", ("Stele of Hammurabi", "Burney Relief"))
 #pagebreak()
 #investigation("B", ("Stele of Hammurabi", "Burney Relief"), connect: [Both sources show the *rod and ring*. What does that tell you about how Mesopotamians saw gods and power?])
 #pagebreak()
 
 // ---------------------------------------------------------------- 6 · the challenge
+#about("Design challenge with a field guide", uses: ("a creative extension", "inventing an artifact, a creature, a machine or a flag", "design and explain",), pieces: ("design-artifact",))
 #design-artifact()
 #pagebreak()
 
 // ---------------------------------------------------------------- 7–9 · the formative assessment
 #subunit("1.3", "Check your learning")
+#about("Short-answer assessment", uses: ("formative or summative tests", "a quiz with marks shown", "a check-in at the end of a lesson sequence",), pieces: ("assessment-head", "short-answer",))
 #assessment-head("Early river civilizations", "Section 1: content recall and short answer · 第一部分：知识回顾与简答", total: 25,
   instructions: [You may use your packet and notes. [2] = 2 marks; the lines show about how much to write. Section 2 is one paragraph (pages 8–9). #text(fill: luma(110))[可使用学习手册和笔记。]])
 #short-answer(1, [What does the Greek word _Mesopotamia_ mean? Why is a Greek word used for this place?], [“Mesopotamia”在希腊语中是什么意思？为什么用希腊语命名这个地区？], 2, answer: [The land between the rivers. Greek writers named it long after.])
@@ -86,6 +92,7 @@
 #short-answer(7, [Look at the social pyramid. Who was at the top, and who at the bottom? Why?], [观察社会金字塔：谁在顶端，谁在底层？为什么？], 3, answer: [Kings and priests at the top, enslaved people at the bottom: power came from the gods and land.])
 #pagebreak()
 
+#about("Paragraph task with a rubric", uses: ("an extended response with a command term", "an MYP criterion task", "any task marked with a rubric",), pieces: ("command-term", "rubric", "panel",))
 #[#metadata("Section 2: the paragraph") <section-title>]
 #context text(font: TH.get().head-font, weight: "bold", size: 15pt, fill: TH.get().head)[Section 2: the paragraph #h(1fr) #marks(8)]
 #context text(size: 9.5pt, fill: TH.get().muted)[第二部分：段落写作 · Criterion A: Knowing and understanding]
@@ -110,6 +117,7 @@
 ))
 #pagebreak()
 
+#about("Paragraph planner and writing page", uses: ("planning then writing a paragraph", "explain or argue: a chain of reasons", "a lab conclusion",), pieces: ("paragraph-chain", "writing-lines", "panel",))
 #[#metadata("Section 2: plan and write") <section-title>]
 #context text(font: TH.get().head-font, weight: "bold", size: 15pt, fill: TH.get().head)[Plan, then write]
 #context text(size: 9.5pt, fill: TH.get().muted)[先规划，再写作。Fill in the chain first: each box becomes one or two sentences.]

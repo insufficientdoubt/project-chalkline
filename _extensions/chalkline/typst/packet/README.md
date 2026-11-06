@@ -1,21 +1,27 @@
-# Packet kit: a prototype (capabilities test)
+# The packet kit
 
-Print themes and page layouts for packets, written straight in Typst (no Quarto yet), to see what the PDF side can do before building it into Chalkline. **Not used by the site.**
+Print themes and page layouts for unit packets, in Typst. Packets are printed on A3 and folded.
 
-    python prototypes/packet-kit/build.py      # out/mini-packet-sky.pdf, -trail.pdf, -blueprint.pdf, printer-test.pdf
-    python prototypes/packet-kit/sheets.py     # out/sheet-<theme>.png: every page, laid out as spreads
+**In Chalkline:**
+- this folder (`typst/packet/`) is the kit;
+- the guide's samples are in `guide/packet/`;
+- `scripts/packet_kit.py` builds the samples into the teacher site after each full render;
+- the guide's **Packet Templates** page shows them, with every page's uses.
 
-- `kit.typ`: the themes and the pieces.
-- `mini-packet.typ`: a 24-page sample packet (Unit 2, Ancient Rome) that uses every layout.
-- `organizers.typ`: graphic organizers (KWL, Venn, Frayer, causes and effects, process flow, concept web, main idea as a temple).
-- `history.typ` and `mesopotamia.typ`: a second sample, a 12-page Mesopotamia booklet rebuilt from a colleague's worksheets:
-  - a source dossier (one artifact per page, real photos with numbered markers);
-  - two artifact investigations;
-  - a design-your-own-artifact challenge;
-  - a formative assessment (marks, a rubric that fits on one page, a paragraph planner);
-  - with a teacher edition. Photos in `images/` (credited on the back cover).
-- `pages/`: worksheets shared by the packet and the loose sheets: the feature spread, the vocab hunt with recall, and the two-step equations.
-- `sheets/`: the same three as loose sheets.
+    python chalkline.py packet-kit      # build the samples now (into _site-teacher/)
+
+**The files:**
+- `kit.typ`: the themes and the shared pieces (title page, contents, sections, work spaces, readings, glosses, word and language pages, spreads, the teacher edition, loose sheets, and `about()`, the hidden note on each page).
+- `organizers.typ`: graphic organizers: KWL, Venn, Frayer, causes and effects, process flow, concept web, and main idea as a temple.
+- `history.typ`: source pages: a source dossier card with photo markers, the Observe / Infer / Evidence investigation, a design challenge, and an assessment with marks, a rubric and a paragraph planner.
+
+**A page's file imports the kit with a path the build gives it, so it works wherever Chalkline is installed:**
+
+    #import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/kit.typ": *
+
+The build also passes `vocab`, `frames` and `vocab-images` (which word lists to read), `theme`, and `edition=teacher` for the teacher edition.
+
+**Hidden notes:** start each page with `#about("Name", uses: (...), pieces: (...))`. Nothing is printed. `scripts/packet_kit.py` reads the notes (`typst query <template-info>`) into `packet-templates.json` for the guide page.
 
 **Two ways to print, one design.**
 
@@ -26,8 +32,8 @@ Print themes and page layouts for packets, written straight in Typst (no Quarto 
   - No Notes pages or back cover.
   - A two-page spread comes out as **one A3 landscape page**, so it still reads as a spread.
 
-Each worksheet is one source file in `pages/`. The packet `#include`s it, and so does its loose sheet in `sheets/` (`#show: worksheet.with(...)`). That's how Chalkline already works: one file per printable, and the packet is put together from them.
-- `printer-test.typ`: one page per theme with every colour, tint, line, surface and text size. Print it, photocopy the print, and tick what still shows on both.
+Each worksheet is one source file in `guide/packet/pages/`. The packet `#include`s it, and so does its loose sheet in `guide/packet/sheets/` (`#show: worksheet.with(...)`). That's how Chalkline already works: one file per printable, and the packet is put together from them.
+- `guide/packet/printer-test.typ`: one page per theme with every colour, tint, line, surface and text size. Print it, photocopy the print, and tick what still shows on both.
 
 ## Themes
 
@@ -95,7 +101,7 @@ Each has the same small details, so generated pages still look thought through:
 
 - `--input theme=sky|trail|blueprint`.
 - Booklet or loose sheet isn't a setting: it's whether the file starts with `packet` or `worksheet`. Pieces that behave differently (spreads, glosses, padding) read the mode from the page.
-- `build.py` puts a loose sheet's spreads on A3 afterwards (`impose()`). It asks Typst where spreads start (the `<spread-page>` markers) and places each pair of A4 pages side by side.
+- `scripts/packet_kit.py` puts a loose sheet's spreads on A3 afterwards (`impose()`). It asks Typst where spreads start (the `<spread-page>` markers) and places each pair of A4 pages side by side.
 
 ## What we learned
 

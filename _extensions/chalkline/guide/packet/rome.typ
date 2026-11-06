@@ -1,26 +1,29 @@
 // A mini packet to test the kit: every layout, in one theme. Build all three:
 //   python prototypes/packet-kit/build.py
-#import "kit.typ": *
-#import "organizers.typ": *
+#import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/kit.typ": *
+#import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/organizers.typ": *
 #let theme = sys.inputs.at("theme", default: "sky")
-#let img(name) = "/_extensions/chalkline/guide/images/units/" + name
+#let img(name) = sys.inputs.at("guide", default: "/_extensions/chalkline/guide") + "/images/units/" + name   // root-relative: kit functions place the pictures
 // a paragraph number, so questions can point to "¶3" (page positions move when the layout changes)
 #let pn(n) = context box(text(font: TH.get().label-font, size: 8pt, weight: "bold", fill: TH.get().accent, "¶" + str(n)) + h(3pt))
 
 #show: packet.with(theme: theme, title: "Roads of Rome", unit: "Unit 2 · Ancient Rome")
 
 // ---------------------------------------------------------------- 1 · title page (hero: a photo, a placeholder, or the theme's decoration)
+#about("Title page", uses: ("the front of any unit packet", "a year packet's cover", "a project booklet",), pieces: ("title-page",))
 #title-page(course: "Grade 6 Humanities", unit: "Ancient Rome", unit-number: "2", teacher: "Ms. Teacher Name",
   school: "School Name", year: "2026–27 · Term 1",
   hero: if theme == "sky" { "placeholder" } else if theme == "trail" { img("colosseum-forum.jpg") } else { none })
 #pagebreak()
 
 // ---------------------------------------------------------------- 2 · contents (inside the cover, a left-hand page)
+#about("Contents by unit and subunit", uses: ("inside the front cover of every packet", "a year packet (depth: 1 lists only units)",), pieces: ("contents", "unit-start", "subunit",))
 #contents(depth: 3)
 #pagebreak()
 
 // ---------------------------------------------------------------- 3 · unit overview
 #unit-start("2", "Ancient Rome")
+#about("Unit overview", uses: ("the first lesson of a unit", "a big question to come back to", "prior knowledge before teaching",), pieces: ("titled", "panel", "work-space",))
 #titled("Unit overview", sub: "What we'll learn, and what you already know.")
 #panel(title: "Big question:")[#text(size: 14pt)[How did the Romans hold a huge empire together?]]
 #v(3mm)
@@ -33,7 +36,7 @@
   ],
   panel(title: "Key words")[#context {
     let t = TH.get()
-    for r in VOCAB.filter(r => r.id.starts-with("ROM-")) { box(inset: (x: 6pt, y: 3pt), radius: 8pt, stroke: 0.6pt + t.line, text(size: 9pt, r.term_en)); h(3pt) }
+    for r in VOCAB.filter(r => r.id.starts-with("GD-ROM-")) { box(inset: (x: 6pt, y: 3pt), radius: 8pt, stroke: 0.6pt + t.line, text(size: 9pt, r.term_en)); h(3pt) }
   }])
 #v(3mm)
 #grid(columns: (1fr, 1fr), column-gutter: 5mm, work-space(height: 1fr, style: "lines", label: "What I already know about Rome"), work-space(height: 1fr, style: "lines", label: "What I want to find out"))
@@ -44,6 +47,7 @@
 
 // ---------------------------------------------------------------- 4–5 · spread: a long reading, glossed in the margins
 #spread-start()
+#about("Glossed reading spread", uses: ("a long reading with hard words", "a primary or secondary source", "a science article", "a short story with glossary",), pieces: ("spread-start", "gloss", "vgloss", "figure", "panel",))
 #OUTSIDE.update(54mm)
 #[
 #set page(margin: (inside: 20mm, outside: 54mm, top: PAGE.top, bottom: PAGE.bottom))
@@ -54,13 +58,13 @@
 #figure(box(width: 100%, height: 70mm, clip: true, radius: 4pt, image(img("via-appia.jpg"), width: 100%, height: 70mm, fit: "cover")),
   caption: text(size: 8pt)[The Via Appia near Rome, more than 2,000 years old. Public domain, Wikimedia Commons.])
 
-#pn(1) Two thousand years ago, Rome ruled a huge #vgloss("ROM-005"). It stretched from Britain in the north to Egypt in the south. To hold it together, Rome needed a fast way to move soldiers, letters and food. Its answer was roads. A soldier could march 30 kilometres in a day on a good road. A journey that once took weeks now took days.
+#pn(1) Two thousand years ago, Rome ruled a huge #vgloss("GD-ROM-005"). It stretched from Britain in the north to Egypt in the south. To hold it together, Rome needed a fast way to move soldiers, letters and food. Its answer was roads. A soldier could march 30 kilometres in a day on a good road. A journey that once took weeks now took days.
 
 #pn(2) Roman roads were not just paths of dirt. Builders dug a deep trench and filled it layer by layer. First came large stones, then a layer of #gloss("gravel", "small stones", zh: "碎石") and sand, and on top, flat paving stones that fitted together like a puzzle. The top of the road was curved, a little higher in the middle than at the sides. When it rained, the water ran to the edges and into ditches. A road that could #gloss("drain", "let water flow away", zh: "排水") stayed dry and sturdy for many years.
 
 #pn(3) Every Roman mile, about 1.5 kilometres, there was a milestone. It told travellers how far they were from the next town. #gloss("Merchants", "people who buy and sell things", zh: "商人") used the roads to carry wine, oil and cloth. News travelled along them too. People said that "all roads lead to Rome," and in a way they did: more than 80,000 kilometres of stone roads joined the empire's cities.
 
-#pn(4) Roads were only half of the story. Cities also needed clean water, often from springs far away in the hills. The builders' answer was the #vgloss("ROM-011"). An aqueduct is a long channel that runs gently downhill all the way from the spring to the city. It has no pumps. It uses #gloss("gravity", "the force that pulls things down", zh: "重力"): water always flows down a slope, so the channel had to drop a little, but only a little, over every kilometre.
+#pn(4) Roads were only half of the story. Cities also needed clean water, often from springs far away in the hills. The builders' answer was the #vgloss("GD-ROM-011"). An aqueduct is a long channel that runs gently downhill all the way from the spring to the city. It has no pumps. It uses #gloss("gravity", "the force that pulls things down", zh: "重力"): water always flows down a slope, so the channel had to drop a little, but only a little, over every kilometre.
 
 #figure(placement: auto, box(width: 100%, height: 74mm, clip: true, radius: 4pt, image(img("pont-du-gard.jpg"), width: 100%, height: 74mm, fit: "cover")),
   caption: text(size: 8pt)[The Pont du Gard in France carried water across a valley. Photo: Benh LIEU SONG, CC BY-SA 3.0, Wikimedia Commons.])
@@ -88,14 +92,17 @@
 
 // ---------------------------------------------------------------- 8–10 · key words (with pictures, a word list) and language
 #subunit("2.2", "Words and language")
+#about("Key word cards (with pictures)", uses: ("pre-teaching a unit's words", "a reference page to come back to", "a word wall at home",), pieces: ("vocab-page(pictures: true)",))
 #titled("Key words", sub: "Learn these words. The pictures help you remember them.")
-#vocab-page(prefix: "ROM", pictures: true)
+#vocab-page(prefix: "GD-ROM", pictures: true)
 #pagebreak()
+#about("Word list (no pictures)", uses: ("abstract words without good pictures", "practice: a sentence for each word", "revision before a test",), pieces: ("vocab-page(pictures: false)",))
 #titled("Word list", sub: "Read each meaning. Then write your own sentence with the word.")
-#vocab-page(prefix: "ROM", pictures: false)
+#vocab-page(prefix: "GD-ROM", pictures: false)
 #pagebreak()
+#about("Language page", uses: ("grammar, stems and frames for a unit", "talk and writing support", "a reference while writing",), pieces: ("language-page", "work-space",))
 #titled("Language for this unit", sub: "Use these when you talk and write about Rome.")
-#language-page(("FRM-011", "FRM-012", "FRM-013", "FRM-001", "FRM-002", "FRM-005", "FRM-006", "FRM-007", "FRM-008", "FRM-023", "FRM-024"))
+#language-page(("GD-FRM-011", "GD-FRM-012", "GD-FRM-013", "GD-FRM-001", "GD-FRM-002", "GD-FRM-005", "GD-FRM-006", "GD-FRM-007", "GD-FRM-008", "GD-FRM-023", "GD-FRM-024"))
 #v(3mm)
 #work-space(style: "lines", label: "Practise: write three sentences about Rome. Use a frame or a stem from this page in each one.")
 #pagebreak()
@@ -106,8 +113,10 @@
 
 // ---------------------------------------------------------------- a reading with questions in the lower right
 #subunit("2.3", "Buildings")
+#about("KWL (landscape)", uses: ("before and after a reading", "the start and end of a unit", "research projects", "a video or field trip",), pieces: ("kwl-landscape",))
 #kwl-landscape("Before you read: KWL", [The Colosseum], k-example: [It is in Rome.], w-example: [How many people could sit inside?], l-example: [Up to 50,000 people.], where-example: [p.13 ¶1])
 #pagebreak()
+#about("Reading with a questions box", uses: ("a one-page reading with comprehension questions", "a news article", "a case study", "a lab background text",), pieces: ("titled", "reading-page",))
 #titled("The Colosseum", sub: "Read the text. Then answer the questions in the box.")
 #reading-page(beside: context {
   let t = TH.get()
@@ -137,6 +146,7 @@
 #pagebreak()
 
 // ---------------------------------------------------------------- 11 · a landscape page (turned 90° on a portrait page)
+#about("Landscape compare chart", uses: ("comparing several things on several features", "a data table to fill in", "a research grid", "a timeline of several people",), pieces: ("landscape", "section", "table",))
 #landscape[
   #section("D", "Compare: Roman structures", instructions: [Use the readings. Write short notes in each box, then sketch each structure in the last column.])
   #context {
@@ -159,6 +169,7 @@
 #pagebreak()
 
 // ---------------------------------------------------------------- 8 · math, three columns
+#about("Problems in three columns", uses: ("short calculations", "one-step equations", "unit conversions", "quick practice with room to show working",), pieces: ("problems(cols: 3)",))
 #section("F", "One-step equations", instructions: [Solve. Write the inverse operation you used, then the answer.])
 #problems(cols: 3, items: ([$x + 9 = 17$], [$x - 6 = 11$], [$4x = 36$], [$x / 5 = 7$], [$12 = x + 4$], [$3x = 27$], [$x - 2.5 = 4$], [$8x = 56$], [$x / 3 = 9$]), surface-style: "dots")
 
@@ -166,6 +177,7 @@
 // (if the math ended on a left-hand page, spread-start() would make the next page a Notes page)
 #subunit("2.5", "Design and time")
 #spread-start()
+#about("Reference and design spread", uses: ("a reference grid facing a task that uses it", "formulas next to practice", "a map key next to a blank map", "design challenges",), pieces: ("spread-start", "angle-pic", "work-space(style: grid)",))
 #titled("Angles: a reference", sub: "Use this page while you design your bridge.")
 #context {
   let t = TH.get()
@@ -198,6 +210,7 @@
 
 // ---------------------------------------------------------------- 12–13 · spread: a timeline across both pages
 #spread-start()
+#about("Timeline across a spread", uses: ("placing events on a long timeline", "a person's life", "geological or historical eras", "a number line",), pieces: ("spread-start", "event-card", "timeline-part",))
 #titled("Rome on a timeline", sub: "Write each event's letter above the right place on the line. The line runs across both pages.")
 #block(height: 96mm, grid(columns: (1fr,) * 3, rows: (1fr, 1fr), gutter: 4mm,
   event-card("A", [Rome is founded (the story says by Romulus).], pic: none),
@@ -224,35 +237,42 @@
 
 // ---------------------------------------------------------------- graphic organizers
 #subunit("2.6", "Thinking tools")
+#about("Venn diagram (landscape)", uses: ("comparing two things: places, people, characters, materials", "similarities and differences before writing a compare paragraph", "sorting examples into two groups",), pieces: ("venn-landscape",))
 #venn-landscape("Compare: Greek and Roman cities", "Greek cities", "Roman cities", a-example: [city-states, each with its own rules], both-example: [temples and theatres], b-example: [one empire, roads join the cities],
   prompt: [Which difference matters most? Why? Use a compare word from above.])
 #pagebreak()
+#about("Frayer models", uses: ("deep study of key words", "concept words in science and math", "vocabulary assessment",), pieces: ("frayer",))
 #titled("Word study: Frayer models", sub: "Two key words. Fill the four boxes around each word.")
-#frayer("ROM-011")
+#frayer("GD-ROM-011")
 #v(5mm)
-#frayer("ROM-001")
+#frayer("GD-ROM-001")
 #pagebreak()
 #titled("Word study: Frayer models", sub: "Two more key words.")
-#frayer("ROM-004")
+#frayer("GD-ROM-004")
 #v(5mm)
-#frayer("ROM-012")
+#frayer("GD-ROM-012")
 #pagebreak()
+#about("Causes and effects", uses: ("history: why an event happened and what followed", "science: a change and its results", "stories: a turning point",), pieces: ("cause-effect",))
 #titled("Causes and effects", sub: "Why did Rome build aqueducts? What happened because of them?")
 #cause-effect([Rome builds aqueducts], cause-example: [The city grew to a million people.], effect-example: [Public fountains on every street.],
   prompt: [Which effect was the most important for ordinary people? Explain with "because".])
 #pagebreak()
+#about("Process flow (six steps)", uses: ("a process or cycle", "a lab procedure", "the plot of a story", "how to make something",), pieces: ("flow",))
 #titled("A process: water for a city", sub: "From the spring in the hills to a fountain in Rome, in six steps.")
 #flow(example: [Find a spring high in the hills.], prompt: [Which step was the hardest for the engineers? Why?])
 #pagebreak()
+#about("Concept web", uses: ("brainstorming before writing", "the start of a topic", "revision: everything about one idea",), pieces: ("web",))
 #titled("Concept web: Roman engineering", sub: "Six groups. Add two details to each, from the readings.")
 #web([Roman engineering], ("roads", "water", "buildings", "tools", "people", "problems"), example: [Via Appia])
 #pagebreak()
+#about("Main idea and details (temple)", uses: ("finding the main idea of a text", "planning an argument with reasons", "summarizing a chapter",), pieces: ("temple",))
 #titled("Main idea and details", sub: [Use the reading "Roads that held an empire" (pages 6–7).])
 #temple(main-example: [Roads held the empire together.], detail-example: [Soldiers could march 30 km a day.])
 #pagebreak()
 
 // ---------------------------------------------------------------- review, then Notes and the back cover (to a multiple of 4 pages)
 #subunit("2.6", "Review")
+#about("Self-check", uses: ("the start and end of a unit", "before a test", "student-led conferences",), pieces: ("self-check", "work-space",))
 #titled("How did I do?", sub: "Colour a circle at the start of the unit, and again at the end.")
 #self-check((
   [explain why Rome built roads and aqueducts],

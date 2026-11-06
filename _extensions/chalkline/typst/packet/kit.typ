@@ -28,6 +28,9 @@
   ),
 )
 #let TH = state("chalkline-theme", themes.sky)
+// Hidden notes for the guide: what a page is (name), what it can be used for (uses) and what it's made of
+// (pieces). Nothing is printed; the build reads them (scripts/packet_kit.py) for the Packet Templates page.
+#let about(name, uses: (), pieces: ()) = context [#metadata((name: name, uses: uses, pieces: pieces, page: here().page())) <template-info>]
 // "booklet": the whole packet, A3 folded (facing pages, padding, a back cover).
 // "sheet": one worksheet printed on its own, A4 (no facing pages, no padding; a spread is put on one A3 page).
 #let MODE = state("chalkline-mode", "booklet")
@@ -447,7 +450,10 @@
 
 // ---------------------------------------------------------------- the vocab list, for glosses
 // vgloss("ROM-011"): the meaning and 中文 come from vocab/data/vocab.csv, so a gloss never disagrees with the list.
-#let VOCAB = csv("/vocab/data/vocab.csv", row-type: dictionary)
+// The word and language lists: the course's own, unless the build names others (--input vocab=, frames=,
+// vocab-images=; the guide's samples use the guide's own lists, so they work in any course).
+#let VOCAB = csv(sys.inputs.at("vocab", default: "/vocab/data/vocab.csv"), row-type: dictionary)
+#let VOCAB-IMAGES = sys.inputs.at("vocab-images", default: "/vocab/images")
 #let vgloss(id, word: none) = {
   let row = VOCAB.find(r => r.id == id)
   if row == none { return text(fill: red, "[no " + id + "]") }
@@ -538,7 +544,7 @@
   let entry(r) = if pictures {
     block(width: 100%, height: 37mm, stroke: t.box-stroke, radius: t.radius, inset: 5pt, breakable: false, clip: true,
       grid(columns: (30mm, 1fr), column-gutter: 4mm,
-        box(width: 30mm, height: 26mm, clip: true, radius: calc.min(t.radius, 4pt), image("/vocab/images/" + r.image, width: 30mm, height: 26mm, fit: "contain")),
+        box(width: 30mm, height: 26mm, clip: true, radius: calc.min(t.radius, 4pt), image(VOCAB-IMAGES + "/" + r.image, width: 30mm, height: 26mm, fit: "contain")),
         [#text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, r.term_en) #h(2pt) #text(fill: t.muted, r.zh)          #text(size: 9pt, r.short_def) \ #v(1pt) #text(size: 8pt, fill: t.muted, style: "italic", r.example)]))
   } else {
     block(width: 100%, breakable: false, below: 3mm, {
@@ -552,7 +558,7 @@
 }
 
 // Language points in two columns, grouped by kind, from vocab/data/frames.csv.
-#let FRAMES = csv("/vocab/data/frames.csv", row-type: dictionary)
+#let FRAMES = csv(sys.inputs.at("frames", default: "/vocab/data/frames.csv"), row-type: dictionary)
 #let language-page(ids) = context {
   let t = TH.get()
   let names = (grammar: "Grammar", phrase: "Phrases", stem: "Sentence stems", frame: "Sentence frames", question: "Questions and answers")

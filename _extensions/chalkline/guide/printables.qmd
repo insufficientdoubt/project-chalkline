@@ -9,8 +9,8 @@ format: html
 
 Printables are files, not slides: copy one into your unit folder, change its words, and render it. Its labels at the top (`title`, `type`, `order`, `audience`, `description`) put it in the unit's page and its packet. The pieces they use (blanks, lines, drawing boxes, word banks, vocab with 中文) are listed in each file's comments and in `_extensions/chalkline/shortcodes.lua`.
 
-::: {.callout-note title="Coming next"}
-A full set of printable examples, sorted by what they're for (like the Template Library): readings with a glossary, labelled pictures, compare pages, timelines, word banks, review pages, posters and cards.
+::: {.callout-note title="Packet pages"}
+For the pages of a unit packet (A3, folded), see **Packet Templates**: about 30 page layouts in three print themes, with a teacher edition and loose sheets.
 :::
 
 ## Worksheet: Angle Hunt
