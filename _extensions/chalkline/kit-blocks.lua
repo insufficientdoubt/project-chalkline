@@ -17,6 +17,9 @@
 --   ::: {.web topic="Roman engineering" branches="roads, water, buildings, tools, people, problems"}
 --   ::: temple
 --   ::: {.investigation letter="A" sources="Stele of Hammurabi, Burney Relief"}   (connect question inside, B only)
+--   ::: {.picture-answers cols="3"}    - ![](images/a.svg) A | acute      (picture and label | answer)
+--   ::: true-false                      - A straight angle is just a line. | F
+--   ::: {.panel title="Word bank"}      a box with a title (anything inside)
 --   ::: spread                          (empty) in a packet: start this page on a left-hand page (a two-page spread)
 --   ::: {.page-about name="Venn diagram" uses="comparing two things; before a compare paragraph"}   a hidden note
 
@@ -24,13 +27,6 @@ local M = {}
 
 local function typst(s) return pandoc.RawBlock("typst", s) end
 local function str(s) return '"' .. tostring(s):gsub('\\', '\\\\'):gsub('"', '\\"') .. '"' end
-local function content(blocks)   -- pandoc blocks -> Typst [content]
-  local out = pandoc.write(pandoc.Pandoc(blocks), "typst")
-  return "[" .. out:gsub("%s+$", "") .. "]"
-end
-local function inline_content(inlines)
-  return content({ pandoc.Plain(inlines) })
-end
 local function length(v)        -- "5cm", "40mm", "1.5in" pass; "fill"/"auto" -> auto
   if not v or v == "" or v == "fill" or v == "auto" then return "auto" end
   if v:match("^[%d%.]+%a+$") then return v end
@@ -75,13 +71,40 @@ local function csv(v)
   for p in (v or ""):gmatch("[^,;]+") do table.insert(out, (p:gsub("^%s+", ""):gsub("%s+$", ""))) end
   return out
 end
-local function tuple(list, f)
-  local parts = {}
-  for _, x in ipairs(list) do table.insert(parts, f(x)) end
-  return "(" .. table.concat(parts, ", ") .. (#parts == 1 and "," or "") .. ")"
-end
 
 -- ---------------------------------------------------------------- the PDF: each block as a kit call
+-- The words stay pandoc content (so shortcodes and spans inside them are still processed by Quarto); only
+-- the call around them is raw Typst. Inline pieces: a list of inlines mixing raw Typst and the words.
+local function R(s) return pandoc.RawInline("typst", s) end
+local function frag(...)                 -- strings (raw Typst) and inline lists, joined into one list
+  local out = pandoc.List()
+  for _, x in ipairs({ ... }) do
+    if type(x) == "string" then out:insert(R(x)) else out:extend(x) end
+  end
+  return out
+end
+local function C(inl)                    -- inlines as Typst [content]
+  if inl == nil then return frag("none") end
+  return frag("[", inl, "]")
+end
+local function seq(list, f)              -- (a, b, c,) from a list, each item through f
+  local out = frag("(")
+  for k, x in ipairs(list) do
+    if k > 1 then out:insert(R(", ")) end
+    out:extend(f(x))
+  end
+  out:insert(R(#list == 1 and ",)" or ")"))
+  return out
+end
+local function call(inl) return { pandoc.Plain(inl) } end
+-- a call whose last argument is the div's blocks: open ... blocks ... close
+local function wrap(open, blocks, close)
+  local out = pandoc.List({ typst(open) })
+  out:extend(blocks)
+  out:insert(typst(close or "])"))
+  return out
+end
+
 local TYPST = {}
 TYPST["work-space"] = function(el)
   local a = el.attributes
@@ -89,37 +112,51 @@ TYPST["work-space"] = function(el)
     (a.label and (", label: " .. str(a.label)) or "") .. ")") }
 end
 TYPST["side-by-side"] = function(el)
-  local cols, cells = {}, {}
-  for _, b in ipairs(el.content) do
-    table.insert(cols, "1fr")
-    table.insert(cells, content({ b }))
+  local cols = {}
+  for _ in ipairs(el.content) do table.insert(cols, "1fr") end
+  local out = pandoc.List({ typst("#grid(columns: (" .. table.concat(cols, ", ") .. "), column-gutter: 5mm, [") })
+  for k, b in ipairs(el.content) do
+    if k > 1 then out:insert(typst("], [")) end
+    out:insert(b)
   end
-  return { typst("#grid(columns: (" .. table.concat(cols, ", ") .. "), column-gutter: 5mm, " .. table.concat(cells, ", ") .. ")") }
+  out:insert(typst("])"))
+  return out
 end
 TYPST["problems"] = function(el)
-  local list = tuple(items(el), function(p)
-    return "(" .. inline_content(p[1]) .. ", " .. (p[2] and inline_content(p[2]) or "none") .. ", " .. (p[3] and inline_content(p[3]) or "none") .. ")"
-  end)
-  return { typst("#kit.problems(cols: " .. (tonumber(el.attributes.cols) or 2) .. ", surface-style: " .. str(el.attributes.style or "grid") ..
-    ", answer: " .. str(el.attributes.answer or "x =") .. ", items: " .. list .. ")") }
+  return call(frag("#kit.problems(cols: " .. (tonumber(el.attributes.cols) or 2) .. ", surface-style: " .. str(el.attributes.style or "grid") ..
+    ", answer: " .. str(el.attributes.answer or "x =") .. ", items: ",
+    seq(items(el), function(p) return frag("(", C(p[1]), ", ", C(p[2]), ", ", C(p[3]), ")") end), ")"))
 end
 TYPST["recall"] = function(el)
-  local list = tuple(items(el), function(p)
-    return "(" .. inline_content(p[1]) .. ", " .. (p[2] and inline_content(p[2]) or "none") .. ")"
-  end)
-  return { typst("#kit.recall(lines: " .. (tonumber(el.attributes.lines) or 2) .. ", " .. list .. ")") }
+  return call(frag("#kit.recall(lines: " .. (tonumber(el.attributes.lines) or 2) .. ", ",
+    seq(items(el), function(p) return frag("(", C(p[1]), ", ", C(p[2]), ")") end), ")"))
 end
 TYPST["sequence"] = function(el)
-  local list = tuple(items(el), function(p) return inline_content(p[1]) end)
   local order = el.attributes.order and ("(" .. el.attributes.order .. ",)") or "none"
-  return { typst("#kit.sequence(order: " .. order .. ", " .. list .. ")") }
+  return call(frag("#kit.sequence(order: " .. order .. ", ", seq(items(el), function(p) return C(p[1]) end), ")"))
 end
 TYPST["vocab-hunt"] = function(el)
-  local list = tuple(items(el), function(p)
+  return call(frag("#kit.vocab-hunt(", seq(items(el), function(p)
     local where = p[1] and pandoc.utils.stringify(p[1]) or ""
-    return "(" .. str(where) .. ", none, " .. (p[2] and inline_content(p[2]) or "[]") .. (p[3] and (", " .. str(pandoc.utils.stringify(p[3]))) or "") .. ")"
-  end)
-  return { typst("#kit.vocab-hunt(" .. list .. ")") }
+    return frag("(" .. str(where) .. ", none, ", C(p[2] or pandoc.List()), p[3] and (", " .. str(pandoc.utils.stringify(p[3]))) or "", ")")
+  end), ")"))
+end
+TYPST["picture-answers"] = function(el)   -- - ![](images/a.svg) A | acute
+  return call(frag("#kit.picture-answers(cols: " .. (tonumber(el.attributes.cols) or 3) .. ", height: " ..
+    (length(el.attributes.height) == "auto" and "32mm" or length(el.attributes.height)) .. ", ",
+    seq(items(el), function(p)
+      local pic, label = nil, pandoc.List()
+      for _, x in ipairs(p[1]) do if x.t == "Image" and not pic then pic = x.src elseif x.t ~= "Image" then label:insert(x) end end
+      while #label > 0 and label[1].t == "Space" do label:remove(1) end
+      local img = pic and ('[#image(' .. str(pic) .. ', height: 100%, fit: "contain")]') or "[]"
+      return frag("(" .. img .. ", ", C(label), ", ", C(p[2]), ")")
+    end), ")"))
+end
+TYPST["true-false"] = function(el)   -- - A straight angle is just a line. | F
+  return call(frag("#kit.true-false(", seq(items(el), function(p) return frag("(", C(p[1]), ", ", C(p[2]), ")") end), ")"))
+end
+TYPST["panel"] = function(el)   -- ::: {.panel title="Word bank"}: a box with a title
+  return wrap("#kit.panel(" .. (el.attributes.title and ("title: " .. str(el.attributes.title) .. ", ") or "") .. "[", el.content)
 end
 TYPST["kwl"] = function(el)
   local a = el.attributes
@@ -128,24 +165,27 @@ TYPST["kwl"] = function(el)
 end
 TYPST["venn"] = function(el)
   local a = el.attributes
-  return { typst("#org.venn-landscape(" .. str(a.title or "Compare") .. ", " .. str(a.a or "A") .. ", " .. str(a.b or "B") ..
+  return wrap("#org.venn-landscape(" .. str(a.title or "Compare") .. ", " .. str(a.a or "A") .. ", " .. str(a.b or "B") ..
     ", a-example: [" .. (a["a-example"] or "") .. "], both-example: [" .. (a["both-example"] or "") .. "], b-example: [" .. (a["b-example"] or "") ..
-    "], prompt: " .. content(el.content) .. ")") }
+    "], prompt: [", el.content)
 end
 TYPST["frayer"] = function(el)
   return { typst("#org.frayer(" .. str(el.attributes.id or "") .. ")") }
 end
 TYPST["cause-effect"] = function(el)
   local a = el.attributes
-  return { typst("#org.cause-effect([" .. (a.event or "") .. "], cause-example: [" .. (a["cause-example"] or "") ..
-    "], effect-example: [" .. (a["effect-example"] or "") .. "], prompt: " .. content(el.content) .. ")") }
+  return wrap("#org.cause-effect([" .. (a.event or "") .. "], cause-example: [" .. (a["cause-example"] or "") ..
+    "], effect-example: [" .. (a["effect-example"] or "") .. "], prompt: [", el.content)
 end
 TYPST["flow"] = function(el)
-  return { typst("#org.flow(example: [" .. (el.attributes.example or "") .. "], prompt: " .. content(el.content) .. ")") }
+  return wrap("#org.flow(example: [" .. (el.attributes.example or "") .. "], prompt: [", el.content)
 end
 TYPST["web"] = function(el)
   local a = el.attributes
-  return { typst("#org.web([" .. (a.topic or "") .. "], " .. tuple(csv(a.branches), str) .. (a.example and (", example: [" .. a.example .. "]") or "") .. ")") }
+  local branches = {}
+  for _, b in ipairs(csv(a.branches)) do table.insert(branches, str(b)) end
+  return { typst("#org.web([" .. (a.topic or "") .. "], (" .. table.concat(branches, ", ") .. (#branches == 1 and "," or "") .. ")" ..
+    (a.example and (", example: [" .. a.example .. "]") or "") .. ")") }
 end
 TYPST["temple"] = function(el)
   local a = el.attributes
@@ -153,17 +193,21 @@ TYPST["temple"] = function(el)
 end
 TYPST["investigation"] = function(el)
   local a = el.attributes
-  local connect = #el.content > 0 and content(el.content) or "none"
-  return { typst("#hist.investigation(" .. str(a.letter or "A") .. ", " .. tuple(csv(a.sources), str) .. ", connect: " .. connect .. ")") }
+  local sources = {}
+  for _, b in ipairs(csv(a.sources)) do table.insert(sources, str(b)) end
+  local head = "#hist.investigation(" .. str(a.letter or "A") .. ", (" .. table.concat(sources, ", ") .. (#sources == 1 and "," or "") .. ")"
+  if #el.content == 0 then return { typst(head .. ")") } end
+  return wrap(head .. ", connect: [", el.content)
 end
 TYPST["spread"] = function(el)   -- ::: spread  (empty): in a packet, the next page is a left-hand page
-  local out = { typst("#kit.spread-start()") }
-  for _, b in ipairs(el.content) do table.insert(out, b) end
+  local out = pandoc.List({ typst("#kit.spread-start()") })
+  out:extend(el.content)
   return out
 end
 TYPST["page-about"] = function(el)
   local a = el.attributes
-  return { typst("#kit.about(" .. str(a.name or "") .. ", uses: " .. tuple(csv(a.uses), str) .. ", pieces: " .. tuple(csv(a.pieces), str) .. ")") }
+  local function list(v) local o = {} for _, x in ipairs(csv(v)) do table.insert(o, str(x)) end return "(" .. table.concat(o, ", ") .. (#o == 1 and "," or "") .. ")" end
+  return { typst("#kit.about(" .. str(a.name or "") .. ", uses: " .. list(a.uses) .. ", pieces: " .. list(a.pieces) .. ")") }
 end
 
 -- ---------------------------------------------------------------- the web: words, without the answers
@@ -175,7 +219,18 @@ local NAMES = { kwl = "KWL chart", venn = "Venn diagram", frayer = "Frayer model
 local function web(el, cls)
   if cls == "page-about" or cls == "work-space" then return {} end   -- (nothing to show on a web page)
   if cls == "side-by-side" then return nil end
-  if cls == "spread" then return el.content end   -- the blocks inside show one after another
+  if cls == "spread" then return el.content end
+  if cls == "panel" then
+    local out = pandoc.List()
+    if el.attributes.title then out:insert(pandoc.Para({ pandoc.Strong({ pandoc.Str(el.attributes.title) }) })) end
+    out:extend(el.content)
+    return { pandoc.Div(out, pandoc.Attr("", { "kit-block", "kit-panel", "callout-note" })) }
+  end
+  if cls == "picture-answers" then
+    local cells = pandoc.List()
+    for _, p in ipairs(items(el)) do cells:insert(pandoc.Div({ pandoc.Plain(p[1]) }, pandoc.Attr("", { "kit-pic" }))) end
+    return { pandoc.Div(cells, pandoc.Attr("", { "kit-block", "kit-picture-answers" }, { style = "display:grid; grid-template-columns: repeat(" .. (tonumber(el.attributes.cols) or 3) .. ", 1fr); gap: 1rem" })) }
+  end   -- the blocks inside show one after another
   if PRINT_ONLY[cls] then
     local note = pandoc.Div({ pandoc.Para({ pandoc.Emph({ pandoc.Str("On paper: a " .. NAMES[cls] .. ". Use the PDF version of this page.") }) }) },
       pandoc.Attr("", { "kit-print-only" }))

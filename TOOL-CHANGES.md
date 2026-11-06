@@ -16,6 +16,23 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: The packet rebuild (on a branch): the Angles example unit in the guide; more blocks
+- **Asked for:** "copy those [the math unit and one Greco-Roman unit] into the guide as examples and clean them up and rewrite them using the new templates for both slides and printables."
+- **Why:** the demo units are being archived; the guide keeps finished units to copy from.
+- **Changed:**
+  - New `guide/example-angles/`, copied from Unit 5 (the deck, the angle explorer, pictures, the interactive embed). The worksheet and homework are rewritten with the kit's blocks: answers next to their questions, `page-about` notes, and the guide's own words and language points (`GD-` ids), so it works in any course.
+  - `guide/index.qmd` lists the example units.
+  - `scripts/catalog.py`: `packet_for()` (shared), `load_example_packets()`.
+  - `scripts/packets.py`: the teacher site builds a packet and a teacher edition for each example unit; they're not in the year packet.
+  - `kit-blocks.lua`:
+    - new blocks `picture-answers`, `true-false`, `panel`;
+    - the PDF calls now keep their words as pandoc content, so shortcodes inside them (`{{< vocab >}}`) still work. Before, they were turned into Typst text too early and the words went missing.
+  - `typst/packet/kit.typ`: `picture-answers`, `true-false`.
+  - `shortcodes.lua`: `{{< blank answer="…" >}}` writes the answer in, in the teacher edition.
+  - The year packet's contents point to each unit's divider page.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The packet rebuild, step 3 (on a branch): unit and year packets are kit booklets
 - **Asked for:** the plan in `IDEAS.md` (step 3: "`packets.py` builds each unit's booklet with the kit").
 - **Why:** packets printed on A3 and folded, in the same design as the pages.

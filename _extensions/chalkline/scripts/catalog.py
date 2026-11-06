@@ -119,7 +119,30 @@ def load_packets():
     plus "files" (the .qmd paths) and "extras" (the PDF paths)."""
     packets = []
     for unit in load_units():
-        folder = COURSE / "units" / unit["id"]
+        p = packet_for(COURSE / "units" / unit["id"], unit)
+        if p:
+            packets.append(p)
+    return packets
+
+
+def load_example_packets():
+    """The guide's example units (course/guide/*/example-*/, teacher site): a packet each, like a unit's.
+    Not in the year packet, the unit lists or the sidebar."""
+    out = []
+    for index in sorted((COURSE / "guide").glob("*/example-*/index.qmd")):
+        meta = front_matter(index)
+        folder = index.parent
+        unit = {"id": folder.name, "number": meta.get("unit", ""), "title": meta.get("title", folder.name),
+                "objectives": meta.get("objectives", []) or []}
+        p = packet_for(folder, unit)
+        if p:
+            out.append(p)
+    return out
+
+
+def packet_for(folder, unit):
+    """A folder's packet: its printables in `order:`, and any outside PDFs (see load_packets). None if empty."""
+    if True:
         found = []
         for path in folder.glob("*.qmd"):
             if path.name.startswith("_") or path.name == "index.qmd":
@@ -137,13 +160,13 @@ def load_packets():
             after = (folder / extra["after"]).relative_to(ROOT).as_posix() if extra.get("after") else None
             spot = next((i + 1 for i, c in enumerate(chapters) if c.get("qmd") == after), len(chapters))
             chapters.insert(spot, entry)
-        if chapters:
-            packets.append({**unit,
-                            "pdf": f"course/units/{unit['id']}/{unit['id']}-packet.pdf",
-                            "chapters": chapters,
-                            "files": [c["qmd"] for c in chapters if "qmd" in c],
-                            "extras": [c["pdf"] for c in chapters if "pdf" in c]})
-    return packets
+        if not chapters:
+            return None
+        return {**unit,
+                "pdf": (folder / f"{unit['id']}-packet.pdf").relative_to(ROOT).as_posix(),
+                "chapters": chapters,
+                "files": [c["qmd"] for c in chapters if "qmd" in c],
+                "extras": [c["pdf"] for c in chapters if "pdf" in c]}
 
 
 def pdf_pages():

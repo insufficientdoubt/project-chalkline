@@ -660,3 +660,26 @@
   body
   finish-booklet(back: back-cover(school: school, credits: []))
 }
+
+// ---------------------------------------------------------------- pictures to name, true or false
+// items: ((picture, label, answer), …): each picture in a box, its label, a line to write on (the answer
+// written in, in the teacher edition)
+#let picture-answers(cols: 3, height: 32mm, items) = context {
+  let t = TH.get()
+  grid(columns: (1fr,) * cols, column-gutter: 4mm, row-gutter: 4mm, ..items.map(((pic, label, answer)) => block(breakable: false, {
+    block(width: 100%, height: height, stroke: t.box-stroke, radius: t.radius, inset: 4pt, align(center + horizon, pic))
+    v(1.5mm)
+    grid(columns: (auto, 1fr), column-gutter: 2mm, align: bottom, text(weight: "bold", fill: t.head, label),
+      box(width: 100%, height: 1.1em, stroke: (bottom: 0.6pt + t.line), if answer != none and EDITION.get() { place(dy: -2pt, key(answer, size: 12pt)) }))
+  })))
+}
+// items: ((statement, answer), …): a box for T or F before each statement
+#let true-false(items) = context {
+  let t = TH.get()
+  for (i, (stmt, answer)) in items.enumerate() {
+    block(below: 3mm, breakable: false, grid(columns: (auto, 9mm, 1fr), column-gutter: 3mm, align: horizon,
+      text(weight: "bold", fill: t.head, str(i + 1) + "."),
+      box(width: 9mm, height: 7mm, stroke: 0.8pt + t.line, radius: calc.min(t.radius, 3pt), align(center + horizon, if answer != none and EDITION.get() { key(answer, size: 14pt) })),
+      stmt))
+  }
+}

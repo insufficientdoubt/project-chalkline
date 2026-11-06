@@ -1,0 +1,88 @@
+---
+title: "Turning and Angles 旋转与角"
+type: worksheet
+description: "Class worksheet: name six angles, compare straight and full angles with right angles, name the angles on six clocks, draw four angles, and find angles in daily life. Written with the packet kit's blocks; the teacher edition has the answers written in."
+order: 2
+audience: [teacher, student]
+packet-theme: sky
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Worksheet: name, compare, draw" uses="a math lesson's main practice; naming shapes or angles from pictures; reading clocks" pieces="panel, picture-answers, blank, work-space, side-by-side"}
+:::
+
+Use the slides *Turning and Angles* and your turning angle to help you.
+
+::: {.panel title="Word bank · 词库"}
+**Parts:** {{< vocab "vertex" zh=true >}} · {{< vocab "side" zh=true >}}
+**Kinds of angles:** {{< vocab "acute angle" text="acute" zh=true >}} · {{< vocab "right angle" text="right" zh=true >}} · {{< vocab "obtuse angle" text="obtuse" zh=true >}} · {{< vocab "straight angle" text="straight" zh=true >}} · {{< vocab "full angle" text="full" zh=true >}}
+:::
+
+## 1. Name the angle
+
+Write the name of each angle. Find the vertex and the two sides first.
+
+::: {.picture-answers cols="3" height="30mm"}
+- ![](images/ws-a.svg) A | acute
+- ![](images/ws-b.svg) B | right
+- ![](images/ws-c.svg) C | straight
+- ![](images/ws-d.svg) D | obtuse
+- ![](images/ws-e.svg) E | full
+- ![](images/ws-f.svg) F | acute
+:::
+
+## 2. Fill in the blanks
+
+**a.** 1 straight angle = {{< blank 1.2cm answer="2" >}} right angles.
+
+**b.** 1 full angle = {{< blank 1.2cm answer="2" >}} straight angles = {{< blank 1.2cm answer="4" >}} right angles.
+
+**c.** Write **<**, **>** or **=**: acute angle {{< blank 0.8cm answer="<" >}} right angle · obtuse angle {{< blank 0.8cm answer="<" >}} straight angle · 2 right angles {{< blank 0.8cm answer="=" >}} 1 straight angle
+
+## 3. Angles on a clock
+
+What angle do the {{< vocab "hour hand" zh=true >}} and the {{< vocab "minute hand" zh=true >}} make? Write **acute**, **right**, **obtuse** or **straight**.
+
+::: {.picture-answers cols="6" height="22mm"}
+- ![](images/clock-3.svg) 3:00 | right
+- ![](images/clock-6.svg) 6:00 | straight
+- ![](images/clock-2.svg) 2:00 | acute
+- ![](images/clock-5.svg) 5:00 | obtuse
+- ![](images/clock-9.svg) 9:00 | right
+- ![](images/clock-11.svg) 11:00 | acute
+:::
+
+{{< pagebreak >}}
+
+## 4. Draw it
+
+Draw each angle. Mark the {{< vocab "vertex" zh=true >}} with a dot.
+
+::: side-by-side
+::: {.work-space height="42mm" style="dots" label="a. an acute angle"}
+:::
+::: {.work-space height="42mm" style="dots" label="b. a right angle"}
+:::
+:::
+
+::: side-by-side
+::: {.work-space height="42mm" style="dots" label="c. an obtuse angle"}
+:::
+::: {.work-space height="42mm" style="dots" label="d. a straight angle"}
+:::
+:::
+
+## 5. In daily life
+
+::: recall
+- I see a straight angle when … | a book is opened flat; the clock shows 6:00.
+- I see a full angle when … | the minute hand goes round once in an hour.
+:::
+
+::: {.content-visible when-profile="teacher"}
+::: {.panel title="Look for"}
+Students who call C "a line" or E "no angle": ask them to find the vertex and the two sides. In 4d, the dot must be *on* the line, with a side going each way.
+:::
+:::

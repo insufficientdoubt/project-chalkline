@@ -6,7 +6,7 @@ audience: [teacher]
 format: html
 description: "Chalkline's slide templates and examples, ready to copy into your own lessons. Teacher site only."
 listing:
-  contents: "*.qmd"
+  contents: ["*.qmd", "example-*/index.qmd"]
   type: table
   fields: [title, type, description]
   field-display-names:

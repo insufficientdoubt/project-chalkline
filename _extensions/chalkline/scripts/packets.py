@@ -298,6 +298,19 @@ def main():
                               ["index.qmd"] + parts)
             jobs.insert(0, (cfg, cover([], all_chapters), out_dir / name(YEAR_PACKET), all_extra,  # longest first
                             build_cache.key("packets", [d for p in packets for d in sources(p)], name(YEAR_PACKET))))
+    # Teacher site: the guide's example units get their own packets (not in the year packet)
+    if teacher and not unit:
+        from catalog import load_example_packets
+        for is_teacher, name in editions:
+            label = "Teacher edition · with answer keys" if is_teacher else "Student copy"
+            for p in load_example_packets():
+                if "--stale" in sys.argv and not is_stale(p, out_dir, name):
+                    continue
+                paths, extra_files = chapter_files(p["chapters"])
+                jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
+                             cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"]))),
+                             out_dir / name(p["pdf"]), extra_files,
+                             build_cache.key("packets", sources(p), name(p["pdf"]))))
     # Teacher site: student copies of the printables (of one unit with --unit; only out-of-date ones with --stale)
     copies = []
     if teacher:
