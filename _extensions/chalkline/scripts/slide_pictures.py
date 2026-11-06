@@ -141,7 +141,8 @@ def main():
         info = folder / "slides.json"
         if "--stale" in sys.argv and info.exists() and info.stat().st_mtime >= html.stat().st_mtime:
             continue
-        k = build_cache.key("slide-pictures", [src.parent], "teacher" if teacher else "student")
+        k = build_cache.key("slide-pictures", [src if src.parent == ROOT / "course" else src.parent],   # a deck right in course/: just itself
+                             ("teacher" if teacher else "student") + ":" + rel.as_posix())
         if build_cache.restore("slide-pictures", k, folder):
             reused += 1
             continue

@@ -142,7 +142,8 @@ def main():
             continue   # not built in this site (the student site leaves teacher-only decks out)
         if "--stale" in sys.argv and pdf.exists() and pdf.stat().st_mtime >= html.stat().st_mtime:
             continue
-        k = build_cache.key("slides-pdf", [src.parent], "teacher" if teacher else "student")
+        k = build_cache.key("slides-pdf", [src if src.parent == ROOT / "course" else src.parent],   # a deck right in course/: just itself
+                             ("teacher" if teacher else "student") + ":" + rel.as_posix())
         if build_cache.restore("slides-pdf", k, pdf):
             reused += 1
             continue
