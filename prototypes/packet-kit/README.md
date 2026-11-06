@@ -7,6 +7,7 @@ Print themes and page layouts for packets, written straight in Typst (no Quarto 
 
 - `kit.typ`: the themes and the pieces.
 - `mini-packet.typ`: a 24-page sample packet (Unit 2, Ancient Rome) that uses every layout.
+- `organizers.typ`: graphic organizers (KWL, Venn, Frayer, causes and effects, process flow, concept web, main idea as a temple).
 - `pages/`: worksheets shared by the packet and the loose sheets: the feature spread, the vocab hunt with recall, and the two-step equations.
 - `sheets/`: the same three as loose sheets.
 
@@ -54,6 +55,34 @@ Three, echoing the slide schemes, all print-safe. Paper stays white. Colour goes
 | `back-cover(school, credits)` | The last page: the school and the picture credits. |
 | `spread-start()` | The next page is a left-hand page. If that leaves an empty page, Typst adds it and it's drawn as a Notes page. |
 | `finish-booklet(back)` | Pads with Notes pages, then puts the back cover on the very last page, so the page count is a multiple of 4. |
+
+## Graphic organizers
+
+Each has the same small details, so generated pages still look thought through:
+- a "Use this to …" line;
+- the language students need, printed where they use it (signal words, question starters, compare frames);
+- a faint grey worked example in the first space, showing the size and kind of answer;
+- a "So what?" box that turns the organizer into a sentence or two.
+
+| Organizer | What it is |
+|---|---|
+| `kwl(topic, …)` | K and W marked "before reading", L "after reading". Big faint letters, starters in each column, a "Where?" column (page and ¶) for evidence, and "surprised me" and "still wondering" boxes. |
+| `venn(a, b, …)` | Lined, lightly tinted circles; the overlap shows darker. Compare frames, and "So what?". |
+| `frayer(id)` | The word and its 中文 from the vocab list, in the middle of four boxes (definition in your own words, facts, examples ✓, non-examples ✗). Two to a page. |
+| `cause-effect(event, …)` | Three causes, the event, three effects, with signal words and arrows. |
+| `flow(…)` | Six steps in a snake: a sketch box and lines in each, with order words. |
+| `web(topic, branches)` | Six groups around the topic, each with two dotted detail bubbles. |
+| `temple(…)` | Main idea and details as a Roman temple: the roof holds the main idea, the columns the details, the base the conclusion. |
+
+## The teacher edition (answer keys)
+
+`--input edition=teacher` builds the same packet with the answers written in, in red handwriting, where students write theirs, plus a TEACHER EDITION tab in the header. The answers are drawn on top of the student page, so nothing moves: the teacher's page 11 is the student's page 11. Pieces that take answers:
+- `vocab-hunt`: a fourth item per entry;
+- `recall`: (question, answer) pairs;
+- `sequence(order:)`;
+- `problems`: (problem, answer, working);
+- `answer-lines(answer:)`;
+- `key-here(body)` puts an answer anywhere.
 
 ## Settings
 

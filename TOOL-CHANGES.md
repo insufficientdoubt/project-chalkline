@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Packet kit: graphic organizers, a KWL, and a teacher edition with the answers filled in
+- **Asked for:** "Add some graphic organizers. Plus a KWL ... we don't want the simplest layouts ... part of the goal of this packet is to make generated content not look like it was just spat out by a context-free ai, so there should be some thoughtfulness and details built into these templates." And: "How hard is it to build the answer key so it actually fills in the packet?"
+- **Why:** organizers are in almost every packet. An answer key that matches the student pages page for page is easier to mark with than answer pages at the back.
+- **Changed:** new `prototypes/packet-kit/organizers.typ`: `kwl`, `venn`, `frayer`, `cause-effect`, `flow`, `web`, `temple` (main idea and details), each with a "use this to" line, the language to use, a faint worked example, and a "So what?" box. `kit.typ`: the teacher edition (`--input edition=teacher`): answers drawn in red handwriting over the student page without moving it, a TEACHER EDITION tab; `vocab-hunt`, `recall`, `sequence`, `problems` and `answer-lines` take answers; `key-here` for anything else. `pages/words-hunt.typ` and `pages/two-step.typ` carry their answers. `mini-packet.typ`: the KWL before the Colosseum reading and a "Thinking tools" subunit (32 pages). `build.py` also builds `mini-packet-sky-teacher.pdf`. `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Packet kit: loose sheets come back, as single worksheets from the same files
 - **Asked for:** "If we're using one shared typst layout thing... Then yes we do need to support loose sheets. Because they will never print the whole packet that way but they may print individual worksheets that way. For example if some content is added to the unit after if the original packets have been printed."
 - **Why:** one design for both: the whole packet as an A3 folded booklet, and any single worksheet printed on its own.

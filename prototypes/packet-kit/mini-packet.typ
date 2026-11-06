@@ -1,6 +1,7 @@
 // A mini packet to test the kit: every layout, in one theme. Build all three:
 //   python prototypes/packet-kit/build.py
 #import "kit.typ": *
+#import "organizers.typ": *
 #let theme = sys.inputs.at("theme", default: "sky")
 #let img(name) = "/_extensions/chalkline/guide/images/units/" + name
 // a paragraph number, so questions can point to "¶3" (page positions move when the layout changes)
@@ -105,6 +106,9 @@
 
 // ---------------------------------------------------------------- a reading with questions in the lower right
 #subunit("2.3", "Buildings")
+#titled("Before you read: KWL", sub: "The Colosseum")
+#kwl([The Colosseum], k-example: [It is in Rome.], w-example: [How many people could sit inside?], l-example: [Up to 50,000 people.], where-example: [p.13 ¶1])
+#pagebreak()
 #titled("The Colosseum", sub: "Read the text. Then answer the questions in the box.")
 #reading-page(beside: context {
   let t = TH.get()
@@ -217,6 +221,36 @@
 }
 #timeline-part(-150, 500, first: false, height: 110mm)
 
+#pagebreak()
+
+// ---------------------------------------------------------------- graphic organizers
+#subunit("2.6", "Thinking tools")
+#titled("Compare: Greek and Roman cities", sub: "Use what you know from Unit 1 (Greece) and this unit.")
+#venn("Greek cities", "Roman cities", a-example: [city-states, each with its own rules], both-example: [temples and theatres], b-example: [one empire, roads join the cities],
+  prompt: [Which difference matters most? Why? Use a compare word from the top of the page.])
+#pagebreak()
+#titled("Word study: Frayer models", sub: "Two key words. Fill the four boxes around each word.")
+#frayer("ROM-011")
+#v(5mm)
+#frayer("ROM-001")
+#pagebreak()
+#titled("Word study: Frayer models", sub: "Two more key words.")
+#frayer("ROM-004")
+#v(5mm)
+#frayer("ROM-012")
+#pagebreak()
+#titled("Causes and effects", sub: "Why did Rome build aqueducts? What happened because of them?")
+#cause-effect([Rome builds aqueducts], cause-example: [The city grew to a million people.], effect-example: [Public fountains on every street.],
+  prompt: [Which effect was the most important for ordinary people? Explain with "because".])
+#pagebreak()
+#titled("A process: water for a city", sub: "From the spring in the hills to a fountain in Rome, in six steps.")
+#flow(example: [Find a spring high in the hills.], prompt: [Which step was the hardest for the engineers? Why?])
+#pagebreak()
+#titled("Concept web: Roman engineering", sub: "Six groups. Add two details to each, from the readings.")
+#web([Roman engineering], ("roads", "water", "buildings", "tools", "people", "problems"), example: [Via Appia])
+#pagebreak()
+#titled("Main idea and details", sub: [Use the reading "Roads that held an empire" (pages 6–7).])
+#temple(main-example: [Roads held the empire together.], detail-example: [Soldiers could march 30 km a day.])
 #pagebreak()
 
 // ---------------------------------------------------------------- review, then Notes and the back cover (to a multiple of 4 pages)

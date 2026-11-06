@@ -31,6 +31,13 @@
 // "booklet": the whole packet, A3 folded (facing pages, padding, a back cover).
 // "sheet": one worksheet printed on its own, A4 (no facing pages, no padding; a spread is put on one A3 page).
 #let MODE = state("chalkline-mode", "booklet")
+// The teacher edition: the same pages with the answers written in (red, handwriting), placed over the
+// student page so nothing moves: the teacher's page 11 is the student's page 11. --input edition=teacher
+#let TEACHER = sys.inputs.at("edition", default: "student") == "teacher"
+#let KEY = rgb("#c8372d")
+#let key(body, size: 12.5pt) = text(font: ("Patrick Hand", "Noto Sans SC"), size: size, fill: KEY, body)
+// an answer that takes no space: in the student edition nothing, in the teacher edition drawn at this spot
+#let key-here(body, dx: 0pt, dy: 0pt, size: 12.5pt) = if TEACHER { box(width: 0pt, height: 0pt, place(dx: dx, dy: dy, box(width: 120mm, key(body, size: size)))) }
 // Units and subunits, for the contents page: unit-start("2", "Ancient Rome"), subunit("2.1", "Water and roads").
 // Every section and page title is an entry under them.
 #let unit-start(number, name) = [#metadata((kind: "unit", number: number, name: name)) <toc-unit>]
@@ -74,9 +81,13 @@
     })
 }
 
-#let answer-lines(n: 2, gap: 8.5mm) = context {
+#let answer-lines(n: 2, gap: 8.5mm, answer: none) = context {
   let t = TH.get()
-  for i in range(n) { v(gap - 1pt); line(length: 100%, stroke: 0.6pt + t.line) }
+  for i in range(n) {
+    v(gap - 1pt)
+    if i == 0 and answer != none and TEACHER { place(dx: 2mm, dy: -gap + 2.2mm, block(width: 100% - 4mm, key(answer))) }
+    line(length: 100%, stroke: 0.6pt + t.line)
+  }
 }
 
 #let name-row() = context {
@@ -188,7 +199,8 @@
       let here-titles = titles.filter(m => m.location().page() == n)
       let before = titles.filter(m => m.location().page() < n)
       let sec = if here-titles.len() > 0 { here-titles.first().value } else if before.len() > 0 { before.last().value } else { "" }
-      grid(columns: (1fr, 1fr), align(left)[#if not odd { name } else { unit }], align(right)[#if odd { sec } else { "" }])
+      let ribbon = if TEACHER { box(fill: KEY, inset: (x: 5pt, y: 2pt), radius: 2pt, text(fill: white, weight: "bold", size: 7pt, "TEACHER EDITION")) }
+      grid(columns: (1fr, auto, 1fr), align(left)[#if not odd { name } else { unit }], ribbon, align(right)[#if odd { sec } else { "" }])
       v(-6pt)
       // On an intentional spread (one started with spread-start), the line runs on to the spine, so the two
       // pages' lines meet in the middle and read as one line across the spread.
@@ -247,11 +259,13 @@
 #let problems(cols: 2, items: (), surface-style: "grid", answer: "x =") = context {
   let t = TH.get()
   let rows = calc.ceil(items.len() / cols)
-  let cell(i, q) = block(width: 100%, height: 100%, radius: t.radius, stroke: t.box-stroke, clip: true, inset: 0pt, {
+  let cell(i, item) = block(width: 100%, height: 100%, radius: t.radius, stroke: t.box-stroke, clip: true, inset: 0pt, {
+    let (q, a, work) = if type(item) == array { (item.at(0), item.at(1), item.at(2, default: none)) } else { (item, none, none) }
     place(block(width: 100%, height: 100%, fill: surface(t, surface-style)))
+    if TEACHER and work != none { place(top + left, dx: 12mm, dy: 15mm, box(width: 100% - 18mm, key(work, size: 12pt))) }
     place(top + left, dx: 7pt, dy: 7pt, box(fill: white, inset: (right: 6pt, bottom: 3pt), [#badge(t, str(i + 1), size: 1.5em) #h(3pt) #text(size: 12.5pt, weight: "bold", q)]))
     place(bottom + right, dx: -7pt, dy: -7pt, box(fill: white, inset: 4pt, stroke: 0.6pt + t.line, radius: calc.min(t.radius, 4pt),
-      [#text(size: 10pt, fill: t.muted, answer) #box(width: 18mm, height: 1em)]))
+      [#text(size: 10pt, fill: t.muted, answer) #box(width: 18mm, height: 1em, if TEACHER and a != none { place(dy: -3pt, key(a, size: 14pt)) })]))
   })
   block(width: 100%, height: 1fr, grid(columns: (1fr,) * cols, rows: (1fr,) * rows, gutter: 5mm,
     ..items.enumerate().map(((i, q)) => cell(i, q))))
@@ -265,25 +279,28 @@
   let tbl(es) = table(columns: (11mm, 1fr, 0.8fr), rows: (auto,) + (row,) * es.len(), inset: (x: 5pt, y: 4pt),
     align: (center + horizon, left + horizon, left + horizon), fill: (_, y) => if y == 0 { t.tint } else { none },
     table.header(..("Where", "Clue", "Word").map(h => text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, h))),
-    ..es.map(e => (text(size: 9pt, fill: t.muted, e.at(0)), text(size: 9.5pt)[#if e.at(1) != none [*#e.at(1)* #h(2pt)]#e.at(2)], [])).flatten())
+    ..es.map(e => (text(size: 9pt, fill: t.muted, e.at(0)), text(size: 9.5pt)[#if e.at(1) != none [*#e.at(1)* #h(2pt)]#e.at(2)],
+      if TEACHER and e.len() > 3 { key(e.at(3), size: 13.5pt) } else { [] })).flatten())
   grid(columns: (1fr, 1fr), column-gutter: 5mm, tbl(entries.slice(0, half)), tbl(entries.slice(half)))
 }
 
 // Questions answered in full sentences: two lines each, so there's room for one.
 #let recall(questions, lines: 2) = context {
   let t = TH.get()
-  for (i, q) in questions.enumerate() {
-    block(breakable: false, below: 4mm)[#text(weight: "bold", fill: t.head, str(i + 1) + ".") #h(3pt) #q #answer-lines(n: lines)]
+  for (i, item) in questions.enumerate() {
+    let (q, a) = if type(item) == array { (item.at(0), item.at(1)) } else { (item, none) }
+    block(breakable: false, below: 4mm)[#text(weight: "bold", fill: t.head, str(i + 1) + ".") #h(3pt) #q #answer-lines(n: lines, answer: a)]
   }
 }
 
 // Put events in order: a box to write the number, then the event.
-#let sequence(events) = context {
+#let sequence(events, order: none) = context {
   let t = TH.get()
   table(columns: (17mm, 1fr), rows: (auto,) + (10mm,) * events.len(), inset: (x: 7pt, y: 4pt), align: (center + horizon, left + horizon),
     fill: (_, y) => if y == 0 { t.tint } else { none },
     table.header(text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, "Order"), text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, "Event")),
-    ..events.map(e => (box(width: 9mm, height: 7mm, stroke: 0.8pt + t.line, radius: calc.min(t.radius, 3pt)), e)).flatten())
+    ..events.enumerate().map(((i, e)) => (box(width: 9mm, height: 7mm, stroke: 0.8pt + t.line, radius: calc.min(t.radius, 3pt),
+      if TEACHER and order != none { align(center + horizon, key(str(order.at(i)), size: 14pt)) }), e)).flatten())
 }
 
 // A reading in two columns across the top; the lower half split: `beside` on the left (a picture, a word
@@ -589,7 +606,8 @@
   set page(paper: "a4", margin: (x: 17.5mm, top: PAGE.top, bottom: PAGE.bottom),
     header: context {
       set text(size: 8pt, fill: t.muted, font: t.label-font)
-      grid(columns: (1fr, 1fr), align(left, unit), align(right, title))
+      let ribbon = if TEACHER { box(fill: KEY, inset: (x: 5pt, y: 2pt), radius: 2pt, text(fill: white, weight: "bold", size: 7pt, "TEACHER EDITION")) }
+      grid(columns: (1fr, auto, 1fr), align(left, unit), ribbon, align(right, title))
       v(-6pt); line(length: 100%, stroke: if t.rule == "zigzag" { (paint: t.line, thickness: 0.6pt, dash: "dashed") } else { 0.6pt + t.faint })
     },
     footer: context {
