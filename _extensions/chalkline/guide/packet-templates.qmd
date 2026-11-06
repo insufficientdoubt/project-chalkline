@@ -1,0 +1,75 @@
+---
+title: "Packet Templates"
+type: reference
+description: "Page layouts for unit packets, printed on A3 and folded: three print themes, a teacher edition with the answers filled in, and loose sheets. Every page, and what it can be used for."
+order: 5
+audience: [teacher]
+format: html
+---
+
+Packets are printed on **A3 and folded** into a booklet of A4 pages. These samples show every page layout Chalkline has for them, in three print themes. Pick the closest page, then copy its piece (the names in *Made of* below) from `_extensions/chalkline/typst/packet/`. The kit's README explains each piece.
+
+::: {.callout-note title="A first version"}
+The page layouts are ready to look at and to copy from. Writing a packet page straight from a unit's `.qmd` file comes next. Until then, a packet page is a short Typst file, like the samples in `guide/packet/`.
+:::
+
+## How a packet works
+
+- **One design, two ways to print.** The whole packet is an A3 booklet: facing pages, and Notes pages added at the end so the page count is a multiple of 4. Any single worksheet can also be printed on its own (a *loose sheet*): A4, with a name line, "Page 1 of 2" and "Goes with packet page 15". A two-page spread becomes one A3 page.
+- **Spreads.** A page can start a spread: it always lands on a left-hand page. If that would leave an empty page, it becomes a Notes page.
+- **The teacher edition** is the same packet with the answers written in, in red handwriting, where students write theirs. Nothing moves, so the teacher's page 11 is the student's page 11.
+- **Themes for paper.** Sky, Trail and Blueprint (Night, for paper) put colour only in lines and small marks, so they still look right on the school's black-and-white copier. Print the **printer check** once, photocopy it, and see what survives.
+- **Words and language come from the lists.** Key word cards, Frayer models, glosses and language pages read `vocab/data/vocab.csv` and `frames.csv`, so they always match the vocab list.
+
+## Every page, and what it's for
+
+The notes come from each page itself: every page in the samples carries a hidden note with its name, its uses and its pieces. They aren't printed; the build reads them.
+
+<div id="packet-catalog"><p><em>The list of pages appears here after a full render of the teacher site.</em></p></div>
+
+```{=html}
+<style>
+#packet-catalog table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+#packet-catalog th, #packet-catalog td { text-align: left; vertical-align: top; padding: 0.4rem 0.5rem; border-bottom: 1px solid #e3e8ef; }
+#packet-catalog th { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: #52606d; }
+#packet-catalog .pk-name { font-weight: 700; color: #003477; white-space: nowrap; }
+#packet-catalog .pk-uses { margin: 0; padding-left: 1.1rem; }
+#packet-catalog code { font-size: 0.8rem; }
+#packet-catalog .pk-sample { color: #52606d; font-size: 0.82rem; }
+</style>
+<script>
+fetch("packet/packet-templates.json").then(r => r.ok ? r.json() : null).then(rows => {
+  if (!rows || !rows.length) return;
+  const name = { "rome-sky.pdf": "Rome sample", "mesopotamia-trail.pdf": "Mesopotamia sample" };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  let html = "<table><thead><tr><th>Page</th><th>Use it for</th><th>Made of</th></tr></thead><tbody>";
+  for (const r of rows) {
+    html += "<tr><td><span class='pk-name'>" + esc(r.name) + "</span><br><a class='pk-sample' href='packet/" + esc(r.pdf) + "#page=" + r.page + "' target='_blank'>" +
+      esc(name[r.pdf] || r.pdf) + ", page " + r.page + "</a></td><td><ul class='pk-uses'>" +
+      (r.uses || []).map(u => "<li>" + esc(u) + "</li>").join("") + "</ul></td><td>" +
+      (r.pieces || []).map(p => "<code>" + esc(p) + "</code>").join(" ") + "</td></tr>";
+  }
+  document.getElementById("packet-catalog").innerHTML = html + "</tbody></table>";
+}).catch(() => {});
+</script>
+```
+
+## The Rome sample (32 pages)
+
+Unit 2, Ancient Rome: title page and contents, a magazine spread, a glossed reading spread, key words, the language page, a vocabulary hunt, a KWL, a reading with a questions box, a landscape chart, math in two and three columns, a reference and design spread, a timeline across a spread, the graphic organizers and a self-check.
+
+{{< pdf-viewer "packet/rome-sky.pdf" layout="gallery" title="Rome sample · Sky" >}}
+
+**The same packet, other themes:** [Trail](packet/rome-trail.pdf) · [Blueprint](packet/rome-blueprint.pdf) · [Teacher edition (Sky)](packet/rome-sky-teacher.pdf)
+
+## The Mesopotamia sample (12 pages)
+
+Rebuilt from a teacher's own worksheets: a source dossier spread (real museum photos with numbered markers), two source investigations, a design-your-own-artifact challenge, and a formative assessment with marks, a rubric and a paragraph planner.
+
+{{< pdf-viewer "packet/mesopotamia-trail.pdf" layout="gallery" title="Mesopotamia sample · Trail" >}}
+
+**Other themes:** [Sky](packet/mesopotamia-sky.pdf) · [Blueprint](packet/mesopotamia-blueprint.pdf) · [Teacher edition (Trail)](packet/mesopotamia-trail-teacher.pdf)
+
+## Loose sheets and the printer check
+
+The same pages, printed on their own: [the feature spread on one A3 page](packet/sheet-feature-sky.pdf) · [vocabulary hunt and recall](packet/sheet-words-sky.pdf) · [two-step equations](packet/sheet-two-step-sky.pdf) · [**printer check**](packet/printer-test.pdf) (one page per theme: print it, photocopy the print, tick what still shows).

@@ -16,6 +16,77 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: The packet kit moves into Chalkline: a Packet Templates page in the guide
+- **Asked for:** "Okay I'm sold. Put the remaining worksheets on the ideas list and implement what we have already into chalk line. It goes in the guide. If you can have hidden metadata on the pages - make sure they're annotated with potential uses."
+- **Why:** to settle the packet design before teachers start writing packets.
+- **Changed:**
+  - `prototypes/packet-kit/` is gone. The kit (`kit.typ`, `organizers.typ`, `history.typ`, README) is now `_extensions/chalkline/typst/packet/`, imported by a path the build passes, so it works wherever Chalkline is installed.
+  - Its word and language lists (`vocab`, `frames`, `vocab-images`) are inputs: a course's own by default, the guide's own for the samples.
+  - New `about()`: a hidden note on each page (name, uses, pieces, page).
+  - The samples (Rome, 32 pages; Mesopotamia, 12 pages; three loose sheets; the printer check) are in `guide/packet/`, using the guide's own data (`GD-` ids), with every page annotated. The Hammurabi stele and the Burney Relief photos are in `guide/images/units/` (credited).
+  - New `scripts/packet_kit.py` (post-render, teacher site, full renders; `python chalkline.py packet-kit` by hand) builds them in three themes plus teacher editions, puts loose sheets' spreads on A3, caches with `build_cache`, and writes `packet-templates.json` from the notes.
+  - New guide page `guide/packet-templates.qmd`: how packets work, a table of every page and its uses (from the JSON), and galleries of both samples. `guide/printables.qmd` points to it.
+  - `_extension.yml`: the new post-render script.
+  - `IDEAS.md`: "Packet templates: next steps" (writing packet pages from `.qmd`, the remaining page types, the rest of the Mesopotamia dossier, the printer check).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Packet kit: a bigger Venn diagram, on a diagonal
+- **Asked for:** "I still don't like that Venn diagram. Try another layout to give it more space. Maybe we put this so what in the bottom right and the other instructions in the top left? Comparison sentence starters along the bottom in a line?"
+- **Why:** more room to write in the diagram.
+- **Changed:** `prototypes/packet-kit/organizers.typ`: `venn-landscape` is now two large ellipses (176 × 132 mm each) across the whole landscape page, set on a diagonal, which leaves the top-left corner for the title and what to do and the bottom-right for "So what?". The compare starters are one line along the foot. The ellipses' writing lines line up where they overlap. The PDFs in `out/` rebuilt.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Packet kit: landscape KWL and Venn, a narrower event, and a colleague's Mesopotamia worksheets rebuilt
+- **Asked for:** "Make the Venn diagram and the KWL into horizontal layouts. Move the instructions to the side of the page so that there is more room for the diagram ... For the causes and effects- make the event narrower and put its text horizontal ... I've also just got in a couple of examples from another teacher please build improved versions of these types of worksheets."
+- **Why:** more room to write in the organizers; and to test the kit on real worksheets (a source dossier, an artifact investigation with a design challenge, a formative assessment with a rubric).
+- **Changed:** `prototypes/packet-kit/organizers.typ`: `side-page`, `kwl-landscape` and `venn-landscape` (instructions, language and "So what?" in a side column); the cause-and-effect event is a 30 mm column with horizontal text. New `history.typ` (`source-card` with an at-a-glance strip, photo crops with numbered markers and matching notes, context, quote and citation; `investigation` with a source picker, sketch box, marker numbers and "how sure are you?"; `design-artifact`; `assessment-head`, `short-answer` with marks, `command-term`, `rubric`, `paragraph-chain`, `writing-lines` with a sentence counter) and `mesopotamia.typ` (a 12-page booklet with them). `images/`: the Code of Hammurabi (Mbzt, CC BY 3.0) and the Burney Relief (British Museum, CC0) from Wikimedia Commons. `build.py` builds it in three themes and a teacher edition.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Packet kit: graphic organizers, a KWL, and a teacher edition with the answers filled in
+- **Asked for:** "Add some graphic organizers. Plus a KWL ... we don't want the simplest layouts ... part of the goal of this packet is to make generated content not look like it was just spat out by a context-free ai, so there should be some thoughtfulness and details built into these templates." And: "How hard is it to build the answer key so it actually fills in the packet?"
+- **Why:** organizers are in almost every packet. An answer key that matches the student pages page for page is easier to mark with than answer pages at the back.
+- **Changed:** new `prototypes/packet-kit/organizers.typ`: `kwl`, `venn`, `frayer`, `cause-effect`, `flow`, `web`, `temple` (main idea and details), each with a "use this to" line, the language to use, a faint worked example, and a "So what?" box. `kit.typ`: the teacher edition (`--input edition=teacher`): answers drawn in red handwriting over the student page without moving it, a TEACHER EDITION tab; `vocab-hunt`, `recall`, `sequence`, `problems` and `answer-lines` take answers; `key-here` for anything else. `pages/words-hunt.typ` and `pages/two-step.typ` carry their answers. `mini-packet.typ`: the KWL before the Colosseum reading and a "Thinking tools" subunit (32 pages). `build.py` also builds `mini-packet-sky-teacher.pdf`. `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Packet kit: loose sheets come back, as single worksheets from the same files
+- **Asked for:** "If we're using one shared typst layout thing... Then yes we do need to support loose sheets. Because they will never print the whole packet that way but they may print individual worksheets that way. For example if some content is added to the unit after if the original packets have been printed."
+- **Why:** one design for both: the whole packet as an A3 folded booklet, and any single worksheet printed on its own.
+- **Changed:** `prototypes/packet-kit/kit.typ`: a mode (booklet or sheet); `worksheet()` (A4, equal margins, Name / Class / Date, "Page 1 of 2", "Goes with packet page …"); in sheet mode, spreads don't force a left-hand page, glosses go in the right margin, no padding or back cover, the feature spread's halves and binding follow where it starts; spreads record their start page. New `pages/` (three worksheets the packet and the sheets share) and `sheets/` (the three as loose sheets). `build.py`: builds the sheets in every theme and puts a spread on one A3 landscape page (`impose()`, from Typst's `<spread-page>` markers, with pypdf). `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Packet kit: A3 folded booklets only; title page, contents by unit and subunit, vocab and language pages
+- **Asked for:** "the teachers are going to always print on a3 and fold, so that's going to be our Target. Let's add a title page that includes the course name, unit name, teacher name. Maybe optional hero image or decoration ... for the index ... the option of breaking it down by unit and subunit. We're also going to need two column vocabulary/language pages. With and without reference images versions."
+- **Why:** to settle the packet design before teachers start writing.
+- **Changed:** `prototypes/packet-kit/kit.typ`: the loose-sheet setting removed (A3 folded only); `title-page` (course, unit, teacher, school, year, logo placeholder, hero picture / placeholder / theme decoration); `unit-start`, `subunit` and `contents(depth)` (built from markers and page titles, with page numbers); `vocab-page` (two columns from vocab.csv, with or without pictures); `language-page` (two balanced columns from frames.csv); `self-check`; `back-cover`; `finish-booklet(back)` puts the back cover on the last page; no header or footer on the covers. `mini-packet.typ`: rebuilt as a 24-page Unit 2 packet with all of these. `build.py`, `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Packet kit: the header line runs across both pages of a spread
+- **Asked for:** "Make the top line go across the whole spread with all of the intentionally facing pages."
+- **Why:** so facing pages read as one design.
+- **Changed:** `prototypes/packet-kit/kit.typ`: on pages started with `spread-start()`, the running header's line continues to the spine (the left page's to its right edge, the right page's from its left edge), so the two lines meet; other pages keep the usual line. The PDFs in `out/` rebuilt.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Packet kit prototype, round 2: a magazine spread, a landscape page, vocab glosses, booklet or loose sheets, a printer check
+- **Asked for:** "something a bit more impressive on the two page spreads. Create a longer reading passage with pictures embedded and a content box that crosses the center line ... go ahead and make the changes that you recommended after the first round of testing. Also add a page that's rotated 90° with a landscape worksheet."
+- **Why:** to settle the packet design before teachers start writing ("they haven't started writing yet ... they're designing for that format first").
+- **Changed:** `prototypes/packet-kit/kit.typ`: `feature-spread` (panorama across the spine, two flowing columns, floating column pictures, pull quote, a reflection box across both pages with a badge on the fold), `landscape`, `vgloss` (glosses from `vocab/data/vocab.csv`), a `booklet=false` setting for loose sheets, running headers that read their own page's section. `mini-packet.typ`: the feature spread, the landscape page, paragraph numbers in both readings, two vocab-list glosses. New `printer-test.typ` (one page per theme to print and photocopy). `build.py` also builds the loose version and the printer check. `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
+## 2026-11-06: A packet kit prototype: print themes and page layouts (a capabilities test)
+- **Asked for:** "Build two column and three column work layouts for solving algebra problems ... Also build these English pages ... a reading page with questions in a box in the lower right hand quadrant ... 2 page spread 1: reference on the left design on the right ... choose three themes from chalk line and build typst themes to echo them ... a long timeline spread ... a long reading passage with images and glossing at the margins ... render a mini packet in three different styles. This is just a capabilities test at this point."
+- **Why:** to find out what the PDF side can do (themes like the slides, room to write, two-page spreads) before building it into Chalkline.
+- **Changed:** new `prototypes/packet-kit/` (not used by the site): `kit.typ` (three print themes, Sky, Trail and Blueprint, and the pieces: work spaces, 2- and 3-column problem grids, vocab hunt, recall, sequence, reading page with the questions box in the lower right, margin glosses, angle reference drawings, a timeline across a spread, spread-start with Notes pages, booklet padding), `mini-packet.typ` (a 16-page sample), `build.py`, `sheets.py`, `README.md` (what worked and what didn't), and the built PDFs and contact sheets in `out/`.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The publish step reuses slide PDFs, slide pictures and packets that didn't change
 - **Asked for:** "build times - I've noticed they've been getting longer. ... If I just want to add a deck or something it should still be fast?" Then, about packets: "Won't packet PDFs eventually become a problem if those get more complex?" and "Yes" to remembering them between builds.
 - **Why:** every push rebuilt everything on a fresh machine. On the 5 November publish the build took 3 m 20 s: pages 80 s, slide pictures 49 s, slide PDFs 42 s, packets 27 s. Each printable is rendered about five times (the site, its unit packet twice, the year packet twice), so packets grow with every printable.
