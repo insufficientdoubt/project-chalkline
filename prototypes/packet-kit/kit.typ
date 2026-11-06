@@ -179,9 +179,15 @@
       let sec = if here-titles.len() > 0 { here-titles.first().value } else if before.len() > 0 { before.last().value } else { "" }
       grid(columns: (1fr, 1fr), align(left)[#if not odd { name } else { unit }], align(right)[#if odd { sec } else { "" }])
       v(-6pt)
-      if t.rule == "zigzag" { line(length: 100%, stroke: (paint: t.line, thickness: 0.6pt, dash: "dashed")) }
-      else if t.rule == "double" { line(length: 100%, stroke: 0.4pt + t.head) }
-      else { line(length: 100%, stroke: 0.6pt + t.faint) }
+      // On an intentional spread (one started with spread-start), the line runs on to the spine, so the two
+      // pages' lines meet in the middle and read as one line across the spread.
+      let starts = query(<spread>).map(m => m.location().page())
+      let spread-left = starts.contains(n)
+      let spread-right = starts.contains(n - 1)
+      let st = if t.rule == "zigzag" { (paint: t.line, thickness: 0.6pt, dash: "dashed") } else if t.rule == "double" { 0.4pt + t.head } else { 0.6pt + t.faint }
+      if spread-left { line(length: 100% + PAGE.inside, stroke: st) }
+      else if spread-right { move(dx: -PAGE.inside, line(length: 100% + PAGE.inside, stroke: st)) }
+      else { line(length: 100%, stroke: st) }
     },
     footer: context {
       let n = here().page()

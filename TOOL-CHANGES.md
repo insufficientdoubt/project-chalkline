@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Packet kit: the header line runs across both pages of a spread
+- **Asked for:** "Make the top line go across the whole spread with all of the intentionally facing pages."
+- **Why:** so facing pages read as one design.
+- **Changed:** `prototypes/packet-kit/kit.typ`: on pages started with `spread-start()`, the running header's line continues to the spine (the left page's to its right edge, the right page's from its left edge), so the two lines meet; other pages keep the usual line. The PDFs in `out/` rebuilt.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Packet kit prototype, round 2: a magazine spread, a landscape page, vocab glosses, booklet or loose sheets, a printer check
 - **Asked for:** "something a bit more impressive on the two page spreads. Create a longer reading passage with pictures embedded and a content box that crosses the center line ... go ahead and make the changes that you recommended after the first round of testing. Also add a page that's rotated 90° with a landscape worksheet."
 - **Why:** to settle the packet design before teachers start writing ("they haven't started writing yet ... they're designing for that format first").
