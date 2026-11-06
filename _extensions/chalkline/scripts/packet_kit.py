@@ -82,26 +82,25 @@ def query(src, label, extra):
 
 
 def impose(src, pdf, extra):
-    """A loose sheet: put each spread (two A4 pages) side by side on one A3 landscape page."""
-    from pypdf import PageObject, PdfReader, PdfWriter, Transformation
+    """A loose sheet: put each spread (two A4 pages) side by side on one A3 landscape page (pymupdf)."""
+    import fitz
     starts = set(query(src, "<spread-page>", extra))
     if not starts:
         return
-    reader, writer = PdfReader(str(pdf)), PdfWriter()
+    doc, out = fitz.open(str(pdf)), fitz.open()
     i = 0
-    while i < len(reader.pages):
-        page = reader.pages[i]
-        if (i + 1) in starts and i + 1 < len(reader.pages):
-            w, h = float(page.mediabox.width), float(page.mediabox.height)
-            a3 = PageObject.create_blank_page(width=2 * w, height=h)
-            a3.merge_transformed_page(page, Transformation())
-            a3.merge_transformed_page(reader.pages[i + 1], Transformation().translate(tx=w, ty=0))
-            writer.add_page(a3)
+    while i < doc.page_count:
+        w, h = doc[i].rect.width, doc[i].rect.height
+        if (i + 1) in starts and i + 1 < doc.page_count:
+            page = out.new_page(width=2 * w, height=h)
+            page.show_pdf_page(fitz.Rect(0, 0, w, h), doc, i)
+            page.show_pdf_page(fitz.Rect(w, 0, 2 * w, h), doc, i + 1)
             i += 2
         else:
-            writer.add_page(page)
+            out.insert_pdf(doc, from_page=i, to_page=i)
             i += 1
-    writer.write(str(pdf))
+    doc.close()
+    out.save(str(pdf))
 
 
 def main():
