@@ -1,9 +1,10 @@
 <!--
-  This deck's own style picker (an experiment, not part of Chalkline): a palette button next to the
-  language switch opens a small panel to try Chalkline's colour schemes (styles/schemes.scss) and this
-  deck's looks (slide-kit-looks.css) on this slide or every slide. It only changes classes on the
-  slides, the same ones you'd write in the file: {.scheme-night .look-game}. Nothing is saved;
-  reload to undo, or press Reset. Loaded by `include-after-body:` in the deck's labels.
+  The palette: a button next to the language switch (top right) opens a small panel to try the colour
+  schemes (Chalkline's, styles/schemes.scss, and the course's own in brand/themes/ or any .scheme-x rule)
+  and looks (.look-x rules a deck's CSS has, like the guide's slide-kit-looks.css) on this slide or every
+  slide. It only changes classes on the slides, the same ones you'd write in the file: {.scheme-night}.
+  Nothing is saved; reload to undo, or press Reset. Copy gives the classes to paste onto a slide's title.
+  On every deck in the teacher site (filter.lua); turn it off for a deck, or the course, with `palette: false`.
 -->
 <style>
   /* the palette sits where the language switch was; the switch moves left to make room */
@@ -42,11 +43,11 @@
 </style>
 <script>
 (function () {
-  if (/[?&](print-pdf|receiver)/.test(location.search) || !window.Reveal) return;
+  if (/[?&](print-pdf|receiver)/.test(location.search) || !window.Reveal || document.querySelector(".kit-style")) return;
 
   var SCHEMES = [["", "Default", "#ffffff"], ["night", "Night", "#0b1630"], ["sky", "Sky", "#ebf7fd"],
-                 ["lagoon", "Lagoon", "#14d7cd"], ["sunrise", "Sunrise", "#ffe9d3"],
-                 ["trail", "Trail", "#d9c9b2"], ["glass", "Glass", "#1f6fd6"]];   // trail and glass: this deck's own schemes (slide-kit-looks.css)
+                 ["lagoon", "Lagoon", "#14d7cd"], ["sunrise", "Sunrise", "#ffe9d3"]];
+  var SWATCH = { trail: "#d9c9b2", glass: "#1f6fd6" };   // the guide's own schemes (slide-kit-looks.css), when a deck has them
   // and the course's own schemes (a .scheme-x rule in its stylesheets, e.g. brand/revealjs.scss), after those
   (function () {
     var known = SCHEMES.map(function (c) { return c[0]; }), found = [];
@@ -63,13 +64,24 @@
     found.forEach(function (name) {
       probe.className = "scheme-" + name;
       var st = getComputedStyle(probe);
-      var swatch = st.getPropertyValue("--strong").trim() || st.getPropertyValue("--accent").trim() || "#888";
+      var swatch = SWATCH[name] || st.getPropertyValue("--strong").trim() || st.getPropertyValue("--accent").trim() || "#888";
       SCHEMES.push([name, name.charAt(0).toUpperCase() + name.slice(1), swatch]);
     });
     probe.remove();
   })();
   // game and brutal change shapes and take the colours from the scheme; scroll brings its own colours
-  var LOOKS = [["", "Plain"], ["game", "Game"], ["brutal", "Brutal"], ["scroll", "Scroll"]];
+  // only the looks this deck's CSS has (the guide's: game, brutal, scroll)
+  var LOOKS = [["", "Plain"]];
+  (function () {
+    var found = [];
+    [].forEach.call(document.styleSheets, function (sheet) {
+      var rules; try { rules = sheet.cssRules; } catch (e) { return; }
+      [].forEach.call(rules || [], function (r) {
+        (r.selectorText || "").replace(/\.look-([a-z0-9-]+)/g, function (m, name) { if (found.indexOf(name) < 0) found.push(name); });
+      });
+    });
+    found.forEach(function (n) { LOOKS.push([n, n.charAt(0).toUpperCase() + n.slice(1)]); });
+  })();
   var PALETTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
     '<path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.6 3.2A1.7 1.7 0 0 1 12 22z"/>' +
     '<circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></svg>';
@@ -149,7 +161,7 @@
     var s = Reveal.getCurrentSlide(), scheme = current(s, "scheme-"), look = current(s, "look-");
     panel.textContent = "";
     group("Colours", SCHEMES.map(function (c) { return option(c[1], scheme === c[0], function () { set("scheme-", c[0]); }, c[2]); }));
-    group("Look", LOOKS.map(function (c) { return option(c[1], look === c[0], function () { set("look-", c[0]); }); }));
+    if (LOOKS.length > 1) group("Look", LOOKS.map(function (c) { return option(c[1], look === c[0], function () { set("look-", c[0]); }); }));
     group("Change", [
       option("This slide", !all, function () { all = false; draw(); }),
       option("Every slide", all, function () { all = true; draw(); }),
@@ -186,7 +198,7 @@
     box = document.createElement("div");
     box.className = "kit-style";
     var b = document.createElement("button");
-    b.type = "button"; b.innerHTML = PALETTE; b.title = "Try colours and looks (this deck only)";
+    b.type = "button"; b.innerHTML = PALETTE; b.title = "Try colour schemes (nothing is saved)";
     b.setAttribute("aria-label", b.title); b.setAttribute("aria-expanded", "false");
     b.addEventListener("click", function (e) { e.stopPropagation(); toggle(panel.hidden); });
     panel = document.createElement("div");

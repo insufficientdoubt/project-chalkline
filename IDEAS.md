@@ -39,6 +39,17 @@ Language goals come in different formats, and each needs its own fields and its 
 
 **To decide:** CSV or YAML (frames with several responses are a list inside a list); one folder for all language lists or next to vocab; whether units pick their points in `course/vocab/<unit>.yml` or a new `course/language/<unit>.yml`; how the angles unit's hand-written frames (Activity 3 slide) move to the list as a test.
 
+## Build speed: next steps
+
+Since 2026-11-06 the publish step reuses slide PDFs, slide pictures and packets whose sources didn't change (`scripts/build_cache.py`). What's left:
+
+- **The year packet as an optional build step.** Today it's rebuilt whenever any printable anywhere changes, and it renders every printable in the course twice (teacher and student editions), so it's the part of the packets that keeps growing. It's used very rarely, while unit packets change all the time. The idea:
+  - **Leave it out of normal builds.** Teachers work on unit packets until they're happy, and then ask for the year packet once.
+  - **Show how far behind it is.** The site (the year packet's link, or the teacher home page) says when the year packet was last made and what has changed since: "Year packet: made 3 Nov · 4 printables changed since". The build can work this out from the cache keys, which already record each printable's sources.
+  - **Rebuild it by hand.** A way to ask for it on the next build, for example a "Run workflow" option in the Actions tab (`workflow_dispatch` with a "year packet" switch), a commit message word, or a setting in `_quarto.yml` that the teacher turns on for one build. Locally: `python chalkline.py packets --year`.
+  - **Questions to settle:** what the year packet's link shows while it's out of date (the old PDF, with a note?); whether the student site's copy follows the same rule.
+- **Page rendering** (about 80 s) still redoes every page on every push. Not worth more work until it's several minutes.
+
 ## Packet theming (after v1)
 
 First, after the templates are cleaned up: **better packet layouts** (see "Packet layout templates" under "To do next"). Some packets made by a real teacher came out as long walls of text. Fix that before adding decoration.

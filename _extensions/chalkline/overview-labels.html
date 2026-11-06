@@ -6,33 +6,53 @@
     - its menu title (data-menu-title=), or its title
   And a faint line between the columns, as tall as the longest column, with more room between the
   columns than reveal.js leaves (GAP), and the selected slide outlined.
+  The labels sit in a strip across the top of the screen (not on the slides), each over its column, so
+  they stay readable, in line and on screen however far down or zoomed you are; click one to go there.
   Zoom: reveal.js draws the overview at a fixed size (each slide 1/5 of the screen). Here it starts
-  bigger (OVERVIEW_ZOOM), and + and − change it while the overview is open (remembered in this browser).
+  bigger (OVERVIEW_ZOOM); the − / + bar at the bottom right, or the + and − keys, change it (remembered in
+  this browser). 100% on the bar is the usual size; Reset goes back to it.
   Enter opens the selected slide (reveal.js itself only closes the overview with O, Esc or a click).
   Only in a deck with columns (stacks of slides); a flat deck gets neither.
   Added to every deck by filter.lua; turn off with `overview-labels: false`.
 -->
 <style>
-  .reveal .slides > section > .ov-label { display: none; }
-  .reveal.overview .slides > section > .ov-label {
-    display: block; position: absolute; left: 0; right: 0; bottom: calc(100% + 34px); z-index: 5;
-    padding: 22px 28px; border-radius: 26px; text-align: center; transform: none;
-    background: var(--strong, #003477); color: var(--on-strong, #fff);
-    font: 700 96px/1.12 var(--r-heading-font, "Source Sans 3", sans-serif); letter-spacing: 0.01em;
-    white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    pointer-events: none;
+  /* the labels: a strip across the top of the screen while the overview is open, each label over its column,
+     all the same height and size whatever the zoom, so they stay readable and in line */
+  #ov-heads { position: fixed; left: 0; right: 0; top: 0; height: 74px; z-index: 2147483000;   /* over the clock and the top buttons while the overview is open */ pointer-events: none; display: none;
+    background: linear-gradient(var(--paper, #fff) 70%, transparent); }
+  .reveal.overview ~ #ov-heads, body.ov-open #ov-heads { display: block; }
+  #ov-heads .ov-head {
+    position: absolute; top: 8px; height: 56px; box-sizing: border-box; padding: 4px 12px; border-radius: 12px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden;
+    background: var(--strong, #003477); color: var(--on-strong, #fff); pointer-events: auto; cursor: pointer;
+    font: 700 18px/1.15 var(--r-heading-font, "Source Sans 3", sans-serif); box-shadow: 0 2px 10px rgba(0, 20, 60, 0.18);
+    transition: background 0.2s, color 0.2s;
   }
-  .reveal.overview .slides > section:not(.stack):has(> .ov-label, > .ov-line) { overflow: visible; }
+  #ov-heads .ov-head .ov-en { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  #ov-heads .ov-head.ov-has-zh .ov-en { -webkit-line-clamp: 1; }
+  #ov-heads .ov-head .ov-zh { font-size: 15px; font-weight: 600; opacity: 0.85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  #ov-heads .ov-head.ov-now { background: var(--accent, #14d7cd); color: var(--on-accent, #003477); }
+  #ov-heads .ov-head:hover { filter: brightness(1.12); }
+  /* zoom, and how to use the overview: bottom right while it's open */
+  #ov-bar { position: fixed; right: 16px; bottom: 70px; z-index: 2147483000; display: none; align-items: center; gap: 4px; padding: 5px;
+    border-radius: 999px; background: var(--strong, #003477); color: var(--on-strong, #fff); box-shadow: 0 4px 16px rgba(0, 20, 60, 0.25);
+    font: 600 15px/1 "Source Sans 3", system-ui, sans-serif; }
+  body.ov-open #ov-bar { display: flex; }
+  #ov-bar button { all: unset; cursor: pointer; min-width: 34px; height: 34px; padding: 0 10px; box-sizing: border-box; border-radius: 999px;
+    display: grid; place-items: center; font-size: 15px; }
+  #ov-bar button.ov-big { font-size: 22px; font-weight: 700; padding: 0; }
+  #ov-bar button:hover { background: rgba(255, 255, 255, 0.18); }
+  #ov-bar .ov-pct { min-width: 3.4em; text-align: center; font-variant-numeric: tabular-nums; }
+  #ov-bar .ov-keys { padding: 0 10px 0 6px; opacity: 0.75; font-size: 13px; white-space: nowrap; }
+  @media (max-width: 700px) { #ov-bar .ov-keys { display: none; } }
+  .reveal.overview .slides > section:not(.stack):has(> .ov-line) { overflow: visible; }
   /* the line between columns: in the 70px reveal.js leaves between them, from the label to the longest column's end */
   .reveal .slides > section > .ov-line { display: none; }
   .reveal.overview .slides > section > .ov-line {
-    display: block; position: absolute; top: -330px; right: calc(-35px - var(--ov-gap, 0px) / 2 - 5px); width: 10px; border-radius: 5px; pointer-events: none;
-    height: calc(var(--ov-rows, 1) * (100% + 70px) + 260px);
+    display: block; position: absolute; top: -40px; right: calc(-35px - var(--ov-gap, 0px) / 2 - 5px); width: 10px; border-radius: 5px; pointer-events: none;
+    height: calc(var(--ov-rows, 1) * (100% + 70px) - 30px);
     background: var(--ink, #1f2933); opacity: 0.22;
   }   /* a one-slide column: its label sits above it */
-  .reveal.overview .slides > section.present > .ov-label { background: var(--accent, #14d7cd); color: var(--on-accent, #003477); }
-  .reveal.overview .slides > section > .ov-label .ov-zh { display: block; font-size: 0.7em; font-weight: 600; opacity: 0.85; }
-  html.print-pdf .ov-label { display: none !important; }
   /* the selected slide: a thick outline in the scheme's accent and a glow; the others a little faded */
   .reveal.overview .slides section:not(.stack) { transition: opacity 0.2s; }
   .reveal.overview .slides section:not(.stack):not(.present) { opacity: 0.6 !important; }
@@ -77,17 +97,50 @@
         line.className = "ov-line"; line.setAttribute("aria-hidden", "true");
         col.append(line);
       }
-      if (col.id === "title-slide" || col.querySelector(":scope > .ov-label")) return;
+      if (col.id === "title-slide") return;
       const l = labelFor(col);
       if (!l || !l.en) return;
-      const div = document.createElement("div");
-      div.className = "ov-label";
-      div.setAttribute("aria-hidden", "true");
-      div.textContent = l.en;
-      if (l.zh) { const z = document.createElement("span"); z.className = "ov-zh"; z.textContent = l.zh; div.append(z); }
-      col.prepend(div);
+      const head = document.createElement("div");
+      head.className = "ov-head" + (l.zh ? " ov-has-zh" : "");
+      head.title = l.en + (l.zh ? " · " + l.zh : "");
+      const en = document.createElement("span"); en.className = "ov-en"; en.textContent = l.en; head.append(en);
+      if (l.zh) { const z = document.createElement("span"); z.className = "ov-zh"; z.textContent = l.zh; head.append(z); }
+      head.addEventListener("click", function () { Reveal.slide(i, 0); });   // jump to that column (the overview stays open)
+      heads.append(head); labels.push({ col: col, i: i, el: head });
     });
   }
+  // the strip and the zoom bar live outside the slides, so reveal.js's scaling doesn't shrink them
+  const heads = document.createElement("div"); heads.id = "ov-heads"; heads.setAttribute("aria-hidden", "true");
+  const bar = document.createElement("div"); bar.id = "ov-bar";
+  bar.innerHTML = '<button class="ov-big ov-zoom-out" title="Smaller (−)" aria-label="Smaller">−</button><span class="ov-pct"></span>' +
+    '<button class="ov-big ov-zoom-in" title="Bigger (+)" aria-label="Bigger">+</button><button class="ov-zoom-reset" title="Back to the usual size">Reset</button>' +
+    '<span class="ov-keys">+ − zoom · Enter open · O close</span>';
+  document.body.append(heads, bar);
+  const labels = [];
+  // each label over its column: placed from where the column is on the screen, every frame while open
+  let raf = 0;
+  function place() {
+    const h = Reveal.getIndices().h;
+    labels.forEach(function (l) {
+      const r = l.col.getBoundingClientRect(), w = Math.max(120, r.width);
+      l.el.style.left = (r.left + r.width / 2 - w / 2) + "px"; l.el.style.width = w + "px";
+      l.el.classList.toggle("ov-now", l.i === h);
+      l.el.style.visibility = r.right < -50 || r.left > innerWidth + 50 ? "hidden" : "";
+    });
+    raf = Reveal.isOverview() ? requestAnimationFrame(place) : 0;
+  }
+  // the strip is outside .reveal, so it takes the deck's colour scheme from there
+  function colours() {
+    const cs = getComputedStyle(document.querySelector(".reveal"));
+    ["--strong", "--on-strong", "--accent", "--on-accent", "--paper", "--r-heading-font"].forEach(function (k) {
+      const v = cs.getPropertyValue(k).trim();
+      [heads, bar].forEach(function (el) { if (v) el.style.setProperty(k, v); else el.style.removeProperty(k); });
+    });
+  }
+  function opened() { colours(); document.body.classList.add("ov-open"); paintBar(); if (!raf) raf = requestAnimationFrame(place); }
+  function closed() { document.body.classList.remove("ov-open"); }
+  Reveal.on("overviewshown", opened); Reveal.on("overviewhidden", closed);
+  if (Reveal.isOverview && Reveal.isOverview()) opened();
   if (Reveal.isReady()) start(); else Reveal.on("ready", start);
 
   // ---- Spacing: reveal.js puts the columns 70px apart; GAP more between them ----
@@ -128,13 +181,22 @@
       e.preventDefault(); e.stopPropagation(); Reveal.toggleOverview(false); return;   // open the selected slide (reveal.js has no key for it)
     }
     let z = null;
-    if (e.key === "+" || e.key === "=") z = Math.min(3, zoom * 1.2);
-    if (e.key === "-" || e.key === "_") z = Math.max(0.5, zoom / 1.2);
+    if (e.key === "+" || e.key === "=") z = zoom * 1.2;
+    if (e.key === "-" || e.key === "_") z = zoom / 1.2;
     if (z === null) return;
     e.preventDefault(); e.stopPropagation();
-    zoom = z;
-    try { localStorage.setItem(KEY, String(zoom)); } catch (err) { /* private window */ }
-    applyZoom();
+    setZoom(z);
   }, true);
+  function setZoom(z) {
+    zoom = Math.max(0.5, Math.min(3, z));
+    try { localStorage.setItem(KEY, String(zoom)); } catch (err) { /* private window */ }
+    applyZoom(); paintBar();
+  }
+  function paintBar() { bar.querySelector(".ov-pct").textContent = Math.round(zoom / OVERVIEW_ZOOM * 100) + "%"; }
+  bar.querySelector(".ov-zoom-in").addEventListener("click", function () { setZoom(zoom * 1.2); });
+  bar.querySelector(".ov-zoom-out").addEventListener("click", function () { setZoom(zoom / 1.2); });
+  bar.querySelector(".ov-zoom-reset").addEventListener("click", function () { setZoom(OVERVIEW_ZOOM); });
+  ["pointerdown", "click", "mousedown"].forEach(function (ev) { bar.addEventListener(ev, function (e) { e.stopPropagation(); }); });
+  heads.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
 })();
 </script>

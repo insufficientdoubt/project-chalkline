@@ -35,3 +35,6 @@ vocab/app/
 
 # Saved Python results (scripts/freeze_check.py clears them when data changes)
 _freeze/
+
+# the publish step's memory of the last build (scripts/build_cache.py)
+.chalkline-cache/

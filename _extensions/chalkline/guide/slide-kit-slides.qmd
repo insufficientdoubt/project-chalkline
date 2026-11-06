@@ -9,7 +9,6 @@ format:
     width: 1280
     height: 720
     css: slide-kit-looks.css      # this deck's own looks and schemes (game, brutal, scroll, dusk, trail, glass)
-    include-after-body: slide-kit-style.html   # this deck's own style picker (the palette next to the language switch)
     footer: "Unit 2 · Hundred Schools of Thought · 第二单元 · 百家争鸣"
 resources:
   - images/abstract-glow.jpg      # the glass scheme's background (slide-kit-looks.css)

@@ -11,7 +11,6 @@ format:
     height: 720
     css: [slide-kit-looks.css, exemplar.css, templates.css]
     include-after-body:
-      - slide-kit-style.html   # the palette: try colour schemes and looks
       - slide-refs.html        # a reference number on every slide, for editing together
       - reading-scroll.html    # the line-by-line reading
     chalkboard:

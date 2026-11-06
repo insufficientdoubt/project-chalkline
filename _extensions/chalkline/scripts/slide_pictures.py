@@ -27,6 +27,7 @@ from PIL import Image
 from extension import ROOT  # noqa: E402  (the course folder)
 from catalog import front_matter, load_units  # noqa: E402
 from slides_pdf import ORIGIN, WORKERS, decks, launch, serve_from  # noqa: E402
+import build_cache  # noqa: E402  (the publish workflow: reuse pictures of decks that didn't change)
 
 WIDTH = 480           # picture width in pixels (shown at about 160-320 on the page)
 FOLDER = "-pictures"  # city-states-slides.html -> city-states-slides-pictures/
@@ -127,7 +128,7 @@ def main():
                or "teacher" in os.environ.get("QUARTO_PROJECT_OUTPUT_DIR", ""))
     site = ROOT / os.environ.get("QUARTO_PROJECT_OUTPUT_DIR", "_site-teacher" if teacher else "_site")
 
-    unit_decks, jobs = {}, []
+    unit_decks, jobs, keys, reused = {}, [], {}, 0
     for src in decks():
         parts = src.relative_to(ROOT).parts
         if parts[:2] != ("course", "units") or len(parts) != 4:
@@ -140,9 +141,21 @@ def main():
         info = folder / "slides.json"
         if "--stale" in sys.argv and info.exists() and info.stat().st_mtime >= html.stat().st_mtime:
             continue
+        k = build_cache.key("slide-pictures", [src if src.parent == ROOT / "course" else src.parent],   # a deck right in course/: just itself
+                             ("teacher" if teacher else "student") + ":" + rel.as_posix())
+        if build_cache.restore("slide-pictures", k, folder):
+            reused += 1
+            continue
+        keys[folder] = k
         jobs.append((ORIGIN + rel.with_suffix(".html").as_posix(), folder))
     if jobs:
         asyncio.run(picture_all(site, jobs))
+        for f, k in keys.items():
+            if (f / "slides.json").exists():
+                build_cache.store("slide-pictures", k, f)
+    build_cache.note("slide_pictures", reused, len(jobs))
+    if "--stale" not in sys.argv:
+        build_cache.prune("slide-pictures")
     if site.exists():
         write_index(site, unit_decks)
 
