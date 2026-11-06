@@ -60,6 +60,10 @@ Language goals come in different formats, and each needs its own fields and its 
 7. **The Mesopotamia and Rome samples become `.qmd`**, and the guide's own printables (Angle Hunt, Thinker Card, Self-Check) are redone with the kit.
 8. **Work on its own branch,** so the site keeps publishing until it's merged. Note the breaking change in `TOOL-CHANGES.md` and the README.
 
+**Progress (branch `ccr-763051f4-zrh2pq`, 2026-11-06):**
+- Done: 1 (the kit lays out every printable; posters kept), 2 (blocks in `.qmd`: `kit-blocks.lua`), 3 except the loose-sheet "Goes with packet page" label, 5 (guide `example-angles/`, `example-rome/` with the Greek slides), 6 (units 01–05 in `archive/units/`; Start Here now tours the Template Library).
+- Still to do: "Goes with packet page …" on loose sheets; the packet title page's hero picture and teacher name; 4 (layout-heavy pages show their PDF on the web); 7 (Mesopotamia and Rome Typst samples as `.qmd`; redo Angle Hunt, Thinker Card, Self-Check with the kit); a heading with its instructions can still be left at the foot of a page; README/TOOL-CHANGES note on the breaking change before merging.
+
 
 The packet kit is in Chalkline since 2026-11-06 (`_extensions/chalkline/typst/packet/`, samples in `guide/packet/`, the **Packet Templates** guide page). Still to do:
 
