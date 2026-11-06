@@ -25,8 +25,7 @@ def main():
     for theme in (sys.argv[1:] or THEMES):
         compile(HERE / "mini-packet.typ", OUT / f"mini-packet-{theme}.pdf", f"theme={theme}")
     if not sys.argv[1:]:
-        # loose sheets (no facing pages, no padding), and the printer check
-        compile(HERE / "mini-packet.typ", OUT / "mini-packet-sky-loose.pdf", "theme=sky", "booklet=false")
+        # the printer check
         compile(HERE / "printer-test.typ", OUT / "printer-test.pdf")
 
 if __name__ == "__main__":

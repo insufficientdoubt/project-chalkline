@@ -8,18 +8,36 @@
 
 #show: packet.with(theme: theme, title: "Roads of Rome", unit: "Unit 2 · Ancient Rome")
 
-// ---------------------------------------------------------------- 1 · cover (a right-hand page)
-#cover("Roads of Rome", "Reading, words, math, a design challenge and a timeline", (
-  ("1", "Feature: Water for a city (a magazine spread)", "2–3"),
-  ("2", "Reading: Roads that held an empire (glossed)", "4–5"),
-  ("3", "Words and story: vocabulary hunt, recall, sequence", "6–7"),
-  ("4", "Reading: The Colosseum", "8"),
-  ("5", "Math: solving equations", "9–10"),
-  ("6", "Compare: Roman structures (a landscape page)", "11"),
-  ("7", "Reference and design: angles in a bridge", "12–13"),
-  ("8", "Timeline: Rome, 800 BC to AD 500", "14–15"),
-))
+// ---------------------------------------------------------------- 1 · title page (hero: a photo, a placeholder, or the theme's decoration)
+#title-page(course: "Grade 6 Humanities", unit: "Ancient Rome", unit-number: "2", teacher: "Ms. Teacher Name",
+  school: "School Name", year: "2026–27 · Term 1",
+  hero: if theme == "sky" { "placeholder" } else if theme == "trail" { img("colosseum-forum.jpg") } else { none })
+#pagebreak()
 
+// ---------------------------------------------------------------- 2 · contents (inside the cover, a left-hand page)
+#contents(depth: 3)
+#pagebreak()
+
+// ---------------------------------------------------------------- 3 · unit overview
+#unit-start("2", "Ancient Rome")
+#titled("Unit overview", sub: "What we'll learn, and what you already know.")
+#panel(title: "Big question:")[#text(size: 14pt)[How did the Romans hold a huge empire together?]]
+#v(3mm)
+#grid(columns: (1fr, 1fr), column-gutter: 6mm,
+  panel(title: "In this unit you will …")[
+    - read about Roman roads, aqueducts and buildings
+    - learn and use 12 key words
+    - solve equations and design a bridge
+    - put Rome's history on a timeline
+  ],
+  panel(title: "Key words")[#context {
+    let t = TH.get()
+    for r in VOCAB.filter(r => r.id.starts-with("ROM-")) { box(inset: (x: 6pt, y: 3pt), radius: 8pt, stroke: 0.6pt + t.line, text(size: 9pt, r.term_en)); h(3pt) }
+  }])
+#v(3mm)
+#grid(columns: (1fr, 1fr), column-gutter: 5mm, work-space(height: 1fr, style: "lines", label: "What I already know about Rome"), work-space(height: 1fr, style: "lines", label: "What I want to find out"))
+
+#subunit("2.1", "Water and roads")
 // ---------------------------------------------------------------- 2–3 · a feature spread: panorama over the spine, a box across the foot
 #feature-spread(
   title: "Water for a city",
@@ -100,6 +118,20 @@
 #OUTSIDE.update(PAGE.outside)
 #pagebreak()
 
+// ---------------------------------------------------------------- 8–10 · key words (with pictures, a word list) and language
+#subunit("2.2", "Words and language")
+#titled("Key words", sub: "Learn these words. The pictures help you remember them.")
+#vocab-page(prefix: "ROM", pictures: true)
+#pagebreak()
+#titled("Word list", sub: "Read each meaning. Then write your own sentence with the word.")
+#vocab-page(prefix: "ROM", pictures: false)
+#pagebreak()
+#titled("Language for this unit", sub: "Use these when you talk and write about Rome.")
+#language-page(("FRM-011", "FRM-012", "FRM-013", "FRM-001", "FRM-002", "FRM-005", "FRM-006", "FRM-007", "FRM-008", "FRM-023", "FRM-024"))
+#v(3mm)
+#work-space(style: "lines", label: "Practise: write three sentences about Rome. Use a frame or a stem from this page in each one.")
+#pagebreak()
+
 // ---------------------------------------------------------------- 4 · vocabulary hunt
 #section("A", "Vocabulary hunt", instructions: [Go to the paragraph in the reading (¶3 = paragraph 3). Find the word that matches the clue and write it in the Word box. A bold word part (*un-*, *-ly*) means the word has that prefix or suffix.])
 #vocab-hunt((
@@ -153,7 +185,8 @@
 ))
 #pagebreak()
 
-// ---------------------------------------------------------------- 6 · a reading with questions in the lower right
+// ---------------------------------------------------------------- a reading with questions in the lower right
+#subunit("2.3", "Buildings")
 #titled("The Colosseum", sub: "Read the text. Then answer the questions in the box.")
 #reading-page(beside: context {
   let t = TH.get()
@@ -182,18 +215,9 @@
 ))
 #pagebreak()
 
-// ---------------------------------------------------------------- 7 · math, two columns
-#section("D", "Two-step equations", instructions: [Solve each equation. Show every step in the box. Check your answer by putting it back into the equation.])
-#problems(cols: 2, items: ([$3x + 5 = 20$], [$2x - 7 = 9$], [$x / 4 + 3 = 8$], [$5x + 2 = 3x + 10$], [$4(x - 2) = 20$], [$7 - 2x = 1$]))
-#pagebreak()
-
-// ---------------------------------------------------------------- 8 · math, three columns
-#section("E", "One-step equations", instructions: [Solve. Write the inverse operation you used, then the answer.])
-#problems(cols: 3, items: ([$x + 9 = 17$], [$x - 6 = 11$], [$4x = 36$], [$x / 5 = 7$], [$12 = x + 4$], [$3x = 27$], [$x - 2.5 = 4$], [$8x = 56$], [$x / 3 = 9$]), surface-style: "dots")
-
 // ---------------------------------------------------------------- 11 · a landscape page (turned 90° on a portrait page)
 #landscape[
-  #section("F", "Compare: Roman structures", instructions: [Use the readings. Write short notes in each box, then sketch each structure in the last column.])
+  #section("D", "Compare: Roman structures", instructions: [Use the readings. Write short notes in each box, then sketch each structure in the last column.])
   #context {
     let t = TH.get()
     let h(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
@@ -206,9 +230,21 @@
       text(weight: "bold", fill: t.head)[Arena], [], [], [], [], []))
   }
 ]
+#pagebreak()
+
+// ---------------------------------------------------------------- math, two columns
+#subunit("2.4", "Math")
+#section("E", "Two-step equations", instructions: [Solve each equation. Show every step in the box. Check your answer by putting it back into the equation.])
+#problems(cols: 2, items: ([$3x + 5 = 20$], [$2x - 7 = 9$], [$x / 4 + 3 = 8$], [$5x + 2 = 3x + 10$], [$4(x - 2) = 20$], [$7 - 2x = 1$]))
+#pagebreak()
+
+// ---------------------------------------------------------------- 8 · math, three columns
+#section("F", "One-step equations", instructions: [Solve. Write the inverse operation you used, then the answer.])
+#problems(cols: 3, items: ([$x + 9 = 17$], [$x - 6 = 11$], [$4x = 36$], [$x / 5 = 7$], [$12 = x + 4$], [$3x = 27$], [$x - 2.5 = 4$], [$8x = 56$], [$x / 3 = 9$]), surface-style: "dots")
 
 // ---------------------------------------------------------------- 10–11 · spread: reference on the left, design on the right
 // (if the math ended on a left-hand page, spread-start() would make the next page a Notes page)
+#subunit("2.5", "Design and time")
 #spread-start()
 #titled("Angles: a reference", sub: "Use this page while you design your bridge.")
 #context {
@@ -264,4 +300,23 @@
 }
 #timeline-part(-150, 500, first: false, height: 110mm)
 
-#finish-booklet()
+#pagebreak()
+
+// ---------------------------------------------------------------- review, then Notes and the back cover (to a multiple of 4 pages)
+#subunit("2.6", "Review")
+#titled("How did I do?", sub: "Colour a circle at the start of the unit, and again at the end.")
+#self-check((
+  [explain why Rome built roads and aqueducts],
+  [use the 12 key words in a sentence],
+  [find information in a reading by paragraph],
+  [solve one-step and two-step equations],
+  [name and draw acute, right, obtuse and straight angles],
+  [put events from Roman history in order on a timeline],
+))
+#v(4mm)
+#work-space(height: 1fr, style: "lines", label: "What was the most interesting thing you learned? What is still hard?")
+
+#finish-booklet(back: back-cover(school: "School Name", credits: [
+  Pont du Gard: Benh LIEU SONG, CC BY-SA 3.0 · Colosseum and forum: Wilfredor, CC0 · Via Appia, Augustus of Prima Porta,
+  Trajan's Column: public domain · all from Wikimedia Commons. Vocabulary drawings: original, made for Chalkline.
+]))

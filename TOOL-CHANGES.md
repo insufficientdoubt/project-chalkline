@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Packet kit: A3 folded booklets only; title page, contents by unit and subunit, vocab and language pages
+- **Asked for:** "the teachers are going to always print on a3 and fold, so that's going to be our Target. Let's add a title page that includes the course name, unit name, teacher name. Maybe optional hero image or decoration ... for the index ... the option of breaking it down by unit and subunit. We're also going to need two column vocabulary/language pages. With and without reference images versions."
+- **Why:** to settle the packet design before teachers start writing.
+- **Changed:** `prototypes/packet-kit/kit.typ`: the loose-sheet setting removed (A3 folded only); `title-page` (course, unit, teacher, school, year, logo placeholder, hero picture / placeholder / theme decoration); `unit-start`, `subunit` and `contents(depth)` (built from markers and page titles, with page numbers); `vocab-page` (two columns from vocab.csv, with or without pictures); `language-page` (two balanced columns from frames.csv); `self-check`; `back-cover`; `finish-booklet(back)` puts the back cover on the last page; no header or footer on the covers. `mini-packet.typ`: rebuilt as a 24-page Unit 2 packet with all of these. `build.py`, `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Packet kit: the header line runs across both pages of a spread
 - **Asked for:** "Make the top line go across the whole spread with all of the intentionally facing pages."
 - **Why:** so facing pages read as one design.
