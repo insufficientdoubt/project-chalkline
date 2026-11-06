@@ -1,0 +1,32 @@
+/* The Odyssey story map (odyssey.js). Class names start with ody- so they can't clash with
+   reveal.js (.controls) or the brand slide styles (.card). Brand colors: navy #003477, blue #0087ff, orange #ff8c0f, sky #ebf7fd. */
+.odyssey { position: relative; font-size: 0.5em; line-height: 1.3; user-select: none; }
+.odyssey svg { width: 100%; height: auto; display: block; border-radius: 12px; }
+.odyssey .sea { fill: #bfe6fb; }
+.odyssey .land { fill: #e8dcc4; stroke: #c9b48f; stroke-width: 2; }
+.odyssey .route { fill: none; stroke: #ff8c0f; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 9 7; }
+.odyssey .stop { cursor: pointer; }
+.odyssey .stop circle { fill: #fff; stroke: #003477; stroke-width: 3; transition: r 0.2s, fill 0.2s; }
+.odyssey .stop text { font: 700 15px "Source Sans 3", sans-serif; fill: #003477; text-anchor: middle; pointer-events: none; }
+.odyssey .stop.visited circle { fill: #ff8c0f; }
+.odyssey .stop.current circle { fill: #003477; r: 15; }
+.odyssey .stop.current text { fill: #fff; }
+.odyssey .stop .ody-label { font-size: 13px; font-weight: 600; fill: #1F2933; }
+.odyssey .ship { font-size: 30px; pointer-events: none; }
+.odyssey .ody-note { font: italic 13px "Source Sans 3", sans-serif; fill: #52606d; }
+/* The story card sits in a strip above the map, so it never covers it. */
+.odyssey .ody-card {
+  min-height: 3.6em; margin-bottom: 0.5em; padding: 0.45em 0.8em; background: #fff8ee; color: #1F2933;
+  border-left: 6px solid #ff8c0f; border-radius: 8px; font-size: 1.15em;
+}
+.odyssey .ody-card b { color: #003477; font-size: 1.1em; }
+.odyssey .ody-card .zh { color: #52606d; margin-left: 0.3em; }
+.odyssey .ody-controls { display: flex; gap: 0.5em; align-items: center; margin-top: 0.5em; flex-wrap: wrap; }
+.odyssey button {
+  font: 600 1em "Source Sans 3", sans-serif; padding: 0.3em 0.9em; border-radius: 999px; cursor: pointer;
+  border: 2px solid #003477; background: #fff; color: #003477;
+}
+.odyssey button.primary { background: #003477; color: #fff; }
+.odyssey .ody-status { margin-left: 0.4em; color: #003477; font-weight: 600; }
+.ody-side { font-size: 0.62em; }
+.ody-side .callout { font-size: 0.95em !important; }

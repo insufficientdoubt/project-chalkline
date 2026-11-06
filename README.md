@@ -1,6 +1,6 @@
 # Chalkline sample course
 
-**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style. This is a **sample course** to try it with: three history units (Ancient Greece, Ancient Rome and Göbekli Tepe), a STEM sampler unit, a Grade 4 math unit on angles, a 52-word bilingual vocab list, and a slide deck about Chalkline itself.
+**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style. This is a **sample course** to try it with: a slide deck about Chalkline itself, a 52-word bilingual vocab list, and, in the teacher site's **How to use Chalkline**, the Template Library (every tested slide layout, game and activity), the printable and packet templates, and two finished example units to copy (Grade 4 math: Angles; Grade 6 history: Ancient Rome).
 
 **See it online:** https://insufficientdoubt.github.io/project-chalkline/ (the teacher version, rebuilt on every push).
 
@@ -11,11 +11,9 @@
 | Part | Where | Look for |
 |---|---|---|
 | **Start here** | `course/units/00-start-here/` | A short slide deck: what Chalkline does and how to make your own unit |
-| **Unit 1: Ancient Greece** | `course/units/01-ancient-greece/` | 2 slide decks, 3 printables (a worksheet, fact cards, a class vote) |
-| **Unit 2: Ancient Rome** | `course/units/02-ancient-rome/` | 2 slide decks, 3 printables (a sorting worksheet, Roman numerals, an aqueduct design challenge) |
-| **Unit 3: Göbekli Tepe** | `course/units/03-gobekli-tepe/` | 2 slide decks, 3 printables (an evidence-or-guess worksheet, animal fact cards, a T-pillar design challenge) |
-| **Unit 4: STEM Sampler** | `course/units/04-stem/` | A sampler for STEM teams: math and block-coding decks with interactives you can drag (geometry, GeoGebra, PhET, Blockly), a math handout and two practice worksheets made from a seed. The interactive pages are in its `embeds/` folder |
-| **Unit 5: Angles** | `course/units/05-angles/` | Grade 4 math, from a Chinese lesson plan (旋转与角): a bilingual deck (English and 中文), a class worksheet, homework, and an interactive page where an angle turns from acute to full (its `embeds/` folder) |
+| **Example units** | `_extensions/chalkline/guide/example-angles/`, `example-rome/` (on the teacher site: **How to use Chalkline**) | Two finished units to copy into `course/units/`: slides, printables written with the packet kit, and the unit packet (A3, folded), with a teacher edition |
+| **Template Library** | `_extensions/chalkline/guide/templates-slides.qmd` | Every tested slide layout, game and activity, to copy from |
+| **Archived units** | `archive/units/` | The older demo units (Ancient Greece, Ancient Rome, Göbekli Tepe, STEM Sampler, Angles). Not built; see `archive/README.md` |
 | **Vocab** | `vocab/` | 52 words with pictures, 中文 and simple definitions, in the vocab app (sidebar: **History vocab 词汇**) |
 | **Appearance** | `brand/` | Colors, fonts and logos for everything |
 | **The look of the interactive parts** | `_extensions/chalkline/ui/ui.css` | One set of colors, corners, shadows, buttons, fields and menus for the classroom tools, games, vocab pop-ups, PDF viewer and quick reference. Change a value there and they all follow |
@@ -25,7 +23,7 @@
 Things to try once the site is open:
 
 - Hover or tap a word with a dotted line on any slide: its vocab card pops up.
-- Open a unit page and click **Unit packet (PDF)**: every printable in one file, ready to copy.
+- Open **How to use Chalkline → Example Unit: Ancient Rome** and click the packet: every printable in one A3-folded booklet, ready to copy.
 - Open a slide deck and press **S** for speaker notes, **T** for the timer.
 - In a slide deck, press **W** (or the four-squares button, bottom left) for the classroom tools: name picker, groups, scoreboard, voice level with a noise meter, slide size, traffic light, QR code, stopwatch, dice, music, and the unit's vocab and packet. They float above the slides and stay put when you change slides.
 - In the overview, each deck has a **PDF** too.
@@ -110,7 +108,7 @@ You can do almost everything here by asking an AI assistant: Claude, Gemini, Cha
 
 ## Make your own unit
 
-1. Copy a unit folder, for example `course/units/01-ancient-greece`, and rename it (`03-my-unit`).
+1. Copy an example unit (`_extensions/chalkline/guide/example-rome/`, or `course/guide/02-chalkline/example-rome/` after a teacher build) into `course/units/`, and rename it (`03-my-unit`).
 2. In its `index.qmd`, change `title`, `short-title`, `unit` and the `objectives`. The unit appears in the sidebar and overview by itself.
 3. Edit or replace the slides and printables. Keep the labels at the top of each file: `type:` (slides, worksheet, handout, reference…), `order:` and `audience:` (who sees it: `teacher`, `student`; see "Students, families and teachers" below).
 4. Add your words to `vocab/data/vocab.csv` (see `vocab/README.md`), then run `python chalkline.py validate`.
@@ -227,7 +225,7 @@ These come from `_extensions/chalkline/`. Each one looks right on the web page, 
 | `{{< word-bank unit=1 "Government: democracy, citizen" "Places: colony" >}}` | A word-bank box, one line per group. |
 | `{{< vocab-table unit=1 >}}`, `{{< vocab-list unit=1 >}}` | The unit's words and meanings as a table or a list (`words="..."` for some of them). |
 | `{{< fill-in-the-blank unit=1 >}}` | A word bank and numbered meanings to fill in. The answer key shows only in the teacher version. |
-| `chalkboard:` in a deck's labels | Draw on any slide: press **C** (or the pen button, bottom left) to draw on the slide, **B** for a blank chalkboard, **Delete** to clear. Copy the three lines from the top of `course/units/01-ancient-greece/city-states-slides.qmd`. |
+| `chalkboard:` in a deck's labels | Draw on any slide: press **C** (or the pen button, bottom left) to draw on the slide, **B** for a blank chalkboard, **Delete** to clear. Copy them from the top of the Template Library deck (`_extensions/chalkline/guide/templates-slides.qmd`). |
 | `::: {.live-board rooms="wbo"}` … `:::` | A **live board** on a slide: a Padlet wall or a shared whiteboard filling the whole slide, with a small corner card holding the link students open, its QR code and the buttons (`layout="inline"`: the frame with the link under it, for a slide with other things on it; `zoom="0.7"` shows the board smaller so more fits, and Padlet starts at 0.7). Click the QR code for a big one to scan. `src=` is what the frame shows (Padlet: the embed address), `join=` the link students get; `rooms="excalidraw"` or `rooms="wbo"` makes a fresh room link for you (**New room** for the next class). Or leave the links out and click **Edit link** on the slide to paste one. Excalidraw shares only in its own tab, so its slide shows the room's QR code and an **Open the class board** button instead of a frame; WBO and Padlet stay live on the slide. See `course/units/00-start-here/live-boards-slides.qmd`. |
 | `{{< timer 20 >}}` | A 20-minute countdown on a slide (see below). In print it just says "Timer: 20 minutes". |
 | `{{< pagebreak >}}` | Start a new PDF page. |
@@ -307,7 +305,7 @@ Open windows, where they are, the scores, the class lists and the settings are r
 
 Ten review games for slides, in a calm, plain style. **To play one right now, open Review games in the sidebar** (`course/review-games.qmd`): choose a game along the top and a unit (or all units), and it starts with that unit's vocab; **New word** (or **New board**, **New cards**…) gives a fresh one. It remembers your last choice on that computer, works full screen on the board, and has the toolbox (**W**) like any deck. The `{{< game-picker >}}` shortcode makes it, so you can put it in any deck too.
 
-To put a game in your own slides, see them all in **Unit 1 › Greek Word Games** (`course/units/01-ancient-greece/review-games-slides.qmd`); its speaker notes (**S**) show how each one is written. Copy any slide to make your own. Between classes, **↺ Reset for the next class** in the toolbox menu (**W**) starts every game again. The games keep their own score and don't use the toolbox scoreboard. Like quizzes, they never show 中文.
+To put a game in your own slides, see them all in the Template Library's games column (`_extensions/chalkline/guide/templates-slides.qmd`, in **How to use Chalkline**); each slide's speaker notes (**S**) show how it is written. Copy any slide to make your own. Between classes, **↺ Reset for the next class** in the toolbox menu (**W**) starts every game again. The games keep their own score and don't use the toolbox scoreboard. Like quizzes, they never show 中文.
 
 | Game | How it plays |
 |---|---|
