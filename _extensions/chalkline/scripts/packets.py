@@ -99,6 +99,7 @@ def cover(objectives, chapters, unit=None):
     lines += ["#let part(body) = {",
               "  pagebreak(weak: true)",
               '  kit.unit-start("", body)',
+              '  [#metadata(body) <section-title>]   // the contents points here, at the divider',
               "  context { let t = kit.TH.get(); v(1fr); align(center, text(font: t.head-font, size: 30pt, weight: \"bold\", fill: t.head, body)); v(2fr) }",
               "}", "```", ""]
     return "\n".join(lines)

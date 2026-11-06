@@ -526,7 +526,7 @@
     if kind == "unit" {
       v(3mm)
       block(below: 2mm, grid(columns: (auto, 1fr, auto), column-gutter: 3mm, align: horizon,
-        badge(t, val.number, size: 2em), text(font: t.head-font, weight: "bold", size: 15pt, fill: t.head, val.name), text(size: 12pt, num)))
+        if val.number != "" { badge(t, val.number, size: 2em) } else { box(width: 0pt) }, text(font: t.head-font, weight: "bold", size: 15pt, fill: t.head, val.name), text(size: 12pt, num)))
     } else if kind == "sub" {
       block(above: 3.5mm, below: 1.5mm, inset: (left: 9mm), grid(columns: (auto, 1fr, auto), column-gutter: 2mm,
         text(font: t.label-font, weight: "bold", fill: t.accent, val.number), [#text(weight: "bold", fill: t.head, val.name) #lead], num))
