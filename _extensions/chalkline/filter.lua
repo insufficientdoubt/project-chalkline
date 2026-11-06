@@ -140,6 +140,7 @@ end
 -- teams="3" starts with 3 teams taking turns (2 to 4; teams="0" for no teams or scores).
 local games = dofile(quarto.utils.resolve_path("games/games.lua"))
 local quick_ref = dofile(quarto.utils.resolve_path("quickref.lua"))   -- ::: {.quick-ref}: every link in a unit on one slide
+local kit_blocks = dofile(quarto.utils.resolve_path("kit-blocks.lua"))   -- printables: the packet kit's pieces as .qmd blocks
 local slide_source = dofile(quarto.utils.resolve_path("toolbox/source.lua"))   -- View source (U): each slide's source
 
 local function list_items(blocks)
@@ -344,6 +345,12 @@ end
 local function Div(el)
   -- Speaker notes are for the teacher: the student build leaves them out
   if el.classes:includes("notes") and not is_teacher() then return {} end
+  -- Printables: the packet kit's pieces (kit-blocks.lua): work spaces, problems, recall, organizers …
+  local kit_cls = kit_blocks.handles(el)
+  if kit_cls then
+    local out = kit_blocks.render(el, kit_cls)
+    if out ~= nil then return out end
+  end
   if el.classes:includes("quick-ref") then return quick_ref(el) end
   if el.classes:includes("live-board") then return live_board(el) end
   for cls, name in pairs({ jeopardy = "Jeopardy", trivia = "Quick-fire questions", matching = "Matching", memory = "Memory", sort = "Sort it",

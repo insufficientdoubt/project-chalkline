@@ -9,8 +9,29 @@ format: html
 
 Packets are printed on **A3 and folded** into a booklet of A4 pages. These samples show every page layout Chalkline has for them, in three print themes. Pick the closest page, then copy its piece (the names in *Made of* below) from `_extensions/chalkline/typst/packet/`. The kit's README explains each piece.
 
-::: {.callout-note title="A first version"}
-The page layouts are ready to look at and to copy from. Writing a packet page straight from a unit's `.qmd` file comes next. Until then, a packet page is a short Typst file, like the samples in `guide/packet/`.
+## Write packet pages in .qmd
+
+Every printable's PDF now uses the kit: the theme comes from `packet-theme: sky` (or `trail`, `blueprint`) in its labels, and the teacher site prints the teacher edition, with the answers written in. Write the pieces as blocks. In a list, `|` separates the parts, and **answers print only in the teacher edition**. See **Roads and Water** (`guide/roads-practice.qmd`) for a page written this way.
+
+| Block | Write | In the PDF |
+|---|---|---|
+| `::: vocab-hunt` | `- ¶2 \| _n._ small stones \| gravel` (where · clue · word) | Where / Clue / Word, in two tables |
+| `::: recall` | `- Why did Rome need roads? \| To move soldiers.` | two answer lines each |
+| `::: {.sequence order="3,1,2"}` | one event per line | boxes for the order |
+| `::: {.problems cols="2"}` | `- $3x + 5 = 20$ \| 5 \| 3x = 15` (problem · answer · working) | tall boxes with a grid, an answer box |
+| `::: {.work-space height="4cm" style="lines" label="…"}` | `height="fill"`: the rest of the page; `style`: blank, lines, grid, dots | a box to write or draw in |
+| `::: side-by-side` | two or three blocks inside | half-width (or third) spaces |
+| `::: {.kwl title="…" topic="…"}` |  | a landscape KWL |
+| `::: {.venn title="…" a="…" b="…"}` | the "So what?" question inside | the landscape Venn |
+| `::: {.frayer id="ROM-011"}` |  | a Frayer model from the vocab list |
+| `::: {.cause-effect event="…"}`, `::: flow`, `::: {.web topic="…" branches="a, b, c"}`, `::: temple` | the "So what?" question inside | the other organizers |
+| `::: {.investigation letter="A" sources="…, …"}` |  | Observe, Infer, Evidence |
+| `::: {.page-about name="…" uses="…; …" pieces="…"}` |  | a hidden note: what the page is for |
+
+On the web, each page shows its words (questions, problems, events) without the answers; diagrams say to use the PDF.
+
+::: {.callout-note title="Still to come"}
+Unit packets as A3 booklets (spreads, Notes pages, the contents) built from these pages, and loose sheets with "Goes with packet page …". Until then, each page's own PDF uses the kit, and the samples below show the whole booklet.
 :::
 
 ## How a packet works

@@ -16,6 +16,21 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: The packet rebuild, steps 1–2 (on a branch): the kit lays out every printable, and its pieces are .qmd blocks
+- **Asked for:** "merge ideas and then just start working on the work and we'll see how far it gets" (the plan in `IDEAS.md`, "Packet templates: next steps"; breaking backwards compatibility is fine).
+- **Why:** one layout for every printable, and packet pages written in `.qmd` like everything else.
+- **Changed:**
+  - `typst/typst-show.typ`: every printable's PDF is laid out by the kit (`kit.worksheet`): the theme from `packet-theme:` (default `sky`), Name / Class / Date, the title, page numbers, and the teacher edition when the page has `edition:` (the teacher site). Posters (`layout: poster`) keep the older layout.
+  - `layout: playful` is retired: those pages now come out in the kit's layout. **This is a breaking change.**
+  - `typst/typst-template.typ` imports the kit as `kit`, `org`, `hist`. The older helpers (`drawing-box`, `answer-lines`, `blank`…) still work.
+  - `filter.lua` gives the template the kit's path (`chalkline-kit`), and passes printables' blocks to the new `kit-blocks.lua`.
+  - `kit-blocks.lua`: `vocab-hunt`, `recall`, `sequence`, `problems`, `work-space`, `side-by-side`, `kwl`, `venn`, `frayer`, `cause-effect`, `flow`, `web`, `temple`, `investigation`, `page-about`. In a list, `|` separates the parts; answers print only in the teacher edition. On the web: the words without the answers, and a note for diagrams.
+  - `typst/packet/kit.typ`: the edition is a state (Quarto can set it); `worksheet()` prints the title, styles `##` headings in the theme (kept with what follows), and drops the logo Quarto adds as a page background; `sequence` tables stay in one piece.
+  - New guide printable `guide/roads-practice.qmd`, written with the blocks.
+  - `guide/packet-templates.qmd`: a "Write packet pages in .qmd" section with the blocks.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The packet kit moves into Chalkline: a Packet Templates page in the guide
 - **Asked for:** "Okay I'm sold. Put the remaining worksheets on the ideas list and implement what we have already into chalk line. It goes in the guide. If you can have hidden metadata on the pages - make sure they're annotated with potential uses."
 - **Why:** to settle the packet design before teachers start writing packets.

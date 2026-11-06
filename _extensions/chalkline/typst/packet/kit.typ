@@ -301,11 +301,11 @@
 // Put events in order: a box to write the number, then the event.
 #let sequence(events, order: none) = context {
   let t = TH.get()
-  table(columns: (17mm, 1fr), rows: (auto,) + (10mm,) * events.len(), inset: (x: 7pt, y: 4pt), align: (center + horizon, left + horizon),
+  block(breakable: false, table(columns: (17mm, 1fr), rows: (auto,) + (10mm,) * events.len(), inset: (x: 7pt, y: 4pt), align: (center + horizon, left + horizon),
     fill: (_, y) => if y == 0 { t.tint } else { none },
     table.header(text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, "Order"), text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, "Event")),
     ..events.enumerate().map(((i, e)) => (box(width: 9mm, height: 7mm, stroke: 0.8pt + t.line, radius: calc.min(t.radius, 3pt),
-      if EDITION.get() and order != none { align(center + horizon, key(str(order.at(i)), size: 14pt)) }), e)).flatten())
+      if EDITION.get() and order != none { align(center + horizon, key(str(order.at(i)), size: 14pt)) }), e)).flatten()))
 }
 
 // A reading in two columns across the top; the lower half split: `beside` on the left (a picture, a word
@@ -628,6 +628,12 @@
   set text(font: t.body-font, size: 10.5pt, fill: t.ink, lang: "en")
   set par(leading: 0.6em, spacing: 0.9em)
   set table(stroke: 0.6pt + t.line)
+  // a printable's own ## headings take the theme's look (over the site's brand heading style)
+  show heading: it => block(above: 5mm, below: 2.5mm, breakable: false, sticky: true, {   // sticky: never alone at the foot of a page
+    set text(font: t.head-font, fill: t.head, weight: "bold", size: if it.level <= 2 { 14pt } else { 11.5pt })
+    it.body
+    if it.level <= 2 { v(-2pt); box(width: 30mm, rule(t)) }
+  })
   if name { name-row(); v(3mm) }   // (a spread starts on a new page: put the name in it instead)
   // the title on page 1: shown when the page is a whole printable from a .qmd (show-title: auto, a title)
   if show-title == true or (show-title == auto and title != "" and title != []) { titled(title, sub: subtitle) }
