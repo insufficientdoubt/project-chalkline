@@ -83,7 +83,7 @@ def query(src, label, extra):
 
 def impose(src, pdf, extra):
     """A loose sheet: put each spread (two A4 pages) side by side on one A3 landscape page (pymupdf)."""
-    import fitz
+    import pymupdf as fitz   # (the newer name for fitz)
     starts = set(query(src, "<spread-page>", extra))
     if not starts:
         return
