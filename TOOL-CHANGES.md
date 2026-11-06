@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Overview: labels in a strip across the top, an on-screen zoom bar
+- **Asked for:** "On the overview page I have a functioning zoom function using the plus and minus keys but I don't see any on-screen control for that, or a way to discover it. Also the labels are a bit hard to read, and come out at different heights."
+- **Why:** the zoom couldn't be found without knowing the keys; the labels sat on each column's first slide, so they were small, came out at different heights (a two-line label stood taller) and went off the screen lower down a column.
+- **Changed:** `_extensions/chalkline/overview-labels.html`: the column labels are now a strip across the top of the screen while the overview is open, each over its column, all the same height and size at any zoom, in the deck's own scheme colours, the current column highlighted; click one to go to that column. A bar at the bottom right: − / + with the size (100% = the usual), Reset, and the keys (+ − zoom · Enter open · O close). The lines between columns are shorter (they no longer reach up to labels on the slides).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-05: Timeline pictures stay, big multiple-choice answers and picture answers, radial timer, zoom-and-pan pictures, full-screen picture and YouTube slides
 - **Asked for:** "8.13 - keep pictures visible when the items are on the timeline. 8.2 instead of ABC, show the answers in a large font. Then make another version with picture answers, and give those ABC labels. 7.2 use the other layout for the timer. For timers in general - add a radial timer option. Just a circle or square slowly disappearing, no visible number (maybe teacher can set time on click). 5.4 can we give the printables insert a transparent background so it looks less out of place? Add an image zoom in/zoom out slide. For using high rez images and zooming and panning around. Include an option to start super zoomed in on a particular point. Add general slides for just full screen images and full screen YouTube (no text or anything)."
 - **Why:** not given.
