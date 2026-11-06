@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Example unit: Ancient Rome (packet rebuild, step 5)
+- **Asked for:** "copy those into the guide as examples and clean them up and rewrite them using the new templates for both slides and printables … you can include any interesting slides from the Greek one in the rome one."
+- **Why:** the old demo units will be archived; the guide keeps one maths and one history unit as finished examples to copy.
+- **Changed:** `_extensions/chalkline/guide/example-rome/`: the four Rome decks (the Greek unit's Athens democracy, temples and columns slides added as "Rome's Greek roots"), and four printables written with the kit blocks (Republic or Empire?, Roman Numerals, Design Challenge: aqueduct, Compare Athens and Rome Venn), built as the unit's packet. `kit-blocks.lua`: each block's PDF output is wrapped in its own block (so side-by-side keeps a panel in one cell), except the Venn, KWL, spread and page-about, which start a page. `filter.lua` + `typst-show.typ`: a printable that opens with a full-page Venn or KWL gets no separate title page. `organizers.typ`: those pages carry an `<own-title>` marker and, on a loose sheet, a Name / Class line. `kit.typ`: in a packet, a chapter opening with such a page skips its chapter title (it would have sat alone on a page).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The packet rebuild (on a branch): the Angles example unit in the guide; more blocks
 - **Asked for:** "copy those [the math unit and one Greco-Roman unit] into the guide as examples and clean them up and rewrite them using the new templates for both slides and printables."
 - **Why:** the demo units are being archived; the guide keeps finished units to copy from.

@@ -259,7 +259,12 @@ end
 
 function M.render(el, cls)
   if quarto.doc.is_format("revealjs") then return nil end   -- slides have their own pieces
-  if quarto.doc.is_format("typst") then return TYPST[cls](el) end
+  -- one Div around each block's output, so a block inside another (a panel in side-by-side) stays one piece.
+  -- Not the whole-page ones (they break the page, which Typst doesn't allow inside the Div's block).
+  if quarto.doc.is_format("typst") then
+    if cls == "venn" or cls == "kwl" or cls == "spread" or cls == "page-about" then return TYPST[cls](el) end   -- (no #block: a page break may follow)
+    return { pandoc.Div(TYPST[cls](el)) }
+  end
   if quarto.doc.is_format("html") then return web(el, cls) end
   return nil
 end

@@ -1,0 +1,60 @@
+---
+title: "Republic or Empire? 共和国还是帝国？"
+type: worksheet
+description: "Sort ten facts into the Roman Republic or the Roman Empire, put five events in order, and explain the change. Written with the packet kit's blocks; the teacher edition has the answers written in."
+order: 3
+audience: [teacher, student]
+packet-theme: trail
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Sort, order and explain" uses="sorting facts into two groups; putting events in order; a short explanation with a sentence starter" pieces="panel, blank, sequence, recall"}
+:::
+
+::: {.panel title="Word bank · 词库"}
+**Government:** {{< vocab "republic" zh=true >}} · {{< vocab "senate" zh=true >}} · {{< vocab "consul" zh=true >}} · {{< vocab "emperor" zh=true >}} · {{< vocab "empire" zh=true >}}
+**Army:** {{< vocab "legion" zh=true >}}
+:::
+
+## 1. Sort the facts
+
+Read the ten facts. Then write each letter in the right box.
+
+::: side-by-side
+::: {}
+**A.** Two consuls lead for one year.
+**B.** Augustus rules for life.
+**C.** Citizens elect their leaders.
+**D.** The ruler's face is on every coin.
+**E.** Romans have just removed their last king.
+:::
+::: {}
+**F.** About 200 years of peace, the *Pax Romana*.
+**G.** No one person may hold all the power.
+**H.** The Colosseum is finished in AD 80.
+**I.** Julius Caesar is a general.
+**J.** The western half falls in AD 476.
+:::
+:::
+
+**Republic 共和国** (509–27 BC): {{< blank 5cm answer="A, C, E, G, I" >}}    **Empire 帝国** (27 BC – AD 476): {{< blank 5cm answer="B, D, F, H, J" >}}
+
+## 2. Put them in order
+
+Number the events from 1 (first) to 5 (last).
+
+::: {.sequence order="3,1,5,2,4"}
+- Augustus becomes the first emperor.
+- Rome becomes a republic.
+- The western empire falls.
+- Julius Caesar is killed.
+- The Colosseum is finished.
+:::
+
+## 3. Explain the change
+
+::: {.recall lines="4"}
+- Why did some Romans want to keep the republic, even when an emperor brought peace? Start: *Some Romans wanted to keep the republic because …* | Citizens lost their vote; one person held all the power, and a bad emperor couldn't be replaced.
+:::

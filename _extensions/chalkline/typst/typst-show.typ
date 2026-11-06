@@ -19,7 +19,8 @@
     subtitle: $if(subtitle)$[$subtitle$]$else$none$endif$,
     unit: [$if(unit-name)$$unit-name$$endif$],
     teacher: $if(edition)$true$else$false$endif$,
-    name: $if(name-box)$true$else$true$endif$,
+    name: $if(opens-full-page)$false$else$true$endif$,
+    show-title: $if(opens-full-page)$false$else$auto$endif$,   // a full-page Venn or KWL has its own title and Name
     doc,
   )
 } else { article(

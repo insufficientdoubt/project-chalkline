@@ -493,6 +493,17 @@ end
 -- Slides only, before the Div pass: give every timeline an id, and put a timeline strip on each
 -- slide an event links to (slide="..."), so that slide shows where it is on the timeline.
 local function Pandoc(doc)
+  if quarto.doc.is_format("typst") then
+    -- A printable that opens with a full-page organizer (a Venn, a KWL) has its title and Name on that page:
+    -- no title page of its own (kit.worksheet, show-title)
+    for _, b in ipairs(doc.blocks) do
+      if not (b.t == "Div" and b.classes:includes("page-about")) then
+        if b.t == "Div" and (b.classes:includes("venn") or b.classes:includes("kwl")) then doc.meta["opens-full-page"] = true end
+        break
+      end
+    end
+    return doc
+  end
   if not quarto.doc.is_format("revealjs") then return nil end
   local strips, n = {}, 0
   doc = doc:walk({ Div = function(el)

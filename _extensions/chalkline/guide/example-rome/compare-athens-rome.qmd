@@ -1,0 +1,18 @@
+---
+title: "Compare: Athens and Rome 比较：雅典与罗马"
+type: worksheet
+description: "A Venn diagram: what Athens and Rome had in common, and what was different (government, who could vote, buildings, size). Then: which difference matters most? Ends the unit's Greek roots."
+order: 6
+audience: [teacher, student]
+packet-theme: trail
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Compare two things (Venn)" uses="comparing two places, people, characters or materials; before a compare paragraph" pieces="venn"}
+:::
+
+::: {.venn title="Compare: Athens and Rome" a="Athens" b="Rome" a-example="citizens vote on laws themselves" both-example="temples with columns" b-example="citizens elect consuls"}
+Which difference matters most? Why? Use a compare word from the bottom of the page.
+:::

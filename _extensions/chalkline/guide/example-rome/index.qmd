@@ -1,0 +1,34 @@
+---
+title: "Example Unit: Ancient Rome 古罗马"
+short-title: "Example · Ancient Rome"
+unit: "B"
+objectives:
+  - I can explain how the Roman Republic was governed, and how it was different from Athens.
+  - I can describe how Rome became an empire under Augustus.
+  - I can explain how an aqueduct uses gravity to move water.
+  - I can read and write Roman numerals.
+order: 21
+audience: [teacher]
+format: html
+description: "A finished unit to copy from: Grade 6 history, Ancient Rome, with its Greek roots. Four decks (the republic and empire, engineering, an interactive timeline, learning activities), and printables written with the packet kit, as the unit's packet."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+A whole history unit: four slide decks and the printables, written with the packet kit, which come together as the unit's packet. The first deck takes in the best of the old Ancient Greece unit (democracy in Athens, temples and columns) as Rome's Greek roots, and the Venn page compares the two. Copy the folder (`course/guide/02-chalkline/example-rome/`, or `guide/example-rome/` in Chalkline) into `course/units/`, then change its words.
+
+**Objectives**
+
+- I can explain how the Roman Republic was governed, and how it was different from Athens.
+- I can describe how Rome became an empire under Augustus.
+- I can explain how an aqueduct uses gravity to move water.
+- I can read and write Roman numerals.
+
+**The packet:** [student booklet](example-rome-packet.pdf) · [teacher edition](example-rome-teacher-packet.pdf) (A3, folded).
