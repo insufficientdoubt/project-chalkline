@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: A packet kit prototype: print themes and page layouts (a capabilities test)
+- **Asked for:** "Build two column and three column work layouts for solving algebra problems ... Also build these English pages ... a reading page with questions in a box in the lower right hand quadrant ... 2 page spread 1: reference on the left design on the right ... choose three themes from chalk line and build typst themes to echo them ... a long timeline spread ... a long reading passage with images and glossing at the margins ... render a mini packet in three different styles. This is just a capabilities test at this point."
+- **Why:** to find out what the PDF side can do (themes like the slides, room to write, two-page spreads) before building it into Chalkline.
+- **Changed:** new `prototypes/packet-kit/` (not used by the site): `kit.typ` (three print themes, Sky, Trail and Blueprint, and the pieces: work spaces, 2- and 3-column problem grids, vocab hunt, recall, sequence, reading page with the questions box in the lower right, margin glosses, angle reference drawings, a timeline across a spread, spread-start with Notes pages, booklet padding), `mini-packet.typ` (a 16-page sample), `build.py`, `sheets.py`, `README.md` (what worked and what didn't), and the built PDFs and contact sheets in `out/`.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The publish step reuses slide PDFs, slide pictures and packets that didn't change
 - **Asked for:** "build times - I've noticed they've been getting longer. ... If I just want to add a deck or something it should still be fast?" Then, about packets: "Won't packet PDFs eventually become a problem if those get more complex?" and "Yes" to remembering them between builds.
 - **Why:** every push rebuilt everything on a fresh machine. On the 5 November publish the build took 3 m 20 s: pages 80 s, slide pictures 49 s, slide PDFs 42 s, packets 27 s. Each printable is rendered about five times (the site, its unit packet twice, the year packet twice), so packets grow with every printable.
