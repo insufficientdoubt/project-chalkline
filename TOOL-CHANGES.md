@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Packet kit: a bigger Venn diagram, on a diagonal
+- **Asked for:** "I still don't like that Venn diagram. Try another layout to give it more space. Maybe we put this so what in the bottom right and the other instructions in the top left? Comparison sentence starters along the bottom in a line?"
+- **Why:** more room to write in the diagram.
+- **Changed:** `prototypes/packet-kit/organizers.typ`: `venn-landscape` is now two large ellipses (176 × 132 mm each) across the whole landscape page, set on a diagonal, which leaves the top-left corner for the title and what to do and the bottom-right for "So what?". The compare starters are one line along the foot. The ellipses' writing lines line up where they overlap. The PDFs in `out/` rebuilt.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Packet kit: landscape KWL and Venn, a narrower event, and a colleague's Mesopotamia worksheets rebuilt
 - **Asked for:** "Make the Venn diagram and the KWL into horizontal layouts. Move the instructions to the side of the page so that there is more room for the diagram ... For the causes and effects- make the event narrower and put its text horizontal ... I've also just got in a couple of examples from another teacher please build improved versions of these types of worksheets."
 - **Why:** more room to write in the organizers; and to test the kit on real worksheets (a source dossier, an artifact investigation with a design challenge, a formative assessment with a rubric).

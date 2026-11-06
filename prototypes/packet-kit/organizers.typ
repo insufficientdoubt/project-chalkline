@@ -300,35 +300,54 @@
     col("", "Where?", [Page and ¶], eg(where-example), narrow: true, phase: "AFTER", pc: t.hot))
 })
 
-#let venn-landscape(title, a, b, a-example: [], both-example: [], b-example: [], prompt: []) = side-page(title, none, context {
+// The Venn on a landscape page, the circles as big as the page allows. They sit on a diagonal (left one low,
+// right one high), which frees the top-left corner for the title and what to do, and the bottom-right for the
+// "So what?". The compare starters run in one line along the foot.
+#let venn-landscape(title, a, b, a-example: [], both-example: [], b-example: [], prompt: []) = landscape(context {
   let t = TH.get()
-  use-it[find what two things share, and what makes each one different.]
-  text(size: 9pt)[Write facts in the right part of the circles: only #text(fill: t.accent, weight: "bold", a), *both*, or only #text(fill: t.hot, weight: "bold", b).]
-  v(3mm)
-  side-chips("Compare", ([Both … and …], [Unlike …, …], [… but …], [… whereas …], [The same as …]))
-  v(1fr)
-  block(width: 100%, stroke: t.box-stroke, radius: t.radius, inset: 7pt, {
-    text(font: t.head-font, weight: "bold", fill: t.head, "So what? "); text(size: 8.5pt, prompt)
-    answer-lines(n: 5, gap: 8mm)
+  set align(left + top)
+  [#metadata(title) <section-title>]
+  let W = LW
+  let rx = 88mm
+  let ry = 66mm
+  let off = 34mm                  // the diagonal: a whole number of writing lines, so both circles' lines meet
+  let H = 2 * ry + off            // the diagram's height; the starters go under it
+  let c1 = (rx, H - ry)
+  let c2 = (W - rx, ry)
+  let gap = 8.5mm
+  let lines = tiling(size: (10mm, gap), place(line(start: (0pt, gap), end: (10mm, gap), stroke: 0.5pt + t.line)))
+  let at(c) = (c.at(0) - rx, c.at(1) - ry)
+  let shape(c, ..args) = { let (x, y) = at(c); place(top + left, dx: x, dy: y, ellipse(width: 2 * rx, height: 2 * ry, ..args)) }
+  let label(x, y, w, body) = place(top + left, dx: x - w / 2, dy: y, box(width: w, align(center, body)))
+  block(width: W, height: H, {
+    shape(c1, fill: t.accent.transparentize(92%), stroke: none)
+    shape(c2, fill: t.hot.transparentize(92%), stroke: none)
+    shape(c1, fill: lines, stroke: none)
+    shape(c2, fill: lines, stroke: none)
+    shape(c1, stroke: 1.8pt + t.accent)
+    shape(c2, stroke: 1.8pt + t.hot)
+    // what goes where
+    label(40mm, c1.at(1) - 34mm, 60mm, [#text(font: t.head-font, weight: "bold", size: 15pt, fill: t.accent, a) \ #text(size: 8pt, fill: t.muted, "only") \ #v(1mm) #eg(a-example)])
+    label(W - 40mm, c2.at(1) + 14mm, 60mm, [#text(font: t.head-font, weight: "bold", size: 15pt, fill: t.hot, b) \ #text(size: 8pt, fill: t.muted, "only") \ #v(1mm) #eg(b-example)])
+    label(W / 2, 46mm, 44mm, [#text(font: t.head-font, weight: "bold", size: 14pt, fill: t.head, "Both") \ #v(1mm) #eg(both-example)])
+    // top left: the title and what to do
+    place(top + left, box(width: 74mm, height: 32mm, {
+      text(font: t.head-font, weight: "bold", size: 14pt, fill: t.head, title)
+      v(-4pt); rule(t, width: 60mm); v(1.5mm)
+      text(size: 8.5pt)[#text(font: t.label-font, weight: "bold", fill: t.accent, "Use this to ") find what two things share, and what makes each one different. Write each fact in the right part.]
+    }))
+    // bottom right: so what?
+    place(top + left, dx: W - 76mm, dy: H - 33mm, block(width: 76mm, height: 33mm, stroke: t.box-stroke, radius: t.radius, inset: 6pt, fill: white, {
+      text(font: t.head-font, weight: "bold", fill: t.head, "So what? "); text(size: 8pt, prompt)
+      answer-lines(n: 2, gap: 7.5mm)
+    }))
   })
-}, context {
-  let t = TH.get()
-  let w = LW - SIDE - 7mm
-  let r = 74mm
-  let cx1 = w / 2 - 25mm
-  let cx2 = w / 2 + 25mm
-  let cy = LH / 2
-  let disc(cx, c) = place(dx: cx - r, dy: cy - r, box(width: 2 * r, height: 2 * r, radius: r, clip: true, stroke: 1.6pt + c,
-    fill: c.transparentize(93%), block(width: 100%, height: 100%, fill: tiling(size: (10mm, 8.5mm), relative: "parent", place(line(start: (0pt, 8.5mm), end: (10mm, 8.5mm), stroke: 0.5pt + t.line))))))
-  box(width: w, height: LH, {
-    disc(cx1, t.accent)
-    disc(cx2, t.hot)
-    let label(x, title, c) = place(dx: x - 30mm, dy: cy - r + 16mm, box(width: 60mm, align(center, [#text(font: t.head-font, weight: "bold", size: 14pt, fill: c, title) \ #text(size: 7.5pt, fill: t.muted, "only")])))
-    label(cx1 - 26mm, a, t.accent)
-    label(cx2 + 26mm, b, t.hot)
-    place(dx: w / 2 - 15mm, dy: cy - r + 30mm, box(width: 30mm, align(center, text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, "Both"))))
-    place(dx: cx1 - r + 14mm, dy: cy - 2mm, box(width: 40mm, eg(a-example)))
-    place(dx: w / 2 - 15mm, dy: cy - 2mm, box(width: 30mm, eg(both-example)))
-    place(dx: cx2 + 12mm, dy: cy - 2mm, box(width: 40mm, eg(b-example)))
-  })
+  // the compare starters, in a line along the foot
+  v(2mm)
+  {
+    text(font: t.label-font, size: 8pt, weight: "bold", fill: t.muted, "COMPARE   ")
+    for w in ([Both … and …], [Unlike …, …], [… but …], [… whereas …], [The same as …], [Similarly, …], [The biggest difference is …]) {
+      box(inset: (x: 6pt, y: 2.5pt), radius: if t.radius > 0pt { 8pt } else { 0pt }, stroke: 0.6pt + t.line, text(size: 8.5pt, w)); h(4pt)
+    }
+  }
 })
