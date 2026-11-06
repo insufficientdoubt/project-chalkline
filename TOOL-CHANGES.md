@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Packet kit prototype, round 2: a magazine spread, a landscape page, vocab glosses, booklet or loose sheets, a printer check
+- **Asked for:** "something a bit more impressive on the two page spreads. Create a longer reading passage with pictures embedded and a content box that crosses the center line ... go ahead and make the changes that you recommended after the first round of testing. Also add a page that's rotated 90° with a landscape worksheet."
+- **Why:** to settle the packet design before teachers start writing ("they haven't started writing yet ... they're designing for that format first").
+- **Changed:** `prototypes/packet-kit/kit.typ`: `feature-spread` (panorama across the spine, two flowing columns, floating column pictures, pull quote, a reflection box across both pages with a badge on the fold), `landscape`, `vgloss` (glosses from `vocab/data/vocab.csv`), a `booklet=false` setting for loose sheets, running headers that read their own page's section. `mini-packet.typ`: the feature spread, the landscape page, paragraph numbers in both readings, two vocab-list glosses. New `printer-test.typ` (one page per theme to print and photocopy). `build.py` also builds the loose version and the printer check. `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: A packet kit prototype: print themes and page layouts (a capabilities test)
 - **Asked for:** "Build two column and three column work layouts for solving algebra problems ... Also build these English pages ... a reading page with questions in a box in the lower right hand quadrant ... 2 page spread 1: reference on the left design on the right ... choose three themes from chalk line and build typst themes to echo them ... a long timeline spread ... a long reading passage with images and glossing at the margins ... render a mini packet in three different styles. This is just a capabilities test at this point."
 - **Why:** to find out what the PDF side can do (themes like the slides, room to write, two-page spreads) before building it into Chalkline.

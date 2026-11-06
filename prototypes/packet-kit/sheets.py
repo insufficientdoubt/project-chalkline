@@ -11,7 +11,7 @@ from PIL import Image
 OUT = Path(__file__).resolve().parent / "out"
 DPI = sys.argv[1] if len(sys.argv) > 1 else "34"
 
-for pdf in sorted(OUT.glob("mini-packet-*.pdf")):
+for pdf in sorted(p for p in OUT.glob("mini-packet-*.pdf") if "loose" not in p.name):
     theme = pdf.stem.replace("mini-packet-", "")
     tmp = OUT / f"_pages-{theme}"
     tmp.mkdir(exist_ok=True)

@@ -30,6 +30,10 @@
 #let TH = state("chalkline-theme", themes.sky)
 #let SECTION = state("chalkline-section", "")
 #let PAGE = (w: 210mm, h: 297mm, inside: 20mm, outside: 15mm, top: 19mm, bottom: 17mm)
+// booklet (folded and stapled: spreads on facing pages, padded to a multiple of 4) or loose sheets
+// (printed double-sided, stapled in the corner: no facing pages, so no blank pages and no padding)
+#let BOOKLET = sys.inputs.at("booklet", default: "true") != "false"
+#let PAGE = if BOOKLET { PAGE } else { (..PAGE, inside: 17.5mm, outside: 17.5mm) }
 
 // ---------------------------------------------------------------- small pieces
 #let badge(t, body, size: 1.6em) = {
@@ -78,7 +82,7 @@
 }
 
 // Section heading: a letter, a title, the instructions.
-#let section(letter, title, instructions: none) = { SECTION.update(title); context {
+#let section(letter, title, instructions: none) = { [#metadata(title) <section-title>]; context {
   let t = TH.get()
   let head = [#badge(t, letter) #h(4pt) #text(font: t.head-font, weight: "bold", size: 13pt, fill: t.head, title)]
   let inner = [#head #if instructions != none { linebreak(); text(size: 9.5pt, fill: t.muted, instructions) }]
@@ -89,7 +93,7 @@
   v(1mm)
 } }
 
-#let titled(title, sub: none) = { SECTION.update(title); context {
+#let titled(title, sub: none) = { [#metadata(title) <section-title>]; context {
   let t = TH.get()
   text(font: t.head-font, weight: "bold", size: 20pt, fill: t.head, title)
   if sub != none { linebreak(); text(size: 10.5pt, fill: t.muted, sub) }
@@ -137,7 +141,7 @@
 // Start a two-page spread: the next page is a left-hand (even) page. Typst adds the blank page when one is
 // needed (pagebreak(to: "even"): no extra layout passes). Markers either side of the break show which page
 // was added, and the page background draws Notes lines on it (see notes-background), which can't move anything.
-#let spread-start() = [#metadata("pre-spread") <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>]
+#let spread-start() = if BOOKLET { [#metadata("pre-spread") <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>] } else { pagebreak(weak: true) }
 #let notes-background(t) = context {
   let p = here().page()
   let pres = query(<pre-spread>).map(m => m.location().page())
@@ -152,7 +156,7 @@
   }))
 }
 // Pad the end with Notes pages so the page count is a multiple of 4 (a folded, stapled booklet).
-#let finish-booklet() = [#metadata("content-end") <content-end>#context {
+#let finish-booklet() = if not BOOKLET { none } else [#metadata("content-end") <content-end>#context {
   let n = locate(<content-end>).page()   // where the content ends: a marker the padding can't move
   let pad = calc.rem(4 - calc.rem(n, 4), 4)
   for i in range(pad) { pagebreak(); notes-page() }
@@ -169,7 +173,11 @@
       let odd = calc.odd(n)
       set text(size: 8pt, fill: t.muted, font: t.label-font)
       let name = if t.badge == "mono" { upper(title) } else { title }
-      grid(columns: (1fr, 1fr), align(left)[#if not odd { name } else { unit }], align(right)[#if odd { SECTION.get() } else { "" }])
+      let titles = query(<section-title>)
+      let here-titles = titles.filter(m => m.location().page() == n)
+      let before = titles.filter(m => m.location().page() < n)
+      let sec = if here-titles.len() > 0 { here-titles.first().value } else if before.len() > 0 { before.last().value } else { "" }
+      grid(columns: (1fr, 1fr), align(left)[#if not odd { name } else { unit }], align(right)[#if odd { sec } else { "" }])
       v(-6pt)
       if t.rule == "zigzag" { line(length: 100%, stroke: (paint: t.line, thickness: 0.6pt, dash: "dashed")) }
       else if t.rule == "double" { line(length: 100%, stroke: 0.4pt + t.head) }
@@ -324,4 +332,92 @@
     grid(columns: (auto, 1fr), column-gutter: 5pt, badge(t, letter, size: 1.5em), text(size: 9pt, body))
     if pic != none { v(1fr); box(width: 100%, height: 17mm, clip: true, radius: calc.min(t.radius, 4pt), image(pic, width: 100%, height: 17mm, fit: "cover")) }
   })
+}
+
+// ---------------------------------------------------------------- a feature spread (magazine style)
+// A panorama across both pages (over the spine), a standfirst, two columns of text flowing from the left page
+// to the right, pictures and a pull quote set in the columns, and a box across the foot of both pages, cut by
+// the spine, with a badge sitting on it. The panorama and the box are drawn as page backgrounds in space the
+// text is kept out of (big top and bottom margins), so the two halves always line up and can't move the text.
+#let FEAT = (edge: 12mm, pano-h: 72mm, top: 92mm, bottom: 82mm, box-top: 222mm, box-h: 60mm)
+#let feature-bg(t, panorama, left-box, right-box, badge-text, credit) = context {
+  let p = here().page()
+  let left-page = calc.even(p)
+  let full = 2 * PAGE.w - 2 * FEAT.edge
+  // the panorama: one picture, cut at the spine
+  place(dx: if left-page { FEAT.edge } else { FEAT.edge - PAGE.w }, dy: FEAT.edge,
+    box(width: full, height: FEAT.pano-h, clip: true, radius: if t.radius > 0pt { 4pt } else { 0pt }, image(panorama, width: full, height: FEAT.pano-h, fit: "cover")))
+  // the box across the foot: open on the spine side, so it reads as one box across the two pages
+  let w = PAGE.w - PAGE.outside
+  let open-side = if left-page { (right: none) } else { (left: none) }
+  let st = if type(t.box-stroke) == dictionary { t.box-stroke } else { t.box-stroke }
+  place(dx: if left-page { PAGE.outside } else { 0mm }, dy: FEAT.box-top,
+    block(width: w, height: FEAT.box-h, fill: t.tint, inset: (x: 10mm, y: 8mm),
+      stroke: if left-page { (left: st, top: st, bottom: st) } else { (right: st, top: st, bottom: st) },
+      radius: if left-page { (top-left: t.radius, bottom-left: t.radius) } else { (top-right: t.radius, bottom-right: t.radius) },
+      if left-page { left-box } else { right-box }))
+  // the photo credit under the panorama (right-hand page), the page number under the box
+  if not left-page { place(dx: 0mm, dy: FEAT.edge + FEAT.pano-h + 1.5mm, block(width: PAGE.w - FEAT.edge, align(right, text(size: 6.5pt, fill: t.muted, credit)))) }
+  place(dx: if left-page { PAGE.outside } else { 0mm }, dy: FEAT.box-top + FEAT.box-h + 4mm,
+    block(width: PAGE.w - PAGE.outside, align(if left-page { left } else { right }, text(size: 8.5pt, weight: "bold", fill: t.head, str(p)))))
+  // a badge on the spine: half on each page
+  let r = 11mm
+  place(dx: (if left-page { PAGE.w } else { 0mm }) - r, dy: FEAT.box-top - r + 2mm,
+    circle(radius: r, fill: white, stroke: 1.4pt + t.accent, align(center + horizon, text(font: t.head-font, weight: "bold", size: 20pt, fill: t.accent, badge-text))))
+}
+#let feature-spread(title: "", kicker: "", standfirst: [], panorama: none, credit: [], left-box: [], right-box: [], badge-text: "?", body) = {
+  spread-start()
+  context {
+    let t = TH.get()
+    set page(margin: (inside: PAGE.inside, outside: PAGE.outside, top: FEAT.top, bottom: FEAT.bottom), header: none, footer: none,
+      background: feature-bg(t, panorama, left-box, right-box, badge-text, credit))
+    [#metadata(title) <section-title>]
+    block(width: 100%, below: 4mm, {
+      text(font: t.label-font, size: 8.5pt, fill: t.accent, tracking: 1pt, upper(kicker))
+      linebreak()
+      text(font: t.head-font, weight: "bold", size: 26pt, fill: t.head, title)
+      v(-6pt); rule(t, width: 45%); v(1mm)
+      text(size: 12.5pt, fill: t.muted, standfirst)
+    })
+    columns(2, gutter: 7mm, { set par(justify: true, leading: 0.62em, spacing: 0.75em); set text(size: 10pt); body })
+  }
+}
+// pieces for the feature text
+#let lead-in(body) = context text(font: TH.get().head-font, weight: "bold", fill: TH.get().head, smallcaps(body))
+#let pull-quote(body) = context {
+  let t = TH.get()
+  block(width: 100%, inset: (y: 4mm), above: 4mm, below: 4mm, stroke: (top: 1.5pt + t.accent, bottom: 0.5pt + t.line),
+    text(font: t.head-font, size: 14pt, fill: t.head, style: if t.section == "stitch" { "italic" } else { "normal" }, weight: "bold", body))
+}
+#let col-picture(path, caption, height: 48mm, at: auto) = context {
+  let t = TH.get()
+  // a float: it goes to the top or bottom of the column, and the text fills in around it (no gaps)
+  place(at, float: true, scope: "column", clearance: 4mm, block(width: 100%, breakable: false, {
+    box(width: 100%, height: height, clip: true, radius: calc.min(t.radius, 4pt), image(path, width: 100%, height: height, fit: "cover"))
+    v(1mm, weak: true)
+    text(size: 7.5pt, fill: t.muted, caption)
+  }))
+}
+#let reflect-items(start, items) = context {
+  let t = TH.get()
+  set text(size: 9.5pt)
+  for (i, q) in items.enumerate() {
+    block(below: 3mm)[#badge(t, str(start + i), size: 1.4em) #h(3pt) #q #v(5mm) #line(length: 100%, stroke: 0.6pt + t.line)]
+  }
+}
+
+// ---------------------------------------------------------------- the vocab list, for glosses
+// vgloss("ROM-011"): the meaning and 中文 come from vocab/data/vocab.csv, so a gloss never disagrees with the list.
+#let VOCAB = csv("/vocab/data/vocab.csv", row-type: dictionary)
+#let vgloss(id, word: none) = {
+  let row = VOCAB.find(r => r.id == id)
+  if row == none { return text(fill: red, "[no " + id + "]") }
+  gloss(if word == none { row.term_en } else { word }, row.short_def, zh: row.zh)
+}
+
+// ---------------------------------------------------------------- a landscape page inside a portrait packet
+// The content is turned 90° on an ordinary portrait page, so the packet still prints and staples as one.
+#let landscape(body) = {
+  pagebreak(weak: true)
+  align(center + horizon, rotate(-90deg, reflow: true, block(width: PAGE.h - PAGE.top - PAGE.bottom - 6mm, height: PAGE.w - PAGE.inside - PAGE.outside, body)))
 }

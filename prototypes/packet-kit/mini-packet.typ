@@ -10,15 +10,53 @@
 
 // ---------------------------------------------------------------- 1 · cover (a right-hand page)
 #cover("Roads of Rome", "Reading, words, math, a design challenge and a timeline", (
-  ("1", "Reading: Roads that held an empire (a two-page spread)", "2–3"),
-  ("2", "Words and story: vocabulary hunt, recall, sequence", "4–5"),
-  ("3", "Reading: The Colosseum", "6"),
-  ("4", "Math: solving equations", "7–8"),
-  ("5", "Reference and design: angles in a bridge (a spread)", "10–11"),
-  ("6", "Timeline: Rome, 800 BC to AD 500 (a spread)", "12–13"),
+  ("1", "Feature: Water for a city (a magazine spread)", "2–3"),
+  ("2", "Reading: Roads that held an empire (glossed)", "4–5"),
+  ("3", "Words and story: vocabulary hunt, recall, sequence", "6–7"),
+  ("4", "Reading: The Colosseum", "8"),
+  ("5", "Math: solving equations", "9–10"),
+  ("6", "Compare: Roman structures (a landscape page)", "11"),
+  ("7", "Reference and design: angles in a bridge", "12–13"),
+  ("8", "Timeline: Rome, 800 BC to AD 500", "14–15"),
 ))
 
-// ---------------------------------------------------------------- 2–3 · spread: a long reading, glossed in the margins
+// ---------------------------------------------------------------- 2–3 · a feature spread: panorama over the spine, a box across the foot
+#feature-spread(
+  title: "Water for a city",
+  kicker: "Feature · Roman engineering",
+  standfirst: [How did a million people in ancient Rome get clean water every day, with no pumps and no electricity? The answer is still standing in the hills of Europe.],
+  panorama: img("pont-du-gard.jpg"),
+  credit: [Photos: Pont du Gard, Benh LIEU SONG, CC BY-SA 3.0; Via Appia and Trajan's Column, public domain; all Wikimedia Commons.],
+  badge-text: "?",
+  left-box: [#context text(font: TH.get().head-font, weight: "bold", size: 12pt, fill: TH.get().head, "Reflect · 想一想") #v(1mm) #reflect-items(1, ([What surprised you most about the aqueducts?], [Why did the builders need to know about gravity?]))],
+  right-box: [#v(5.5mm) #reflect-items(3, ([What does your city do to bring you clean water today?], [If you were a Roman engineer, what problem would you want to solve next?]))],
+)[
+  #lead-in[Imagine a city] with no taps, no pipes under the street and no water trucks. Every drop for drinking, cooking and washing has to be carried from a river or a well. That was life in many towns two thousand years ago. Rome was different. By the first century AD, about a million people lived there, and water flowed into the city day and night, into fountains on the street corners, into public baths and into the houses of the rich.
+
+  The water came through aqueducts. The first, the Aqua Appia, was built in 312 BC by Appius Claudius, the same official who built the famous road, the Via Appia. Over the next five hundred years, Rome built ten more. Together they brought in more water for each person than many cities use today.
+
+  #col-picture(img("via-appia.jpg"), [The Via Appia. Its builder, Appius Claudius, also built Rome's first aqueduct.], height: 42mm)
+
+  An aqueduct is simple in one way: it is a channel that carries water downhill. But making the water flow the right way for fifty or even ninety kilometres was very hard. The channel could not go uphill, not even a little, or the water would stop. If it went down too steeply, the water would rush and wear the stone away. So the engineers planned a slope so gentle that you could not see it with your eyes. Over one kilometre, the channel might drop by only the height of a hand.
+
+  #pull-quote[No pumps, no motors: just stone, a careful slope and gravity.]
+
+  To measure such a tiny slope, Roman surveyors used tools like the _chorobates_, a long wooden table with a groove of water on top. When the water lay flat in the groove, the table was level. From there they could mark how far each next section should drop. They walked the whole route from the spring to the city, measuring and marking, before anyone started to dig.
+
+  Most of an aqueduct was not a bridge at all. It ran under the ground, in a covered channel that kept the water clean and cool and safe from enemies. Workers could climb down through holes along the way to clean out the mud. Only where the land dropped away, across a valley or a river, did the channel rise up onto arches.
+
+  #col-picture(img("trajans-column-legion.jpg"), [Roman soldiers at work, from Trajan's Column. Soldiers often did the heavy building.], height: 46mm)
+
+  The most famous of these bridges is the Pont du Gard in the south of France. It is almost fifty metres high, with three rows of arches, one on top of another. The stones on the outside were cut so well that the builders did not need mortar to hold them together. Each arch carries the weight sideways and down into the pillars, and the pillars carry it into the ground.
+
+  When the water reached the city, it went into a big tank called a _castellum_. From there, pipes carried it to three places: first to the public fountains, then to the baths, and last to private homes, which paid for it. In a dry summer, the homes were the first to lose their water, and the fountains the last. Everyone, rich or poor, could fill a jar at a fountain.
+
+  Keeping all this working took a small army of people. In AD 97 a man named Frontinus was put in charge of Rome's water. He found leaks, illegal pipes and channels full of stones and roots, and he wrote a book about how to fix them. It is one of the first books ever written about running a city.
+
+  Some Roman aqueducts still carry water today. Others stand empty in fields and valleys, and visitors walk under their arches and look up. They are a reminder that the most important thing a city builds is sometimes the one nobody sees: the water that arrives, every day, at the right place.
+]
+
+// ---------------------------------------------------------------- 4–5 · spread: a long reading, glossed in the margins
 #spread-start()
 #OUTSIDE.update(54mm)
 #[
@@ -30,13 +68,13 @@
 #figure(box(width: 100%, height: 70mm, clip: true, radius: 4pt, image(img("via-appia.jpg"), width: 100%, height: 70mm, fit: "cover")),
   caption: text(size: 8pt)[The Via Appia near Rome, more than 2,000 years old. Public domain, Wikimedia Commons.])
 
-#pn(1) Two thousand years ago, Rome ruled a huge #gloss("empire", "a group of lands ruled by one leader", zh: "帝国"). It stretched from Britain in the north to Egypt in the south. To hold it together, Rome needed a fast way to move soldiers, letters and food. Its answer was roads. A soldier could march 30 kilometres in a day on a good road. A journey that once took weeks now took days.
+#pn(1) Two thousand years ago, Rome ruled a huge #vgloss("ROM-005"). It stretched from Britain in the north to Egypt in the south. To hold it together, Rome needed a fast way to move soldiers, letters and food. Its answer was roads. A soldier could march 30 kilometres in a day on a good road. A journey that once took weeks now took days.
 
 #pn(2) Roman roads were not just paths of dirt. Builders dug a deep trench and filled it layer by layer. First came large stones, then a layer of #gloss("gravel", "small stones", zh: "碎石") and sand, and on top, flat paving stones that fitted together like a puzzle. The top of the road was curved, a little higher in the middle than at the sides. When it rained, the water ran to the edges and into ditches. A road that could #gloss("drain", "let water flow away", zh: "排水") stayed dry and sturdy for many years.
 
 #pn(3) Every Roman mile, about 1.5 kilometres, there was a milestone. It told travellers how far they were from the next town. #gloss("Merchants", "people who buy and sell things", zh: "商人") used the roads to carry wine, oil and cloth. News travelled along them too. People said that "all roads lead to Rome," and in a way they did: more than 80,000 kilometres of stone roads joined the empire's cities.
 
-#pn(4) Roads were only half of the story. Cities also needed clean water, often from springs far away in the hills. The builders' answer was the #gloss("aqueduct", "a bridge or channel that carries water", zh: "渡槽"). An aqueduct is a long channel that runs gently downhill all the way from the spring to the city. It has no pumps. It uses #gloss("gravity", "the force that pulls things down", zh: "重力"): water always flows down a slope, so the channel had to drop a little, but only a little, over every kilometre.
+#pn(4) Roads were only half of the story. Cities also needed clean water, often from springs far away in the hills. The builders' answer was the #vgloss("ROM-011"). An aqueduct is a long channel that runs gently downhill all the way from the spring to the city. It has no pumps. It uses #gloss("gravity", "the force that pulls things down", zh: "重力"): water always flows down a slope, so the channel had to drop a little, but only a little, over every kilometre.
 
 #figure(placement: auto, box(width: 100%, height: 74mm, clip: true, radius: 4pt, image(img("pont-du-gard.jpg"), width: 100%, height: 74mm, fit: "cover")),
   caption: text(size: 8pt)[The Pont du Gard in France carried water across a valley. Photo: Benh LIEU SONG, CC BY-SA 3.0, Wikimedia Commons.])
@@ -124,17 +162,17 @@
   v(2mm)
   panel(title: "Words")[*arena* a space for shows · *concrete* a mix that sets as hard as rock · *velarium* a cloth roof]
 }, [
-  In the middle of Rome stands a giant stone oval. It is the Colosseum, the largest arena the Romans ever built. Work began in AD 72 under the emperor Vespasian, and it opened eight years later, in AD 80. Up to 50,000 people could sit inside, more than in many football stadiums today.
+  #pn(1) In the middle of Rome stands a giant stone oval. It is the Colosseum, the largest arena the Romans ever built. Work began in AD 72 under the emperor Vespasian, and it opened eight years later, in AD 80. Up to 50,000 people could sit inside, more than in many football stadiums today.
 
-  The Colosseum is built from stone, brick and concrete. Concrete was one of the Romans' great inventions: a mix of lime, volcanic ash, water and small stones that set as hard as rock. It let builders make thick walls and curved shapes quickly. The outside wall has four levels. The first three have rows of arches, and each row uses a different style of column.
+  #pn(2) The Colosseum is built from stone, brick and concrete. Concrete was one of the Romans' great inventions: a mix of lime, volcanic ash, water and small stones that set as hard as rock. It let builders make thick walls and curved shapes quickly. The outside wall has four levels. The first three have rows of arches, and each row uses a different style of column.
 
-  Getting 50,000 people in and out was a puzzle. The builders solved it with 80 entrances, each with a number painted above it. A ticket showed your entrance, your section and your row. Wide stairs and corridors led to every seat, so the arena could empty in a few minutes.
+  #pn(3) Getting 50,000 people in and out was a puzzle. The builders solved it with 80 entrances, each with a number painted above it. A ticket showed your entrance, your section and your row. Wide stairs and corridors led to every seat, so the arena could empty in a few minutes.
 
-  On hot days, sailors pulled a huge cloth roof, the _velarium_, over the seats to make shade. Under the floor was a world of tunnels, rooms and lifts, where animals and fighters waited before they appeared in the arena.
+  #pn(4) On hot days, sailors pulled a huge cloth roof, the _velarium_, over the seats to make shade. Under the floor was a world of tunnels, rooms and lifts, where animals and fighters waited before they appeared in the arena.
 
-  The arena floor was made of wood covered with sand. The Latin word for sand is _harena_, and that is where our word "arena" comes from. Trapdoors in the floor let animals and scenery appear as if by magic, lifted up from the rooms below by ropes and wooden lifts.
+  #pn(5) The arena floor was made of wood covered with sand. The Latin word for sand is _harena_, and that is where our word "arena" comes from. Trapdoors in the floor let animals and scenery appear as if by magic, lifted up from the rooms below by ropes and wooden lifts.
 
-  The shows were often cruel: gladiators fought, and wild animals were hunted. Today we study the Colosseum for what it tells us about Roman life and Roman engineering. Earthquakes and stone robbers took away almost half of it, but what is left still shows how well it was planned.
+  #pn(6) The shows were often cruel: gladiators fought, and wild animals were hunted. Today we study the Colosseum for what it tells us about Roman life and Roman engineering. Earthquakes and stone robbers took away almost half of it, but what is left still shows how well it was planned.
 
 ], (
   [When did the Colosseum open?],
@@ -152,6 +190,22 @@
 // ---------------------------------------------------------------- 8 · math, three columns
 #section("E", "One-step equations", instructions: [Solve. Write the inverse operation you used, then the answer.])
 #problems(cols: 3, items: ([$x + 9 = 17$], [$x - 6 = 11$], [$4x = 36$], [$x / 5 = 7$], [$12 = x + 4$], [$3x = 27$], [$x - 2.5 = 4$], [$8x = 56$], [$x / 3 = 9$]), surface-style: "dots")
+
+// ---------------------------------------------------------------- 11 · a landscape page (turned 90° on a portrait page)
+#landscape[
+  #section("F", "Compare: Roman structures", instructions: [Use the readings. Write short notes in each box, then sketch each structure in the last column.])
+  #context {
+    let t = TH.get()
+    let h(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
+    block(height: 1fr, table(columns: (30mm, 1fr, 1fr, 1fr, 1fr, 46mm), rows: (auto, 1fr, 1fr, 1fr, 1fr), inset: 6pt,
+      fill: (x, y) => if y == 0 or x == 0 { t.tint } else { none }, align: (x, y) => if x == 0 { left + horizon } else { left + top },
+      h("Structure"), h("What is it for?"), h("What is it made of?"), h("How does it work?"), h("Where can you see one today?"), h("Sketch"),
+      text(weight: "bold", fill: t.head)[Road], [], [], [], [], [],
+      text(weight: "bold", fill: t.head)[Aqueduct], [], [], [], [], [],
+      text(weight: "bold", fill: t.head)[Arch bridge], [], [], [], [], [],
+      text(weight: "bold", fill: t.head)[Arena], [], [], [], [], []))
+  }
+]
 
 // ---------------------------------------------------------------- 10–11 · spread: reference on the left, design on the right
 // (if the math ended on a left-hand page, spread-start() would make the next page a Notes page)
