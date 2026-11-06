@@ -7,8 +7,19 @@ Print themes and page layouts for packets, written straight in Typst (no Quarto 
 
 - `kit.typ`: the themes and the pieces.
 - `mini-packet.typ`: a 24-page sample packet (Unit 2, Ancient Rome) that uses every layout.
+- `pages/`: worksheets shared by the packet and the loose sheets: the feature spread, the vocab hunt with recall, and the two-step equations.
+- `sheets/`: the same three as loose sheets.
 
-**Target: printed on A3 and folded.** Every packet is a booklet of A4 pages, the page count is a multiple of 4, and pages 2–3, 4–5 … face each other.
+**Two ways to print, one design.**
+
+- **The packet:** printed on A3 and folded. It's a booklet of A4 pages, the page count is a multiple of 4, and pages 2–3, 4–5 … face each other.
+- **A loose sheet:** one worksheet printed on its own, for example something added after the packets were printed.
+  - A4, with equal margins.
+  - Name / Class / Date at the top, "Page 1 of 2" and "Goes with packet page 15" at the foot.
+  - No Notes pages or back cover.
+  - A two-page spread comes out as **one A3 landscape page**, so it still reads as a spread.
+
+Each worksheet is one source file in `pages/`. The packet `#include`s it, and so does its loose sheet in `sheets/` (`#show: worksheet.with(...)`). That's how Chalkline already works: one file per printable, and the packet is put together from them.
 - `printer-test.typ`: one page per theme with every colour, tint, line, surface and text size. Print it, photocopy the print, and tick what still shows on both.
 
 ## Themes
@@ -47,6 +58,8 @@ Three, echoing the slide schemes, all print-safe. Paper stays white. Colour goes
 ## Settings
 
 - `--input theme=sky|trail|blueprint`.
+- Booklet or loose sheet isn't a setting: it's whether the file starts with `packet` or `worksheet`. Pieces that behave differently (spreads, glosses, padding) read the mode from the page.
+- `build.py` puts a loose sheet's spreads on A3 afterwards (`impose()`). It asks Typst where spreads start (the `<spread-page>` markers) and places each pair of A4 pages side by side.
 
 ## What we learned
 
@@ -65,6 +78,8 @@ Three, echoing the slide schemes, all print-safe. Paper stays white. Colour goes
 - **Page references move.** "Top of page 2" changes whenever a picture or margin changes, so the vocab hunt points to paragraph numbers (`¶3`), shown in the reading.
 
 ## Not done (next, if we build it)
+
+- "Goes with packet page 15" is typed in by hand here. Built into Chalkline, the packet build knows each printable's pages and can fill it in.
 
 - Wiring it into Quarto. Today a worksheet is a `.qmd` that Quarto turns into Typst. The pieces would become shortcodes or classes (`::: {.work-space size="half"}`), and the theme a setting (`packet-theme: trail`).
 - Checking the themes on the school's printer. The pale tints and dotted lines are the parts most likely to vanish or come out too dark.

@@ -28,6 +28,9 @@
   ),
 )
 #let TH = state("chalkline-theme", themes.sky)
+// "booklet": the whole packet, A3 folded (facing pages, padding, a back cover).
+// "sheet": one worksheet printed on its own, A4 (no facing pages, no padding; a spread is put on one A3 page).
+#let MODE = state("chalkline-mode", "booklet")
 // Units and subunits, for the contents page: unit-start("2", "Ancient Rome"), subunit("2.1", "Water and roads").
 // Every section and page title is an entry under them.
 #let unit-start(number, name) = [#metadata((kind: "unit", number: number, name: name)) <toc-unit>]
@@ -119,7 +122,7 @@
   let t = TH.get()
   let note = block(width: 36mm, text(size: 8pt, fill: t.ink, [#text(weight: "bold", fill: t.head, word) #h(2pt) #meaning #if zh != none [#linebreak()#text(fill: t.muted, zh)]]))
   let p = here().position()
-  let odd = calc.odd(p.page)
+  let odd = calc.odd(p.page) or MODE.get() == "sheet"
   let out = OUTSIDE.get()
   let x = if odd { PAGE.w - out + 6mm } else { out - 6mm - 40mm }
   let last = GLOSS.get()
@@ -142,7 +145,11 @@
 // Start a two-page spread: the next page is a left-hand (even) page. Typst adds the blank page when one is
 // needed (pagebreak(to: "even"): no extra layout passes). Markers either side of the break show which page
 // was added, and the page background draws Notes lines on it (see notes-background), which can't move anything.
-#let spread-start() = [#metadata("pre-spread") <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>]
+#let spread-start() = context {
+  if MODE.get() == "booklet" { [#metadata("pre-spread") <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>] }
+  else { [#pagebreak(weak: true)#metadata("spread") <spread>] }
+  context [#metadata(here().page()) <spread-page>]
+}
 #let notes-background(t) = context {
   let p = here().page()
   let pres = query(<pre-spread>).map(m => m.location().page())
@@ -159,6 +166,7 @@
 // The end of the booklet: Notes pages, then the back cover (if any) on the very last page, so the page count
 // is a multiple of 4 (A3 sheets, folded). Measured from a marker, so the padding can't move what it measures.
 #let finish-booklet(back: none) = [#metadata("content-end") <content-end>#context {
+  if MODE.get() != "booklet" { return }
   let n = locate(<content-end>).page()
   let total = calc.ceil((n + if back != none { 1 } else { 0 }) / 4) * 4
   for i in range(total - n - if back != none { 1 } else { 0 }) { pagebreak(); notes-page() }
@@ -351,7 +359,8 @@
 #let FEAT = (edge: 12mm, pano-h: 72mm, top: 92mm, bottom: 82mm, box-top: 222mm, box-h: 60mm)
 #let feature-bg(t, panorama, left-box, right-box, badge-text, credit) = context {
   let p = here().page()
-  let left-page = calc.even(p)
+  let starts = query(<spread>).map(m => m.location().page()).filter(x => x <= p)
+  let left-page = if starts.len() > 0 { calc.even(p - starts.last()) } else { calc.even(p) }
   let full = 2 * PAGE.w - 2 * FEAT.edge
   // the panorama: one picture, cut at the spine
   place(dx: if left-page { FEAT.edge } else { FEAT.edge - PAGE.w }, dy: FEAT.edge,
@@ -367,8 +376,8 @@
       if left-page { left-box } else { right-box }))
   // the photo credit under the panorama (right-hand page), the page number under the box
   if not left-page { place(dx: 0mm, dy: FEAT.edge + FEAT.pano-h + 1.5mm, block(width: PAGE.w - FEAT.edge, align(right, text(size: 6.5pt, fill: t.muted, credit)))) }
-  place(dx: if left-page { PAGE.outside } else { 0mm }, dy: FEAT.box-top + FEAT.box-h + 4mm,
-    block(width: PAGE.w - PAGE.outside, align(if left-page { left } else { right }, text(size: 8.5pt, weight: "bold", fill: t.head, str(p)))))
+  if MODE.get() == "booklet" { place(dx: if left-page { PAGE.outside } else { 0mm }, dy: FEAT.box-top + FEAT.box-h + 4mm,
+    block(width: PAGE.w - PAGE.outside, align(if left-page { left } else { right }, text(size: 8.5pt, weight: "bold", fill: t.head, str(p))))) }
   // a badge on the spine: half on each page
   let r = 11mm
   place(dx: (if left-page { PAGE.w } else { 0mm }) - r, dy: FEAT.box-top - r + 2mm,
@@ -378,7 +387,11 @@
   spread-start()
   context {
     let t = TH.get()
-    set page(margin: (inside: PAGE.inside, outside: PAGE.outside, top: FEAT.top, bottom: FEAT.bottom), header: none, footer: none,
+    // the inside margin on the spine side of each half: in a booklet the spread starts on an even page;
+    // on a loose sheet it may start on page 1, so the binding side is set from where it starts
+    let start = here().page()
+    set page(binding: if calc.odd(start) { right } else { left },
+      margin: (inside: PAGE.inside, outside: PAGE.outside, top: FEAT.top, bottom: FEAT.bottom), header: none, footer: none,
       background: feature-bg(t, panorama, left-box, right-box, badge-text, credit))
     [#metadata(title) <section-title>]
     block(width: 100%, below: 4mm, {
@@ -563,4 +576,31 @@
   })
   panel(title: "Picture credits")[#set text(size: 8pt); #credits]
   v(8mm)
+}
+
+// ---------------------------------------------------------------- a worksheet printed on its own
+// #show: worksheet.with(theme: "sky", title: "Two-step equations", unit: "Unit 2 · Ancient Rome", goes-with: "page 15")
+// The same pages as in the packet, on A4: equal margins, Name / Class / Date at the top, "Page 1 of 2" and
+// where it goes in the packet at the foot. A spread in it is put on one A3 page by build.py (impose()).
+#let worksheet(theme: "sky", title: "", unit: "", goes-with: none, name: true, body) = {
+  let t = themes.at(theme)
+  TH.update(t)
+  MODE.update("sheet")
+  set page(paper: "a4", margin: (x: 17.5mm, top: PAGE.top, bottom: PAGE.bottom),
+    header: context {
+      set text(size: 8pt, fill: t.muted, font: t.label-font)
+      grid(columns: (1fr, 1fr), align(left, unit), align(right, title))
+      v(-6pt); line(length: 100%, stroke: if t.rule == "zigzag" { (paint: t.line, thickness: 0.6pt, dash: "dashed") } else { 0.6pt + t.faint })
+    },
+    footer: context {
+      set text(size: 8pt, fill: t.muted, font: t.label-font)
+      let n = counter(page).get().first(); let total = counter(page).final().first()
+      grid(columns: (1fr, auto, 1fr), [], text(weight: "bold", fill: t.head, "Page " + str(n) + " of " + str(total)),
+        align(right, if goes-with != none { "Goes with packet " + goes-with } else { "" }))
+    })
+  set text(font: t.body-font, size: 10.5pt, fill: t.ink, lang: "en")
+  set par(leading: 0.6em, spacing: 0.9em)
+  set table(stroke: 0.6pt + t.line)
+  if name { name-row(); v(3mm) }   // (a spread starts on a new page: put the name in it instead)
+  body
 }

@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Packet kit: loose sheets come back, as single worksheets from the same files
+- **Asked for:** "If we're using one shared typst layout thing... Then yes we do need to support loose sheets. Because they will never print the whole packet that way but they may print individual worksheets that way. For example if some content is added to the unit after if the original packets have been printed."
+- **Why:** one design for both: the whole packet as an A3 folded booklet, and any single worksheet printed on its own.
+- **Changed:** `prototypes/packet-kit/kit.typ`: a mode (booklet or sheet); `worksheet()` (A4, equal margins, Name / Class / Date, "Page 1 of 2", "Goes with packet page …"); in sheet mode, spreads don't force a left-hand page, glosses go in the right margin, no padding or back cover, the feature spread's halves and binding follow where it starts; spreads record their start page. New `pages/` (three worksheets the packet and the sheets share) and `sheets/` (the three as loose sheets). `build.py`: builds the sheets in every theme and puts a spread on one A3 landscape page (`impose()`, from Typst's `<spread-page>` markers, with pypdf). `README.md` updated.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Packet kit: A3 folded booklets only; title page, contents by unit and subunit, vocab and language pages
 - **Asked for:** "the teachers are going to always print on a3 and fold, so that's going to be our Target. Let's add a title page that includes the course name, unit name, teacher name. Maybe optional hero image or decoration ... for the index ... the option of breaking it down by unit and subunit. We're also going to need two column vocabulary/language pages. With and without reference images versions."
 - **Why:** to settle the packet design before teachers start writing.

@@ -39,40 +39,7 @@
 
 #subunit("2.1", "Water and roads")
 // ---------------------------------------------------------------- 2–3 · a feature spread: panorama over the spine, a box across the foot
-#feature-spread(
-  title: "Water for a city",
-  kicker: "Feature · Roman engineering",
-  standfirst: [How did a million people in ancient Rome get clean water every day, with no pumps and no electricity? The answer is still standing in the hills of Europe.],
-  panorama: img("pont-du-gard.jpg"),
-  credit: [Photos: Pont du Gard, Benh LIEU SONG, CC BY-SA 3.0; Via Appia and Trajan's Column, public domain; all Wikimedia Commons.],
-  badge-text: "?",
-  left-box: [#context text(font: TH.get().head-font, weight: "bold", size: 12pt, fill: TH.get().head, "Reflect · 想一想") #v(1mm) #reflect-items(1, ([What surprised you most about the aqueducts?], [Why did the builders need to know about gravity?]))],
-  right-box: [#v(5.5mm) #reflect-items(3, ([What does your city do to bring you clean water today?], [If you were a Roman engineer, what problem would you want to solve next?]))],
-)[
-  #lead-in[Imagine a city] with no taps, no pipes under the street and no water trucks. Every drop for drinking, cooking and washing has to be carried from a river or a well. That was life in many towns two thousand years ago. Rome was different. By the first century AD, about a million people lived there, and water flowed into the city day and night, into fountains on the street corners, into public baths and into the houses of the rich.
-
-  The water came through aqueducts. The first, the Aqua Appia, was built in 312 BC by Appius Claudius, the same official who built the famous road, the Via Appia. Over the next five hundred years, Rome built ten more. Together they brought in more water for each person than many cities use today.
-
-  #col-picture(img("via-appia.jpg"), [The Via Appia. Its builder, Appius Claudius, also built Rome's first aqueduct.], height: 42mm)
-
-  An aqueduct is simple in one way: it is a channel that carries water downhill. But making the water flow the right way for fifty or even ninety kilometres was very hard. The channel could not go uphill, not even a little, or the water would stop. If it went down too steeply, the water would rush and wear the stone away. So the engineers planned a slope so gentle that you could not see it with your eyes. Over one kilometre, the channel might drop by only the height of a hand.
-
-  #pull-quote[No pumps, no motors: just stone, a careful slope and gravity.]
-
-  To measure such a tiny slope, Roman surveyors used tools like the _chorobates_, a long wooden table with a groove of water on top. When the water lay flat in the groove, the table was level. From there they could mark how far each next section should drop. They walked the whole route from the spring to the city, measuring and marking, before anyone started to dig.
-
-  Most of an aqueduct was not a bridge at all. It ran under the ground, in a covered channel that kept the water clean and cool and safe from enemies. Workers could climb down through holes along the way to clean out the mud. Only where the land dropped away, across a valley or a river, did the channel rise up onto arches.
-
-  #col-picture(img("trajans-column-legion.jpg"), [Roman soldiers at work, from Trajan's Column. Soldiers often did the heavy building.], height: 46mm)
-
-  The most famous of these bridges is the Pont du Gard in the south of France. It is almost fifty metres high, with three rows of arches, one on top of another. The stones on the outside were cut so well that the builders did not need mortar to hold them together. Each arch carries the weight sideways and down into the pillars, and the pillars carry it into the ground.
-
-  When the water reached the city, it went into a big tank called a _castellum_. From there, pipes carried it to three places: first to the public fountains, then to the baths, and last to private homes, which paid for it. In a dry summer, the homes were the first to lose their water, and the fountains the last. Everyone, rich or poor, could fill a jar at a fountain.
-
-  Keeping all this working took a small army of people. In AD 97 a man named Frontinus was put in charge of Rome's water. He found leaks, illegal pipes and channels full of stones and roots, and he wrote a book about how to fix them. It is one of the first books ever written about running a city.
-
-  Some Roman aqueducts still carry water today. Others stand empty in fields and valleys, and visitors walk under their arches and look up. They are a reminder that the most important thing a city builds is sometimes the one nobody sees: the water that arrives, every day, at the right place.
-]
+#include "pages/feature-water.typ"
 
 // ---------------------------------------------------------------- 4–5 · spread: a long reading, glossed in the margins
 #spread-start()
@@ -133,56 +100,7 @@
 #pagebreak()
 
 // ---------------------------------------------------------------- 4 · vocabulary hunt
-#section("A", "Vocabulary hunt", instructions: [Go to the paragraph in the reading (¶3 = paragraph 3). Find the word that matches the clue and write it in the Word box. A bold word part (*un-*, *-ly*) means the word has that prefix or suffix.])
-#vocab-hunt((
-  ("¶1", none, [_n._ a group of lands ruled by one leader]),
-  ("¶1", none, [_n._ people who fight in an army]),
-  ("¶1", none, [_n._ a long trip]),
-  ("¶2", none, [_n._ one level of material on top of another]),
-  ("¶2", none, [_n._ small stones]),
-  ("¶2", none, [_adj._ bent like part of a circle]),
-  ("¶2", none, [_v._ to let water flow away]),
-  ("¶2", none, [_adj._ strong; hard to break]),
-  ("¶3", none, [_n._ a stone that shows how far you have come]),
-  ("¶3", none, [_n._ people who buy and sell things]),
-  ("¶4", "-er", [_n._ people who make things]),
-  ("¶4", none, [_n._ a channel or bridge that carries water]),
-  ("¶4", none, [_n._ the force that pulls things down]),
-  ("¶4", none, [_n._ a surface that goes slowly up or down]),
-  ("¶5", none, [_n._ low land between hills]),
-  ("¶5", none, [_n._ curved shapes that hold up a bridge]),
-  ("¶5", "un-", [_adj._ still in one piece]),
-  ("¶6", "-ly", [_adv._ with great care]),
-  ("¶6", "-ous", [_adj._ known by many people]),
-  ("¶6", none, [_v._ to fix]),
-))
-#v(1fr)
-#panel(title: "Word parts")[*un-* = not · *-er* = a person who · *-ly* = in this way · *-ous* = full of]
-#v(3mm)
-#panel(title: "Name the reading:")[The reading is called "Roads that held an empire." Give it a new title. Then explain your title.
-  #v(2mm)
-  Title: #box(width: 1fr, line(length: 100%, stroke: 0.6pt))
-  #answer-lines(n: 2)
-]
-#pagebreak()
-
-// ---------------------------------------------------------------- 5 · recall, sequence, a prompt
-#section("B", "Reading recall", instructions: [Answer each question in a complete sentence.])
-#recall((
-  [Why did Rome need roads?],
-  [What were the layers of a Roman road?],
-  [Why was the top of the road curved?],
-  [How did water move along an aqueduct without pumps?],
-))
-#section("C", "Building a road", instructions: [Number the steps from 1 to 6 in the order the builders did them.])
-#sequence((
-  [Lay flat paving stones on top.],
-  [Dig a deep trench.],
-  [Put up a milestone every Roman mile.],
-  [Fill the bottom with large stones.],
-  [Make the top curved so rain runs off.],
-  [Add a layer of gravel and sand.],
-))
+#include "pages/words-hunt.typ"
 #pagebreak()
 
 // ---------------------------------------------------------------- a reading with questions in the lower right
@@ -234,8 +152,7 @@
 
 // ---------------------------------------------------------------- math, two columns
 #subunit("2.4", "Math")
-#section("E", "Two-step equations", instructions: [Solve each equation. Show every step in the box. Check your answer by putting it back into the equation.])
-#problems(cols: 2, items: ([$3x + 5 = 20$], [$2x - 7 = 9$], [$x / 4 + 3 = 8$], [$5x + 2 = 3x + 10$], [$4(x - 2) = 20$], [$7 - 2x = 1$]))
+#include "pages/two-step.typ"
 #pagebreak()
 
 // ---------------------------------------------------------------- 8 · math, three columns
