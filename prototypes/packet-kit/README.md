@@ -8,6 +8,12 @@ Print themes and page layouts for packets, written straight in Typst (no Quarto 
 - `kit.typ`: the themes and the pieces.
 - `mini-packet.typ`: a 24-page sample packet (Unit 2, Ancient Rome) that uses every layout.
 - `organizers.typ`: graphic organizers (KWL, Venn, Frayer, causes and effects, process flow, concept web, main idea as a temple).
+- `history.typ` and `mesopotamia.typ`: a second sample, a 12-page Mesopotamia booklet rebuilt from a colleague's worksheets:
+  - a source dossier (one artifact per page, real photos with numbered markers);
+  - two artifact investigations;
+  - a design-your-own-artifact challenge;
+  - a formative assessment (marks, a rubric that fits on one page, a paragraph planner);
+  - with a teacher edition. Photos in `images/` (credited on the back cover).
 - `pages/`: worksheets shared by the packet and the loose sheets: the feature spread, the vocab hunt with recall, and the two-step equations.
 - `sheets/`: the same three as loose sheets.
 
@@ -66,6 +72,7 @@ Each has the same small details, so generated pages still look thought through:
 
 | Organizer | What it is |
 |---|---|
+| `kwl-landscape`, `venn-landscape` | The same, on a landscape page. The title, instructions, language and "So what?" are in a column down the side, so the diagram gets the rest of the page. These are the ones the sample packet uses. |
 | `kwl(topic, …)` | K and W marked "before reading", L "after reading". Big faint letters, starters in each column, a "Where?" column (page and ¶) for evidence, and "surprised me" and "still wondering" boxes. |
 | `venn(a, b, …)` | Lined, lightly tinted circles; the overlap shows darker. Compare frames, and "So what?". |
 | `frayer(id)` | The word and its 中文 from the vocab list, in the middle of four boxes (definition in your own words, facts, examples ✓, non-examples ✗). Two to a page. |

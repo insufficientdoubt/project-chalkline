@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: Packet kit: landscape KWL and Venn, a narrower event, and a colleague's Mesopotamia worksheets rebuilt
+- **Asked for:** "Make the Venn diagram and the KWL into horizontal layouts. Move the instructions to the side of the page so that there is more room for the diagram ... For the causes and effects- make the event narrower and put its text horizontal ... I've also just got in a couple of examples from another teacher please build improved versions of these types of worksheets."
+- **Why:** more room to write in the organizers; and to test the kit on real worksheets (a source dossier, an artifact investigation with a design challenge, a formative assessment with a rubric).
+- **Changed:** `prototypes/packet-kit/organizers.typ`: `side-page`, `kwl-landscape` and `venn-landscape` (instructions, language and "So what?" in a side column); the cause-and-effect event is a 30 mm column with horizontal text. New `history.typ` (`source-card` with an at-a-glance strip, photo crops with numbered markers and matching notes, context, quote and citation; `investigation` with a source picker, sketch box, marker numbers and "how sure are you?"; `design-artifact`; `assessment-head`, `short-answer` with marks, `command-term`, `rubric`, `paragraph-chain`, `writing-lines` with a sentence counter) and `mesopotamia.typ` (a 12-page booklet with them). `images/`: the Code of Hammurabi (Mbzt, CC BY 3.0) and the Burney Relief (British Museum, CC0) from Wikimedia Commons. `build.py` builds it in three themes and a teacher edition.
+- **Who it helps:** probably every Chalkline course, once it's built in.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Packet kit: graphic organizers, a KWL, and a teacher edition with the answers filled in
 - **Asked for:** "Add some graphic organizers. Plus a KWL ... we don't want the simplest layouts ... part of the goal of this packet is to make generated content not look like it was just spat out by a context-free ai, so there should be some thoughtfulness and details built into these templates." And: "How hard is it to build the answer key so it actually fills in the packet?"
 - **Why:** organizers are in almost every packet. An answer key that matches the student pages page for page is easier to mark with than answer pages at the back.

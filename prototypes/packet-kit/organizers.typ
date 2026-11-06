@@ -135,11 +135,11 @@
   let cell(example: none, label: "") = block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, clip: true,
     block(width: 100%, height: 100%, fill: surface(t, "lines"), inset: (x: 6pt, top: 4pt), [#text(size: 7.5pt, weight: "bold", fill: t.muted, font: t.label-font, label) #if example != none { linebreak(); example }]))
   let arr = align(center + horizon, text(size: 20pt, fill: t.accent, sym.arrow.r))
-  block(height: 1fr, grid(columns: (1fr, 9mm, 1fr, 9mm, 1fr), rows: (auto, 1fr, 1fr, 1fr), row-gutter: 4mm,
+  block(height: 1fr, grid(columns: (1fr, 8mm, 30mm, 8mm, 1fr), rows: (auto, 1fr, 1fr, 1fr), row-gutter: 4mm,
     align(center, text(font: t.head-font, weight: "bold", fill: t.head, "Causes")), [], align(center, text(font: t.head-font, weight: "bold", fill: t.head, "Event")), [], align(center, text(font: t.head-font, weight: "bold", fill: t.head, "Effects")),
     cell(label: "CAUSE 1", example: eg(cause-example)), arr,
-    grid.cell(rowspan: 3, block(width: 100%, height: 100%, fill: t.tint, stroke: 1.6pt + t.head, radius: t.radius, inset: 10pt,
-      align(center + horizon, text(font: t.head-font, weight: "bold", size: 14pt, fill: t.head, event)))),
+    grid.cell(rowspan: 3, block(width: 100%, height: 100%, fill: t.tint, stroke: 1.6pt + t.head, radius: t.radius, inset: 5pt,
+      align(center + horizon, text(font: t.head-font, weight: "bold", size: 11pt, fill: t.head, hyphenate: false, event)))),
     arr, cell(label: "EFFECT 1", example: eg(effect-example)),
     cell(label: "CAUSE 2"), arr, arr, cell(label: "EFFECT 2"),
     cell(label: "CAUSE 3"), arr, arr, cell(label: "EFFECT 3")))
@@ -244,3 +244,91 @@
     place(dx: 4mm, dy: by + 30mm, rect(width: w - 8mm, height: 3mm, stroke: 1pt + t.head))
   })
 }
+
+// ---------------------------------------------------------------- landscape organizers: instructions down the side
+// A landscape page (turned on a portrait page) with a narrow column on the left for the title, what to do,
+// the language and the "So what?", and the rest of the page for the organizer itself.
+#let LW = 255mm   // the landscape page's usable width and height (see kit.landscape)
+#let LH = 175mm
+#let SIDE = 62mm
+#let side-page(title, sub, side, main) = landscape(context {
+  let t = TH.get()
+  set align(left + top)   // (landscape() centres the turned page; its content reads from the top left)
+  [#metadata(title) <section-title>]
+  grid(columns: (SIDE, 1fr), column-gutter: 7mm, rows: (LH,),
+    block(width: 100%, height: 100%, stroke: (right: 0.6pt + t.line), inset: (right: 6mm), {
+      text(font: t.head-font, weight: "bold", size: 17pt, fill: t.head, title)
+      if sub != none { linebreak(); text(size: 9pt, fill: t.muted, sub) }
+      v(-2pt); rule(t); v(3mm)
+      side
+    }),
+    block(width: 100%, height: 100%, main))
+})
+#let side-chips(label, words) = context {
+  let t = TH.get()
+  text(font: t.label-font, size: 8pt, weight: "bold", fill: t.muted, upper(label))
+  v(1mm)
+  for w in words { box(inset: (x: 6pt, y: 2.5pt), radius: if t.radius > 0pt { 8pt } else { 0pt }, stroke: 0.6pt + t.line, text(size: 8.5pt, w)); h(3pt); v(1.5mm, weak: true) }
+  v(3mm)
+}
+
+#let kwl-landscape(title, topic, k-example: [], w-example: [], l-example: [], where-example: []) = side-page(title, [Before and after you read], context {
+  let t = TH.get()
+  use-it[sort what you already know from what you find out.]
+  block(width: 100%, stroke: t.box-stroke, radius: t.radius, inset: 7pt, below: 3mm,
+    [#text(font: t.label-font, size: 8pt, weight: "bold", fill: t.muted, "TOPIC") \ #text(font: t.head-font, size: 12pt, weight: "bold", fill: t.head, topic)])
+  text(size: 9pt)[*1.* Before you read: fill in *K* and *W*. \ *2.* After you read: fill in *L*, and write *where* you found it.]
+  v(3mm)
+  work-space(height: 1fr, style: "lines", label: "One thing that surprised me")
+  work-space(height: 1fr, style: "lines", label: "A question I still have")
+}, context {
+  let t = TH.get()
+  let col(letter, title, prompt, example, starters: none, narrow: false, phase: none, pc: none) = block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, clip: true, {
+    if phase != none { block(width: 100%, inset: (y: 2.5pt), fill: pc.transparentize(85%), align(center, text(font: t.label-font, size: 7pt, weight: "bold", fill: pc, phase))) }
+    block(width: 100%, inset: (x: 7pt, top: 5pt, bottom: 4pt), stroke: (bottom: 0.6pt + t.line), {
+      if not narrow { place(top + right, dx: 2pt, dy: -6pt, text(font: t.head-font, size: 44pt, weight: "bold", fill: t.faint, letter)) }
+      text(font: t.head-font, weight: "bold", size: if narrow { 9pt } else { 13pt }, fill: t.head, title)
+      linebreak(); text(size: 8pt, fill: t.muted, prompt)
+      if starters != none { v(1mm); text(size: 7.5pt, fill: t.muted, starters) }
+    })
+    block(width: 100%, height: 1fr, fill: surface(t, "lines"), inset: (x: 7pt, top: 4pt), example)
+  })
+  grid(columns: (1fr, 1fr, 1fr, 22mm), column-gutter: 3mm, rows: (LH,),
+    col("K", "What I Know", [Facts you are sure of, and things you think are true.], eg(k-example), starters: [I know … · I think … · I remember …], phase: "BEFORE READING", pc: t.accent),
+    col("W", "What I Wonder", [Questions you want the reading to answer.], eg(w-example), starters: [Who …? · Why did …? · How did …? · What if …?], phase: "BEFORE READING", pc: t.accent),
+    col("L", "What I Learned", [New facts, and answers to your W questions.], eg(l-example), starters: [I learned … · Now I know … · I was wrong about …], phase: "AFTER READING", pc: t.hot),
+    col("", "Where?", [Page and ¶], eg(where-example), narrow: true, phase: "AFTER", pc: t.hot))
+})
+
+#let venn-landscape(title, a, b, a-example: [], both-example: [], b-example: [], prompt: []) = side-page(title, none, context {
+  let t = TH.get()
+  use-it[find what two things share, and what makes each one different.]
+  text(size: 9pt)[Write facts in the right part of the circles: only #text(fill: t.accent, weight: "bold", a), *both*, or only #text(fill: t.hot, weight: "bold", b).]
+  v(3mm)
+  side-chips("Compare", ([Both … and …], [Unlike …, …], [… but …], [… whereas …], [The same as …]))
+  v(1fr)
+  block(width: 100%, stroke: t.box-stroke, radius: t.radius, inset: 7pt, {
+    text(font: t.head-font, weight: "bold", fill: t.head, "So what? "); text(size: 8.5pt, prompt)
+    answer-lines(n: 5, gap: 8mm)
+  })
+}, context {
+  let t = TH.get()
+  let w = LW - SIDE - 7mm
+  let r = 74mm
+  let cx1 = w / 2 - 25mm
+  let cx2 = w / 2 + 25mm
+  let cy = LH / 2
+  let disc(cx, c) = place(dx: cx - r, dy: cy - r, box(width: 2 * r, height: 2 * r, radius: r, clip: true, stroke: 1.6pt + c,
+    fill: c.transparentize(93%), block(width: 100%, height: 100%, fill: tiling(size: (10mm, 8.5mm), relative: "parent", place(line(start: (0pt, 8.5mm), end: (10mm, 8.5mm), stroke: 0.5pt + t.line))))))
+  box(width: w, height: LH, {
+    disc(cx1, t.accent)
+    disc(cx2, t.hot)
+    let label(x, title, c) = place(dx: x - 30mm, dy: cy - r + 16mm, box(width: 60mm, align(center, [#text(font: t.head-font, weight: "bold", size: 14pt, fill: c, title) \ #text(size: 7.5pt, fill: t.muted, "only")])))
+    label(cx1 - 26mm, a, t.accent)
+    label(cx2 + 26mm, b, t.hot)
+    place(dx: w / 2 - 15mm, dy: cy - r + 30mm, box(width: 30mm, align(center, text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, "Both"))))
+    place(dx: cx1 - r + 14mm, dy: cy - 2mm, box(width: 40mm, eg(a-example)))
+    place(dx: w / 2 - 15mm, dy: cy - 2mm, box(width: 30mm, eg(both-example)))
+    place(dx: cx2 + 12mm, dy: cy - 2mm, box(width: 40mm, eg(b-example)))
+  })
+})

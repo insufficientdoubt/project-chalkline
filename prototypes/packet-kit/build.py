@@ -59,6 +59,10 @@ def main():
     if not sys.argv[1:]:
         # the teacher edition: the same pages with the answers written in
         compile(HERE / "mini-packet.typ", OUT / "mini-packet-sky-teacher.pdf", "theme=sky", "edition=teacher")
+        # the second sample: Mesopotamia, rebuilt from a colleague's worksheets
+        for theme in THEMES:
+            compile(HERE / "mesopotamia.typ", OUT / f"mesopotamia-{theme}.pdf", f"theme={theme}")
+        compile(HERE / "mesopotamia.typ", OUT / "mesopotamia-trail-teacher.pdf", "theme=trail", "edition=teacher")
     if not sys.argv[1:]:
         # loose sheets: the same pages, printed on their own (A4; a spread on one A3 page)
         for sheet in sorted((HERE / "sheets").glob("sheet-*.typ")):

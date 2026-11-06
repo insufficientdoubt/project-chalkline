@@ -106,8 +106,7 @@
 
 // ---------------------------------------------------------------- a reading with questions in the lower right
 #subunit("2.3", "Buildings")
-#titled("Before you read: KWL", sub: "The Colosseum")
-#kwl([The Colosseum], k-example: [It is in Rome.], w-example: [How many people could sit inside?], l-example: [Up to 50,000 people.], where-example: [p.13 ¶1])
+#kwl-landscape("Before you read: KWL", [The Colosseum], k-example: [It is in Rome.], w-example: [How many people could sit inside?], l-example: [Up to 50,000 people.], where-example: [p.13 ¶1])
 #pagebreak()
 #titled("The Colosseum", sub: "Read the text. Then answer the questions in the box.")
 #reading-page(beside: context {
@@ -225,9 +224,8 @@
 
 // ---------------------------------------------------------------- graphic organizers
 #subunit("2.6", "Thinking tools")
-#titled("Compare: Greek and Roman cities", sub: "Use what you know from Unit 1 (Greece) and this unit.")
-#venn("Greek cities", "Roman cities", a-example: [city-states, each with its own rules], both-example: [temples and theatres], b-example: [one empire, roads join the cities],
-  prompt: [Which difference matters most? Why? Use a compare word from the top of the page.])
+#venn-landscape("Compare: Greek and Roman cities", "Greek cities", "Roman cities", a-example: [city-states, each with its own rules], both-example: [temples and theatres], b-example: [one empire, roads join the cities],
+  prompt: [Which difference matters most? Why? Use a compare word from above.])
 #pagebreak()
 #titled("Word study: Frayer models", sub: "Two key words. Fill the four boxes around each word.")
 #frayer("ROM-011")
