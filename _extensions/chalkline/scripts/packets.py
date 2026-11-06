@@ -49,6 +49,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from catalog import YEAR_PACKET, formats_of, front_matter, load_packets, teacher_copy  # noqa: E402
 from extension import ROOT, typst_format  # noqa: E402
+import build_cache  # noqa: E402  (the publish workflow: reuse packets whose printables didn't change)
 
 STUDENT_COPY = "{name}-student.pdf"   # keep in step with `pdf-viewer: prefer:` in _quarto-teacher.yml
 COPY = ["course", "brand", "_extensions", "scripts", "generated", "_freeze"]   # scripts/: the course's own, if any
@@ -156,8 +157,11 @@ def student_copies(files, out_dir):
         return True
 
 
-def render(cfg, cover_text, dest, extra_files):
+def render(cfg, cover_text, dest, extra_files, cache_key=None):
     """Render one book in its own scratch folder and copy the PDF to `dest`. True if it worked."""
+    if build_cache.restore("packets", cache_key, dest):
+        print(f"packets: {dest.relative_to(ROOT)} (unchanged, from the last build)")
+        return True
     keep = "--keep" in sys.argv
     with tempfile.TemporaryDirectory(prefix="chalkline-packet-") as tmp:
         build = Path(tempfile.mkdtemp(prefix="chalkline-packet-")) if keep else Path(tmp)
@@ -176,6 +180,7 @@ def render(cfg, cover_text, dest, extra_files):
             return False
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(pdf, dest)
+        build_cache.store("packets", cache_key, dest)
         print(f"packets: {dest.relative_to(ROOT)}")
         return True
 
@@ -268,7 +273,8 @@ def main():
         for p in todo:
             paths, extra_files = chapter_files(p["chapters"])
             jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
-                         cover(p["objectives"], p["chapters"]), out_dir / name(p["pdf"]), extra_files))
+                         cover(p["objectives"], p["chapters"]), out_dir / name(p["pdf"]), extra_files,
+                         build_cache.key("packets", sources(p), name(p["pdf"]))))
         # The year packet: with a full rebuild, or with --stale when it's older than any printable.
         # Never with --unit, which is meant to be quick.
         if packets and not unit and ("--stale" not in sys.argv or is_stale(year_all, out_dir, name)):
@@ -281,7 +287,8 @@ def main():
             season = yaml.safe_load((ROOT / "course" / "season.yml").read_text(encoding="utf-8"))
             cfg = book_config(is_teacher, f"{season['name']} {season['season']}", f"Year packet · {label}",
                               ["index.qmd"] + parts)
-            jobs.insert(0, (cfg, cover([], all_chapters), out_dir / name(YEAR_PACKET), all_extra))  # longest first
+            jobs.insert(0, (cfg, cover([], all_chapters), out_dir / name(YEAR_PACKET), all_extra,  # longest first
+                            build_cache.key("packets", [d for p in packets for d in sources(p)], name(YEAR_PACKET))))
     # Teacher site: student copies of the printables (of one unit with --unit; only out-of-date ones with --stale)
     copies = []
     if teacher:
@@ -290,11 +297,29 @@ def main():
         if "--stale" in sys.argv:
             copies = [f for f in copies if not (out_dir / student_copy(f)).exists()
                       or (out_dir / student_copy(f)).stat().st_mtime < (ROOT / f).stat().st_mtime]
+    copy_keys, reused = {}, 0
+    for f in list(copies):
+        k = build_cache.key("student-copies", [str(Path(f).parent)], f)
+        if build_cache.restore("student-copies", k, out_dir / student_copy(f)):
+            copies.remove(f); reused += 1
+        else:
+            copy_keys[f] = k
+    if reused:
+        print(f"packets: {reused} student cop{'ies' if reused != 1 else 'y'} unchanged, from the last build")
     with ThreadPoolExecutor(WORKERS) as pool:
         waiting = pool.submit(student_copies, copies, out_dir) if copies else None
         list(pool.map(lambda job: render(*job), jobs))
         if waiting:
             waiting.result()
+    for f, k in copy_keys.items():
+        build_cache.store("student-copies", k, out_dir / student_copy(f))
+    if not unit and "--stale" not in sys.argv:   # a full run: forget packets nothing uses any more
+        build_cache.prune("packets"); build_cache.prune("student-copies")
+
+
+def sources(packet):
+    """The folders a packet is made from: each printable's unit folder, and its extra PDFs."""
+    return sorted({str(Path(f).parent) for f in packet["files"]} | set(packet.get("extras", [])))
 
 
 if __name__ == "__main__":

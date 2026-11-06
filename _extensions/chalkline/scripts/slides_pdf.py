@@ -26,6 +26,7 @@ from urllib.parse import unquote, urlsplit
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from catalog import front_matter  # noqa: E402
 from extension import ROOT  # noqa: E402
+import build_cache  # noqa: E402  (the publish workflow: reuse PDFs of decks that didn't change)
 
 CHANNELS = ["chrome", "msedge"]   # browsers Playwright can use without downloading its own
 # Several decks print at once in separate tabs; without these, Chrome slows the tabs it treats
@@ -130,7 +131,7 @@ def main():
                or "teacher" in os.environ.get("QUARTO_PROJECT_OUTPUT_DIR", ""))
     out_dir = ROOT / os.environ.get("QUARTO_PROJECT_OUTPUT_DIR", "_site-teacher" if teacher else "_site")
 
-    todo = []
+    todo, keys, reused = [], {}, 0
     only = arg("--deck")
     for src in decks():
         rel = src.relative_to(ROOT)
@@ -141,12 +142,20 @@ def main():
             continue   # not built in this site (the student site leaves teacher-only decks out)
         if "--stale" in sys.argv and pdf.exists() and pdf.stat().st_mtime >= html.stat().st_mtime:
             continue
+        k = build_cache.key("slides-pdf", [src.parent], "teacher" if teacher else "student")
+        if build_cache.restore("slides-pdf", k, pdf):
+            reused += 1
+            continue
+        keys[pdf] = k
         todo.append((rel, pdf))
-    if not todo:
-        return
-
-    query = "?print-pdf" + ("&showNotes=separate-page" if teacher else "")
-    asyncio.run(print_all(out_dir, [(ORIGIN + rel.with_suffix(".html").as_posix() + query, pdf) for rel, pdf in todo]))
+    if todo:
+        query = "?print-pdf" + ("&showNotes=separate-page" if teacher else "")
+        asyncio.run(print_all(out_dir, [(ORIGIN + rel.with_suffix(".html").as_posix() + query, pdf) for rel, pdf in todo]))
+        for pdf, k in keys.items():
+            build_cache.store("slides-pdf", k, pdf)
+    build_cache.note("slides_pdf", reused, len(todo))
+    if not only and "--stale" not in sys.argv:
+        build_cache.prune("slides-pdf")
 
 
 if __name__ == "__main__":

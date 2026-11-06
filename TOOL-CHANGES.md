@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: The publish step reuses slide PDFs, slide pictures and packets that didn't change
+- **Asked for:** "build times - I've noticed they've been getting longer. ... If I just want to add a deck or something it should still be fast?" Then, about packets: "Won't packet PDFs eventually become a problem if those get more complex?" and "Yes" to remembering them between builds.
+- **Why:** every push rebuilt everything on a fresh machine. On the 5 November publish the build took 3 m 20 s: pages 80 s, slide pictures 49 s, slide PDFs 42 s, packets 27 s. Each printable is rendered about five times (the site, its unit packet twice, the year packet twice), so packets grow with every printable.
+- **Changed:** `_extensions/chalkline/scripts/build_cache.py` (new): a cache of finished files, named by a hash of what went into them: everything shared (`_extensions/`, `brand/`, the `_quarto*.yml` files, the vocab data, `course/*.yml`) plus the thing's own unit folder. On only when `CHALKLINE_CACHE` is set. `slides_pdf.py`, `slide_pictures.py` and `packets.py` (unit packets, the year packet, the printables' student copies) copy an unchanged one from the cache, make the rest, remember them, and forget entries no longer used. `.github/workflows/publish.yml`: keeps `.chalkline-cache` between runs (actions/cache) and sets `CHALKLINE_CACHE`. `.gitignore`: the cache folder. Builds on a computer don't change (the launchers' --stale checks already skip what's up to date).
+- **Who it helps:** probably every Chalkline course that publishes with the workflow.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The palette (theme picker) on every deck in the teacher site
 - **Asked for:** "Let's make the theme selector available by default on the teacher build."
 - **Why:** not given (it was only on the guide's three decks).

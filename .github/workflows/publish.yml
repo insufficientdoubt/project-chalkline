@@ -44,7 +44,18 @@ jobs:
         with:
           version: 1.10.19     # same version as on our computers
 
+      # Slide PDFs, slide pictures and packets from the last build: only the ones whose sources changed are
+      # made again (scripts/build_cache.py). A change to Chalkline itself (_extensions/, brand/, settings) redoes all.
+      - name: Last build's PDFs and pictures
+        uses: actions/cache@v4
+        with:
+          path: .chalkline-cache
+          key: chalkline-build-${{ github.run_id }}
+          restore-keys: chalkline-build-
+
       - name: Build the teacher site
+        env:
+          CHALKLINE_CACHE: .chalkline-cache
         run: |
           export QUARTO_PYTHON="$(which python)"
           quarto render --profile teacher
