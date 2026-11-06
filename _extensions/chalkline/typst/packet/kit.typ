@@ -639,3 +639,24 @@
   if show-title == true or (show-title == auto and title != "" and title != []) { titled(title, sub: subtitle) }
   body
 }
+
+// ---------------------------------------------------------------- a unit packet built by Quarto (packets.py)
+// The packet as Quarto makes it: a book whose chapters are the unit's printables, each starting with a level-1
+// heading. Each one starts on a new page with its title in the theme; packets.py's first chapter draws the
+// title page and the contents; Notes pages and the back cover make it a multiple of 4 pages (A3, folded).
+#let booklet(theme: "sky", title: "", unit: "", teacher: auto, school: "", body) = {
+  show: packet.with(theme: theme, title: title, unit: unit, teacher: teacher)
+  let t = themes.at(theme)
+  show heading: it => block(above: 5mm, below: 2.5mm, breakable: false, sticky: true, {
+    set text(font: t.head-font, fill: t.head, weight: "bold", size: if it.level <= 2 { 14pt } else { 11.5pt })
+    it.body
+    if it.level <= 2 { v(-2pt); box(width: 30mm, rule(t)) }
+  })
+  show heading.where(level: 1): it => {
+    if it.body == [] { return }   // an outside PDF's chapter, or the title chapter: no title of its own
+    pagebreak(weak: true)
+    titled(it.body)
+  }
+  body
+  finish-booklet(back: back-cover(school: school, credits: []))
+}

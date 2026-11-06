@@ -16,6 +16,21 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-06: The packet rebuild, step 3 (on a branch): unit and year packets are kit booklets
+- **Asked for:** the plan in `IDEAS.md` (step 3: "`packets.py` builds each unit's booklet with the kit").
+- **Why:** packets printed on A3 and folded, in the same design as the pages.
+- **Changed:**
+  - `typst/typst-show.typ`: a book with `packet-booklet: true` is laid out by the new `kit.booklet`. Each printable (a chapter's level-1 heading) starts on a new page with its themed title; the book ends with Notes pages and the back cover, to a multiple of 4.
+  - `scripts/packets.py`:
+    - `book_config` sets `packet-booklet` and the running header;
+    - the first chapter (`cover`) is now the kit's title page, the contents (built from the pages), the objectives and the unit marker;
+    - the year packet's units get a divider page and a line in the contents;
+    - `vocab/` is copied into the build (the kit's word pages read it).
+  - `kit-blocks.lua`: `::: spread` starts a printable on a left-hand page.
+  - `guide/packet-templates.qmd`: how unit packets are built now.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The packet rebuild, steps 1–2 (on a branch): the kit lays out every printable, and its pieces are .qmd blocks
 - **Asked for:** "merge ideas and then just start working on the work and we'll see how far it gets" (the plan in `IDEAS.md`, "Packet templates: next steps"; breaking backwards compatibility is fine).
 - **Why:** one layout for every printable, and packet pages written in `.qmd` like everything else.

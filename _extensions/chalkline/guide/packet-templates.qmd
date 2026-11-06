@@ -30,8 +30,16 @@ Every printable's PDF now uses the kit: the theme comes from `packet-theme: sky`
 
 On the web, each page shows its words (questions, problems, events) without the answers; diagrams say to use the PDF.
 
+**Unit packets are booklets now.** `python chalkline.py packets` (and every full render) builds each unit's packet with the kit:
+- a title page (the unit's number and name, the course, the school);
+- the contents (from each printable's title) and the unit's "I can" objectives;
+- each printable starting on a new page;
+- Notes pages and a back cover, so the page count is a multiple of 4.
+
+The theme comes from `packet-theme:` in `_quarto.yml`. Put an empty `::: spread` block at the top of a printable to start it on a left-hand page, facing the next one.
+
 ::: {.callout-note title="Still to come"}
-Unit packets as A3 booklets (spreads, Notes pages, the contents) built from these pages, and loose sheets with "Goes with packet page …". Until then, each page's own PDF uses the kit, and the samples below show the whole booklet.
+"Goes with packet page …" on each printable's own PDF; a hero picture and the teacher's name on the packet's title page.
 :::
 
 ## How a packet works

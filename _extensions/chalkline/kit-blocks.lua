@@ -17,6 +17,7 @@
 --   ::: {.web topic="Roman engineering" branches="roads, water, buildings, tools, people, problems"}
 --   ::: temple
 --   ::: {.investigation letter="A" sources="Stele of Hammurabi, Burney Relief"}   (connect question inside, B only)
+--   ::: spread                          (empty) in a packet: start this page on a left-hand page (a two-page spread)
 --   ::: {.page-about name="Venn diagram" uses="comparing two things; before a compare paragraph"}   a hidden note
 
 local M = {}
@@ -155,6 +156,11 @@ TYPST["investigation"] = function(el)
   local connect = #el.content > 0 and content(el.content) or "none"
   return { typst("#hist.investigation(" .. str(a.letter or "A") .. ", " .. tuple(csv(a.sources), str) .. ", connect: " .. connect .. ")") }
 end
+TYPST["spread"] = function(el)   -- ::: spread  (empty): in a packet, the next page is a left-hand page
+  local out = { typst("#kit.spread-start()") }
+  for _, b in ipairs(el.content) do table.insert(out, b) end
+  return out
+end
 TYPST["page-about"] = function(el)
   local a = el.attributes
   return { typst("#kit.about(" .. str(a.name or "") .. ", uses: " .. tuple(csv(a.uses), str) .. ", pieces: " .. tuple(csv(a.pieces), str) .. ")") }
@@ -168,7 +174,8 @@ local NAMES = { kwl = "KWL chart", venn = "Venn diagram", frayer = "Frayer model
   investigation = "source investigation" }
 local function web(el, cls)
   if cls == "page-about" or cls == "work-space" then return {} end   -- (nothing to show on a web page)
-  if cls == "side-by-side" then return nil end   -- the blocks inside show one after another
+  if cls == "side-by-side" then return nil end
+  if cls == "spread" then return el.content end   -- the blocks inside show one after another
   if PRINT_ONLY[cls] then
     local note = pandoc.Div({ pandoc.Para({ pandoc.Emph({ pandoc.Str("On paper: a " .. NAMES[cls] .. ". Use the PDF version of this page.") }) }) },
       pandoc.Attr("", { "kit-print-only" }))

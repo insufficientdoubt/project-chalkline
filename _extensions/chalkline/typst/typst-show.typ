@@ -1,8 +1,18 @@
-// Every printable is laid out by the packet kit (kit.worksheet: A4, the theme in `packet-theme:`, Name /
+// Every printable is laid out by the packet kit; a packet (packet-booklet: true) by kit.booklet. Otherwise (kit.worksheet: A4, the theme in `packet-theme:`, Name /
 // Class / Date, the title, "Page 1 of 2"; the teacher edition when the page has `edition:`). Posters
 // (`layout: poster`) keep the older `article` layout in typst-template.typ. Replaces Quarto's default.
 #let chalkline-layout = "$if(layout)$$layout$$endif$"
-#show: doc => if chalkline-layout != "poster" {
+#show: doc => if $if(packet-booklet)$true$else$false$endif$ {
+  // a unit or year packet (scripts/packets.py): the whole book as an A3-folded booklet
+  kit.booklet(
+    theme: "$if(packet-theme)$$packet-theme$$else$sky$endif$",
+    title: [$if(title)$$title$$endif$],
+    unit: [$if(unit-name)$$unit-name$$endif$],
+    teacher: $if(edition)$true$else$false$endif$,
+    school: [$if(school)$$school$$endif$],
+    doc,
+  )
+} else if chalkline-layout != "poster" {
   kit.worksheet(
     theme: "$if(packet-theme)$$packet-theme$$else$sky$endif$",
     title: [$if(title)$$title$$endif$],

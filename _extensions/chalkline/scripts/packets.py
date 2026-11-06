@@ -52,25 +52,12 @@ from extension import ROOT, typst_format  # noqa: E402
 import build_cache  # noqa: E402  (the publish workflow: reuse packets whose printables didn't change)
 
 STUDENT_COPY = "{name}-student.pdf"   # keep in step with `pdf-viewer: prefer:` in _quarto-teacher.yml
-COPY = ["course", "brand", "_extensions", "scripts", "generated", "_freeze"]   # scripts/: the course's own, if any
+COPY = ["course", "brand", "_extensions", "scripts", "generated", "_freeze", "vocab"]   # vocab/: the kit's word and language pages   # scripts/: the course's own, if any
 WORKERS = max(1, min(4, (os.cpu_count() or 2) // 2))   # packets built at once (each Quarto run uses ~0.5 GB)
 
-# Each printable starts on a new page (except the first heading, under the cover banner).
-# `part` is what Quarto's book output calls for each unit in the year packet: a divider page.
-PAGE_BREAKS = """```{=typst}
-#let part(body) = {
-  pagebreak(weak: true)
-  v(1fr)
-  align(center, text(size: 30pt, weight: 700, fill: rgb("#003477"), body))
-  v(2fr)
-}
-#show heading.where(level: 1): it => {
-  if it.body == [] { return }   // an outside PDF's chapter has no title: no heading, no extra page
-  context if query(heading.where(level: 1).before(here())).len() > 1 { pagebreak(weak: true) }
-  it
-}
-```
-"""
+def ts(text):
+    """A Typst string literal."""
+    return '"' + str(text).replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
 def book_config(teacher, title, subtitle, chapters):
@@ -83,18 +70,38 @@ def book_config(teacher, title, subtitle, chapters):
     cfg["project"] = {"type": "book", "output-dir": "_book",
                       "execute-dir": site["project"].get("execute-dir", "project")}
     cfg["book"] = {"title": title, "subtitle": subtitle, "output-file": "packet", "chapters": chapters}
+    cfg["packet-booklet"] = True   # typst-show.typ: lay the whole book out with the packet kit (kit.booklet)
+    season = yaml.safe_load((ROOT / "course" / "season.yml").read_text(encoding="utf-8")) or {}
+    cfg["unit-name"] = season.get("name", "")   # the running header: the course on right-hand pages
     cfg["format"] = {"typst": typst_format(site)}   # Chalkline's PDF layout and the course's settings
     return cfg
 
 
-def cover(objectives, chapters):
-    """The packet's first chapter: objectives, then what's inside."""
-    lines = ["---", 'title: "In this packet"', "---", ""]
+def cover(objectives, chapters, unit=None):
+    """The packet's first chapter (no title of its own): the title page, the contents, and the objectives.
+    unit: (number, name) for a unit packet; None for the year packet, whose parts become units."""
+    site = yaml.safe_load((ROOT / "_quarto.yml").read_text(encoding="utf-8"))
+    season = yaml.safe_load((ROOT / "course" / "season.yml").read_text(encoding="utf-8")) or {}
+    course = season.get("name", (site.get("website") or {}).get("title", ""))
+    school = site.get("school", "")
+    number, name = unit if unit else ("", f"{season.get('name', '')} {season.get('season', '')}".strip())
+    lines = ["---", 'title: ""', "---", "", "```{=typst}",
+             f"#kit.title-page(course: {ts(course)}, unit: {ts(name)}, unit-number: {ts(number)}, teacher: {ts(season.get('teacher', ''))},",
+             f"  school: {ts(school)}, year: {ts(season.get('season', ''))}, hero: none)",
+             "#pagebreak()",
+             "#kit.contents(depth: " + ("3" if unit else "2") + ")"]
     if objectives:
-        lines += ["**Objectives**", ""] + [f"- {o}" for o in objectives] + [""]
-    lines += ["**Contents**", ""]
-    lines += [f"{n}. {c['title']}" for n, c in enumerate(chapters, 1)]
-    return "\n".join(lines) + "\n\n" + PAGE_BREAKS
+        lines += ["#v(4mm)", '#kit.panel(title: "By the end of this unit, I can …")[',
+                  *[f"  - {o}" for o in objectives], "]"]
+    if unit:
+        lines += [f"#kit.unit-start({ts(number)}, {ts(name)})"]
+    # the year packet: Quarto calls part() for each unit; here, a unit marker and a divider page
+    lines += ["#let part(body) = {",
+              "  pagebreak(weak: true)",
+              '  kit.unit-start("", body)',
+              "  context { let t = kit.TH.get(); v(1fr); align(center, text(font: t.head-font, size: 30pt, weight: \"bold\", fill: t.head, body)); v(2fr) }",
+              "}", "```", ""]
+    return "\n".join(lines)
 
 
 def chapter_files(chapters):
@@ -273,7 +280,8 @@ def main():
         for p in todo:
             paths, extra_files = chapter_files(p["chapters"])
             jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
-                         cover(p["objectives"], p["chapters"]), out_dir / name(p["pdf"]), extra_files,
+                         cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Unit\s*\d+\s*[:·-]\s*", "", p["title"]))),
+                         out_dir / name(p["pdf"]), extra_files,
                          build_cache.key("packets", sources(p), name(p["pdf"]))))
         # The year packet: with a full rebuild, or with --stale when it's older than any printable.
         # Never with --unit, which is meant to be quick.
