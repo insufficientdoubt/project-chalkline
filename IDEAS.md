@@ -41,6 +41,26 @@ Language goals come in different formats, and each needs its own fields and its 
 
 ## Packet templates: next steps
 
+**Decided 2026-11-06: the rebuild (backwards compatibility can break).**
+1. **The kit becomes Chalkline's only PDF layout.**
+   - Chalkline's current Typst template (worksheet, playful) is retired.
+   - **Posters stay**, as a kit option (A3 single pages), for vocabulary word walls and diagrams of key content.
+2. **Shortcodes and blocks for the kit's pieces**, so packet pages are written as `.qmd` with the usual labels:
+   - work spaces, problems, vocab hunt, recall, sequence, KWL, Venn, Frayer, source card, etc.;
+   - answers written next to their questions, for the teacher edition.
+3. **`packets.py` builds each unit's booklet with the kit:**
+   - themes, A3 folded, spreads, padding, contents by unit and subunit;
+   - a teacher edition;
+   - loose sheets, with "Goes with packet page …" filled in.
+4. **Web versions:** simple pages as real web pages; layout-heavy pages (spreads, Venn, timeline) show their PDF page.
+5. **Two units become guide examples,** copied into the guide, cleaned up, and rewritten with the new templates for both slides and printables:
+   - **Unit 5 (Angles, the math unit);**
+   - **one of the Greco-Roman units** (Greece or Rome: to choose).
+6. **The other demo units are archived.**
+7. **The Mesopotamia and Rome samples become `.qmd`**, and the guide's own printables (Angle Hunt, Thinker Card, Self-Check) are redone with the kit.
+8. **Work on its own branch,** so the site keeps publishing until it's merged. Note the breaking change in `TOOL-CHANGES.md` and the README.
+
+
 The packet kit is in Chalkline since 2026-11-06 (`_extensions/chalkline/typst/packet/`, samples in `guide/packet/`, the **Packet Templates** guide page). Still to do:
 
 - **Write packet pages from a unit's `.qmd` files.** Today a packet page is a short Typst file. Next:
