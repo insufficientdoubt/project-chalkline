@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-07: Full-page organizers on the web, and as landscape loose sheets
+- **Asked for:** "Web versions: simple pages as HTML; layout-heavy pages point to the PDF" (packet rebuild plan, step 4).
+- **Why:** a Venn or KWL can't be laid out as a web page, but students still need it.
+- **Changed:** `kit-blocks.lua`: on the web, a Venn or KWL page shows its own PDF in the PDF viewer (the student copy on the teacher site), with the pens, so students can write on it or print it; other paper-only organizers link to the PDF. `typst/packet/kit.typ`: `landscape()` makes a real landscape page on a loose sheet, so it shows the right way up on screen and ink lands in the right place; in the packet it is still turned on a portrait page.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-07: A heading's instructions stay with the task in PDFs
 - **Asked for:** fix the heading and its instruction line being left at the foot of a page (a known issue from the packet rebuild).
 - **Why:** a heading alone at the bottom of a page, with its task on the next, confuses students.

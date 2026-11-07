@@ -463,10 +463,18 @@
 }
 
 // ---------------------------------------------------------------- a landscape page inside a portrait packet
-// The content is turned 90° on an ordinary portrait page, so the packet still prints and staples as one.
-#let landscape(body) = {
-  pagebreak(weak: true)
-  align(center + horizon, rotate(-90deg, reflow: true, block(width: PAGE.h - PAGE.top - PAGE.bottom - 6mm, height: PAGE.w - PAGE.inside - PAGE.outside, body)))
+// In a packet, the content is turned 90° on an ordinary portrait page, so the packet still prints and folds
+// as one. A loose sheet gets a real landscape page instead (the same room), so it shows the right way up on
+// a screen, and ink written on it in the PDF viewer lands in the right place.
+#let landscape(body) = context {
+  let w = PAGE.h - PAGE.top - PAGE.bottom - 6mm
+  let h = PAGE.w - PAGE.inside - PAGE.outside
+  if MODE.get() == "sheet" {
+    page(flipped: true, margin: (x: (PAGE.h - w) / 2, top: 17mm, bottom: 17mm), align(center + horizon, block(width: w, height: h, body)))
+  } else {
+    pagebreak(weak: true)
+    align(center + horizon, rotate(-90deg, reflow: true, block(width: w, height: h, body)))
+  }
 }
 
 // ---------------------------------------------------------------- title page, contents, overview, self-check, back

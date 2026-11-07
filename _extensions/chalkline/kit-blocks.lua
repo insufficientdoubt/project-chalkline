@@ -216,6 +216,21 @@ local PRINT_ONLY = { kwl = true, venn = true, frayer = true, ["cause-effect"] = 
 local NAMES = { kwl = "KWL chart", venn = "Venn diagram", frayer = "Frayer model", ["cause-effect"] = "causes and effects",
   flow = "process flow", web = "concept web", temple = "main idea and details", ["work-space"] = "space to write or draw",
   investigation = "source investigation" }
+-- The PDF viewer (pdf-viewer/), for a page's own PDF: the same markup as {{< pdf-viewer >}}, which tries the
+-- student copy first (on the teacher site) and has pens to write on the page.
+local function pdf_viewer(file, title)
+  quarto.doc.add_html_dependency({
+    name = "pdf-viewer", version = "1.0.0",
+    scripts = { { path = "pdf-viewer/pdf-viewer.js", attribs = { type = "module" }, afterBody = true } },
+    stylesheets = { "pdf-viewer/pdf-viewer.css" },
+    resources = { "pdf-viewer/pdf.min.mjs", "pdf-viewer/pdf.worker.min.mjs", "pdf-viewer/pdf-lib.esm.min.js" },
+  })
+  local function esc(x) return (x:gsub("&", "&amp;"):gsub("<", "&lt;"):gsub(">", "&gt;"):gsub('"', "&quot;")) end
+  local student = file:gsub("%.pdf$", "-student.pdf")
+  return pandoc.RawBlock("html", '<div class="pdfv pdfv-viewer" data-src="' .. esc(file) .. '" data-title="' .. esc(title) ..
+    '" data-layout="viewer" data-page="1" data-prefer="' .. esc(student) .. '" data-ink="true" data-prevent-swipe data-pending style="height:640px">' ..
+    '<a class="pdfv-fallback" href="' .. esc(file) .. '">📄 ' .. esc(title) .. ' (PDF)</a></div>')
+end
 local function web(el, cls)
   if cls == "page-about" or cls == "work-space" then return {} end   -- (nothing to show on a web page)
   if cls == "side-by-side" then return nil end
@@ -232,8 +247,18 @@ local function web(el, cls)
     return { pandoc.Div(cells, pandoc.Attr("", { "kit-block", "kit-picture-answers" }, { style = "display:grid; grid-template-columns: repeat(" .. (tonumber(el.attributes.cols) or 3) .. ", 1fr); gap: 1rem" })) }
   end   -- the blocks inside show one after another
   if PRINT_ONLY[cls] then
-    local note = pandoc.Div({ pandoc.Para({ pandoc.Emph({ pandoc.Str("On paper: a " .. NAMES[cls] .. ". Use the PDF version of this page.") }) }) },
-      pandoc.Attr("", { "kit-print-only" }))
+    -- the page's own PDF (made by the same render; on the teacher site, its student copy)
+    local pdf = quarto.doc.input_file and (pandoc.path.split_extension(pandoc.path.filename(quarto.doc.input_file)) .. ".pdf")
+    if pdf and (cls == "venn" or cls == "kwl") then
+      -- a whole-page organizer: the page itself, in the PDF viewer, with pens to write on it
+      local viewer = pdf_viewer(pdf, el.attributes.title or NAMES[cls])
+      local note = pandoc.Para({ pandoc.Emph({ pandoc.Str("This page is a " .. NAMES[cls] .. " on paper. Write on it here with the pens, or print it.") }) })
+      return { pandoc.Div({ note, viewer }, pandoc.Attr("", { "kit-print-only" })) }
+    end
+    local said = { pandoc.Str("On paper: a " .. NAMES[cls] .. ". ") }
+    if pdf then said[#said + 1] = pandoc.Link({ pandoc.Str("Use the PDF version of this page.") }, pdf)
+    else said[#said + 1] = pandoc.Str("Use the PDF version of this page.") end
+    local note = pandoc.Div({ pandoc.Para({ pandoc.Emph(said) }) }, pandoc.Attr("", { "kit-print-only" }))
     if #el.content > 0 and cls ~= "work-space" then note.content:extend(el.content) end
     return { note }
   end
