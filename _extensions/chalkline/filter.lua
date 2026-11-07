@@ -485,6 +485,17 @@ local function Meta(meta)
   if quarto.doc.is_format("typst") and quarto.project.directory then
     local kit = pandoc.path.make_relative(quarto.utils.resolve_path("typst/packet"), quarto.project.directory):gsub("\\", "/")
     meta["chalkline-kit"] = pandoc.MetaInlines({ pandoc.RawInline("typst", "/" .. kit) })   -- raw: no escaping of the _
+    -- A loose sheet's footer: "Goes with packet page 5", where this printable starts in its unit packet
+    -- (scripts/packets.py writes generated/packet-pages.json from the last packet build).
+    if meta["goes-with"] == nil and quarto.doc.input_file then
+      local f = io.open(pandoc.path.join({ quarto.project.directory, "generated", "packet-pages.json" }), "r")
+      if f then
+        local ok, pages = pcall(quarto.json.decode, f:read("a"))
+        f:close()
+        local me = pandoc.path.make_relative(quarto.doc.input_file, quarto.project.directory):gsub("\\", "/")
+        if ok and type(pages) == "table" and pages[me] then meta["goes-with"] = "page " .. tostring(math.floor(pages[me])) end
+      end
+    end
     return meta
   end
   return nil

@@ -35,6 +35,7 @@ It also writes a student copy of every printable next to its teacher edition, fo
 (slides show it with {{< pdf-viewer "<sheet>.pdf" >}}; see `pdf-viewer: prefer:` in _quarto-teacher.yml).
 """
 
+import json
 import os
 import re
 import shutil
@@ -269,7 +270,7 @@ def main():
     editions = [(True, teacher_copy), (False, lambda pdf: pdf)] if teacher else [(False, lambda pdf: pdf)]
     year_all = {"pdf": YEAR_PACKET, "files": [f for p in packets for f in p["files"]],
                 "extras": [e for p in packets for e in p.get("extras", [])]}
-    jobs = []
+    jobs, page_jobs = [], {}   # page_jobs: a unit packet -> its printables, for packet-pages.json
     for is_teacher, name in editions:
         label = "Teacher edition · with answer keys" if is_teacher else ("Student copy" if teacher else "Packet")
         if unit:
@@ -280,6 +281,7 @@ def main():
             todo = packets
         for p in todo:
             paths, extra_files = chapter_files(p["chapters"])
+            page_jobs[out_dir / name(p["pdf"])] = p["files"]
             jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
                          cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Unit\s*\d+\s*[:·-]\s*", "", p["title"]))),
                          out_dir / name(p["pdf"]), extra_files,
@@ -307,6 +309,7 @@ def main():
                 if "--stale" in sys.argv and not is_stale(p, out_dir, name):
                     continue
                 paths, extra_files = chapter_files(p["chapters"])
+                page_jobs[out_dir / name(p["pdf"])] = p["files"]
                 jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
                              cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"]))),
                              out_dir / name(p["pdf"]), extra_files,
@@ -320,23 +323,52 @@ def main():
             copies = [f for f in copies if not (out_dir / student_copy(f)).exists()
                       or (out_dir / student_copy(f)).stat().st_mtime < (ROOT / f).stat().st_mtime]
     copy_keys, reused = {}, 0
+    with ThreadPoolExecutor(WORKERS) as pool:
+        list(pool.map(lambda job: render(*job), jobs))
+    pages = record_pages(page_jobs)
+    # (the student copies come after the packets: their "Goes with packet page …" comes from them)
     for f in list(copies):
-        k = build_cache.key("student-copies", [str(Path(f).parent)], f)
+        k = build_cache.key("student-copies", [str(Path(f).parent)], f + "@" + str(pages.get(f, "")))
         if build_cache.restore("student-copies", k, out_dir / student_copy(f)):
             copies.remove(f); reused += 1
         else:
             copy_keys[f] = k
     if reused:
         print(f"packets: {reused} student cop{'ies' if reused != 1 else 'y'} unchanged, from the last build")
-    with ThreadPoolExecutor(WORKERS) as pool:
-        waiting = pool.submit(student_copies, copies, out_dir) if copies else None
-        list(pool.map(lambda job: render(*job), jobs))
-        if waiting:
-            waiting.result()
+    if copies:
+        student_copies(copies, out_dir)
     for f, k in copy_keys.items():
         build_cache.store("student-copies", k, out_dir / student_copy(f))
     if not unit and "--stale" not in sys.argv:   # a full run: forget packets nothing uses any more
         build_cache.prune("packets"); build_cache.prune("student-copies")
+
+
+PAGES_FILE = ROOT / "generated" / "packet-pages.json"
+
+
+def record_pages(page_jobs):
+    """Where each printable starts in its unit packet, from the packet PDF's bookmarks (one per printable,
+    in order; an outside PDF's chapter has no title, so no bookmark). Saved in generated/packet-pages.json,
+    where filter.lua finds it for the printable's loose sheet: "Goes with packet page 5". Returns them all."""
+    try:
+        pages = json.loads(PAGES_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        pages = {}
+    try:
+        import fitz   # pymupdf
+    except ImportError:
+        return pages
+    for pdf, files in page_jobs.items():
+        if not pdf.exists():
+            continue
+        starts = [page for level, title, page in fitz.open(pdf).get_toc() if level == 1 and title.strip()]
+        if len(starts) != len(files):
+            print(f"packets: {pdf.name}: {len(starts)} chapter bookmarks for {len(files)} printables; page labels skipped")
+            continue
+        pages.update(dict(zip(files, starts)))
+    PAGES_FILE.parent.mkdir(parents=True, exist_ok=True)
+    PAGES_FILE.write_text(json.dumps(pages, indent=1, sort_keys=True), encoding="utf-8")
+    return pages
 
 
 def sources(packet):

@@ -20,7 +20,8 @@
     unit: [$if(unit-name)$$unit-name$$endif$],
     teacher: $if(edition)$true$else$false$endif$,
     name: $if(opens-full-page)$false$else$true$endif$,
-    show-title: $if(opens-full-page)$false$else$auto$endif$,   // a full-page Venn or KWL has its own title and Name
+    show-title: $if(opens-full-page)$false$else$auto$endif$,
+    goes-with: $if(goes-with)$"$goes-with$"$else$none$endif$,   // "page 5": where it starts in its unit packet (filter.lua)   // a full-page Venn or KWL has its own title and Name
     doc,
   )
 } else { article(

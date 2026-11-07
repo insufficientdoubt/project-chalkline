@@ -38,8 +38,10 @@ On the web, each page shows its words (questions, problems, events) without the 
 
 The theme comes from `packet-theme:` in `_quarto.yml`. Put an empty `::: spread` block at the top of a printable to start it on a left-hand page, facing the next one.
 
+Each printable's own PDF (a loose sheet) says where it is in the packet, "Goes with packet page 5", at the foot of the page. The page comes from the last packet build (`generated/packet-pages.json`), so a new printable gets its label from the next full build.
+
 ::: {.callout-note title="Still to come"}
-"Goes with packet page …" on each printable's own PDF; a hero picture and the teacher's name on the packet's title page.
+A hero picture and the teacher's name on the packet's title page.
 :::
 
 ## How a packet works

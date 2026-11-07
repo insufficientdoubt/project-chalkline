@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-07: "Goes with packet page …" on loose sheets
+- **Asked for:** loose sheets "with 'Goes with packet page' filled in" (packet rebuild plan, step 3).
+- **Why:** a sheet printed on its own should show where it belongs in the unit packet.
+- **Changed:** `scripts/packets.py`: after the packets are built, reads where each printable starts from the packet PDF's chapter bookmarks and saves it in `generated/packet-pages.json`; the student copies are now made after the packets (not alongside), so theirs is up to date. `filter.lua`: a printable's PDF looks itself up there and sets `goes-with`; `typst-show.typ` passes it to `kit.worksheet`'s footer. `kit.typ`: a packet chapter that opens with a Venn or KWL keeps its page break, so its bookmark points at the right page. Guide's Packet templates page: says how it works.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: Example unit: Ancient Rome (packet rebuild, step 5)
 - **Asked for:** "copy those into the guide as examples and clean them up and rewrite them using the new templates for both slides and printables … you can include any interesting slides from the Greek one in the rome one."
 - **Why:** the old demo units will be archived; the guide keeps one maths and one history unit as finished examples to copy.

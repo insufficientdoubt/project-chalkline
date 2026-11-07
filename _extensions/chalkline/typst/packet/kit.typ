@@ -655,12 +655,13 @@
   show heading.where(level: 1): it => {
     if it.body == [] { return }   // an outside PDF's chapter, or the title chapter: no title of its own
     // A chapter whose page is a full-page organizer with its own title (a Venn, a KWL) skips the chapter title,
-    // or the title would sit alone on a page of its own; the organizer starts the new page itself.
+    // or the title would sit alone on a page of its own.
+    pagebreak(weak: true)
     context {
       let next = query(heading.where(level: 1).after(here(), inclusive: false))
       let own = selector(<own-title>).after(here())
       if next.len() > 0 { own = own.before(next.first().location()) }
-      if query(own).len() == 0 { pagebreak(weak: true); titled(it.body) }
+      if query(own).len() == 0 { titled(it.body) }
     }
   }
   body
