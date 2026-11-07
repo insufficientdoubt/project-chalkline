@@ -513,6 +513,21 @@ local function Pandoc(doc)
         break
       end
     end
+    -- A heading's instructions stay with what they introduce: a short paragraph right after a heading,
+    -- with more to come, sticks to the next block (the heading already sticks to it), so a heading and its
+    -- "Draw the …" line are never left at the foot of a page on their own.
+    local out = {}
+    for i, b in ipairs(doc.blocks) do
+      local prev, nxt = doc.blocks[i - 1], doc.blocks[i + 1]
+      if b.t == "Para" and prev and prev.t == "Header" and nxt and #pandoc.utils.stringify(b) < 400 then
+        out[#out + 1] = pandoc.RawBlock("typst", "#block(sticky: true)[")
+        out[#out + 1] = b
+        out[#out + 1] = pandoc.RawBlock("typst", "]")
+      else
+        out[#out + 1] = b
+      end
+    end
+    doc.blocks = out
     return doc
   end
   if not quarto.doc.is_format("revealjs") then return nil end

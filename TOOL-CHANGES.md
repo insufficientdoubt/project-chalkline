@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-07: A heading's instructions stay with the task in PDFs
+- **Asked for:** fix the heading and its instruction line being left at the foot of a page (a known issue from the packet rebuild).
+- **Why:** a heading alone at the bottom of a page, with its task on the next, confuses students.
+- **Changed:** `filter.lua` (PDF only): a short paragraph (under 400 characters) right after a heading is put in a sticky block, so it moves to the next page with what follows, as the heading already did.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-07: Packet covers: a cover picture, the school logo, credits on the back
 - **Asked for:** the packet title page's "hero" picture and teacher name (packet rebuild plan, step 3).
 - **Why:** not given; the title page had placeholders.
