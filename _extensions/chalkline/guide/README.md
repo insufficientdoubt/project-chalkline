@@ -15,7 +15,7 @@ and how to use them.
   Chalkline pieces or examples (see `V1-PLAN.md`).
 - **Pictures:** small, openly licensed, credited in `images/CREDITS.md` and on the deck's credits slide.
 - **No vocab words or sample units:** the guide must work in any course, so it can't rely on the sample's vocab list
-  or packets. It brings its own worksheets (`angle-hunt.qmd`, `example-handout.qmd`) for the work galleries. (Its vocab
+  or packets. It brings its own worksheets (`samples/angle-hunt.qmd`, `samples/example-handout.qmd`) for the work galleries. (Its vocab
 galleries still use this sample's words: in another course they're empty, a known gap.)
 - **The draw.io diagram:** after editing `drawio/summary.drawio`, run
   `python chalkline.py drawio _extensions/chalkline/guide/drawio/summary.drawio`.

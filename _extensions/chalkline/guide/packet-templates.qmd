@@ -11,7 +11,7 @@ Packets are printed on **A3 and folded** into a booklet of A4 pages. These sampl
 
 ## Write packet pages in .qmd
 
-Every printable's PDF now uses the kit: the theme comes from `packet-theme: sky` (or `trail`, `blueprint`) in its labels, and the teacher site prints the teacher edition, with the answers written in. Write the pieces as blocks. In a list, `|` separates the parts, and **answers print only in the teacher edition**. See **Roads and Water** (`guide/roads-practice.qmd`) for a page written this way.
+Every printable's PDF now uses the kit: the theme comes from `packet-theme: sky` (or `trail`, `blueprint`) in its labels, and the teacher site prints the teacher edition, with the answers written in. Write the pieces as blocks. In a list, `|` separates the parts, and **answers print only in the teacher edition**. See **Roads and Water** (`guide/samples/roads-practice.qmd`) for a page written this way.
 
 | Block | Write | In the PDF |
 |---|---|---|
@@ -101,20 +101,20 @@ fetch("packet/packet-templates.json").then(r => r.ok ? r.json() : null).then(row
 
 ## The Rome example (36 pages, written in .qmd)
 
-The Ancient Rome example unit's packet uses every kind of page: title page and contents, a magazine feature spread, a glossed reading spread, key words and the language page, a vocabulary hunt, a KWL, a reading with a questions box, a landscape chart, math in two and three columns, a reference and design spread, a timeline across a spread, the graphic organizers and a self-check. Every page is a `.qmd` file in [Example Unit: Ancient Rome](example-rome/index.qmd).
+The Ancient Rome example unit's packet uses every kind of page: title page and contents, a magazine feature spread, a glossed reading spread, key words and the language page, a vocabulary hunt, a KWL, a reading with a questions box, a landscape chart, math in two and three columns, a reference and design spread, a timeline across a spread, the graphic organizers and a self-check. Every page is a `.qmd` file in [Ancient Rome](examples/example-rome/index.qmd).
 
-{{< pdf-viewer "example-rome/example-rome-packet.pdf" layout="gallery" title="Rome example · Sky" >}}
+{{< pdf-viewer "examples/example-rome/example-rome-packet.pdf" layout="gallery" title="Rome example · Sky" >}}
 
-**The same packet, other themes:** [Trail](example-rome/example-rome-packet-trail.pdf) · [Blueprint](example-rome/example-rome-packet-blueprint.pdf) · [Teacher edition (Sky)](example-rome/example-rome-teacher-packet.pdf). A unit asks for these with `packet-themes: [trail, blueprint]` in its `index.qmd`.
+**The same packet, other themes:** [Trail](examples/example-rome/example-rome-packet-trail.pdf) · [Blueprint](examples/example-rome/example-rome-packet-blueprint.pdf) · [Teacher edition (Sky)](examples/example-rome/example-rome-teacher-packet.pdf). A unit asks for these with `packet-themes: [trail, blueprint]` in its `index.qmd`.
 
 ## The Mesopotamia example (12 pages, written in .qmd)
 
-Rebuilt from a teacher's own worksheets, as an example unit you can copy: a source dossier spread (real museum photos with numbered markers), two source investigations, a design-your-own-artifact challenge, and a formative assessment with marks, a rubric and a paragraph planner. Every page is a `.qmd` file written with the history blocks below; see [Example Unit: Mesopotamia](example-mesopotamia/index.qmd).
+Rebuilt from a teacher's own worksheets, as an example unit you can copy: a source dossier spread (real museum photos with numbered markers), two source investigations, a design-your-own-artifact challenge, and a formative assessment with marks, a rubric and a paragraph planner. Every page is a `.qmd` file written with the history blocks below; see [Mesopotamia](examples/example-mesopotamia/index.qmd).
 
-{{< pdf-viewer "example-mesopotamia/example-mesopotamia-packet.pdf" layout="gallery" title="Mesopotamia example · Trail" >}}
+{{< pdf-viewer "examples/example-mesopotamia/example-mesopotamia-packet.pdf" layout="gallery" title="Mesopotamia example · Trail" >}}
 
-**Teacher edition:** [the same packet with the answers written in](example-mesopotamia/example-mesopotamia-teacher-packet.pdf)
+**Teacher edition:** [the same packet with the answers written in](examples/example-mesopotamia/example-mesopotamia-teacher-packet.pdf)
 
 ## Loose sheets and the printer check
 
-Every page of the example units is also a loose sheet: open a page in [Example Unit: Ancient Rome](example-rome/index.qmd) and use its PDF (A4, with Name, "Page 1 of 2" and "Goes with packet page …"). Print the [**printer check**](packet/printer-test.pdf) once (one page per theme: print it, photocopy the print, tick what still shows).
+Every page of the example units is also a loose sheet: open a page in [Ancient Rome](examples/example-rome/index.qmd) and use its PDF (A4, with Name, "Page 1 of 2" and "Goes with packet page …"). Print the [**printer check**](packet/printer-test.pdf) once (one page per theme: print it, photocopy the print, tick what still shows).

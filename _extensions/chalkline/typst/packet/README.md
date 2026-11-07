@@ -5,7 +5,7 @@ Print themes and page layouts for unit packets, in Typst. Packets are printed on
 **In Chalkline:**
 - this folder (`typst/packet/`) is the kit;
 - every printable's PDF is laid out with it (`typst-show.typ`: `kit.worksheet`), and so is every unit packet (`scripts/packets.py`: `kit.booklet`);
-- pages are written in `.qmd` with the packet blocks (`kit-blocks.lua`); the guide's example units (`guide/example-*/`) use every one;
+- pages are written in `.qmd` with the packet blocks (`kit-blocks.lua`); the guide's example units (`guide/examples/example-*/`) use every one;
 - `scripts/packet_kit.py` builds the printer check and the list of example pages for the guide's **Packet Templates** page.
 
     python chalkline.py packet-kit      # the printer check and the page list, now (into _site-teacher/)

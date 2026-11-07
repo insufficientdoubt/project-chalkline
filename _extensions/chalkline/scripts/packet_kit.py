@@ -1,7 +1,7 @@
 """The guide's printer check, and the list of packet pages, for the Packet Templates page (teacher site).
 
 The packet kit (typst/packet/) lays out every printable and packet. The guide's examples of it are whole units
-written in .qmd (guide/example-*/), built into packets by scripts/packets.py like a course's own. This script
+written in .qmd (guide/examples/example-*/), built into packets by scripts/packets.py like a course's own. This script
 compiles the printer check (one page per print theme, to print, photocopy and see what survives) and writes
 packet-templates.json: every example page, with what it's for and what it's made of (each page's page-about
 note) and where it is in its unit's packet.
@@ -106,14 +106,14 @@ ATTR = re.compile(r'([a-z-]+)="([^"]*)"')
 
 
 def example_pages():
-    """The example units' pages (guide/example-*/): each .qmd's page-about note, and where it starts in the
+    """The example units' pages (guide/examples/example-*/): each .qmd's page-about note, and where it starts in the
     unit's packet (generated/packet-pages.json, from the last packet build)."""
     try:
         starts = json.loads((ROOT / "generated" / "packet-pages.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         starts = {}
     out = []
-    for index in sorted(GUIDE.glob("example-*/index.qmd")):
+    for index in sorted(GUIDE.glob("examples/example-*/index.qmd")):
         folder = index.parent
         for qmd in sorted(folder.glob("*.qmd")):
             page = starts.get(qmd.relative_to(ROOT).as_posix())
@@ -124,7 +124,7 @@ def example_pages():
             out.append({"name": a.get("name", qmd.stem), "page": page,
                         "uses": [u.strip() for u in a.get("uses", "").split(";") if u.strip()],
                         "pieces": [p.strip() for p in a.get("pieces", "").split(",") if p.strip()],
-                        "pdf": f"{folder.name}/{folder.name}-packet.pdf",
+                        "pdf": f"examples/{folder.name}/{folder.name}-packet.pdf",
                         "sample": "Example: " + folder.name.removeprefix("example-").title()})
     return out
 

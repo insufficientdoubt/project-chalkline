@@ -1,29 +1,58 @@
 ---
 title: "How to Use Chalkline"
-short-title: "Chalkline guide"
+short-title: "Start here: the guide"
 order: 2
 audience: [teacher]
 format: html
-description: "Chalkline's slide templates and examples, ready to copy into your own lessons. Teacher site only."
-listing:
-  contents: ["*.qmd", "example-*/index.qmd"]
-  type: table
-  fields: [title, type, description]
-  field-display-names:
-    type: Type
-  sort: "order"
-  filter-ui: false
-  sort-ui: false
+description: "Start here: the templates to copy from, the finished example units, and how the pieces fit together. Teacher site only."
 ---
 
-Two decks, two jobs:
+Everything here is ready to copy into your own lessons. Start with the five pages below: most lessons are made from them.
 
-- **Exemplar lesson:** how to *plan* a lesson. One SIOP lesson as a 2D deck: across, the seven phases of a lesson; down, other ways to run each phase, with a note on when to choose each one.
-- **Template Library:** where you *copy from*. Every tested slide layout, game and activity, sorted into columns by what it's for (start a lesson, explain, read, check, review…). Each slide's notes (press **S**) list what it can be used for, in any subject, and the pieces it's made of.
+::: {.guide-cards}
+::: {.guide-card}
+[Template Library](templates-slides.qmd){.guide-card-title}
 
-**Printable templates** has the worksheets, handouts and checklists to copy. The **Slide kit** shows how the slide pieces and looks are made.
+**Slides.** Every tested slide layout, game and activity, in columns by purpose: start a lesson, words, explain, read, watch, tasks, talk, check, games, end. Copy the closest slide and change its words.
+:::
 
-Your own templates are in **My templates**, and your own colour schemes in **My themes**, above this section.
+::: {.guide-card}
+[Printable Templates](printables.qmd){.guide-card-title}
+
+**Worksheets, handouts and checklists.** Each one is a page you copy, with the blocks it's made of: word banks, work spaces, recall questions, answers for the teacher edition.
+:::
+
+::: {.guide-card}
+[Packet Templates](packet-templates.qmd){.guide-card-title}
+
+**Every kind of packet page,** and what it's for: readings, word pages, organizers, sources, tests, timelines. Pages are printed on A3 and folded into a booklet.
+:::
+
+::: {.guide-card}
+[Example Units](examples/index.qmd){.guide-card-title}
+
+**Three finished units:** Angles, Ancient Rome and Mesopotamia. Slides, printables and each unit's packet. Copy one to start your own unit.
+:::
+
+::: {.guide-card}
+[Exemplar Lesson](exemplar-slides.qmd){.guide-card-title}
+
+**How to plan a lesson.** One lesson as a 2D deck: across, the seven phases; down, other ways to run each phase, and when to choose each one.
+:::
+:::
+
+## Also in the guide
+
+- **[Slide kit](slide-kit-slides.qmd):** how the slide pieces and looks are made (boxes, tiles, text roles, the credits slide).
+- **[Sample printables](samples/index.qmd):** the small printables the decks show in their galleries.
+- **Your own:** **My templates** (your own slides to reuse) and **My themes** (your colour schemes), above this section in the sidebar.
+
+## Making a lesson, step by step
+
+1. **Slides:** open the Template Library, find the column for what you need, and copy the closest slide into your deck.
+2. **Printables:** copy a page from Printable Templates or an example unit. Write key words as `{{</* vocab "word" zh=true */>}}`.
+3. **Words and language:** add words to `vocab/data/vocab.csv` and sentence frames to `vocab/data/frames.csv`; pages and slides read them from there.
+4. **The packet:** every printable in a unit goes into its packet by itself. Rebuild it with `python chalkline.py packets --unit 3`.
 
 ::: {.callout-note title="Where this comes from, and how to turn it off" collapse="true"}
 This guide is part of Chalkline. It's copied into your teacher site each time the site is built, and it updates when Chalkline does. It's not in your course's files, and students never see it.
@@ -38,5 +67,3 @@ chalkline-guide: false
 
 To bring it back, delete that line (or write `true`). Turning the guide off only hides these pages. Every template piece (boxes, tiles, timers, the puzzle and the rest) still works in your own slides.
 :::
-
-## Templates and examples

@@ -1,5 +1,5 @@
 ---
-title: "Example Unit: Mesopotamia 美索不达米亚"
+title: "Mesopotamia 美索不达米亚"
 short-title: "Example · Mesopotamia"
 unit: "C"
 packet-theme: trail
@@ -24,6 +24,6 @@ listing:
   sort-ui: false
 ---
 
-A packet for a history unit, written as `.qmd` pages with the packet kit's history and assessment blocks: source cards (a picture with numbered markers, facts at a glance, notes in English and 中文, context, how to cite it), source investigations, a design challenge, a short-answer test with marks, and a paragraph task with a command term, a rubric and a planner. Copy the folder (`course/guide/02-chalkline/example-mesopotamia/`, or `guide/example-mesopotamia/` in Chalkline) into `course/units/`, then change its words.
+A packet for a history unit, written as `.qmd` pages with the packet kit's history and assessment blocks: source cards (a picture with numbered markers, facts at a glance, notes in English and 中文, context, how to cite it), source investigations, a design challenge, a short-answer test with marks, and a paragraph task with a command term, a rubric and a planner. Copy the folder (`course/guide/02-chalkline/examples/example-mesopotamia/`, or `guide/examples/example-mesopotamia/` in Chalkline) into `course/units/`, then change its words.
 
 **The packet:** [student booklet](example-mesopotamia-packet.pdf) · [teacher edition](example-mesopotamia-teacher-packet.pdf) (A3, folded; the Trail theme).

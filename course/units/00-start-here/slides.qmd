@@ -106,7 +106,7 @@ For teachers new to this: you don't need to learn a language. Most slides are he
 - Nothing to list by hand: add a file to the unit folder and it appears
 
 ::: {.small-note}
-Try it: open **How to use Chalkline → Example Unit: Ancient Rome** in the sidebar.
+Try it: open **How to use Chalkline → Example units → Ancient Rome** in the sidebar.
 :::
 
 ## Packets build themselves
@@ -311,13 +311,13 @@ Every chip with a solid border opens a working example in another deck: press th
 ::: {.cat-box .cat-stem}
 [STEM you can move]{.cat-head} [4]{.cat-n}
 
-[Drag a triangle: angles add to 180°](../../guide/02-chalkline/templates-slides.html#/explorer){.chip} [GeoGebra graphs with sliders](../../guide/02-chalkline/templates-slides.html#/sliders){.chip} [Blocks that become Python](../../guide/02-chalkline/templates-slides.html#/blocks){.chip} [Turn an angle from acute to full](../../guide/02-chalkline/example-angles/angle-explorer.html){.chip}
+[Drag a triangle: angles add to 180°](../../guide/02-chalkline/templates-slides.html#/explorer){.chip} [GeoGebra graphs with sliders](../../guide/02-chalkline/templates-slides.html#/sliders){.chip} [Blocks that become Python](../../guide/02-chalkline/templates-slides.html#/blocks){.chip} [Turn an angle from acute to full](../../guide/02-chalkline/examples/example-angles/angle-explorer.html){.chip}
 :::
 
 ::: {.cat-box .cat-print}
 [Printables and units]{.cat-head} [5]{.cat-n}
 
-[Printable templates](../../guide/02-chalkline/printables.html){.chip} [Packet pages](../../guide/02-chalkline/packet-templates.html){.chip} [A worksheet with its answers](../../guide/02-chalkline/example-angles/turning-angles-worksheet.html){.chip} [Example unit: Angles (math)](../../guide/02-chalkline/example-angles/index.html){.chip} [Example unit: Ancient Rome (history)](../../guide/02-chalkline/example-rome/index.html){.chip}
+[Printable templates](../../guide/02-chalkline/printables.html){.chip} [Packet pages](../../guide/02-chalkline/packet-templates.html){.chip} [A worksheet with its answers](../../guide/02-chalkline/examples/example-angles/turning-angles-worksheet.html){.chip} [Example unit: Angles (math)](../../guide/02-chalkline/examples/example-angles/index.html){.chip} [Example unit: Ancient Rome (history)](../../guide/02-chalkline/examples/example-rome/index.html){.chip}
 
 Every printable has a teacher copy with the answer key, and goes into its unit's packet.
 :::

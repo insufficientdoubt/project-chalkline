@@ -11,7 +11,7 @@
 | Part | Where | Look for |
 |---|---|---|
 | **Start here** | `course/units/00-start-here/` | A short slide deck: what Chalkline does and how to make your own unit |
-| **Example units** | `_extensions/chalkline/guide/example-angles/`, `example-rome/` (on the teacher site: **How to use Chalkline**) | Two finished units to copy into `course/units/`: slides, printables written with the packet kit, and the unit packet (A3, folded), with a teacher edition |
+| **Example units** | `_extensions/chalkline/guide/examples/example-angles/`, `example-rome/` (on the teacher site: **How to use Chalkline**) | Two finished units to copy into `course/units/`: slides, printables written with the packet kit, and the unit packet (A3, folded), with a teacher edition |
 | **Template Library** | `_extensions/chalkline/guide/templates-slides.qmd` | Every tested slide layout, game and activity, to copy from |
 | **Archived units** | `archive/units/` | The older demo units (Ancient Greece, Ancient Rome, Göbekli Tepe, STEM Sampler, Angles). Not built; see `archive/README.md` |
 | **Vocab** | `vocab/` | 52 words with pictures, 中文 and simple definitions, in the vocab app (sidebar: **History vocab 词汇**) |
@@ -23,7 +23,7 @@
 Things to try once the site is open:
 
 - Hover or tap a word with a dotted line on any slide: its vocab card pops up.
-- Open **How to use Chalkline → Example Unit: Ancient Rome** and click the packet: every printable in one A3-folded booklet, ready to copy.
+- Open **Guide → How to use Chalkline** (the guide's front page, teacher site), then **Example units → Ancient Rome**, and click the packet: every printable in one A3-folded booklet, ready to copy.
 - Open a slide deck and press **S** for speaker notes, **T** for the timer.
 - In a slide deck, press **W** (or the four-squares button, bottom left) for the classroom tools: name picker, groups, scoreboard, voice level with a noise meter, slide size, traffic light, QR code, stopwatch, dice, music, and the unit's vocab and packet. They float above the slides and stay put when you change slides.
 - In the overview, each deck has a **PDF** too.
@@ -108,7 +108,7 @@ You can do almost everything here by asking an AI assistant: Claude, Gemini, Cha
 
 ## Make your own unit
 
-1. Copy an example unit (`_extensions/chalkline/guide/example-rome/`, or `course/guide/02-chalkline/example-rome/` after a teacher build) into `course/units/`, and rename it (`03-my-unit`).
+1. Copy an example unit (`_extensions/chalkline/guide/examples/example-rome/`, or `course/guide/02-chalkline/examples/example-rome/` after a teacher build) into `course/units/`, and rename it (`03-my-unit`).
 2. In its `index.qmd`, change `title`, `short-title`, `unit` and the `objectives`. The unit appears in the sidebar and overview by itself.
 3. Edit or replace the slides and printables. Keep the labels at the top of each file: `type:` (slides, worksheet, handout, reference…), `order:` and `audience:` (who sees it: `teacher`, `student`; see "Students, families and teachers" below).
 4. Add your words to `vocab/data/vocab.csv` (see `vocab/README.md`), then run `python chalkline.py validate`.

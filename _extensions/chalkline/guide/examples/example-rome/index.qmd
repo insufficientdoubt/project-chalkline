@@ -1,5 +1,5 @@
 ---
-title: "Example Unit: Ancient Rome 古罗马"
+title: "Ancient Rome 古罗马"
 short-title: "Example · Ancient Rome"
 unit: "B"
 packet-theme: sky
@@ -26,7 +26,7 @@ listing:
   sort-ui: false
 ---
 
-A whole history unit: four slide decks and the printables, written with the packet kit, which come together as the unit's packet. The first deck takes in the best of the old Ancient Greece unit (democracy in Athens, temples and columns) as Rome's Greek roots, and the Venn page compares the two. Copy the folder (`course/guide/02-chalkline/example-rome/`, or `guide/example-rome/` in Chalkline) into `course/units/`, then change its words.
+A whole history unit: four slide decks and the printables, written with the packet kit, which come together as the unit's packet. The first deck takes in the best of the old Ancient Greece unit (democracy in Athens, temples and columns) as Rome's Greek roots, and the Venn page compares the two. Copy the folder (`course/guide/02-chalkline/examples/example-rome/`, or `guide/examples/example-rome/` in Chalkline) into `course/units/`, then change its words.
 
 **Objectives**
 

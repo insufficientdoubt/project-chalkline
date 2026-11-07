@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-08: The guide gets a front page; example units in their own folder; key pages stand out
+- **Asked for:** "on the sidebar on the main site - put the example units in a different folder. And emphasize the key template pages somehow. Maybe we just need a landing page and the guide section that covers what's in there."
+- **Why:** the guide's sidebar was one long list: the key template pages, the example units and the small sample printables all looked alike.
+- **Changed:** `guide/examples/` (new): the three example units, with an Example units page; their titles lose "Example Unit:". `guide/samples/` (new): Angle Hunt, Thinker Card, Self-Check and the practice page, with a Sample printables page; the decks' galleries and the guide pages point there. `guide/index.qmd`: a front page with cards for the five key pages (Template Library, Printable templates, Packet templates, Example units, Exemplar lesson), the rest of the guide, and making a lesson step by step. `styles/styles.scss`: those pages are bold, in the accent colour, with a small star in the sidebar; the front page's cards. `scripts/catalog.py`, `scripts/packet_kit.py`: the examples' new folder. Start Here deck, README: the new paths.
+- **Who it helps:** probably every Chalkline course (every teacher site has the guide).
+- **AI assistant:** Claude.
+
 ## 2026-11-08: The new templates brought up to the course's standards
 - **Asked for:** "Make sure that the new templates are up to our new design and quality standards."
 - **Why:** the example units are what teachers copy, so they must follow the rules in CLAUDE.md and look right on paper.

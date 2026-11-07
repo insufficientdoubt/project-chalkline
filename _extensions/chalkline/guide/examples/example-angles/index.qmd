@@ -1,5 +1,5 @@
 ---
-title: "Example Unit: Angles 角"
+title: "Angles 角"
 short-title: "Example · Angles"
 unit: "A"
 objectives:
@@ -23,7 +23,7 @@ listing:
   sort-ui: false
 ---
 
-A whole unit, the way Chalkline expects one to look: a lesson deck, an interactive page, and printables written with the packet kit, which come together as the unit's packet. Copy the folder (`course/guide/02-chalkline/example-angles/`, or `guide/example-angles/` in Chalkline) into `course/units/`, then change its words.
+A whole unit, the way Chalkline expects one to look: a lesson deck, an interactive page, and printables written with the packet kit, which come together as the unit's packet. Copy the folder (`course/guide/02-chalkline/examples/example-angles/`, or `guide/examples/example-angles/` in Chalkline) into `course/units/`, then change its words.
 
 **Objectives**
 

@@ -55,4 +55,4 @@ Original drawings for the exemplar deck: `MTH-002.svg` to `MTH-005.svg` (copied 
 More original drawings for the exemplar deck, no license needed: `role-reader.svg`, `role-writer.svg`, `role-checker.svg`
 and `role-reporter.svg` (group roles), `stations-map.svg` (the classroom map for stations) and `full-angle.svg` (the
 full-angle drawing without its background). `page-self-check.png` and `page-angle-hunt.png` are pictures of page 1 of
-this guide's own printables (`../self-check.qmd`, `../angle-hunt.qmd`); make them again if those pages change.
+this guide's own printables (`../samples/self-check.qmd`, `../samples/angle-hunt.qmd`); make them again if those pages change.

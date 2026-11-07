@@ -1,0 +1,19 @@
+---
+title: "Sample Printables"
+short-title: "Sample printables"
+order: 9
+audience: [teacher]
+format: html
+description: "The small printables the template decks show in their galleries and work slides: Angle Hunt, Thinker Card, Self-Check, and a practice page with every packet block."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+These pages are here because the Template Library, the Exemplar lesson and the Slide kit show them (as a PDF gallery, or a worksheet on a slide). Each is also a small example of a printable written with the packet blocks. For whole units, see **Example units**.

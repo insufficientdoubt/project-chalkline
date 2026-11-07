@@ -1,0 +1,18 @@
+---
+title: "Example Units"
+short-title: "Example units"
+order: 6
+audience: [teacher]
+format: html
+description: "Three finished units to copy from: Angles (Grade 4 math), Ancient Rome and Mesopotamia (Grade 6 history). Slides, printables written with the packet kit, and each unit's packet."
+---
+
+Whole units, the way Chalkline expects one to look. Each one has its slides, its printables (each also a loose sheet, with an answer key in the teacher edition), and its packet: an A3-folded booklet with a cover, contents and a teacher edition.
+
+**To start your own unit from one:** copy its folder (in `course/guide/02-chalkline/examples/` after a teacher build, or `guide/examples/` in Chalkline) into `course/units/`, rename it, and change its words. In its `index.qmd`, change the title, the unit number and the objectives.
+
+| Unit | Shows you |
+|---|---|
+| [**Angles**](example-angles/index.qmd) | A math lesson deck, an interactive page, a worksheet and homework with answers, a small packet |
+| [**Ancient Rome**](example-rome/index.qmd) | Four history decks, and a 36-page packet with every kind of page: feature spread, glossed reading, word and language pages, readings with questions, a landscape chart, math, a timeline spread, organizers, a self-check |
+| [**Mesopotamia**](example-mesopotamia/index.qmd) | Primary sources with numbered markers, investigations, a design challenge, a short-answer test with marks, a paragraph task with a rubric |

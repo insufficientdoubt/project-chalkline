@@ -126,10 +126,10 @@ def load_packets():
 
 
 def load_example_packets():
-    """The guide's example units (course/guide/*/example-*/, teacher site): a packet each, like a unit's.
+    """The guide's example units (course/guide/*/examples/example-*/, teacher site): a packet each, like a unit's.
     Not in the year packet, the unit lists or the sidebar."""
     out = []
-    for index in sorted((COURSE / "guide").glob("*/example-*/index.qmd")):
+    for index in sorted((COURSE / "guide").glob("*/examples/example-*/index.qmd")):
         meta = front_matter(index)
         folder = index.parent
         unit = {"id": folder.name, "number": meta.get("unit", ""), "title": meta.get("title", folder.name),

@@ -646,12 +646,12 @@ Watch how ink is made. Then make a card for one thinker.
 ::: {.column width="44%"}
 [Work gallery]{.kicker}
 
-{{< pdf-viewer "example-handout.pdf" layout="gallery" title="Example handout" >}}
+{{< pdf-viewer "samples/example-handout.pdf" layout="gallery" title="Example handout" >}}
 :::
 ::::
 
 ::: notes
-Instructions, a video and a work gallery. Pieces: Quarto `.columns`; `{{</* video URL height="200" */>}}` (here a CC0 video on Wikimedia Commons, so it needs the internet; a file in the deck's folder works too, and a YouTube or Vimeo link sizes itself); a `.box` with a `.kicker` and a numbered list; on the right Chalkline's packet gallery, `{{</* pdf-viewer "example-handout.pdf" layout="gallery" */>}}`: every page of a PDF as a thumbnail; tap one to open it large. Here it shows the guide's example handout; in a unit, point it at the unit packet (`"01-ancient-greece-packet.pdf"`, made by a full build) or any worksheet's PDF.
+Instructions, a video and a work gallery. Pieces: Quarto `.columns`; `{{</* video URL height="200" */>}}` (here a CC0 video on Wikimedia Commons, so it needs the internet; a file in the deck's folder works too, and a YouTube or Vimeo link sizes itself); a `.box` with a `.kicker` and a numbered list; on the right Chalkline's packet gallery, `{{</* pdf-viewer "samples/example-handout.pdf" layout="gallery" */>}}`: every page of a PDF as a thumbnail; tap one to open it large. Here it shows the guide's example handout; in a unit, point it at the unit packet (`"01-ancient-greece-packet.pdf"`, made by a full build) or any worksheet's PDF.
 :::
 
 ## [Think · Pair · Share | 思考 · 结对 · 分享]{.bi} {#tps}

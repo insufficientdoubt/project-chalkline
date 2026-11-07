@@ -1494,7 +1494,7 @@ Scan to draw with us. Then write its name.
 :::
 :::
 ::: {.column width="42%"}
-{{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
 
 {{< timer 10 layout="row" label="Work on your angle hunt | 完成找角任务" >}}
 :::
@@ -1509,7 +1509,7 @@ Scan to draw with us. Then write its name.
 
 **SIOP:** features 20–22 (hands-on, applying content and language, more than one skill: looking, drawing, writing, speaking) and feature 11 (clear task explanation).
 
-**Pieces:** `.columns`, `.steps`, `{{</* pdf-viewer "angle-hunt.pdf" layout="gallery" */>}}`, and under it a timer in one row, `{{</* timer 10 layout="row" label="English | 中文" */>}}`: what to do, the time, and the buttons stacked: the worksheet's pages (here the guide's own `angle-hunt.qmd`); tap one to open it large.
+**Pieces:** `.columns`, `.steps`, `{{</* pdf-viewer "samples/angle-hunt.pdf" layout="gallery" */>}}`, and under it a timer in one row, `{{</* timer 10 layout="row" label="English | 中文" */>}}`: what to do, the time, and the buttons stacked: the worksheet's pages (here the guide's own `samples/angle-hunt.qmd`); tap one to open it large.
 :::
 
 ## [Make a paper clock | 做一个纸钟]{.bi} {#practice-video data-menu-title="6 · Instructions + video"}
@@ -1532,7 +1532,7 @@ Scan to draw with us. Then write its name.
 ::: {.gallery-slot}
 [Work gallery · 作品展示]{.kicker}
 
-{{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
 :::
 :::
 ::::
@@ -1896,7 +1896,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 
 **SIOP:** feature 30 (assessment of student learning) and feature 29 (feedback).
 
-**Pieces:** `.columns`: a picture of the packet page (`images/page-self-check.png`, page 1 of `self-check.qmd` in this guide; make yours from your own printable's PDF) in a `.packet-page` column (`exemplar.css`: paper with a shadow), and `.steps` in a `.box`.
+**Pieces:** `.columns`: a picture of the packet page (`images/page-self-check.png`, page 1 of `samples/self-check.qmd` in this guide; make yours from your own printable's PDF) in a `.packet-page` column (`exemplar.css`: paper with a shadow), and `.steps` in a `.box`.
 :::
 
 ## [Rate yourself | 给自己打星]{.bi} {#review-stars data-menu-title="7 · Self-check (tap the stars)"}
@@ -1963,7 +1963,7 @@ How well can you name a straight angle and a full angle?
 
 [Due: next lesson · Packet page: *Angle Hunt* | 下节课交 · 学习包：*找角*]{.bi .small}
 
-{{< pdf-viewer "angle-hunt.pdf" layout="page" title="Angle Hunt" height="215px" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="page" title="Angle Hunt" height="215px" >}}
 :::
 :::
 ::: {.column width="45%"}
@@ -1986,7 +1986,7 @@ How well can you name a straight angle and a full angle?
 
 **SIOP:** features 23–26 (lesson delivery).
 
-**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page, `{{</* pdf-viewer "angle-hunt.pdf" layout="page" height="215px" */>}}`: page 1 of the printable, drawn from its PDF; tap it to open the page large (the same window as the packet gallery's), and a photo for next time (`{.next-photo}`).
+**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page, `{{</* pdf-viewer "samples/angle-hunt.pdf" layout="page" height="215px" */>}}`: page 1 of the printable, drawn from its PDF; tap it to open the page large (the same window as the packet gallery's), and a photo for next time (`{.next-photo}`).
 :::
 
 ## [Credits | 来源]{.bi} {#credits .credits}
