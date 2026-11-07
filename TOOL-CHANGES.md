@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-07: The guide's printables redone with the packet blocks; a self-check block
+- **Asked for:** "redo the guide printables" with the kit (packet rebuild plan, step 7).
+- **Why:** the old worksheet layout is retired; the guide's own examples should show the new way.
+- **Changed:** `guide/angle-hunt.qmd`, `guide/example-handout.qmd` (Thinker Card), `guide/self-check.qmd`: rewritten with panels, work spaces, recall frames (example answers in the teacher edition) and page notes. `kit-blocks.lua`: new `::: self-check` block. `typst/packet/kit.typ`: `self-check(lesson: true)`, four stars to colour per line (drawn, so they print in any font). `guide/images/page-self-check.png`: the new page. The Printable templates and Packet templates guide pages: their pieces.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-07: Full-page organizers on the web, and as landscape loose sheets
 - **Asked for:** "Web versions: simple pages as HTML; layout-heavy pages point to the PDF" (packet rebuild plan, step 4).
 - **Why:** a Venn or KWL can't be laid out as a web page, but students still need it.

@@ -26,6 +26,7 @@ Every printable's PDF now uses the kit: the theme comes from `packet-theme: sky`
 | `::: {.frayer id="ROM-011"}` |  | a Frayer model from the vocab list |
 | `::: {.cause-effect event="…"}`, `::: flow`, `::: {.web topic="…" branches="a, b, c"}`, `::: temple` | the "So what?" question inside | the other organizers |
 | `::: {.investigation letter="A" sources="…, …"}` |  | Observe, Infer, Evidence |
+| `::: {.self-check lesson="true"}` | `- name five kinds of angle.` (one "I can" per line) | four stars to colour each; without `lesson`, 1 2 3 at the start and the end of the unit |
 | `::: {.page-about name="…" uses="…; …" pieces="…"}` |  | a hidden note: what the page is for |
 
 On the web, each page shows its words (questions, problems, events) without the answers; diagrams say to use the PDF.

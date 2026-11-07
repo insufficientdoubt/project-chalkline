@@ -597,8 +597,27 @@
 }
 
 // I can ... at the start and the end of the unit: three circles each (not yet, getting there, I can).
-#let self-check(statements) = context {
+// lesson: true for one lesson's check (four stars to colour, "How well?"); otherwise a unit's (1 2 3 at the
+// start of the unit and again at the end)
+#let star(t, size: 6.5mm) = box(width: size, height: size, {
+  let pts = range(10).map(i => {
+    let r = if calc.even(i) { size / 2 } else { size / 5 }
+    let a = -90deg + i * 36deg
+    (size / 2 + r * calc.cos(a), size / 2 + r * calc.sin(a))
+  })
+  place(polygon(stroke: (paint: t.line, thickness: 0.9pt, join: "round"), ..pts))
+})
+#let self-check(statements, lesson: false) = context {
   let t = TH.get()
+  if lesson {
+    let hd(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
+    let stars = box(for i in range(4) { star(t); h(2mm) })
+    table(columns: (1fr, 42mm), inset: 6pt, rows: (auto,) + (15mm,) * statements.len(), align: (left + horizon, center + horizon),
+      fill: (_, y) => if y == 0 { t.tint } else { none },
+      hd("I can …"), hd("How well?"), ..statements.map(s => (s, stars)).flatten())
+    text(size: 8.5pt, fill: t.muted)[Colour the stars. 1 star = I need help · 4 stars = I can teach it]
+    return
+  }
   let circles = box(for (i, l) in ("1", "2", "3").enumerate() { box(width: 7mm, height: 7mm, stroke: 0.8pt + t.line, radius: 50%, align(center + horizon, text(size: 7pt, fill: t.muted, l))); h(1.5mm) })
   let hd(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
   table(columns: (1fr, 31mm, 31mm), inset: 6pt, rows: (auto,) + (15mm,) * statements.len(), align: (left + horizon, center + horizon, center + horizon),

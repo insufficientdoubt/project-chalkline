@@ -63,7 +63,7 @@ Language goals come in different formats, and each needs its own fields and its 
 **Progress (branch `ccr-763051f4-zrh2pq`, 2026-11-06):**
 - Done: 1 (the kit lays out every printable; posters kept), 2 (blocks in `.qmd`: `kit-blocks.lua`), 3 (with "Goes with packet page …" on loose sheets), 5 (guide `example-angles/`, `example-rome/` with the Greek slides), 6 (units 01–05 in `archive/units/`; Start Here now tours the Template Library).
 - Done since: 4 (a Venn or KWL page shows its PDF on the web, in the viewer with pens; loose landscape sheets are real landscape pages).
-- Still to do: 7 (Mesopotamia and Rome Typst samples as `.qmd`; redo Angle Hunt, Thinker Card, Self-Check with the kit); README/TOOL-CHANGES note on the breaking change before merging.
+- Still to do: 7 (Mesopotamia and Rome Typst samples as `.qmd`; Angle Hunt, Thinker Card and Self-Check are done); README/TOOL-CHANGES note on the breaking change before merging.
 
 
 The packet kit is in Chalkline since 2026-11-06 (`_extensions/chalkline/typst/packet/`, samples in `guide/packet/`, the **Packet Templates** guide page). Still to do:

@@ -1,41 +1,40 @@
 ---
 title: "Thinker Card 思想家卡片"
 type: handout
-description: "An example handout for the Slide kit's instructions slide: students make a card for one thinker. Its PDF shows in that slide's work gallery."
+description: "An example handout for the Slide kit's instructions slide: students make a card for one thinker. Its PDF shows in that slide's work gallery. Written with the packet kit's blocks."
 order: 12
 audience: [teacher]
-doc-type: Handout
-name-box: true
 format:
   html: default
   typst: default
 ---
 
+::: {.page-about name="Make a card" uses="a fact card for a person, a place, an animal or an idea: choose one, fill in the card, draw, then tell a partner" pieces="panel, blank, work-space, recall"}
+:::
+
 Watch how ink is made. Then make a card for one thinker from the Hundred Schools of Thought.
 
-## 1. Choose your thinker
-
-Circle one: Mencius · Mozi · Zhuangzi · Han Fei · Sun Bin
+::: {.panel title="1. Choose your thinker · Circle one"}
+Mencius · Mozi · Zhuangzi · Han Fei · Sun Bin
+:::
 
 ## 2. Fill in the card
 
-**Name:** {{< blank 3in >}}
+**Name:** {{< blank 6cm >}}    **School:** {{< blank 6cm >}}
 
-**School:** {{< blank 3in >}}
-
-**Big idea (one sentence):**
-
-{{< lines 2 >}}
+::: {.work-space height="22mm" style="lines" label="Big idea, in one sentence"}
+:::
 
 ## 3. Draw one picture for the big idea
 
-{{< drawing-box height="2in" >}}
+::: {.work-space height="80mm" style="blank" label="Show the idea, not only the person"}
+:::
 
 ## 4. Tell a partner
 
-Use this frame: *My thinker believed that {{< blank >}}, because {{< blank >}}.*
-
-{{< lines 2 >}}
+::: {.recall lines="2"}
+- Use this frame: *My thinker believed that …, because …* | My thinker (Mozi) believed that we should care about everyone equally, because then there would be no wars.
+:::
 
 ::: {.content-visible when-profile="teacher"}
 ::: {.callout-note title="Look for"}

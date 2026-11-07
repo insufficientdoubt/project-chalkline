@@ -155,6 +155,10 @@ end
 TYPST["true-false"] = function(el)   -- - A straight angle is just a line. | F
   return call(frag("#kit.true-false(", seq(items(el), function(p) return frag("(", C(p[1]), ", ", C(p[2]), ")") end), ")"))
 end
+TYPST["self-check"] = function(el)   -- ::: {.self-check lesson="true"}, a list of "I can" lines
+  local lesson = (el.attributes.lesson == "true") and ", lesson: true" or ""
+  return call(frag("#kit.self-check(", seq(items(el), function(p) return C(p[1]) end), lesson .. ")"))
+end
 TYPST["panel"] = function(el)   -- ::: {.panel title="Word bank"}: a box with a title
   return wrap("#kit.panel(" .. (el.attributes.title and ("title: " .. str(el.attributes.title) .. ", ") or "") .. "[", el.content)
 end
