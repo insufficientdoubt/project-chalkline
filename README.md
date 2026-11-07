@@ -191,7 +191,11 @@ format:
   typst: default    # PDF (A4)
 ```
 
-Add `docx: default` for a Word file. PDFs are A4; posters set `papersize: a3`. Shared settings live in `_quarto.yml`. For younger students, `layout: playful` gives a printable a kid-friendly look: handwriting fonts, a hand-drawn frame, star or flower numbers and line-art doodles to color; `playful-theme: nature` makes it a green garden page (see `brand/README.md` and **Unit 4 › Garden Times Tables!**).
+Add `docx: default` for a Word file. Shared settings live in `_quarto.yml`.
+
+**Every PDF is laid out by the packet kit.** A printable's PDF is an A4 page in the course's packet theme (`packet-theme:` sky, trail or blueprint): Name / Class / Date, the title, "Page 1 of 2", and "Goes with packet page 5". The same pages make each unit's packet, an A3-folded booklet with a cover, contents and a teacher edition. Write the page with the packet blocks (`::: panel`, `::: recall`, `::: {.work-space}`, `::: venn` and the rest): the guide's **Packet templates** page lists them, and the two example units use them. Posters keep their own layout (`layout: poster`, `papersize: a3`).
+
+> **Changed in November 2026 (breaking):** the old worksheet and playful PDF layouts are gone. `layout: playful`, `playful-theme:`, `doc-type:` and `name-box:` no longer change anything; old printables still build, but look plainer until they use the packet blocks. `{{< lines >}}` and `{{< drawing-box >}}` still work; `::: {.work-space}` is the new way. See `TOOL-CHANGES.md`.
 
 
 ## Teacher-only content

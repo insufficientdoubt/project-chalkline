@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-07: Breaking change: the packet kit is the only PDF layout (note)
+- **Asked for:** "Note the breaking change in `TOOL-CHANGES.md` and the README" (packet rebuild plan, step 8).
+- **Why:** courses made with an older Chalkline will see their printables change.
+- **Changed:** README: the printables section says every PDF is laid out by the packet kit, and what no longer works (`layout: playful`, `playful-theme:`, `doc-type:`, `name-box:`); posters keep their layout. `templates/worksheet.qmd` (what `chalkline.py new worksheet` copies) and the starter unit's `classroom-words.qmd` now use the packet blocks (panel, recall with answers, work space).
+- **Who it helps:** every Chalkline course that updates.
+- **AI assistant:** Claude.
+
 ## 2026-11-07: The guide's printables redone with the packet blocks; a self-check block
 - **Asked for:** "redo the guide printables" with the kit (packet rebuild plan, step 7).
 - **Why:** the old worksheet layout is retired; the guide's own examples should show the new way.

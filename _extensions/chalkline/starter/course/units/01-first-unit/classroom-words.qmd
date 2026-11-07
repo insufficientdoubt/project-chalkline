@@ -4,12 +4,13 @@ type: handout
 description: "The four words for Unit 1, with meanings, 中文 and examples, and a box to write a summary."
 order: 2
 audience: [teacher, student]
-doc-type: Handout
-name-box: true
 format:
   html: default
   typst: default
 ---
+
+::: {.page-about name="Word list with practice" uses="a unit's key words to keep in a folder; then use each word in a sentence" pieces="vocab-table, recall"}
+:::
 
 Use these words when you work in class. Keep this page in your folder.
 
@@ -17,17 +18,11 @@ Use these words when you work in class. Keep this page in your folder.
 
 ## Use the words
 
-**1.** What is our {{< vocab "goal" zh=true >}} for this unit?
-
-{{< lines 2 >}}
-
-**2.** Write one question to {{< vocab "discuss" zh=true >}} with a {{< vocab "partner" zh=true >}}.
-
-{{< lines 2 >}}
-
-**3.** Write a one-sentence {{< vocab "summary" zh=true >}} of today's lesson.
-
-{{< lines 2 >}}
+::: {.recall lines="2"}
+- What is our {{< vocab "goal" zh=true >}} for this unit? | To use English in class every day.
+- Write one question to {{< vocab "discuss" zh=true >}} with a {{< vocab "partner" zh=true >}}. | What did you learn today?
+- Write a one-sentence {{< vocab "summary" zh=true >}} of today's lesson. | Today we learned four words for working in class.
+:::
 
 ::: {.content-visible when-profile="teacher"}
 ::: {.callout-note title="Look for"}
