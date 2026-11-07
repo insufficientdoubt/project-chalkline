@@ -13,14 +13,16 @@ there. Or by hand:
 
 Writes (in the site folder, course/guide/02-chalkline/packet/):
     rome-<theme>.pdf, rome-sky-teacher.pdf                     the Rome sample, 32 pages
-    mesopotamia-<theme>.pdf, mesopotamia-trail-teacher.pdf     the Mesopotamia sample, 12 pages
     sheet-<name>-sky.pdf                                       loose sheets (a spread on one A3 page)
     printer-test.pdf                                           one page per theme, to print and photocopy
     packet-templates.json                                      every page: its name, uses, pieces and PDF
+                                                               (also the example units' pages, from the
+                                                               page-about notes in their .qmd files)
 """
 
 import json
 import os
+import re
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -103,6 +105,34 @@ def impose(src, pdf, extra):
     out.save(str(pdf))
 
 
+ABOUT = re.compile(r'^::: *\{\.page-about ([^}]*)\}', re.M)
+ATTR = re.compile(r'([a-z-]+)="([^"]*)"')
+
+
+def example_pages():
+    """The example units' pages (guide/example-*/): each .qmd's page-about note, and where it starts in the
+    unit's packet (generated/packet-pages.json, from the last packet build)."""
+    try:
+        starts = json.loads((ROOT / "generated" / "packet-pages.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        starts = {}
+    out = []
+    for index in sorted(GUIDE.glob("example-*/index.qmd")):
+        folder = index.parent
+        for qmd in sorted(folder.glob("*.qmd")):
+            page = starts.get(qmd.relative_to(ROOT).as_posix())
+            m = ABOUT.search(qmd.read_text(encoding="utf-8"))
+            if not m or not page:
+                continue
+            a = dict(ATTR.findall(m.group(1)))
+            out.append({"name": a.get("name", qmd.stem), "page": page,
+                        "uses": [u.strip() for u in a.get("uses", "").split(";") if u.strip()],
+                        "pieces": [p.strip() for p in a.get("pieces", "").split(",") if p.strip()],
+                        "pdf": f"{folder.name}/{folder.name}-packet.pdf",
+                        "sample": "Example: " + folder.name.removeprefix("example-").title()})
+    return out
+
+
 def main():
     in_quarto = "QUARTO_PROJECT_OUTPUT_DIR" in os.environ
     if in_quarto and not os.environ.get("QUARTO_PROJECT_RENDER_ALL"):
@@ -119,9 +149,7 @@ def main():
     jobs = []
     for theme in THEMES:
         jobs.append((src_dir / "rome.typ", out / f"rome-{theme}.pdf", {"theme": theme}))
-        jobs.append((src_dir / "mesopotamia.typ", out / f"mesopotamia-{theme}.pdf", {"theme": theme}))
     jobs.append((src_dir / "rome.typ", out / "rome-sky-teacher.pdf", {"theme": "sky", "edition": "teacher"}))
-    jobs.append((src_dir / "mesopotamia.typ", out / "mesopotamia-trail-teacher.pdf", {"theme": "trail", "edition": "teacher"}))
     for sheet in sorted((src_dir / "sheets").glob("sheet-*.typ")):
         jobs.append((sheet, out / f"{sheet.stem}-sky.pdf", {"theme": "sky"}))
     jobs.append((src_dir / "printer-test.typ", out / "printer-test.pdf", {}))
@@ -137,9 +165,10 @@ def main():
 
     # what each page is for, from the hidden notes (the same pages in every theme)
     pages = []
-    for sample, pdf in (("rome.typ", "rome-sky.pdf"), ("mesopotamia.typ", "mesopotamia-trail.pdf")):
+    for sample, pdf in (("rome.typ", "rome-sky.pdf"),):
         for note in query(src_dir / sample, "<template-info>", {"theme": "sky"}):
-            pages.append({**note, "pdf": pdf})
+            pages.append({**note, "pdf": "packet/" + pdf})
+    pages += example_pages()
     (out / "packet-templates.json").write_text(json.dumps(pages, ensure_ascii=False, indent=1), encoding="utf-8")
     build_cache.prune("packet-kit")
 

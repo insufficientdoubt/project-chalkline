@@ -1,0 +1,30 @@
+---
+title: "Check Your Learning 学习检测"
+type: worksheet
+description: "Formative assessment, section 1: seven short-answer questions with marks (25 in all, with section 2). The teacher edition has the answers written in."
+order: 4
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Short-answer assessment" uses="formative or summative tests; a quiz with marks shown; a check-in at the end of a lesson sequence" pieces="test-head, short-answer"}
+:::
+
+::: {.subunit number="C.3" title="Check your learning"}
+:::
+
+::: {.test-head title="Early river civilizations" unit="Section 1: content recall and short answer · 第一部分：知识回顾与简答" total="25" minutes="40"}
+You may use your packet and notes. [2] = 2 marks; the lines show about how much to write. Section 2 is one paragraph (the next pages). 可使用学习手册和笔记。
+:::
+
+::: short-answer
+- [2] What does the Greek word *Mesopotamia* mean? Why is a Greek word used for this place? | “Mesopotamia”在希腊语中是什么意思？为什么用希腊语命名这个地区？ | The land between the rivers. Greek writers named it long after.
+- [2/1] Name the two rivers that frame the Mesopotamian valley. | 请写出构成美索不达米亚河谷的两条河流。 | The Tigris and the Euphrates.
+- [2/1] The Sumerians faced floods and droughts. Name ONE thing they built to control water. | 苏美尔人为控制水资源修建了什么？写出一项。 | Irrigation canals (or levees, dams, reservoirs).
+- [2/1] Mesopotamia had no natural barriers. How did Sumerians protect their cities? | 美索不达米亚缺乏天然屏障，苏美尔人如何保护城市？ | They built thick city walls (and armies).
+- [3] What is *polytheism*? Name one Mesopotamian god and what they controlled. | 什么是“多神教”？举出一位神明及其掌管的领域。 | Belief in many gods. Shamash: the sun and justice.
+- [3] Compare the Mesopotamian view of the afterlife with your own, or with traditional Chinese ideas. | 将美索不达米亚人的来世观与你自己的或中国传统观念作比较。
+- [3] Look at the social pyramid. Who was at the top, and who at the bottom? Why? | 观察社会金字塔：谁在顶端，谁在底层？为什么？ | Kings and priests at the top, enslaved people at the bottom: power came from the gods and land.
+:::

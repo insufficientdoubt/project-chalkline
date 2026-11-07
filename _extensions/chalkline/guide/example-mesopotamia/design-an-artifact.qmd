@@ -1,0 +1,16 @@
+---
+title: "Design Your Own Artifact 设计你的文物"
+type: worksheet
+description: "A creative extension: invent an artifact for a Mesopotamian god or king, with a field guide to its symbols."
+order: 3
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Design challenge with a field guide" uses="a creative extension; inventing an artifact, a creature, a machine or a flag; design and explain" pieces="design-artifact"}
+:::
+
+::: design-artifact
+:::

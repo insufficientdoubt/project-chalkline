@@ -27,6 +27,14 @@ Every printable's PDF now uses the kit: the theme comes from `packet-theme: sky`
 | `::: {.cause-effect event="…"}`, `::: flow`, `::: {.web topic="…" branches="a, b, c"}`, `::: temple` | the "So what?" question inside | the other organizers |
 | `::: {.investigation letter="A" sources="…, …"}` |  | Observe, Infer, Evidence |
 | `::: {.self-check lesson="true"}` | `- name five kinds of angle.` (one "I can" per line) | four stars to colour each; without `lesson`, 1 2 3 at the start and the end of the unit |
+| `::: {.source-card number="1" title="…" size="1215x2000" crop="…" markers="1: 760,175"}` | the picture (`![](images/x.jpg)`), the caption, then `::: glance`, `::: look-closely`, `::: source-context`, `::: source-quote`, `::: source-cite` | a whole-page primary source card (see the Mesopotamia example) |
+| `::: {.test-head title="…" unit="…" total="25"}` | the instructions inside | a test's heading: marks box, Name, instructions |
+| `::: short-answer` | `- [2] Question? \| 中文 \| answer` (`[2/1]`: 2 marks, 1 line) | numbered questions with marks and lines |
+| `::: {.rubric term="explain" criterion="…"}` | `- 5–6 \| what it looks like \| an example \| target` | the rubric table, the target level marked |
+| `::: {.command-term term="explain" zh="解释"}` | what it means inside | the command term, big |
+| `::: paragraph-chain` | `- The challenge \| a hint` | linked boxes to plan a paragraph |
+| `::: {.writing-lines lines="13"}` |  | lines, with a circle to tick each sentence |
+| `::: design-artifact`, `::: {.subunit number="1.2" title="…"}` |  | the design challenge page; a line in the packet's contents |
 | `::: {.page-about name="…" uses="…; …" pieces="…"}` |  | a hidden note: what the page is for |
 
 On the web, each page shows its words (questions, problems, events) without the answers; diagrams say to use the PDF.
@@ -77,12 +85,12 @@ The notes come from each page itself: every page in the samples carries a hidden
 <script>
 fetch("packet/packet-templates.json").then(r => r.ok ? r.json() : null).then(rows => {
   if (!rows || !rows.length) return;
-  const name = { "rome-sky.pdf": "Rome sample", "mesopotamia-trail.pdf": "Mesopotamia sample" };
+  const name = { "packet/rome-sky.pdf": "Rome sample" };
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   let html = "<table><thead><tr><th>Page</th><th>Use it for</th><th>Made of</th></tr></thead><tbody>";
   for (const r of rows) {
-    html += "<tr><td><span class='pk-name'>" + esc(r.name) + "</span><br><a class='pk-sample' href='packet/" + esc(r.pdf) + "#page=" + r.page + "' target='_blank'>" +
-      esc(name[r.pdf] || r.pdf) + ", page " + r.page + "</a></td><td><ul class='pk-uses'>" +
+    html += "<tr><td><span class='pk-name'>" + esc(r.name) + "</span><br><a class='pk-sample' href='" + esc(r.pdf) + "#page=" + r.page + "' target='_blank'>" +
+      esc(r.sample || name[r.pdf] || r.pdf) + ", page " + r.page + "</a></td><td><ul class='pk-uses'>" +
       (r.uses || []).map(u => "<li>" + esc(u) + "</li>").join("") + "</ul></td><td>" +
       (r.pieces || []).map(p => "<code>" + esc(p) + "</code>").join(" ") + "</td></tr>";
   }
@@ -99,13 +107,13 @@ Unit 2, Ancient Rome: title page and contents, a magazine spread, a glossed read
 
 **The same packet, other themes:** [Trail](packet/rome-trail.pdf) · [Blueprint](packet/rome-blueprint.pdf) · [Teacher edition (Sky)](packet/rome-sky-teacher.pdf)
 
-## The Mesopotamia sample (12 pages)
+## The Mesopotamia example (12 pages, written in .qmd)
 
-Rebuilt from a teacher's own worksheets: a source dossier spread (real museum photos with numbered markers), two source investigations, a design-your-own-artifact challenge, and a formative assessment with marks, a rubric and a paragraph planner.
+Rebuilt from a teacher's own worksheets, as an example unit you can copy: a source dossier spread (real museum photos with numbered markers), two source investigations, a design-your-own-artifact challenge, and a formative assessment with marks, a rubric and a paragraph planner. Every page is a `.qmd` file written with the history blocks below; see [Example Unit: Mesopotamia](example-mesopotamia/index.qmd).
 
-{{< pdf-viewer "packet/mesopotamia-trail.pdf" layout="gallery" title="Mesopotamia sample · Trail" >}}
+{{< pdf-viewer "example-mesopotamia/example-mesopotamia-packet.pdf" layout="gallery" title="Mesopotamia example · Trail" >}}
 
-**Other themes:** [Sky](packet/mesopotamia-sky.pdf) · [Blueprint](packet/mesopotamia-blueprint.pdf) · [Teacher edition (Trail)](packet/mesopotamia-trail-teacher.pdf)
+**Teacher edition:** [the same packet with the answers written in](example-mesopotamia/example-mesopotamia-teacher-packet.pdf)
 
 ## Loose sheets and the printer check
 

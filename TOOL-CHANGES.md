@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-07: The Mesopotamia sample as .qmd pages; history and assessment blocks
+- **Asked for:** "Convert the Mesopotamia and Rome packet samples to .qmd" (packet rebuild plan, step 7).
+- **Why:** packet pages should be written as .qmd, not Typst, so teachers can copy and change them.
+- **Changed:** new guide example `guide/example-mesopotamia/` (six pages, its pictures and credits, `_metadata.yml` for its theme); `guide/packet/mesopotamia.typ` removed. `kit-blocks.lua`: new blocks `source-card` (the picture as an ordinary image, cropped, with numbered markers; glance, look-closely, context, quote, citation inside), `test-head`, `short-answer` (`[2]` marks, `[2/1]` marks and lines), `rubric`, `command-term`, `paragraph-chain`, `writing-lines`, `design-artifact`, `subunit`; on the web, a source card or design page shows its PDF in the viewer. `typst/packet/history.typ`: `crop-content` (a crop of a placed image), and own-title markers on the source card, investigation, design page and test. `filter.lua`: a page that opens with any of those gets no separate title; on a loose sheet a `::: spread` at the top is dropped. `scripts/catalog.py`, `scripts/packets.py`: `packet-theme:` in a unit's `index.qmd` sets its packet's theme; a chapter's packet page skips the blank page before a spread. `scripts/packet_kit.py`: the guide's list of packet pages also reads the example units' page notes. Guide's Packet templates page: the new blocks and the Mesopotamia example.
+- **Who it helps:** probably every Chalkline course (history and assessment pages).
+- **AI assistant:** Claude.
+
 ## 2026-11-07: Breaking change: the packet kit is the only PDF layout (note)
 - **Asked for:** "Note the breaking change in `TOOL-CHANGES.md` and the README" (packet rebuild plan, step 8).
 - **Why:** courses made with an older Chalkline will see their printables change.

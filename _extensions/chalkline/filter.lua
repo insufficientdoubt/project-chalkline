@@ -505,11 +505,31 @@ end
 -- slide an event links to (slide="..."), so that slide shows where it is on the timeline.
 local function Pandoc(doc)
   if quarto.doc.is_format("typst") then
-    -- A printable that opens with a full-page organizer (a Venn, a KWL) has its title and Name on that page:
-    -- no title page of its own (kit.worksheet, show-title)
+    -- A printable that opens with a piece that prints its own title (a Venn, a KWL, a source card, an
+    -- investigation, a test) gets no title of its own (kit.worksheet, show-title); the Venn, the KWL and the
+    -- test also have their own Name line.
+    -- A loose sheet (not a packet): a ::: spread at the top has nothing to face, so it goes (it would leave the
+    -- Name line alone on page 1)
+    if not doc.meta["packet-booklet"] then
+      local kept, top = {}, true
+      for _, b in ipairs(doc.blocks) do
+        local about = b.t == "Div" and (b.classes:includes("page-about") or b.classes:includes("subunit"))
+        if top and b.t == "Div" and b.classes:includes("spread") then
+          -- (dropped)
+        else
+          if not about then top = false end
+          table.insert(kept, b)
+        end
+      end
+      doc.blocks = kept
+    end
+    local OWN_TITLE = { venn = "name", kwl = "name", ["test-head"] = "name", ["source-card"] = true, investigation = true, ["design-artifact"] = true }
     for _, b in ipairs(doc.blocks) do
-      if not (b.t == "Div" and b.classes:includes("page-about")) then
-        if b.t == "Div" and (b.classes:includes("venn") or b.classes:includes("kwl")) then doc.meta["opens-full-page"] = true end
+      local skip = b.t == "Div" and (b.classes:includes("page-about") or b.classes:includes("subunit") or b.classes:includes("spread"))
+      if not skip then
+        local own = b.t == "Div" and (OWN_TITLE[b.classes[1]] or nil)
+        if own then doc.meta["opens-own-title"] = true end
+        if own == "name" then doc.meta["opens-full-page"] = true end
         break
       end
     end

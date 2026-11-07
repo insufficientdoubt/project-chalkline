@@ -61,7 +61,7 @@ def ts(text):
     return '"' + str(text).replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def book_config(teacher, title, subtitle, chapters):
+def book_config(teacher, title, subtitle, chapters, theme=None):
     """_quarto.yml for one packet: the site's settings, as a book of `chapters`."""
     site = yaml.safe_load((ROOT / "_quarto.yml").read_text(encoding="utf-8"))
     cfg = {k: v for k, v in site.items() if k not in ("project", "website", "format")}
@@ -71,6 +71,8 @@ def book_config(teacher, title, subtitle, chapters):
     cfg["project"] = {"type": "book", "output-dir": "_book",
                       "execute-dir": site["project"].get("execute-dir", "project")}
     cfg["book"] = {"title": title, "subtitle": subtitle, "output-file": "packet", "chapters": chapters}
+    if theme:
+        cfg["packet-theme"] = theme   # a unit's own theme (`packet-theme:` in its index.qmd)
     cfg["packet-booklet"] = True   # typst-show.typ: lay the whole book out with the packet kit (kit.booklet)
     season = yaml.safe_load((ROOT / "course" / "season.yml").read_text(encoding="utf-8")) or {}
     cfg["unit-name"] = season.get("name", "")   # the running header: the course on right-hand pages
@@ -290,7 +292,7 @@ def main():
         for p in todo:
             paths, extra_files = chapter_files(p["chapters"])
             page_jobs[out_dir / name(p["pdf"])] = p["files"]
-            jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
+            jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths, theme=p.get("theme")),
                          cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Unit\s*\d+\s*[:·-]\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
                          out_dir / name(p["pdf"]), extra_files,
                          build_cache.key("packets", sources(p), name(p["pdf"]))))
@@ -318,7 +320,7 @@ def main():
                     continue
                 paths, extra_files = chapter_files(p["chapters"])
                 page_jobs[out_dir / name(p["pdf"])] = p["files"]
-                jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
+                jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths, theme=p.get("theme")),
                              cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
                              out_dir / name(p["pdf"]), extra_files,
                              build_cache.key("packets", sources(p), name(p["pdf"]))))
@@ -369,7 +371,11 @@ def record_pages(page_jobs):
     for pdf, files in page_jobs.items():
         if not pdf.exists():
             continue
-        starts = [page for level, title, page in fitz.open(pdf).get_toc() if level == 1 and title.strip()]
+        doc = fitz.open(pdf)
+        starts = [page for level, title, page in doc.get_toc() if level == 1 and title.strip()]
+        # a chapter that opens with a two-page spread starts on the next left-hand page; its heading may sit
+        # on the blank page before it (only the running header and page number): count from the spread
+        starts = [p + 1 if p < doc.page_count and len(doc[p - 1].get_text().split()) < 15 else p for p in starts]
         if len(starts) != len(files):
             print(f"packets: {pdf.name}: {len(starts)} chapter bookmarks for {len(files)} printables; page labels skipped")
             continue

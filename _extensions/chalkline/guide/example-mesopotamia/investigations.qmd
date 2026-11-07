@@ -1,0 +1,28 @@
+---
+title: "Investigating Sources 史料探究"
+type: worksheet
+description: "Two investigations, facing: Observe, Infer, Evidence for each source, then connect them (the rod and ring)."
+order: 2
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Source investigation (Observe, Infer, Evidence)" uses="analysing any primary source; a picture or artwork study; a science observation: observe, infer, conclude" pieces="investigation"}
+:::
+
+::: {.subunit number="C.2" title="Investigating sources"}
+:::
+
+::: spread
+:::
+
+::: {.investigation letter="A" sources="Stele of Hammurabi, Burney Relief"}
+:::
+
+{{< pagebreak >}}
+
+::: {.investigation letter="B" sources="Stele of Hammurabi, Burney Relief"}
+Both sources show the **rod and ring**. What does that tell you about how Mesopotamians saw gods and power?
+:::
