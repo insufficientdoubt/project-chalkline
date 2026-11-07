@@ -11,30 +11,40 @@ Everything here is ready to copy into your own lessons. Start with the five page
 
 ::: {.guide-cards}
 ::: {.guide-card}
+![](images/landing/templates.jpg){.guide-card-img fig-alt="A Template Library slide: a mood meter, a grid of feelings to tap"}
+
 [Template Library](templates-slides.qmd){.guide-card-title}
 
 **Slides.** Every tested slide layout, game and activity, in columns by purpose: start a lesson, words, explain, read, watch, tasks, talk, check, games, end. Copy the closest slide and change its words.
 :::
 
 ::: {.guide-card}
+![](images/landing/printables.jpg){.guide-card-img fig-alt="A printable: a reading in two columns, a photo of the Colosseum and a box of questions"}
+
 [Printable Templates](printables.qmd){.guide-card-title}
 
 **Worksheets, handouts and checklists.** Each one is a page you copy, with the blocks it's made of: word banks, work spaces, recall questions, answers for the teacher edition.
 :::
 
 ::: {.guide-card}
+![](images/landing/packets.jpg){.guide-card-img fig-alt="A two-page packet spread: a magazine feature about Roman aqueducts with a panorama across both pages"}
+
 [Packet Templates](packet-templates.qmd){.guide-card-title}
 
 **Every kind of packet page,** and what it's for: readings, word pages, organizers, sources, tests, timelines. Pages are printed on A3 and folded into a booklet.
 :::
 
 ::: {.guide-card}
+![](images/landing/examples.jpg){.guide-card-img fig-alt="The covers of two example unit packets: Angles, and Ancient Rome with a photo of the Colosseum"}
+
 [Example Units](examples/index.qmd){.guide-card-title}
 
 **Three finished units:** Angles, Ancient Rome and Mesopotamia. Slides, printables and each unit's packet. Copy one to start your own unit.
 :::
 
 ::: {.guide-card}
+![](images/landing/exemplar.jpg){.guide-card-img fig-alt="An Exemplar lesson slide: new words with drawings of angles, and four steps to learn them"}
+
 [Exemplar Lesson](exemplar-slides.qmd){.guide-card-title}
 
 **How to plan a lesson.** One lesson as a 2D deck: across, the seven phases; down, other ways to run each phase, and when to choose each one.
@@ -43,7 +53,6 @@ Everything here is ready to copy into your own lessons. Start with the five page
 
 ## Also in the guide
 
-- **[Slide kit](slide-kit-slides.qmd):** how the slide pieces and looks are made (boxes, tiles, text roles, the credits slide).
 - **[Sample printables](samples/index.qmd):** the small printables the decks show in their galleries.
 - **Your own:** **My templates** (your own slides to reuse) and **My themes** (your colour schemes), above this section in the sidebar.
 
@@ -53,6 +62,10 @@ Everything here is ready to copy into your own lessons. Start with the five page
 2. **Printables:** copy a page from Printable Templates or an example unit. Write key words as `{{</* vocab "word" zh=true */>}}`.
 3. **Words and language:** add words to `vocab/data/vocab.csv` and sentence frames to `vocab/data/frames.csv`; pages and slides read them from there.
 4. **The packet:** every printable in a unit goes into its packet by itself. Rebuild it with `python chalkline.py packets --unit 3`.
+
+::: {.guide-credits}
+Pictures on this page: slides and pages from Chalkline's guide. Photos in them: the Pont du Gard by Benh LIEU SONG, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0), and the Colosseum by Wilfredor, CC0, both via [Wikimedia Commons](https://commons.wikimedia.org).
+:::
 
 ::: {.callout-note title="Where this comes from, and how to turn it off" collapse="true"}
 This guide is part of Chalkline. It's copied into your teacher site each time the site is built, and it updates when Chalkline does. It's not in your course's files, and students never see it.

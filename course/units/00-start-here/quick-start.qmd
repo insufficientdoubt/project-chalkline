@@ -68,7 +68,8 @@ Open your course folder in an AI assistant that edits files (Claude, Gemini, Cop
 ::: {.callout-note title="Good to know" icon=false}
 - **On a slide:** **W** classroom tools, **S** your notes, **C** draw.
 - **New deck or worksheet:** Terminal › Run Task… › *New slide deck…*
-- **New unit:** copy the `01-first-unit` folder and rename it `02-…`.
+- **New unit:** copy the `01-first-unit` folder and rename it `02-…`, or copy an example unit from **How to use Chalkline › Example units**.
+- **New features:** Terminal › Run Task… › *Update Chalkline*. Save (commit) your work first.
 - **Stuck?** Paste the red error message into your AI assistant, or ask John.
 :::
 ::::

@@ -142,19 +142,19 @@ A slide is only useful if the student at the back can read it on a projector in 
 
 Slides are built from a few named pieces, not drawn one by one. That keeps every deck consistent, readable in the source, and easy to change.
 
-1. **Start from an example slide:** first My templates, then Chalkline's guide (Slide kit). Copy the slide and change its words.
+1. **Start from an example slide:** first My templates, then Chalkline's guide (the Template Library). Copy the slide and change its words.
 2. **Use the named pieces:** `.columns`, `.box`, `.tiles`, `.steps`, `.chain`, `.area`, `.strip`, timers, vocab galleries, the packet gallery.
 3. **Use the text roles** for what words *are*, not where they go: `.kicker`, `.big`, `.lead`, `.pill`, `.small`, `.fine`.
 4. **No one-off styling:** no hand-set sizes, colours, positions or `style=` tweaks, except picture crops.
 5. **Need something new?** Make it a reusable piece (in `_extensions/my-tools/` in a course) and log it in `TOOL-CHANGES.md`. A good piece may join Chalkline for everyone.
-6. **Name the pieces in the speaker notes,** like the Slide kit does, so the next person can reuse the slide.
+6. **Name the pieces in the speaker notes,** like the Template Library does, so the next person can reuse the slide.
 
 ## For AI assistants
 
 AI can help make slides, but the teacher stays in control. Follow these steps every time you make or change a slide.
 
 1. **Read this guidance first.** Use the course's own `design-guidance.md` if there is one; otherwise Chalkline's (`_extensions/chalkline/guide/design-guidance.md`).
-2. **Start from an example slide** (My templates, then the Slide kit) and keep its structure.
+2. **Start from an example slide** (My templates, then the Template Library) and keep its structure.
 3. **Keep the teacher's words.** Simplify only when asked, or when a rule above needs it, and say what you changed.
 4. **Don't add** decoration, extra slides, emoji or pictures nobody asked for.
 5. **Say when a rule can't be kept.** If the content doesn't fit, say so and suggest a split. Never shrink text, hide content or move fixed things to make it fit.

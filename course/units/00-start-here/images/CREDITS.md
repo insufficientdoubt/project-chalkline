@@ -3,8 +3,8 @@
 The title slide's picture (`school-of-athens.jpg`): *The School of Athens* by Raphael (Raffaello Sanzio da Urbino), about 1510, public domain, from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg).
 
 Pictures for the Warring States slides (Slide style deck). Each was made smaller for slides; some were cropped to the
-head and shoulders, as noted. The Slide kit deck moved into Chalkline's guide (`_extensions/chalkline/guide/`), with
-its own copies of the pictures it uses and their credits.
+head and shoulders, as noted. Chalkline's guide (`_extensions/chalkline/guide/`) has
+its own copies of the pictures its decks use, and their credits.
 
 | File | What it is | By | License | Source |
 |---|---|---|---|---|

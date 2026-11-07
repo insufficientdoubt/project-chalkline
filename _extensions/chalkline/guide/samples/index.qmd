@@ -16,4 +16,4 @@ listing:
   sort-ui: false
 ---
 
-These pages are here because the Template Library, the Exemplar lesson and the Slide kit show them (as a PDF gallery, or a worksheet on a slide). Each is also a small example of a printable written with the packet blocks. For whole units, see **Example units**.
+These pages are here because the Template Library and the Exemplar lesson show them (as a PDF gallery, or a worksheet on a slide). Each is also a small example of a printable written with the packet blocks. For whole units, see **Example units**.

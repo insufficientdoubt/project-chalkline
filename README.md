@@ -1,6 +1,6 @@
 # Chalkline sample course
 
-**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style. This is a **sample course** to try it with: a slide deck about Chalkline itself, a 52-word bilingual vocab list, and, in the teacher site's **How to use Chalkline**, the Template Library (every tested slide layout, game and activity), the printable and packet templates, and two finished example units to copy (Grade 4 math: Angles; Grade 6 history: Ancient Rome).
+**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style. This is a **sample course** to try it with, and the start of your own: a slide deck about Chalkline itself, a 52-word bilingual vocab list, and, in the teacher site's **How to use Chalkline**, the Template Library (every tested slide layout, game and activity), the printable and packet templates, and three finished example units to copy (Grade 4 math: Angles; Grade 6 history: Ancient Rome, Mesopotamia).
 
 **See it online:** https://insufficientdoubt.github.io/project-chalkline/ (the teacher version, rebuilt on every push).
 
@@ -40,15 +40,17 @@ Things to try once the site is open:
    - [Git](https://git-scm.com/downloads)
    - [Google Chrome](https://www.google.com/chrome/) or Microsoft Edge (already on Windows), for slide PDFs
 
-2. **Get a project onto your computer.** Two choices:
-   - **Try this sample** (every example, three history units): in VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), choose **Git: Clone**, paste `https://github.com/insufficientdoubt/project-chalkline`, then open the folder.
-   - **Start your own course** (no sample content): open a terminal in the folder where you keep your work and run
+2. **Get your own course onto your computer.** Two ways; both give you a course that's yours to change:
+   - **Clone this repository** (everything, ready to try): in VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), choose **Git: Clone**, paste `https://github.com/insufficientdoubt/project-chalkline`, pick a folder, then open it. You get the sample course: the Start Here deck, the vocab list, and the guide with its templates and example units. To make it yours: change `title:` and `school:` in `_quarto.yml`, copy an example unit into `course/units/` (see "Make your own unit"), and delete `course/units/00-start-here/` when you no longer need it.
+   - **Start an empty course** (no sample content): open a terminal in the folder where you keep your work and run
 
      ```bash
      quarto use template insufficientdoubt/project-chalkline
      ```
 
      Answer **Yes** to "Do you trust the authors", **Yes** to "Create a subdirectory", and type a folder name (`my-course`). Quarto copies Chalkline and the course files, but none of this sample's units, vocab or pictures (`.quartoignore` lists what it leaves out). Open the new folder in VS Code. The first time it starts, it adds a starter unit: one slide deck, one handout and four vocab words (`python chalkline.py setup` does the same). Then change `title:` and `school:` in `_quarto.yml`.
+
+   Either way, the guide (**How to use Chalkline**, on your teacher site) comes with Chalkline, and updates with it.
 
 3. **Install the extensions.** VS Code will show a pop-up offering to install the recommended extensions (Quarto, Python, Jupyter). Click **Install**. If you miss it, open the Extensions panel and search `@recommended`.
 
@@ -74,6 +76,20 @@ Things to try once the site is open:
 
    You want to see a Python 3 path that includes `.venv`, plus "Jupyter: OK".
 
+
+## Keep Chalkline up to date
+
+Chalkline gets new templates, pieces and fixes. To get them, run this in the VS Code terminal (or **Terminal > Run Task… > Update Chalkline**):
+
+```bash
+python chalkline.py update
+```
+
+It downloads the newest Chalkline and puts it in place of the old one: `_extensions/chalkline/`, plus `chalkline.py`, the `Start Chalkline` launchers and `requirements.txt`. Your lessons, vocab, pictures, `brand/` and `_quarto.yml` are never touched. Then it lists what's new (from Chalkline's `CHANGELOG.md`; read it for any steps your course needs) and you run the launcher as usual; the first build afterwards rebuilds everything. `python chalkline.py update --check` only says whether there's a newer version.
+
+- **Commit your work first** (see "Git basics"). The update stops if Chalkline's own files have changes that aren't committed, so nothing is replaced by surprise, and the old version stays in your git history.
+- **Don't change files inside `_extensions/chalkline/`:** an update replaces that folder. Your own tools go in `_extensions/my-tools/` (see `CLAUDE.md`).
+- **Don't use `quarto update` for Chalkline:** in a course made this way it installs a second copy beside the first. (`python chalkline.py update` warns you if it finds one.)
 
 ## Open the site
 
@@ -528,8 +544,11 @@ Every deck in `course/units/` ends with an exit-ticket poll.
 | Save a snapshot (a "commit") | `git add .` then `git commit -m "Describe the change"` |
 | Upload to GitHub | `git push` |
 | Download changes from GitHub | `git pull` |
+| Get the newest Chalkline | `python chalkline.py update` (not `git pull`: see "Keep Chalkline up to date") |
 
 VS Code's **Source Control** panel (the branch icon on the left) does all of this with buttons, if you prefer.
+
+**A cloned course is still linked to Chalkline's page on GitHub,** which you can't upload to. To keep your own course online: make an empty repository on github.com (no README), then run `git remote set-url origin https://github.com/YOUR-NAME/YOUR-REPO.git` and `git push -u origin main`. From then on, `git push` saves your course there, and `python chalkline.py update` still gets Chalkline's updates.
 
 
 ## Credits

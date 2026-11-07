@@ -1,7 +1,7 @@
 ---
 title: "Slide style (experiment)"
 type: slides
-description: "The first experiment (to be removed): the same three slides in different layouts, colours and languages. See the Slide kit deck (teacher site, How to use Chalkline) for the newer way. Not part of the course."
+description: "The first experiment (to be removed): the same three slides in different layouts, colours and languages. See the Template Library (teacher site, How to use Chalkline) for the newer way. Not part of the course."
 order: 3
 audience: [teacher]
 format:

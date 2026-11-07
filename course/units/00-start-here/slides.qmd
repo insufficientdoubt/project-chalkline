@@ -379,7 +379,8 @@ Your site opens at **localhost:4100**, in the teacher version. Your copy is your
 
 ::: {.small-note}
 Just want to look first? The online version: **insufficientdoubt.github.io/project-chalkline**\
-Ready for your own course, without the sample? `quarto use template insufficientdoubt/project-chalkline`
+Ready for your own course, without the sample? `quarto use template insufficientdoubt/project-chalkline`\
+New features later: `python chalkline.py update` (your lessons stay as they are)
 :::
 
 ::: notes

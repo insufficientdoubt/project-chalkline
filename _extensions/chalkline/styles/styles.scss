@@ -299,6 +299,11 @@ $guide-key: "02-chalkline/index.html", "02-chalkline/templates-slides.html", "02
   border-radius: var(--ui-r, 10px); background: var(--ui-surface, #fff); box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06); transition: box-shadow 0.15s, transform 0.15s; }
 .guide-card:hover { box-shadow: 0 6px 18px rgba(16, 24, 40, 0.12); transform: translateY(-1px); }
 .guide-card p { margin: 0 0 0.4rem; font-size: 0.92rem; line-height: 1.45; }
+.guide-card .quarto-figure, .guide-card figure { margin: -14px -16px 10px; }
+.guide-card img.guide-card-img, .guide-card .guide-card-img img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top;
+  border-bottom: 1px solid var(--ui-line, #d8e0ea); border-radius: 0; margin: 0; }
+.guide-card { overflow: hidden; }
+.guide-credits { margin-top: 1.5rem; font-size: 0.8rem; color: var(--ui-muted, #5b6b80); }
 .guide-card a.guide-card-title { font-size: 1.15rem; font-weight: 700; text-decoration: none; color: var(--ui-ink, #1f2933); }
 .guide-card a.guide-card-title::after { content: ""; position: absolute; inset: 0; }   // the whole card is the link
 // Packets on unit pages. The student copy is the main one (solid green, first): printing it for class

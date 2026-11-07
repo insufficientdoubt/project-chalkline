@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-08: Slide kit retired; pictures on the guide's front page; getting started and updating
+- **Asked for:** "Are we still using the slide kit deck? Does it need a clean up? Add photos to the landing page. And the getting started with the current instructions for how to get started. Cloning the repo should work for starting your own instance and then you can regularly update the extension to get new features... Check if the instructions need to be updated."
+- **Why:** the Slide kit duplicated the Template Library; the front page was text only; the setup steps described an older sample, and nothing said how to get new versions of Chalkline.
+- **Changed:** `guide/slide-kit-slides.qmd` moved to `archive/guide/` (the Template Library has all of it); its mentions updated (CLAUDE.md's credits-slide example now points to the Template Library, the decks' speaker notes, the guide README, the samples). `guide/images/landing/` (new): five pictures of Chalkline's own slides and pages, on the front page's cards, with a picture credit. New `scripts/update.py` (`python chalkline.py update`, `--check`, `--from`, `--force`) and a VS Code task, Update Chalkline: replaces the extension folder in place, wherever the course keeps it, plus `chalkline.py`, the launchers and `requirements.txt`; stops if Chalkline's files have uncommitted changes; warns about a second copy; lists what's new from CHANGELOG.md. Tested in a fresh clone: `quarto update` there installs a second copy (`_extensions/insufficientdoubt/chalkline/`), so the README says not to use it. README: "Get your own course" (clone, or `quarto use template`), "Keep Chalkline up to date", and how to move a clone to your own GitHub repository. Quick Start and Start Here: the update step. CHANGELOG.md: entries for this round, with the breaking change.
+- **Who it helps:** every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-08: The guide gets a front page; example units in their own folder; key pages stand out
 - **Asked for:** "on the sidebar on the main site - put the example units in a different folder. And emphasize the key template pages somehow. Maybe we just need a landing page and the guide section that covers what's in there."
 - **Why:** the guide's sidebar was one long list: the key template pages, the example units and the small sample printables all looked alike.

@@ -22,3 +22,6 @@ Code that works but is switched off for now. Nothing here runs during a build.
 
 **To bring one back:** move its folder back to `course/units/`, its word list to `course/vocab/`, and its links back into `course/links.yml`. The words themselves never left `vocab/data/vocab.csv`.
 
+## The Slide kit deck
+
+`guide/slide-kit-slides.qmd` was the guide's first deck of slide pieces (a sample lesson on the Warring States, in several looks and colour schemes). Archived 2026-11-08: the Template Library (`_extensions/chalkline/guide/templates-slides.qmd`) has every piece it showed, and more. Its pictures, `slide-kit-looks.css` and `drawio/` stay in the guide, because the Template Library and the Exemplar lesson use them. **To bring it back:** move it to `_extensions/chalkline/guide/`.

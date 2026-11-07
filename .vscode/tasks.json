@@ -72,6 +72,13 @@
       "command": "${workspaceFolder}/.venv/bin/python chalkline.py validate",
       "windows": { "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe chalkline.py validate" },
       "problemMatcher": []
+    },
+    {
+      "label": "Update Chalkline",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python chalkline.py update",
+      "windows": { "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe chalkline.py update" },
+      "problemMatcher": []
     }
   ],
   "inputs": [
