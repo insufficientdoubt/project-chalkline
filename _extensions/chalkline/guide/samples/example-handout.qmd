@@ -1,0 +1,47 @@
+---
+title: "Thinker Card 思想家卡片"
+type: handout
+description: "An example handout: students make a card for one thinker from the Hundred Schools of Thought. Written with the packet kit's blocks."
+order: 12
+audience: [teacher]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Make a card" uses="a fact card for a person, a place, an animal or an idea: choose one, fill in the card, draw, then tell a partner" pieces="panel, blank, work-space, recall"}
+:::
+
+Watch how ink is made. Then make a card for one thinker from the Hundred Schools of Thought.
+
+::: {.panel title="1. Choose your thinker · Circle one"}
+Mencius · Mozi · Zhuangzi · Han Fei · Sun Bin
+:::
+
+## 2. Fill in the card
+
+**Name:** {{< blank 6cm >}}    **School:** {{< blank 6cm >}}
+
+::: {.work-space height="22mm" style="lines" label="Big idea, in one sentence"}
+:::
+
+## 3. Draw one picture for the big idea
+
+::: {.work-space height="80mm" style="blank" label="Show the idea, not only the person"}
+:::
+
+## 4. Tell a partner
+
+Use this frame:
+
+{{< frames "GD-FRM-047" zh=true >}}
+
+::: {.recall lines="2"}
+- Your sentence: | My thinker, Mozi, believed that we should care about everyone because then there would be no wars.
+:::
+
+::: {.content-visible when-profile="teacher"}
+::: {.callout-note title="Look for"}
+The big idea is one sentence in the student's own words. The picture shows the idea, not only the person.
+:::
+:::

@@ -1,0 +1,38 @@
+---
+title: "Angles 角"
+short-title: "Example · Angles"
+unit: "A"
+objectives:
+  - I can make angles by turning one side around the vertex.
+  - I can name acute, right, obtuse, straight and full angles.
+  - I can explain that 1 full angle = 2 straight angles = 4 right angles.
+  - I can find straight angles and full angles in daily life and on a clock.
+  - I can say what a protractor is for, and what a degree is.
+order: 20
+audience: [teacher]
+format: html
+description: "A finished unit to copy from: Grade 4 math, turning and angles. A lesson deck, an interactive page, a worksheet and homework written with the packet kit, and the unit's packet as an A3 booklet."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+A whole unit, the way Chalkline expects one to look: a lesson deck, an interactive page, and printables written with the packet kit, which come together as the unit's packet. Copy the folder (`course/guide/02-chalkline/examples/example-angles/`, or `guide/examples/example-angles/` in Chalkline) into `course/units/`, then change its words.
+
+**Objectives**
+
+- I can make angles by turning one side around the vertex.
+- I can name acute, right, obtuse, straight and full angles.
+- I can explain that 1 full angle = 2 straight angles = 4 right angles.
+- I can find straight angles and full angles in daily life and on a clock.
+- I can say what a protractor is for, and what a degree is.
+
+**The packet:** [student booklet](example-angles-packet.pdf) · [teacher edition](example-angles-teacher-packet.pdf) (A3, folded).
+
+For the lesson as a plan, see the **Exemplar Lesson: Angles** deck: it follows the same lesson phase by phase.

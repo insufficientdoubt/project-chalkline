@@ -1,0 +1,44 @@
+---
+title: "Self-Check 自我检查"
+type: checklist
+description: "The exemplar lesson's self-check, the packet page students fill in before they leave: colour 1 to 4 stars for each 'I can', draw an angle, then write one sentence. The exemplar deck shows this page, and a tap-to-rate version of it. Written with the packet kit's blocks."
+order: 13
+audience: [teacher]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Self-check (one lesson)" uses="the last five minutes of a lesson; students rate each I can, then show it; an exit ticket on paper" pieces="self-check, work-space, blank, recall"}
+:::
+
+**Before you leave:** colour the stars for each line. **离开教室前：**给每一行涂星星。
+
+## 1. I can …
+
+::: {.self-check lesson="true"}
+- name five kinds of angle. 说出五种角的名称。
+- find angles around me. 找到身边的角。
+- compare angles with *bigger than* and *smaller than*. 用 *bigger than* 和 *smaller than* 比较角。
+:::
+
+## 2. Show me
+
+Draw an angle **bigger than** a right angle. Name it: {{< blank 4cm answer="obtuse" >}}
+
+::: {.work-space height="45mm" style="dots"}
+:::
+
+## 3. One sentence
+
+Write one sentence with this frame:
+
+{{< frames "GD-FRM-014" zh=true >}}
+
+::: {.recall lines="2"}
+- Your sentence: | An acute angle is smaller than a right angle.
+:::
+
+::: {.content-visible when-profile="teacher"}
+**Look-fors:** a 1 or 2 on any line: see that student first next lesson. Part 2: an obtuse angle (or a straight or full angle, with a reason). Part 3: the frame used with *bigger* or *smaller*, and an angle name that matches.
+:::

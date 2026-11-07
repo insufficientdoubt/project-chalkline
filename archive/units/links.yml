@@ -1,0 +1,137 @@
+# The archived units' outside links (were in course/links.yml). To bring a unit back, move its links back too.
+
+- title: Ancient Greece (Simple English Wikipedia)
+  url: https://simple.wikipedia.org/wiki/Ancient_Greece
+  type: reference
+  unit: 01-ancient-greece
+  source: Wikipedia
+  audience: [teacher, student]
+  description: An easy-English overview of ancient Greece, for reading at home.
+
+
+- title: Ancient Rome (Simple English Wikipedia)
+  url: https://simple.wikipedia.org/wiki/Ancient_Rome
+  type: reference
+  unit: 02-ancient-rome
+  source: Wikipedia
+  audience: [teacher, student]
+  description: An easy-English overview of ancient Rome, for reading at home.
+
+
+- title: Göbekli Tepe (UNESCO World Heritage)
+  url: https://whc.unesco.org/en/list/1572/
+  type: reference
+  unit: 03-gobekli-tepe
+  source: UNESCO
+  audience: [teacher, student]
+  description: The official World Heritage listing, a short and clear description of the site and why it matters.
+
+
+- title: Göbekli Tepe (Wikipedia)
+  url: https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe
+  type: reference
+  unit: 03-gobekli-tepe
+  source: Wikipedia
+  audience: [teacher]
+  description: The long version, with the newest research (houses, water cisterns, how many builders). Harder English; for teachers.
+
+
+- title: Tepe Telegrams (the excavation team's blog)
+  url: https://www.dainst.blog/the-tepe-telegrams/
+  type: reference
+  unit: 03-gobekli-tepe
+  source: German Archaeological Institute
+  audience: [teacher]
+  description: News and interviews from the archaeologists who dig at Göbekli Tepe, including why they stopped calling it a "temple".
+
+
+- title: PhET math simulations
+  url: https://phet.colorado.edu/en/simulations/filter?subjects=math
+  type: reference
+  unit: 04-stem
+  source: PhET
+  audience: [teacher, student]
+  description: Free interactive math simulations from the University of Colorado (graphing lines, fractions, area and more). Any of them can go on a slide.
+
+
+- title: GeoGebra
+  url: https://www.geogebra.org/
+  type: reference
+  unit: 04-stem
+  source: GeoGebra
+  audience: [teacher, student]
+  description: Free graphing, geometry and 3D apps, and thousands of ready-made activities made by teachers.
+
+
+- title: Blockly Games
+  url: https://blockly.games/
+  type: reference
+  unit: 04-stem
+  source: Google
+  audience: [teacher, student]
+  description: Free block-coding puzzles (Maze, Bird, Turtle, Music) that lead from blocks to JavaScript, at each student's own speed.
+
+
+
+- title: "Lifts and Launchers (Robotics League slides)"
+  url: https://mingwan-robotics.final-version-3.workers.dev/course/units/06-mechanisms/02-lifts-and-launchers/slides.html
+  type: slides
+  unit: 04-stem
+  source: Robotics League
+  audience: [teacher, student]
+  description: A real Chalkline course for VEX IQ. Robot lifts and catapults you can move, live on the slides.
+
+
+- title: "VEX IQ Vocab (Robotics League)"
+  url: https://mingwan-robotics.final-version-3.workers.dev/vocab/app/
+  type: vocab
+  unit: 04-stem
+  source: Robotics League
+  audience: [teacher, student]
+  description: The words for those slides, with pictures and 中文. Built with Chalkline's vocab app.
+
+
+- title: Angle (Simple English Wikipedia)
+  url: https://simple.wikipedia.org/wiki/Angle
+  type: reference
+  unit: 05-angles
+  source: Wikipedia
+  audience: [teacher, student]
+  description: An easy-English page about angles and their kinds, for reading at home.
+# Outside resources for the overview. They appear in the overview only, not on unit pages.
+# `source` is shown as a badge; anything that isn't "School" is treated as an outside source.
+
+- title: History vocab (English / 中文)
+  url: vocab/app/
+  type: vocab
+  source: School
+  audience: [teacher, student]
+  description: All 37 words from the three units, with pictures and Chinese.
+
+
+- title: Padlet
+  url: https://padlet.com
+  type: reference
+  unit: 00-start-here
+  source: Padlet
+  audience: [teacher]
+  description: An online wall students post to. You need an account to make one; students don't. Used on the Live boards demo slides.
+
+
+- title: Excalidraw
+  url: https://excalidraw.com
+  type: reference
+  unit: 00-start-here
+  source: Excalidraw
+  audience: [teacher]
+  description: A free, open-source whiteboard. Share a room link and the class draws together, no logins. Used on the Live boards demo slides.
+
+
+- title: WBO whiteboard
+  url: https://wbo.ophir.dev
+  type: reference
+  unit: 00-start-here
+  source: WBO
+  audience: [teacher]
+  description: A free, open-source shared whiteboard that stays live inside a slide. No logins. Used on the Live boards demo slides.
+

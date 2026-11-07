@@ -92,7 +92,8 @@ def formats_of(meta):
 def load_units():
     """One entry per unit folder, in folder order: id, number, title, description, objectives."""
     units = []
-    for folder in sorted((COURSE / "units").iterdir()):
+    units_dir = COURSE / "units"   # (a new course may have none yet)
+    for folder in sorted(units_dir.iterdir()) if units_dir.is_dir() else []:
         index = folder / "index.qmd"
         if not folder.is_dir() or not index.exists():
             continue
@@ -119,7 +120,30 @@ def load_packets():
     plus "files" (the .qmd paths) and "extras" (the PDF paths)."""
     packets = []
     for unit in load_units():
-        folder = COURSE / "units" / unit["id"]
+        p = packet_for(COURSE / "units" / unit["id"], unit)
+        if p:
+            packets.append(p)
+    return packets
+
+
+def load_example_packets():
+    """The guide's example units (course/guide/*/examples/example-*/, teacher site): a packet each, like a unit's.
+    Not in the year packet, the unit lists or the sidebar."""
+    out = []
+    for index in sorted((COURSE / "guide").glob("*/examples/example-*/index.qmd")):
+        meta = front_matter(index)
+        folder = index.parent
+        unit = {"id": folder.name, "number": meta.get("unit", ""), "title": meta.get("title", folder.name),
+                "objectives": meta.get("objectives", []) or []}
+        p = packet_for(folder, unit)
+        if p:
+            out.append(p)
+    return out
+
+
+def packet_for(folder, unit):
+    """A folder's packet: its printables in `order:`, and any outside PDFs (see load_packets). None if empty."""
+    if True:
         found = []
         for path in folder.glob("*.qmd"):
             if path.name.startswith("_") or path.name == "index.qmd":
@@ -137,13 +161,22 @@ def load_packets():
             after = (folder / extra["after"]).relative_to(ROOT).as_posix() if extra.get("after") else None
             spot = next((i + 1 for i, c in enumerate(chapters) if c.get("qmd") == after), len(chapters))
             chapters.insert(spot, entry)
-        if chapters:
-            packets.append({**unit,
-                            "pdf": f"course/units/{unit['id']}/{unit['id']}-packet.pdf",
-                            "chapters": chapters,
-                            "files": [c["qmd"] for c in chapters if "qmd" in c],
-                            "extras": [c["pdf"] for c in chapters if "pdf" in c]})
-    return packets
+        if not chapters:
+            return None
+        index = front_matter(folder / "index.qmd")
+        hero = index.get("packet-hero")   # the packet's cover picture, from the unit folder
+        if hero and not (folder / hero).exists():
+            print(f"catalog: packet-hero: {(folder / hero).relative_to(ROOT).as_posix()} not found")
+            hero = None
+        return {**unit,
+                "hero": "/" + (folder / hero).relative_to(ROOT).as_posix() if hero else None,
+                "hero-credit": index.get("packet-hero-credit", ""),
+                "theme": index.get("packet-theme"),   # the unit's own packet theme (else the course's)
+                "themes": index.get("packet-themes", []) or [],   # copies of the student packet in other themes
+                "pdf": (folder / f"{unit['id']}-packet.pdf").relative_to(ROOT).as_posix(),
+                "chapters": chapters,
+                "files": [c["qmd"] for c in chapters if "qmd" in c],
+                "extras": [c["pdf"] for c in chapters if "pdf" in c]}
 
 
 def pdf_pages():
@@ -483,7 +516,7 @@ def markdown_season():
     import datetime
     season = yaml.safe_load((COURSE / "season.yml").read_text(encoding="utf-8"))
     today = datetime.date.today()
-    upcoming = [e for e in season.get("events", []) if e["date"] >= today]
+    upcoming = [e for e in (season.get("events") or []) if e["date"] >= today]
     # Optional keys: a course without teams or a game just leaves them out of season.yml.
     zh = f' <span class="ov-hero-zh">{escape(season["name_zh"])}</span>' if season.get("name_zh") else ""
     items = [i for i in built_catalog() if i["source"] == "School"]

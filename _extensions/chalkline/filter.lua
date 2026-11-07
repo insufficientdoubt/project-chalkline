@@ -140,6 +140,7 @@ end
 -- teams="3" starts with 3 teams taking turns (2 to 4; teams="0" for no teams or scores).
 local games = dofile(quarto.utils.resolve_path("games/games.lua"))
 local quick_ref = dofile(quarto.utils.resolve_path("quickref.lua"))   -- ::: {.quick-ref}: every link in a unit on one slide
+local kit_blocks = dofile(quarto.utils.resolve_path("kit-blocks.lua"))   -- printables: the packet kit's pieces as .qmd blocks
 local slide_source = dofile(quarto.utils.resolve_path("toolbox/source.lua"))   -- View source (U): each slide's source
 
 local function list_items(blocks)
@@ -344,6 +345,12 @@ end
 local function Div(el)
   -- Speaker notes are for the teacher: the student build leaves them out
   if el.classes:includes("notes") and not is_teacher() then return {} end
+  -- Printables: the packet kit's pieces (kit-blocks.lua): work spaces, problems, recall, organizers …
+  local kit_cls = kit_blocks.handles(el)
+  if kit_cls then
+    local out = kit_blocks.render(el, kit_cls)
+    if out ~= nil then return out end
+  end
   if el.classes:includes("quick-ref") then return quick_ref(el) end
   if el.classes:includes("live-board") then return live_board(el) end
   for cls, name in pairs({ jeopardy = "Jeopardy", trivia = "Quick-fire questions", matching = "Matching", memory = "Memory", sort = "Sort it",
@@ -458,7 +465,6 @@ local function Meta(meta)
         { path = "toolbox/tools/music.js", afterBody = true },
         { path = "toolbox/tools/dice.js", afterBody = true },
         { path = "toolbox/tools/slide.js", afterBody = true },
-        { path = "toolbox/tools/style.js", afterBody = true },   -- Slide style: only in a deck with {.styled} slides, opened from their corner (not the menu)
         { path = "toolbox/tools/source.js", afterBody = true },
         { path = "toolbox/toolbox.js", afterBody = true },
       },
@@ -473,12 +479,98 @@ local function Meta(meta)
   if quarto.doc.is_format("html") and not quarto.doc.is_format("revealjs") and not nt_off then
     include_once("new-tab.html")
   end
+  -- PDFs: where the packet kit is (typst/packet/), as a path from the course folder, for typst-template.typ's
+  -- imports. Worked out here so it's right wherever Chalkline is installed (_extensions/<owner>/chalkline/).
+  if quarto.doc.is_format("typst") and quarto.project.directory then
+    local kit = pandoc.path.make_relative(quarto.utils.resolve_path("typst/packet"), quarto.project.directory):gsub("\\", "/")
+    meta["chalkline-kit"] = pandoc.MetaInlines({ pandoc.RawInline("typst", "/" .. kit) })   -- raw: no escaping of the _
+    -- A loose sheet's footer: "Goes with packet page 5", where this printable starts in its unit packet
+    -- (scripts/packets.py writes generated/packet-pages.json from the last packet build).
+    if meta["goes-with"] == nil and quarto.doc.input_file then
+      local f = io.open(pandoc.path.join({ quarto.project.directory, "generated", "packet-pages.json" }), "r")
+      if f then
+        local ok, pages = pcall(quarto.json.decode, f:read("a"))
+        f:close()
+        local me = pandoc.path.make_relative(quarto.doc.input_file, quarto.project.directory):gsub("\\", "/")
+        if ok and type(pages) == "table" and pages[me] then meta["goes-with"] = "page " .. tostring(math.floor(pages[me])) end
+      end
+    end
+    return meta
+  end
   return nil
 end
 
 -- Slides only, before the Div pass: give every timeline an id, and put a timeline strip on each
 -- slide an event links to (slide="..."), so that slide shows where it is on the timeline.
 local function Pandoc(doc)
+  if quarto.doc.is_format("typst") then
+    -- A printable that opens with a piece that prints its own title (a Venn, a KWL, a source card, an
+    -- investigation, a test) gets no title of its own (kit.worksheet, show-title); the Venn, the KWL and the
+    -- test also have their own Name line.
+    -- A loose sheet (not a packet): a ::: spread at the top has nothing to face, so it goes (it would leave the
+    -- Name line alone on page 1)
+    KIT_BOOKLET = doc.meta["packet-booklet"] and true or false   -- (kit-blocks.lua: a packet, or a loose sheet)
+    -- A packet: a chapter that opens with a ::: spread turns to the left-hand page before its title, not after it
+    -- (kit.booklet's chapter heading looks for this marker)
+    if KIT_BOOKLET then   -- (a packet is one document: look after each chapter's heading, also inside wrappers)
+      local at_start = true
+      local function scan(blocks)
+        for i, b in ipairs(blocks) do
+          local about = (b.t == "Div" and (b.classes:includes("page-about") or b.classes:includes("subunit")))
+            or b.t == "CodeBlock" or b.t == "RawBlock"   -- (Quarto puts an empty code block after each chapter's heading)
+          local spread = b.t == "Div" and b.classes:includes("spread")
+          if b.t == "Header" and b.level == 1 then at_start = true
+          elseif at_start and spread then
+            blocks[i] = pandoc.RawBlock("typst", "#metadata(none) <spread-first>")
+            at_start = false
+          elseif b.t == "Div" and not about and not spread then
+            local inner = b.content; scan(inner); b.content = inner; blocks[i] = b
+          elseif not about then at_start = false end
+        end
+      end
+      local top = doc.blocks; scan(top); doc.blocks = top   -- (doc.blocks is a copy: change it, then put it back)
+    end
+    if not doc.meta["packet-booklet"] then
+      local kept, top = {}, true
+      for _, b in ipairs(doc.blocks) do
+        local about = b.t == "Div" and (b.classes:includes("page-about") or b.classes:includes("subunit"))
+        if top and b.t == "Div" and b.classes:includes("spread") then
+          -- (dropped)
+        else
+          if not about then top = false end
+          table.insert(kept, b)
+        end
+      end
+      doc.blocks = kept
+    end
+    local OWN_TITLE = { venn = "name", kwl = "name", ["test-head"] = "name", ["source-card"] = true, investigation = true, ["design-artifact"] = true,
+      ["feature-spread"] = "name", ["glossed-reading"] = "name", ["compare-chart"] = "name" }
+    for _, b in ipairs(doc.blocks) do
+      local skip = b.t == "Div" and (b.classes:includes("page-about") or b.classes:includes("subunit") or b.classes:includes("spread"))
+      if not skip then
+        local own = b.t == "Div" and (OWN_TITLE[b.classes[1]] or nil)
+        if own then doc.meta["opens-own-title"] = true end
+        if own == "name" then doc.meta["opens-full-page"] = true end
+        break
+      end
+    end
+    -- A heading's instructions stay with what they introduce: a short paragraph right after a heading,
+    -- with more to come, sticks to the next block (the heading already sticks to it), so a heading and its
+    -- "Draw the …" line are never left at the foot of a page on their own.
+    local out = {}
+    for i, b in ipairs(doc.blocks) do
+      local prev, nxt = doc.blocks[i - 1], doc.blocks[i + 1]
+      if b.t == "Para" and prev and prev.t == "Header" and nxt and #pandoc.utils.stringify(b) < 400 then
+        out[#out + 1] = pandoc.RawBlock("typst", "#block(sticky: true)[")
+        out[#out + 1] = b
+        out[#out + 1] = pandoc.RawBlock("typst", "]")
+      else
+        out[#out + 1] = b
+      end
+    end
+    doc.blocks = out
+    return doc
+  end
   if not quarto.doc.is_format("revealjs") then return nil end
   local strips, n = {}, 0
   doc = doc:walk({ Div = function(el)
@@ -512,5 +604,5 @@ end
 return {
   { Meta = Meta },
   { Pandoc = Pandoc },
-  { Div = Div },
+  { Div = Div, Span = function(el) return kit_blocks.span(el) end },   -- (spans first: a gloss inside a reading block)
 }

@@ -704,7 +704,7 @@ A label, a tag, a number (`.num`).
 ::: notes
 **Use it for:** a new topic, before any words · a mystery picture to discuss · a one-minute video before reading · a question to come back to at the end.
 
-**Pieces:** the Slide kit's media slide: `.cover .media`, a picture or `{{</* video URL */>}}` (here a placeholder), and a `.box` with the question. Swap the placeholder for `![](images/your-picture.jpg)` and credit it.
+**Pieces:** the media slide: `.cover .media`, a picture or `{{</* video URL */>}}` (here a placeholder), and a `.box` with the question. Swap the placeholder for `![](images/your-picture.jpg)` and credit it.
 
 **Also see:** Do now: picture prompt; Video that fills the slide (column 5).
 :::
@@ -1239,7 +1239,7 @@ all the way around
 ::: notes
 **Use it for:** closing a topic: one sentence and what follows from it · a theme in literature · a law in science · a unit's essential question, answered.
 
-**Pieces:** the Slide kit's big idea: `.big` for the claim and `.chain` (boxes with arrows) for what follows.
+**Pieces:** the big idea: `.big` for the claim and `.chain` (boxes with arrows) for what follows.
 
 **Also see:** Section opener (column 1).
 :::
@@ -1748,7 +1748,7 @@ Atoms keep the time. These clocks are the most accurate in the world.
 ::: {.gallery-slot}
 [Work gallery · 作品展示]{.kicker}
 
-{{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
 :::
 :::
 ::::
@@ -1816,14 +1816,14 @@ Atoms keep the time. These clocks are the most accurate in the world.
 ::: notes
 **Use it for:** show which packet page to do · go through a worksheet together · homework instructions · a self-check before leaving.
 
-**Pieces:** `.columns`: a picture of the packet page (`images/page-self-check.png`, page 1 of `self-check.qmd` in this guide; make yours from your own printable's PDF) in a `.packet-page` column (`exemplar.css`: paper with a shadow), and `.steps` in a `.box`.
+**Pieces:** `.columns`: a picture of the packet page (`images/page-self-check.png`, page 1 of `samples/self-check.qmd` in this guide; make yours from your own printable's PDF) in a `.packet-page` column (`exemplar.css`: paper with a shadow), and `.steps` in a `.box`.
 
 **Also see:** Worksheet gallery.
 :::
 
 ## [This week's printables | 本周的打印材料]{.bi} {#worksheet data-menu-title="5 · Worksheet gallery"}
 
-{{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
 
 ::: footer
 [5 · Watch and look · 观看]{.phase} · worksheet gallery
@@ -1832,7 +1832,7 @@ Atoms keep the time. These clocks are the most accurate in the world.
 ::: notes
 **Use it for:** show the pages students will get · zoom into a page to explain a question · a station's instructions.
 
-**Pieces:** `{{</* pdf-viewer "angle-hunt.pdf" layout="gallery" */>}}`: every page as a picture; tap one to open it large.
+**Pieces:** `{{</* pdf-viewer "samples/angle-hunt.pdf" layout="gallery" */>}}`: every page as a picture; tap one to open it large.
 
 **Also see:** Packet page on the screen.
 :::
@@ -1889,7 +1889,7 @@ Atoms keep the time. These clocks are the most accurate in the world.
 :::
 :::
 ::: {.column width="42%"}
-{{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="gallery" title="Angle hunt" >}}
 
 {{< timer 10 layout="row" label="Work on your angle hunt | 完成找角任务" >}}
 :::
@@ -1902,7 +1902,7 @@ Atoms keep the time. These clocks are the most accurate in the world.
 ::: notes
 **Use it for:** the main task of any lesson: numbered steps, the worksheet, the time · a lab · a writing task · test instructions.
 
-**Pieces:** `.columns`, `.steps`, `{{</* pdf-viewer "angle-hunt.pdf" layout="gallery" */>}}`, and under it a timer in one row, `{{</* timer 10 layout="row" label="English | 中文" */>}}`: what to do, the time, and the buttons stacked: the worksheet's pages (here the guide's own `angle-hunt.qmd`); tap one to open it large.
+**Pieces:** `.columns`, `.steps`, `{{</* pdf-viewer "samples/angle-hunt.pdf" layout="gallery" */>}}`, and under it a timer in one row, `{{</* timer 10 layout="row" label="English | 中文" */>}}`: what to do, the time, and the buttons stacked: the worksheet's pages (here the guide's own `samples/angle-hunt.qmd`); tap one to open it large.
 
 **Also see:** Stations; Easy to hard.
 :::
@@ -2038,7 +2038,7 @@ Atoms keep the time. These clocks are the most accurate in the world.
 ::: notes
 **Use it for:** chained challenges on one project (coding, building, art) · mixed levels: everyone starts at 1 · extension tasks.
 
-**Pieces:** the Slide kit's drum kit slide: `.columns` with a `###` heading for each part; each challenge a `.row` with a `.num`, a small `.thumb` picture (`object-fit: contain` shows a whole drawing) and its words.
+**Pieces:** the drum kit slide: `.columns` with a `###` heading for each part; each challenge a `.row` with a `.num`, a small `.thumb` picture (`object-fit: contain` shows a whole drawing) and its words.
 
 **Also see:** Easy to hard, a list.
 :::
@@ -2325,7 +2325,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 ::: notes
 **Use it for:** any question everyone should answer · before a whole-class discussion · checking an idea with a partner first.
 
-**Pieces:** the Slide kit's Think-Pair-Share: a `.box` with the steps, `.tiles` of seating drawings, the question with a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and two timers in `.dark` boxes.
+**Pieces:** the Think-Pair-Share: a `.box` with the steps, `.tiles` of seating drawings, the question with a frame (`{{</* frame "FRM-…" */>}}`, from the language list), and two timers in `.dark` boxes.
 
 **Also see:** The Routines tool (W) does it on top of any slide.
 :::
@@ -2423,7 +2423,7 @@ At 4:00, the clock hands make an obtuse angle. It is **bigger than** a right ang
 ::: notes
 **Use it for:** a lot of content that splits into parts: four texts, four regions, four experiments · every student teaches a part.
 
-**Pieces:** the Slide kit's jigsaw: the three steps on the left (the group pictures large), one timer for steps 2 and 3 (press **Reset** between them), and `::: puzzle` with four `.box`es that lock together, each with its tint (`--piece`) and letter colour (`--strong`).
+**Pieces:** the jigsaw: the three steps on the left (the group pictures large), one timer for steps 2 and 3 (press **Reset** between them), and `::: puzzle` with four `.box`es that lock together, each with its tint (`--piece`) and letter colour (`--strong`).
 
 **Also see:** Group roles.
 :::
@@ -3327,7 +3327,7 @@ How well can you name a straight angle and a full angle?
 
 [Due: next lesson · Packet page: *Angle Hunt* | 下节课交 · 学习包：*找角*]{.bi .small}
 
-{{< pdf-viewer "angle-hunt.pdf" layout="page" title="Angle Hunt" height="215px" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="page" title="Angle Hunt" height="215px" >}}
 :::
 :::
 ::: {.column width="45%"}
@@ -3348,7 +3348,7 @@ How well can you name a straight angle and a full angle?
 ::: notes
 **Use it for:** homework with its packet page · what's next, with a picture · a project's next step.
 
-**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page, `{{</* pdf-viewer "angle-hunt.pdf" layout="page" height="215px" */>}}`: page 1 of the printable, drawn from its PDF; tap it to open the page large (the same window as the packet gallery's), and a photo for next time (`{.next-photo}`).
+**Pieces:** `.columns` with two `.box .plain .homework`: the top of the packet page, `{{</* pdf-viewer "samples/angle-hunt.pdf" layout="page" height="215px" */>}}`: page 1 of the printable, drawn from its PDF; tap it to open the page large (the same window as the packet gallery's), and a photo for next time (`{.next-photo}`).
 
 **Also see:** Packet page (column 5).
 :::
@@ -3752,7 +3752,7 @@ A deck: `slide-scheme: night` in its labels · one slide: `## Title {.scheme-nig
 ::: column
 ### Sources
 
-- **Slides:** from Chalkline's Exemplar lesson and Slide kit, and the sample course's units (Ancient Greece, Ancient Rome, Göbekli Tepe, STEM, Angles).
+- **Slides:** from Chalkline's Exemplar lesson and its earlier Slide kit deck, and the sample course's units (Ancient Greece, Ancient Rome, Göbekli Tepe, STEM, Angles).
 - **Video:** TED-Ed, *Everything you need to know to read Homer's "Odyssey"* (YouTube).
 - **Interactive pages:** Blockly (Google, Apache 2.0), JSXGraph (MIT/LGPL), GeoGebra (geogebra.org); see `embeds/stem/CREDITS.md`.
 - **Discussion roles and stems:** after Voice 21 / School 21.

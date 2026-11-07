@@ -1,6 +1,8 @@
 # Chalkline sample course
 
-**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style. This is a **sample course** to try it with: three history units (Ancient Greece, Ancient Rome and Göbekli Tepe), a STEM sampler unit, a Grade 4 math unit on angles, a 52-word bilingual vocab list, and a slide deck about Chalkline itself.
+**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style.
+
+This repository is Chalkline and an **empty course** to start from. Everything to learn from and copy is in the teacher site's guide, **How to use Chalkline**: a Quick Start and a ten-minute tour, the Template Library (every tested slide layout, game and activity), the printable and packet templates, and three finished example units to copy (Grade 4 math: Angles; Grade 6 history: Ancient Rome, Mesopotamia). The first time you start your copy, it adds a starter unit for you to change.
 
 **See it online:** https://insufficientdoubt.github.io/project-chalkline/ (the teacher version, rebuilt on every push).
 
@@ -10,13 +12,10 @@
 
 | Part | Where | Look for |
 |---|---|---|
-| **Start here** | `course/units/00-start-here/` | A short slide deck: what Chalkline does and how to make your own unit |
-| **Unit 1: Ancient Greece** | `course/units/01-ancient-greece/` | 2 slide decks, 3 printables (a worksheet, fact cards, a class vote) |
-| **Unit 2: Ancient Rome** | `course/units/02-ancient-rome/` | 2 slide decks, 3 printables (a sorting worksheet, Roman numerals, an aqueduct design challenge) |
-| **Unit 3: Göbekli Tepe** | `course/units/03-gobekli-tepe/` | 2 slide decks, 3 printables (an evidence-or-guess worksheet, animal fact cards, a T-pillar design challenge) |
-| **Unit 4: STEM Sampler** | `course/units/04-stem/` | A sampler for STEM teams: math and block-coding decks with interactives you can drag (geometry, GeoGebra, PhET, Blockly), a math handout and two practice worksheets made from a seed. The interactive pages are in its `embeds/` folder |
-| **Unit 5: Angles** | `course/units/05-angles/` | Grade 4 math, from a Chinese lesson plan (旋转与角): a bilingual deck (English and 中文), a class worksheet, homework, and an interactive page where an angle turns from acute to full (its `embeds/` folder) |
-| **Vocab** | `vocab/` | 52 words with pictures, 中文 and simple definitions, in the vocab app (sidebar: **History vocab 词汇**) |
+| **Your course** | `course/units/` | Empty at first; the first start adds a starter unit (`01-first-unit`): one slide deck, one handout, four words |
+| **The guide** | `_extensions/chalkline/guide/` (on the teacher site: **Guide › How to use Chalkline**) | Getting started (Quick Start, tour), the Template Library, printable and packet templates, and three example units to copy into `course/units/` |
+| **Vocab** | `vocab/` | Your word list (`vocab/data/vocab.csv`) and language points (`frames.csv`), in the vocab app. Empty at first; the starter unit adds four words |
+| **Archive** | `archive/` | The old sample units, words and experiments. Not built; see `archive/README.md` |
 | **Appearance** | `brand/` | Colors, fonts and logos for everything |
 | **The look of the interactive parts** | `_extensions/chalkline/ui/ui.css` | One set of colors, corners, shadows, buttons, fields and menus for the classroom tools, games, vocab pop-ups, PDF viewer and quick reference. Change a value there and they all follow |
 | **Chalkline** | `_extensions/chalkline/`, `chalkline.py` | The tool itself. You don't need to touch these |
@@ -24,14 +23,11 @@
 
 Things to try once the site is open:
 
-- Hover or tap a word with a dotted line on any slide: its vocab card pops up.
-- Open a unit page and click **Unit packet (PDF)**: every printable in one file, ready to copy.
-- Open a slide deck and press **S** for speaker notes, **T** for the timer.
-- In a slide deck, press **W** (or the four-squares button, bottom left) for the classroom tools: name picker, groups, scoreboard, voice level with a noise meter, slide size, traffic light, QR code, stopwatch, dice, music, and the unit's vocab and packet. They float above the slides and stay put when you change slides.
-- In the overview, each deck has a **PDF** too.
-- **All slides** (sidebar): every unit's decks as rows of slide pictures. Click a slide to open its deck right there. Small, Medium and Large change the picture size. The pictures are made by a full build (they need Chrome or Edge, like the slide PDFs).
-- **Terminal > Run Task… > Open student site**: what students and families see, without the answer keys, speaker notes and teacher tools.
-- In *From Republic to Empire*, hover the boxes of the infographic: it was made in **draw.io** (`drawio/republic.drawio`), and any draw.io diagram can go in a slide the same way.
+- Open **Guide › How to use Chalkline**: the guide's front page, with the key pages as cards. **Getting started** has the Quick Start and the tour.
+- Open **Example units › Ancient Rome** and click the packet: every printable in one A3-folded booklet, ready to copy.
+- Open a slide deck and press **S** for speaker notes, **T** for the timer, **W** (or the four-squares button, bottom left) for the classroom tools: name picker, groups, scoreboard, voice level with a noise meter, slide size, traffic light, QR code, stopwatch, dice, music, and the unit's vocab and packet.
+- Hover or tap a word with a dotted line on a slide: its vocab card pops up.
+- **Terminal > Run Task… > Open student site**: what students and families see, without the answer keys, speaker notes, teacher tools and the guide.
 
 ## One-time setup
 
@@ -42,15 +38,17 @@ Things to try once the site is open:
    - [Git](https://git-scm.com/downloads)
    - [Google Chrome](https://www.google.com/chrome/) or Microsoft Edge (already on Windows), for slide PDFs
 
-2. **Get a project onto your computer.** Two choices:
-   - **Try this sample** (every example, three history units): in VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), choose **Git: Clone**, paste `https://github.com/insufficientdoubt/project-chalkline`, then open the folder.
-   - **Start your own course** (no sample content): open a terminal in the folder where you keep your work and run
+2. **Get your own course onto your computer.** Two ways; both give you a course that's yours to change:
+   - **Clone this repository**: in VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), choose **Git: Clone**, paste `https://github.com/insufficientdoubt/project-chalkline`, pick a folder, then open it. The first time it starts, it adds a starter unit and names the course "My Course": change `title:` and `school:` in `_quarto.yml`, and copy an example unit into `course/units/` (see "Make your own unit"). Your copy also keeps Chalkline's history and planning notes (`archive/`, `*-PLAN.md`); delete them if you like.
+   - **Or use Quarto's template** (the same course, without Chalkline's history and planning notes): open a terminal in the folder where you keep your work and run
 
      ```bash
      quarto use template insufficientdoubt/project-chalkline
      ```
 
-     Answer **Yes** to "Do you trust the authors", **Yes** to "Create a subdirectory", and type a folder name (`my-course`). Quarto copies Chalkline and the course files, but none of this sample's units, vocab or pictures (`.quartoignore` lists what it leaves out). Open the new folder in VS Code. The first time it starts, it adds a starter unit: one slide deck, one handout and four vocab words (`python chalkline.py setup` does the same). Then change `title:` and `school:` in `_quarto.yml`.
+     Answer **Yes** to "Do you trust the authors", **Yes** to "Create a subdirectory", and type a folder name (`my-course`). Quarto copies Chalkline and the course files, but not its history, planning notes or archive (`.quartoignore` lists what it leaves out). Open the new folder in VS Code. The first time it starts, it adds a starter unit: one slide deck, one handout and four vocab words (`python chalkline.py setup` does the same). Then change `title:` and `school:` in `_quarto.yml`.
+
+   Either way, the guide (**How to use Chalkline**, on your teacher site) comes with Chalkline, and updates with it.
 
 3. **Install the extensions.** VS Code will show a pop-up offering to install the recommended extensions (Quarto, Python, Jupyter). Click **Install**. If you miss it, open the Extensions panel and search `@recommended`.
 
@@ -76,6 +74,20 @@ Things to try once the site is open:
 
    You want to see a Python 3 path that includes `.venv`, plus "Jupyter: OK".
 
+
+## Keep Chalkline up to date
+
+Chalkline gets new templates, pieces and fixes. To get them, run this in the VS Code terminal (or **Terminal > Run Task… > Update Chalkline**):
+
+```bash
+python chalkline.py update
+```
+
+It downloads the newest Chalkline and puts it in place of the old one: `_extensions/chalkline/`, plus `chalkline.py`, the `Start Chalkline` launchers and `requirements.txt`. Your lessons, vocab, pictures, `brand/` and `_quarto.yml` are never touched. Then it lists what's new (from Chalkline's `CHANGELOG.md`; read it for any steps your course needs) and you run the launcher as usual; the first build afterwards rebuilds everything. `python chalkline.py update --check` only says whether there's a newer version.
+
+- **Commit your work first** (see "Git basics"). The update stops if Chalkline's own files have changes that aren't committed, so nothing is replaced by surprise, and the old version stays in your git history.
+- **Don't change files inside `_extensions/chalkline/`:** an update replaces that folder. Your own tools go in `_extensions/my-tools/` (see `CLAUDE.md`).
+- **Don't use `quarto update` for Chalkline:** in a course made this way it installs a second copy beside the first. (`python chalkline.py update` warns you if it finds one.)
 
 ## Open the site
 
@@ -110,7 +122,7 @@ You can do almost everything here by asking an AI assistant: Claude, Gemini, Cha
 
 ## Make your own unit
 
-1. Copy a unit folder, for example `course/units/01-ancient-greece`, and rename it (`03-my-unit`).
+1. Copy an example unit (`_extensions/chalkline/guide/examples/example-rome/`, or `course/guide/02-chalkline/examples/example-rome/` after a teacher build) into `course/units/`, and rename it (`03-my-unit`).
 2. In its `index.qmd`, change `title`, `short-title`, `unit` and the `objectives`. The unit appears in the sidebar and overview by itself.
 3. Edit or replace the slides and printables. Keep the labels at the top of each file: `type:` (slides, worksheet, handout, reference…), `order:` and `audience:` (who sees it: `teacher`, `student`; see "Students, families and teachers" below).
 4. Add your words to `vocab/data/vocab.csv` (see `vocab/README.md`), then run `python chalkline.py validate`.
@@ -193,7 +205,11 @@ format:
   typst: default    # PDF (A4)
 ```
 
-Add `docx: default` for a Word file. PDFs are A4; posters set `papersize: a3`. Shared settings live in `_quarto.yml`. For younger students, `layout: playful` gives a printable a kid-friendly look: handwriting fonts, a hand-drawn frame, star or flower numbers and line-art doodles to color; `playful-theme: nature` makes it a green garden page (see `brand/README.md` and **Unit 4 › Garden Times Tables!**).
+Add `docx: default` for a Word file. Shared settings live in `_quarto.yml`.
+
+**Every PDF is laid out by the packet kit.** A printable's PDF is an A4 page in the course's packet theme (`packet-theme:` sky, trail or blueprint): Name / Class / Date, the title, "Page 1 of 2", and "Goes with packet page 5". The same pages make each unit's packet, an A3-folded booklet with a cover, contents and a teacher edition. Write the page with the packet blocks (`::: panel`, `::: recall`, `::: {.work-space}`, `::: venn` and the rest): the guide's **Packet templates** page lists them, and the two example units use them. Posters keep their own layout (`layout: poster`, `papersize: a3`).
+
+> **Changed in November 2026 (breaking):** the old worksheet and playful PDF layouts are gone. `layout: playful`, `playful-theme:`, `doc-type:` and `name-box:` no longer change anything; old printables still build, but look plainer until they use the packet blocks. `{{< lines >}}` and `{{< drawing-box >}}` still work; `::: {.work-space}` is the new way. See `TOOL-CHANGES.md`.
 
 
 ## Teacher-only content
@@ -227,7 +243,7 @@ These come from `_extensions/chalkline/`. Each one looks right on the web page, 
 | `{{< word-bank unit=1 "Government: democracy, citizen" "Places: colony" >}}` | A word-bank box, one line per group. |
 | `{{< vocab-table unit=1 >}}`, `{{< vocab-list unit=1 >}}` | The unit's words and meanings as a table or a list (`words="..."` for some of them). |
 | `{{< fill-in-the-blank unit=1 >}}` | A word bank and numbered meanings to fill in. The answer key shows only in the teacher version. |
-| `chalkboard:` in a deck's labels | Draw on any slide: press **C** (or the pen button, bottom left) to draw on the slide, **B** for a blank chalkboard, **Delete** to clear. Copy the three lines from the top of `course/units/01-ancient-greece/city-states-slides.qmd`. |
+| `chalkboard:` in a deck's labels | Draw on any slide: press **C** (or the pen button, bottom left) to draw on the slide, **B** for a blank chalkboard, **Delete** to clear. Copy them from the top of the Template Library deck (`_extensions/chalkline/guide/templates-slides.qmd`). |
 | `::: {.live-board rooms="wbo"}` … `:::` | A **live board** on a slide: a Padlet wall or a shared whiteboard filling the whole slide, with a small corner card holding the link students open, its QR code and the buttons (`layout="inline"`: the frame with the link under it, for a slide with other things on it; `zoom="0.7"` shows the board smaller so more fits, and Padlet starts at 0.7). Click the QR code for a big one to scan. `src=` is what the frame shows (Padlet: the embed address), `join=` the link students get; `rooms="excalidraw"` or `rooms="wbo"` makes a fresh room link for you (**New room** for the next class). Or leave the links out and click **Edit link** on the slide to paste one. Excalidraw shares only in its own tab, so its slide shows the room's QR code and an **Open the class board** button instead of a frame; WBO and Padlet stay live on the slide. See `course/units/00-start-here/live-boards-slides.qmd`. |
 | `{{< timer 20 >}}` | A 20-minute countdown on a slide (see below). In print it just says "Timer: 20 minutes". |
 | `{{< pagebreak >}}` | Start a new PDF page. |
@@ -307,7 +323,7 @@ Open windows, where they are, the scores, the class lists and the settings are r
 
 Ten review games for slides, in a calm, plain style. **To play one right now, open Review games in the sidebar** (`course/review-games.qmd`): choose a game along the top and a unit (or all units), and it starts with that unit's vocab; **New word** (or **New board**, **New cards**…) gives a fresh one. It remembers your last choice on that computer, works full screen on the board, and has the toolbox (**W**) like any deck. The `{{< game-picker >}}` shortcode makes it, so you can put it in any deck too.
 
-To put a game in your own slides, see them all in **Unit 1 › Greek Word Games** (`course/units/01-ancient-greece/review-games-slides.qmd`); its speaker notes (**S**) show how each one is written. Copy any slide to make your own. Between classes, **↺ Reset for the next class** in the toolbox menu (**W**) starts every game again. The games keep their own score and don't use the toolbox scoreboard. Like quizzes, they never show 中文.
+To put a game in your own slides, see them all in the Template Library's games column (`_extensions/chalkline/guide/templates-slides.qmd`, in **How to use Chalkline**); each slide's speaker notes (**S**) show how it is written. Copy any slide to make your own. Between classes, **↺ Reset for the next class** in the toolbox menu (**W**) starts every game again. The games keep their own score and don't use the toolbox scoreboard. Like quizzes, they never show 中文.
 
 | Game | How it plays |
 |---|---|
@@ -526,8 +542,11 @@ Every deck in `course/units/` ends with an exit-ticket poll.
 | Save a snapshot (a "commit") | `git add .` then `git commit -m "Describe the change"` |
 | Upload to GitHub | `git push` |
 | Download changes from GitHub | `git pull` |
+| Get the newest Chalkline | `python chalkline.py update` (not `git pull`: see "Keep Chalkline up to date") |
 
 VS Code's **Source Control** panel (the branch icon on the left) does all of this with buttons, if you prefer.
+
+**A cloned course is still linked to Chalkline's page on GitHub,** which you can't upload to. To keep your own course online: make an empty repository on github.com (no README), then run `git remote set-url origin https://github.com/YOUR-NAME/YOUR-REPO.git` and `git push -u origin main`. From then on, `git push` saves your course there, and `python chalkline.py update` still gets Chalkline's updates.
 
 
 ## Credits

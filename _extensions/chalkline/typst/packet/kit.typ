@@ -36,11 +36,12 @@
 #let MODE = state("chalkline-mode", "booklet")
 // The teacher edition: the same pages with the answers written in (red, handwriting), placed over the
 // student page so nothing moves: the teacher's page 11 is the student's page 11. --input edition=teacher
-#let TEACHER = sys.inputs.at("edition", default: "student") == "teacher"
+// (a state, so Quarto can set it from the page's `edition`; a build can also pass --input edition=teacher)
+#let EDITION = state("chalkline-teacher", sys.inputs.at("edition", default: "student") == "teacher")
 #let KEY = rgb("#c8372d")
 #let key(body, size: 12.5pt) = text(font: ("Patrick Hand", "Noto Sans SC"), size: size, fill: KEY, body)
 // an answer that takes no space: in the student edition nothing, in the teacher edition drawn at this spot
-#let key-here(body, dx: 0pt, dy: 0pt, size: 12.5pt) = if TEACHER { box(width: 0pt, height: 0pt, place(dx: dx, dy: dy, box(width: 120mm, key(body, size: size)))) }
+#let key-here(body, dx: 0pt, dy: 0pt, size: 12.5pt) = context if EDITION.get() { box(width: 0pt, height: 0pt, place(dx: dx, dy: dy, box(width: 120mm, key(body, size: size)))) }
 // Units and subunits, for the contents page: unit-start("2", "Ancient Rome"), subunit("2.1", "Water and roads").
 // Every section and page title is an entry under them.
 #let unit-start(number, name) = [#metadata((kind: "unit", number: number, name: name)) <toc-unit>]
@@ -88,7 +89,7 @@
   let t = TH.get()
   for i in range(n) {
     v(gap - 1pt)
-    if i == 0 and answer != none and TEACHER { place(dx: 2mm, dy: -gap + 2.2mm, block(width: 100% - 4mm, key(answer))) }
+    if i == 0 and answer != none and EDITION.get() { place(dx: 2mm, dy: -gap + 2.2mm, block(width: 100% - 4mm, key(answer))) }
     line(length: 100%, stroke: 0.6pt + t.line)
   }
 }
@@ -159,16 +160,18 @@
 // Start a two-page spread: the next page is a left-hand (even) page. Typst adds the blank page when one is
 // needed (pagebreak(to: "even"): no extra layout passes). Markers either side of the break show which page
 // was added, and the page background draws Notes lines on it (see notes-background), which can't move anything.
-#let spread-start() = context {
-  if MODE.get() == "booklet" { [#metadata("pre-spread") <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>] }
+// chapter: true when a chapter's heading starts it (the page it's on so far holds only that heading)
+#let spread-start(chapter: false) = context {
+  if MODE.get() == "booklet" { [#metadata(if chapter { "pre-spread-chapter" } else { "pre-spread" }) <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>] }
   else { [#pagebreak(weak: true)#metadata("spread") <spread>] }
   context [#metadata(here().page()) <spread-page>]
 }
 #let notes-background(t) = context {
   let p = here().page()
-  let pres = query(<pre-spread>).map(m => m.location().page())
+  let pres = query(<pre-spread>)
   let posts = query(<spread>).map(m => m.location().page())
-  let added = pres.zip(posts).any(((a, b)) => b - a == 2 and p == a + 1)
+  // the page Typst added before a spread; or, when a chapter starts the spread, the page its heading was alone on
+  let added = pres.zip(posts).any(((m, b)) => { let a = m.location().page(); (b - a == 2 and p == a + 1) or (m.value == "pre-spread-chapter" and b - a == 1 and p == a) })
   if not added { return }
   let left = if calc.odd(p) { PAGE.inside } else { PAGE.outside }
   place(dx: left, dy: PAGE.top + 4mm, block(width: PAGE.w - PAGE.inside - PAGE.outside, height: PAGE.h - PAGE.top - PAGE.bottom - 8mm, {
@@ -188,9 +191,10 @@
 }]
 
 // ---------------------------------------------------------------- the packet
-#let packet(theme: "sky", title: "", unit: "", body) = {
+#let packet(theme: "sky", title: "", unit: "", teacher: auto, body) = {
   let t = themes.at(theme)
   TH.update(t)
+  if teacher != auto { EDITION.update(teacher) }
   set page(paper: "a4", binding: left, background: notes-background(t), margin: (inside: PAGE.inside, outside: PAGE.outside, top: PAGE.top, bottom: PAGE.bottom),
     header: context {
       let n = here().page()
@@ -202,7 +206,7 @@
       let here-titles = titles.filter(m => m.location().page() == n)
       let before = titles.filter(m => m.location().page() < n)
       let sec = if here-titles.len() > 0 { here-titles.first().value } else if before.len() > 0 { before.last().value } else { "" }
-      let ribbon = if TEACHER { box(fill: KEY, inset: (x: 5pt, y: 2pt), radius: 2pt, text(fill: white, weight: "bold", size: 7pt, "TEACHER EDITION")) }
+      let ribbon = if EDITION.get() { box(fill: KEY, inset: (x: 5pt, y: 2pt), radius: 2pt, text(fill: white, weight: "bold", size: 7pt, "TEACHER EDITION")) }
       grid(columns: (1fr, auto, 1fr), align(left)[#if not odd { name } else { unit }], ribbon, align(right)[#if odd { sec } else { "" }])
       v(-6pt)
       // On an intentional spread (one started with spread-start), the line runs on to the spine, so the two
@@ -265,10 +269,10 @@
   let cell(i, item) = block(width: 100%, height: 100%, radius: t.radius, stroke: t.box-stroke, clip: true, inset: 0pt, {
     let (q, a, work) = if type(item) == array { (item.at(0), item.at(1), item.at(2, default: none)) } else { (item, none, none) }
     place(block(width: 100%, height: 100%, fill: surface(t, surface-style)))
-    if TEACHER and work != none { place(top + left, dx: 12mm, dy: 15mm, box(width: 100% - 18mm, key(work, size: 12pt))) }
+    if EDITION.get() and work != none { place(top + left, dx: 12mm, dy: 15mm, box(width: 100% - 18mm, key(work, size: 12pt))) }
     place(top + left, dx: 7pt, dy: 7pt, box(fill: white, inset: (right: 6pt, bottom: 3pt), [#badge(t, str(i + 1), size: 1.5em) #h(3pt) #text(size: 12.5pt, weight: "bold", q)]))
     place(bottom + right, dx: -7pt, dy: -7pt, box(fill: white, inset: 4pt, stroke: 0.6pt + t.line, radius: calc.min(t.radius, 4pt),
-      [#text(size: 10pt, fill: t.muted, answer) #box(width: 18mm, height: 1em, if TEACHER and a != none { place(dy: -3pt, key(a, size: 14pt)) })]))
+      [#text(size: 10pt, fill: t.muted, answer) #box(width: 18mm, height: 1em, if EDITION.get() and a != none { place(dy: -3pt, key(a, size: 14pt)) })]))
   })
   block(width: 100%, height: 1fr, grid(columns: (1fr,) * cols, rows: (1fr,) * rows, gutter: 5mm,
     ..items.enumerate().map(((i, q)) => cell(i, q))))
@@ -283,7 +287,7 @@
     align: (center + horizon, left + horizon, left + horizon), fill: (_, y) => if y == 0 { t.tint } else { none },
     table.header(..("Where", "Clue", "Word").map(h => text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, h))),
     ..es.map(e => (text(size: 9pt, fill: t.muted, e.at(0)), text(size: 9.5pt)[#if e.at(1) != none [*#e.at(1)* #h(2pt)]#e.at(2)],
-      if TEACHER and e.len() > 3 { key(e.at(3), size: 13.5pt) } else { [] })).flatten())
+      if EDITION.get() and e.len() > 3 { key(e.at(3), size: 13.5pt) } else { [] })).flatten())
   grid(columns: (1fr, 1fr), column-gutter: 5mm, tbl(entries.slice(0, half)), tbl(entries.slice(half)))
 }
 
@@ -299,11 +303,11 @@
 // Put events in order: a box to write the number, then the event.
 #let sequence(events, order: none) = context {
   let t = TH.get()
-  table(columns: (17mm, 1fr), rows: (auto,) + (10mm,) * events.len(), inset: (x: 7pt, y: 4pt), align: (center + horizon, left + horizon),
+  block(breakable: false, table(columns: (17mm, 1fr), rows: (auto,) + (10mm,) * events.len(), inset: (x: 7pt, y: 4pt), align: (center + horizon, left + horizon),
     fill: (_, y) => if y == 0 { t.tint } else { none },
     table.header(text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, "Order"), text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, "Event")),
     ..events.enumerate().map(((i, e)) => (box(width: 9mm, height: 7mm, stroke: 0.8pt + t.line, radius: calc.min(t.radius, 3pt),
-      if TEACHER and order != none { align(center + horizon, key(str(order.at(i)), size: 14pt)) }), e)).flatten())
+      if EDITION.get() and order != none { align(center + horizon, key(str(order.at(i)), size: 14pt)) }), e)).flatten()))
 }
 
 // A reading in two columns across the top; the lower half split: `beside` on the left (a picture, a word
@@ -367,7 +371,7 @@
   let t = TH.get()
   block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, inset: 6pt, breakable: false, {
     grid(columns: (auto, 1fr), column-gutter: 5pt, badge(t, letter, size: 1.5em), text(size: 9pt, body))
-    if pic != none { v(1fr); box(width: 100%, height: 17mm, clip: true, radius: calc.min(t.radius, 4pt), image(pic, width: 100%, height: 17mm, fit: "cover")) }
+    if pic != none { v(1fr); box(width: 100%, height: 17mm, clip: true, radius: calc.min(t.radius, 4pt), if type(pic) == str { image(pic, width: 100%, height: 17mm, fit: "cover") } else { pic }) }
   })
 }
 
@@ -384,7 +388,7 @@
   let full = 2 * PAGE.w - 2 * FEAT.edge
   // the panorama: one picture, cut at the spine
   place(dx: if left-page { FEAT.edge } else { FEAT.edge - PAGE.w }, dy: FEAT.edge,
-    box(width: full, height: FEAT.pano-h, clip: true, radius: if t.radius > 0pt { 4pt } else { 0pt }, image(panorama, width: full, height: FEAT.pano-h, fit: "cover")))
+    box(width: full, height: FEAT.pano-h, clip: true, radius: if t.radius > 0pt { 4pt } else { 0pt }, if type(panorama) == str { image(panorama, width: full, height: FEAT.pano-h, fit: "cover") } else { panorama }))
   // the box across the foot: open on the spine side, so it reads as one box across the two pages
   let w = PAGE.w - PAGE.outside
   let open-side = if left-page { (right: none) } else { (left: none) }
@@ -413,7 +417,7 @@
     set page(binding: if calc.odd(start) { right } else { left },
       margin: (inside: PAGE.inside, outside: PAGE.outside, top: FEAT.top, bottom: FEAT.bottom), header: none, footer: none,
       background: feature-bg(t, panorama, left-box, right-box, badge-text, credit))
-    [#metadata(title) <section-title>]
+    [#metadata(title) <section-title>#metadata(title) <own-title>]
     block(width: 100%, below: 4mm, {
       text(font: t.label-font, size: 8.5pt, fill: t.accent, tracking: 1pt, upper(kicker))
       linebreak()
@@ -435,7 +439,7 @@
   let t = TH.get()
   // a float: it goes to the top or bottom of the column, and the text fills in around it (no gaps)
   place(at, float: true, scope: "column", clearance: 4mm, block(width: 100%, breakable: false, {
-    box(width: 100%, height: height, clip: true, radius: calc.min(t.radius, 4pt), image(path, width: 100%, height: height, fit: "cover"))
+    box(width: 100%, height: height, clip: true, radius: calc.min(t.radius, 4pt), if type(path) == str { image(path, width: 100%, height: height, fit: "cover") } else { path })
     v(1mm, weak: true)
     text(size: 7.5pt, fill: t.muted, caption)
   }))
@@ -460,12 +464,58 @@
   gloss(if word == none { row.term_en } else { word }, row.short_def, zh: row.zh)
 }
 
-// ---------------------------------------------------------------- a landscape page inside a portrait packet
-// The content is turned 90° on an ordinary portrait page, so the packet still prints and staples as one.
-#let landscape(body) = {
-  pagebreak(weak: true)
-  align(center + horizon, rotate(-90deg, reflow: true, block(width: PAGE.h - PAGE.top - PAGE.bottom - 6mm, height: PAGE.w - PAGE.inside - PAGE.outside, body)))
+// a paragraph number, so questions can point to "¶3" (page positions move when the layout changes)
+#let pn(n) = context box(text(font: TH.get().label-font, size: 8pt, weight: "bold", fill: TH.get().accent, "¶" + str(n)) + h(3pt))
+
+// two lines: "parallel" or "perpendicular" (for reference cards, next to angle-pic)
+#let line-pic(kind, t) = box(width: 24mm, height: 20mm, if kind == "parallel" {
+  place(dy: 6mm, line(length: 24mm, stroke: 1.4pt + t.head)); place(dy: 14mm, line(length: 24mm, stroke: 1.4pt + t.head))
+} else {
+  place(dy: 14mm, line(length: 24mm, stroke: 1.4pt + t.head)); place(dx: 12mm, dy: 2mm, line(length: 12mm, angle: 90deg, stroke: 1.4pt + t.head))
+  place(dx: 12mm, dy: 11mm, rect(width: 3mm, height: 3mm, stroke: 0.8pt + t.accent))
+})
+// reference cards in a grid that fills the rest of the page: cards: ((title, picture, text), …)
+#let card-grid(cards, cols: 3) = context {
+  let t = TH.get()
+  let rows = calc.ceil(cards.len() / cols)
+  let card((title, pic, body)) = block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, inset: 7pt, breakable: false, {
+    text(font: t.head-font, weight: "bold", fill: t.head, size: 11pt, title)
+    v(1mm); align(center, pic); v(1fr)
+    text(size: 9pt, body)
+  })
+  block(height: 1fr, grid(columns: (1fr,) * cols, rows: (1fr,) * rows, gutter: 4mm, ..cards.map(card)))
 }
+
+// ---------------------------------------------------------------- a landscape page inside a portrait packet
+// In a packet, the content is turned 90° on an ordinary portrait page, so the packet still prints and folds
+// as one. A loose sheet gets a real landscape page instead (the same room), so it shows the right way up on
+// a screen, and ink written on it in the PDF viewer lands in the right place.
+#let landscape(body) = context {
+  let w = PAGE.h - PAGE.top - PAGE.bottom - 6mm
+  let h = PAGE.w - PAGE.inside - PAGE.outside
+  if MODE.get() == "sheet" {
+    page(flipped: true, margin: (x: (PAGE.h - w) / 2, top: 17mm, bottom: 17mm), align(center + horizon, block(width: w, height: h, body)))
+  } else {
+    pagebreak(weak: true)
+    align(center + horizon, rotate(-90deg, reflow: true, block(width: w, height: h, body)))
+  }
+}
+
+// A chart to fill in on a landscape page: a row per thing, a column per question (the last can be "Sketch")
+#let compare-chart(title, first, columns, rows, instructions: none, letter: none) = [#metadata(title) <own-title>] + landscape({
+  set align(left + top)
+  context if MODE.get() == "sheet" { name-row(); v(2mm) }   // a loose sheet: the Name line is on this page
+  if letter != none { section(letter, title, instructions: instructions) } else { titled(title); if instructions != none { text(size: 9.5pt, instructions); v(2mm) } }
+  context {
+    let t = TH.get()
+    let h(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
+    let n = columns.len()
+    block(height: 1fr, table(columns: (30mm,) + (1fr,) * n, rows: (auto,) + (1fr,) * rows.len(), inset: 6pt,
+      fill: (x, y) => if y == 0 or x == 0 { t.tint } else { none }, align: (x, y) => if x == 0 { left + horizon } else { left + top },
+      h(first), ..columns.map(h),
+      ..rows.map(r => (text(weight: "bold", fill: t.head, r),) + ([],) * n).flatten()))
+  }
+})
 
 // ---------------------------------------------------------------- title page, contents, overview, self-check, back
 #let placeholder(label, height: 40mm, width: 100%) = context {
@@ -473,11 +523,20 @@
   block(width: width, height: height, stroke: (paint: t.line, thickness: 1pt, dash: "dashed"), radius: t.radius,
     align(center + horizon, text(size: 9pt, fill: t.muted, font: t.label-font, label)))
 }
-// hero: a picture path, "placeholder" (a dashed box to fill in later), or none (the theme's decoration)
-#let title-page(course: "", unit: "", unit-number: "", teacher: "", school: "", year: "", hero: none) = context {
+// The school's logo (a path from the course folder; packets.py passes the brand's), or a dashed circle
+#let LOGO = state("chalkline-logo", none)
+#let logo-mark(size) = context {
   let t = TH.get()
+  let logo = LOGO.final()
+  if logo != none { box(width: size, height: size, image(logo, width: size, height: size, fit: "contain")) }
+  else { box(width: size, height: size, stroke: (paint: t.line, dash: "dashed"), radius: 50%, align(center + horizon, text(size: 6.5pt, fill: t.muted, "Logo"))) }
+}
+// hero: a picture path, "placeholder" (a dashed box to fill in later), or none (the theme's decoration)
+#let title-page(course: "", unit: "", unit-number: "", teacher: "", school: "", year: "", hero: none, logo: none) = context {
+  let t = TH.get()
+  if logo != none { LOGO.update(logo) }
   grid(columns: (auto, 1fr, auto), align: horizon, column-gutter: 4mm,
-    box(width: 13mm, height: 13mm, stroke: (paint: t.line, dash: "dashed"), radius: 50%, align(center + horizon, text(size: 6.5pt, fill: t.muted, "Logo"))),
+    logo-mark(13mm),
     text(font: t.label-font, size: 9pt, fill: t.muted, school), text(font: t.label-font, size: 9pt, fill: t.muted, year))
   v(10mm)
   text(font: t.label-font, size: 11pt, fill: t.accent, tracking: 1.5pt, upper(course))
@@ -524,7 +583,7 @@
     if kind == "unit" {
       v(3mm)
       block(below: 2mm, grid(columns: (auto, 1fr, auto), column-gutter: 3mm, align: horizon,
-        badge(t, val.number, size: 2em), text(font: t.head-font, weight: "bold", size: 15pt, fill: t.head, val.name), text(size: 12pt, num)))
+        if val.number != "" { badge(t, val.number, size: 2em) } else { box(width: 0pt) }, text(font: t.head-font, weight: "bold", size: 15pt, fill: t.head, val.name), text(size: 12pt, num)))
     } else if kind == "sub" {
       block(above: 3.5mm, below: 1.5mm, inset: (left: 9mm), grid(columns: (auto, 1fr, auto), column-gutter: 2mm,
         text(font: t.label-font, weight: "bold", fill: t.accent, val.number), [#text(weight: "bold", fill: t.head, val.name) #lead], num))
@@ -538,13 +597,15 @@
 
 // A vocab page in two columns, from the vocab list. pictures: true gives each word its picture (a reference
 // card); false gives a denser list with a line for the student's own sentence.
-#let vocab-page(prefix: "ROM", pictures: true, ids: none) = context {
+// rows: the words themselves, ((term_en:, zh:, short_def:, example:, path:), …), for a .qmd page (kit-blocks.lua
+// passes them from Chalkline's merged word list); otherwise they come from the vocab list, by prefix or ids
+#let vocab-page(prefix: "ROM", pictures: true, ids: none, rows: none) = context {
   let t = TH.get()
-  let rows = VOCAB.filter(r => if ids != none { r.id in ids } else { r.id.starts-with(prefix + "-") })
+  let rows = if rows != none { rows } else { VOCAB.filter(r => if ids != none { r.id in ids } else { r.id.starts-with(prefix + "-") }) }
   let entry(r) = if pictures {
-    block(width: 100%, height: 37mm, stroke: t.box-stroke, radius: t.radius, inset: 5pt, breakable: false, clip: true,
+    block(width: 100%, height: 34mm, stroke: t.box-stroke, radius: t.radius, inset: 5pt, breakable: false, clip: true,
       grid(columns: (30mm, 1fr), column-gutter: 4mm,
-        box(width: 30mm, height: 26mm, clip: true, radius: calc.min(t.radius, 4pt), image(VOCAB-IMAGES + "/" + r.image, width: 30mm, height: 26mm, fit: "contain")),
+        box(width: 30mm, height: 26mm, clip: true, radius: calc.min(t.radius, 4pt), if r.at("path", default: "") != "" { image(r.path, width: 30mm, height: 26mm, fit: "contain") } else if r.at("image", default: "") != "" and "path" not in r { image(VOCAB-IMAGES + "/" + r.image, width: 30mm, height: 26mm, fit: "contain") }),
         [#text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, r.term_en) #h(2pt) #text(fill: t.muted, r.zh)          #text(size: 9pt, r.short_def) \ #v(1pt) #text(size: 8pt, fill: t.muted, style: "italic", r.example)]))
   } else {
     block(width: 100%, breakable: false, below: 3mm, {
@@ -559,7 +620,7 @@
 
 // Language points in two columns, grouped by kind, from vocab/data/frames.csv.
 #let FRAMES = csv(sys.inputs.at("frames", default: "/vocab/data/frames.csv"), row-type: dictionary)
-#let language-page(ids) = context {
+#let language-page(ids, rows: none) = context {
   let t = TH.get()
   let names = (grammar: "Grammar", phrase: "Phrases", stem: "Sentence stems", frame: "Sentence frames", question: "Questions and answers")
   let blank(s) = s.replace("___", "______")
@@ -568,7 +629,7 @@
     if r.answer_en != "" { linebreak(); text(size: 9.5pt)[→ #blank(r.answer_en)] }
     if r.example != "" { linebreak(); text(size: 8.5pt, fill: t.muted, style: "italic", r.example) }
   })
-  let rows = FRAMES.filter(r => r.id in ids)
+  let rows = if rows != none { rows } else { FRAMES.filter(r => r.id in ids) }
   let groups = ("grammar", "phrase", "stem", "frame", "question").filter(k => rows.any(r => r.kind == k))
   // two columns, balanced: whole groups go left until about half the points are placed
   let group(k) = { block(below: 2mm, text(font: t.label-font, weight: "bold", size: 9pt, fill: t.accent, tracking: 0.8pt, upper(names.at(k)))); for r in rows.filter(r => r.kind == k) { item(r) }; v(2mm) }
@@ -578,8 +639,27 @@
 }
 
 // I can ... at the start and the end of the unit: three circles each (not yet, getting there, I can).
-#let self-check(statements) = context {
+// lesson: true for one lesson's check (four stars to colour, "How well?"); otherwise a unit's (1 2 3 at the
+// start of the unit and again at the end)
+#let star(t, size: 6.5mm) = box(width: size, height: size, {
+  let pts = range(10).map(i => {
+    let r = if calc.even(i) { size / 2 } else { size / 5 }
+    let a = -90deg + i * 36deg
+    (size / 2 + r * calc.cos(a), size / 2 + r * calc.sin(a))
+  })
+  place(polygon(stroke: (paint: t.line, thickness: 0.9pt, join: "round"), ..pts))
+})
+#let self-check(statements, lesson: false) = context {
   let t = TH.get()
+  if lesson {
+    let hd(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
+    let stars = box(for i in range(4) { star(t); h(2mm) })
+    table(columns: (1fr, 42mm), inset: 6pt, rows: (auto,) + (15mm,) * statements.len(), align: (left + horizon, center + horizon),
+      fill: (_, y) => if y == 0 { t.tint } else { none },
+      hd("I can …"), hd("How well?"), ..statements.map(s => (s, stars)).flatten())
+    text(size: 8.5pt, fill: t.muted)[Colour the stars. 1 star = I need help · 4 stars = I can teach it]
+    return
+  }
   let circles = box(for (i, l) in ("1", "2", "3").enumerate() { box(width: 7mm, height: 7mm, stroke: 0.8pt + t.line, radius: 50%, align(center + horizon, text(size: 7pt, fill: t.muted, l))); h(1.5mm) })
   let hd(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
   table(columns: (1fr, 31mm, 31mm), inset: 6pt, rows: (auto,) + (15mm,) * statements.len(), align: (left + horizon, center + horizon, center + horizon),
@@ -589,15 +669,19 @@
   text(size: 8.5pt, fill: t.muted)[1 = not yet · 2 = getting there · 3 = I can do it on my own]
 }
 
+// Picture credits for the back cover: #kit.credit[The cover: …] anywhere in the packet adds one.
+#let CREDITS = state("chalkline-credits", ())
+#let credit(body) = CREDITS.update(c => c + (body,))
 #let back-cover(school: "", credits: []) = context {
   let t = TH.get()
   v(1fr)
   align(center, {
-    box(width: 16mm, height: 16mm, stroke: (paint: t.line, dash: "dashed"), radius: 50%, align(center + horizon, text(size: 7pt, fill: t.muted, "Logo")))
+    logo-mark(16mm)
     v(3mm); text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, school)
     v(10mm)
   })
-  panel(title: "Picture credits")[#set text(size: 8pt); #credits]
+  let listed = CREDITS.final()
+  panel(title: "Picture credits")[#set text(size: 8pt); #credits #if listed.len() > 0 { list(..listed) }]
   v(8mm)
 }
 
@@ -605,14 +689,15 @@
 // #show: worksheet.with(theme: "sky", title: "Two-step equations", unit: "Unit 2 · Ancient Rome", goes-with: "page 15")
 // The same pages as in the packet, on A4: equal margins, Name / Class / Date at the top, "Page 1 of 2" and
 // where it goes in the packet at the foot. A spread in it is put on one A3 page by build.py (impose()).
-#let worksheet(theme: "sky", title: "", unit: "", goes-with: none, name: true, body) = {
+#let worksheet(theme: "sky", title: "", subtitle: none, unit: "", goes-with: none, name: true, teacher: auto, show-title: auto, body) = {
   let t = themes.at(theme)
   TH.update(t)
+  if teacher != auto { EDITION.update(teacher) }
   MODE.update("sheet")
-  set page(paper: "a4", margin: (x: 17.5mm, top: PAGE.top, bottom: PAGE.bottom),
+  set page(paper: "a4", margin: (x: 17.5mm, top: PAGE.top, bottom: PAGE.bottom), background: none, numbering: none,   // (none: no logo Quarto adds)
     header: context {
       set text(size: 8pt, fill: t.muted, font: t.label-font)
-      let ribbon = if TEACHER { box(fill: KEY, inset: (x: 5pt, y: 2pt), radius: 2pt, text(fill: white, weight: "bold", size: 7pt, "TEACHER EDITION")) }
+      let ribbon = if EDITION.get() { box(fill: KEY, inset: (x: 5pt, y: 2pt), radius: 2pt, text(fill: white, weight: "bold", size: 7pt, "TEACHER EDITION")) }
       grid(columns: (1fr, auto, 1fr), align(left, unit), ribbon, align(right, title))
       v(-6pt); line(length: 100%, stroke: if t.rule == "zigzag" { (paint: t.line, thickness: 0.6pt, dash: "dashed") } else { 0.6pt + t.faint })
     },
@@ -625,6 +710,67 @@
   set text(font: t.body-font, size: 10.5pt, fill: t.ink, lang: "en")
   set par(leading: 0.6em, spacing: 0.9em)
   set table(stroke: 0.6pt + t.line)
+  // a printable's own ## headings take the theme's look (over the site's brand heading style)
+  show heading: it => block(above: 5mm, below: 2.5mm, breakable: false, sticky: true, {   // sticky: never alone at the foot of a page
+    set text(font: t.head-font, fill: t.head, weight: "bold", size: if it.level <= 2 { 14pt } else { 11.5pt })
+    it.body
+    if it.level <= 2 { v(-2pt); box(width: 30mm, rule(t)) }
+  })
   if name { name-row(); v(3mm) }   // (a spread starts on a new page: put the name in it instead)
+  // the title on page 1: shown when the page is a whole printable from a .qmd (show-title: auto, a title)
+  if show-title == true or (show-title == auto and title != "" and title != []) { titled(title, sub: subtitle) }
   body
+}
+
+// ---------------------------------------------------------------- a unit packet built by Quarto (packets.py)
+// The packet as Quarto makes it: a book whose chapters are the unit's printables, each starting with a level-1
+// heading. Each one starts on a new page with its title in the theme; packets.py's first chapter draws the
+// title page and the contents; Notes pages and the back cover make it a multiple of 4 pages (A3, folded).
+#let booklet(theme: "sky", title: "", unit: "", teacher: auto, school: "", body) = {
+  show: packet.with(theme: theme, title: title, unit: unit, teacher: teacher)
+  let t = themes.at(theme)
+  show heading: it => block(above: 5mm, below: 2.5mm, breakable: false, sticky: true, {
+    set text(font: t.head-font, fill: t.head, weight: "bold", size: if it.level <= 2 { 14pt } else { 11.5pt })
+    it.body
+    if it.level <= 2 { v(-2pt); box(width: 30mm, rule(t)) }
+  })
+  show heading.where(level: 1): it => {
+    if it.body == [] { return }   // an outside PDF's chapter, or the title chapter: no title of its own
+    // A chapter whose page is a full-page organizer with its own title (a Venn, a KWL) skips the chapter title,
+    // or the title would sit alone on a page of its own.
+    pagebreak(weak: true)
+    context {
+      let next = query(heading.where(level: 1).after(here(), inclusive: false))
+      let own = selector(<own-title>).after(here())
+      let spread = selector(<spread-first>).after(here())
+      if next.len() > 0 { own = own.before(next.first().location()); spread = spread.before(next.first().location()) }
+      if query(spread).len() > 0 { spread-start(chapter: true) }   // a chapter that opens with a spread: its title on the left-hand page
+      if query(own).len() == 0 { titled(it.body) }
+    }
+  }
+  body
+  finish-booklet(back: back-cover(school: school, credits: []))
+}
+
+// ---------------------------------------------------------------- pictures to name, true or false
+// items: ((picture, label, answer), …): each picture in a box, its label, a line to write on (the answer
+// written in, in the teacher edition)
+#let picture-answers(cols: 3, height: 32mm, items) = context {
+  let t = TH.get()
+  grid(columns: (1fr,) * cols, column-gutter: 4mm, row-gutter: 4mm, ..items.map(((pic, label, answer)) => block(breakable: false, {
+    block(width: 100%, height: height, stroke: t.box-stroke, radius: t.radius, inset: 4pt, align(center + horizon, pic))
+    v(1.5mm)
+    grid(columns: (auto, 1fr), column-gutter: 2mm, align: bottom, text(weight: "bold", fill: t.head, label),
+      box(width: 100%, height: 1.1em, stroke: (bottom: 0.6pt + t.line), if answer != none and EDITION.get() { place(dy: -2pt, key(answer, size: 12pt)) }))
+  })))
+}
+// items: ((statement, answer), …): a box for T or F before each statement
+#let true-false(items) = context {
+  let t = TH.get()
+  for (i, (stmt, answer)) in items.enumerate() {
+    block(below: 3mm, breakable: false, grid(columns: (auto, 9mm, 1fr), column-gutter: 3mm, align: horizon,
+      text(weight: "bold", fill: t.head, str(i + 1) + "."),
+      box(width: 9mm, height: 7mm, stroke: 0.8pt + t.line, radius: calc.min(t.radius, 3pt), align(center + horizon, if answer != none and EDITION.get() { key(answer, size: 14pt) })),
+      stmt))
+  }
 }

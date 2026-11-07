@@ -1,0 +1,84 @@
+---
+title: "Angle Hunt 找角"
+type: worksheet
+description: "The exemplar lesson's main task: find, draw and name five angles, then compare one with a right angle. Its PDF shows in the exemplar deck's work gallery. Written with the packet kit's blocks."
+order: 11
+audience: [teacher]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Find, draw and name" uses="a hunt around the room or the school; draw each thing found, then label it from a word bank" pieces="panel, side-by-side, work-space, blank, recall"}
+:::
+
+Find 5 angles in the room. Draw each one and mark the {{< vocab "vertex" zh=true >}}. Then name it.
+
+::: {.panel title="Angle names · 角的名称"}
+{{< vocab "acute angle" zh=true >}} · {{< vocab "right angle" zh=true >}} · {{< vocab "obtuse angle" zh=true >}} · {{< vocab "straight angle" zh=true >}} · {{< vocab "full angle" zh=true >}}
+:::
+
+## 1. Draw and name
+
+::: side-by-side
+::: {.work-space height="38mm" style="dots" label="Angle 1"}
+:::
+::: {.work-space height="38mm" style="dots" label="Angle 2"}
+:::
+::: {.work-space height="38mm" style="dots" label="Angle 3"}
+:::
+:::
+
+::: side-by-side
+::: {}
+I found it: {{< blank 3.5cm >}}
+
+Its name: {{< blank 3.5cm >}}
+:::
+::: {}
+I found it: {{< blank 3.5cm >}}
+
+Its name: {{< blank 3.5cm >}}
+:::
+::: {}
+I found it: {{< blank 3.5cm >}}
+
+Its name: {{< blank 3.5cm >}}
+:::
+:::
+
+::: side-by-side
+::: {.work-space height="38mm" style="dots" label="Angle 4"}
+:::
+::: {.work-space height="38mm" style="dots" label="Angle 5"}
+:::
+:::
+
+::: side-by-side
+::: {}
+I found it: {{< blank 5.5cm >}}
+
+Its name: {{< blank 5.5cm >}}
+:::
+::: {}
+I found it: {{< blank 5.5cm >}}
+
+Its name: {{< blank 5.5cm >}}
+:::
+:::
+
+## 2. Compare
+
+Choose one of your angles. Finish the sentence:
+
+{{< frames "GD-FRM-046" zh=true >}}
+
+::: {.recall lines="2"}
+- Your sentence: | My angle is bigger than a right angle because it opens wider than the corner of a page.
+:::
+
+::: {.content-visible when-profile="teacher"}
+::: {.callout-note title="Look for"}
+Each drawing has a dot for the vertex. The names match the drawings: compare each with a right angle (a folded paper corner). The sentence uses *bigger than* or *smaller than* with a reason.
+:::
+:::

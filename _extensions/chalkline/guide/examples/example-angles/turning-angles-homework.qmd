@@ -1,0 +1,78 @@
+---
+title: "Turning and Angles: Homework 旋转与角：家庭作业"
+type: worksheet
+description: "Homework after the first lesson: sort four angles, true or false, how far the minute hand turns, an angle hunt at home, a challenge, and degrees for next time. Written with the packet kit's blocks; the teacher edition has the answers written in."
+order: 3
+audience: [teacher, student]
+packet-theme: sky
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Homework: practice and a home hunt" uses="homework after a lesson; practice that brings the family in; a preview of the next lesson" pieces="picture-answers, true-false, blank, side-by-side, work-space, recall"}
+:::
+
+Today you learned two new angles: the {{< vocab "straight angle" zh=true >}} and the {{< vocab "full angle" zh=true >}}. Show a family member your turning angle and teach them the names!
+
+## 1. Sort the angles
+
+Write **acute**, **right**, **obtuse** or **straight** under each angle.
+
+::: {.picture-answers cols="4" height="30mm"}
+- ![](images/ws-g.svg) 1 | straight
+- ![](images/ws-h.svg) 2 | right
+- ![](images/ws-i.svg) 3 | obtuse
+- ![](images/ws-j.svg) 4 | acute
+:::
+
+## 2. True or false?
+
+Write **T** (true) or **F** (false).
+
+::: true-false
+- A straight angle is just a line. It is not an angle. | F
+- Longer sides make an angle bigger. | F
+- An obtuse angle is smaller than a straight angle. | T
+- 1 full angle = 4 right angles. | T
+- At 6:00, the clock hands make a straight angle. | T
+:::
+
+## 3. How far does it turn?
+
+The {{< vocab "minute hand" zh=true >}} starts at 12. What angle has it turned?
+
+**a.** after 15 minutes: {{< blank 4cm answer="a right angle" >}}  **b.** after 30 minutes: {{< blank 4cm answer="a straight angle" >}}
+
+**c.** after 60 minutes: {{< blank 4cm answer="a full angle" >}}
+
+{{< pagebreak >}}
+
+## 4. Angle hunt at home
+
+Find **two** straight angles and **one** full angle at home. Draw or write what you found.
+
+::: side-by-side
+::: {.work-space height="50mm" style="dots" label="Straight angle 1"}
+:::
+::: {.work-space height="50mm" style="dots" label="Straight angle 2"}
+:::
+::: {.work-space height="50mm" style="dots" label="Full angle"}
+:::
+:::
+
+## 5. Challenge
+
+**a.** How many right angles make 3 straight angles? {{< blank 1.5cm answer="6" >}}
+
+**b.** Turn one side of a right angle until it makes a straight angle. How many more right angles did it turn? {{< blank 1.5cm answer="1" >}}
+
+::: recall
+- Tom says: "At 12:00 the clock hands make no angle." Lily says: "From 12:00 to 1:00, the minute hand turns a full angle." Who is right? Explain. | Both: at 12:00 the hands are together; in one hour the minute hand turns all the way round.
+:::
+
+## 6. Get ready for the next lesson
+
+Next time we measure angles with a {{< vocab "protractor" zh=true >}}, in {{< vocab "degree" text="degrees" zh=true >}} (°). A right angle is **90°**. Can you guess?
+
+**a.** A straight angle = 2 right angles = {{< blank 1.5cm answer="180" >}} °  **b.** A full angle = 4 right angles = {{< blank 1.5cm answer="360" >}} °

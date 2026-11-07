@@ -1,0 +1,48 @@
+---
+title: "Rome on a Timeline 罗马时间线"
+type: worksheet
+description: "A timeline across a two-page spread: six event cards with pictures, a line from 800 BC to AD 500 that runs across both pages, and questions that use it."
+order: 25
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Timeline across a spread" uses="placing events on a long timeline; a person's life; geological or historical eras; a number line" pieces="spread, event-cards, timeline, recall, work-space"}
+:::
+
+::: spread
+:::
+
+Write each event's letter above the right place on the line. The line runs across both pages.
+
+::: {.event-cards cols="3" height="96mm"}
+- A | Rome is founded (the story says by Romulus).
+- B | Rome becomes a {{< vocab "republic" zh=true >}}. No more kings.
+- C | The Via Appia, the first great Roman road, is built. | ![](images/via-appia.jpg){width="100%" height="17mm"}
+- D | Julius Caesar is killed in the Senate.
+- E | Augustus becomes the first {{< vocab "emperor" zh=true >}}. | ![](images/augustus-prima-porta.jpg){width="100%" height="17mm"}
+- F | The Colosseum opens. | ![](images/colosseum-forum.jpg){width="100%" height="17mm"}
+:::
+
+::: {.timeline from="-800" to="-150" first="true" height="110mm"}
+:::
+
+{{< pagebreak >}}
+
+## Use the timeline
+
+The dates you need: 753 BC, 509 BC, 312 BC, 44 BC, 27 BC, AD 80.
+
+::: {.recall lines="1"}
+- How many years passed between A and B? | 244 years (753 − 509).
+- Which came first, the Via Appia or Augustus? How do you know? | The Via Appia: 312 BC is before 27 BC.
+- How old was the Via Appia when the Colosseum opened? | 391 years (312 + 80 − 1).
+:::
+
+::: {.work-space height="45mm" style="grid" label="Work it out"}
+:::
+
+::: {.timeline from="-150" to="500" first="false" height="110mm"}
+:::

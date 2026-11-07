@@ -1,0 +1,47 @@
+---
+title: "Equations: Roads and Distances 方程"
+type: worksheet
+description: "Two-step equations about Roman roads in two columns, with room to show working; then nine one-step equations in three columns. The teacher edition has the answers and working written in."
+order: 22
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Problems in two and three columns" uses="multi-step equations; word problems; short calculations; any problem that needs space for working" pieces="subunit, problems"}
+:::
+
+::: {.subunit number="B.4" title="Math"}
+:::
+
+## Two-step equations
+
+Solve each equation. Show each step. Check your answer.
+
+::: {.problems cols="2"}
+- $3x + 5 = 20$ | 5 | 3x = 15, x = 5
+- $2x - 7 = 11$ | 9 | 2x = 18, x = 9
+- $4x + 6 = 30$ | 6 | 4x = 24, x = 6
+- $5x - 4 = 21$ | 5 | 5x = 25, x = 5
+- $x/3 + 8 = 12$ | 12 | x/3 = 4, x = 12
+- $7x + 2 = 37$ | 5 | 7x = 35, x = 5
+:::
+
+{{< pagebreak >}}
+
+## One-step equations
+
+Solve. Write the inverse operation you used, then the answer.
+
+::: {.problems cols="3" style="dots"}
+- $x + 9 = 17$ | 8
+- $x - 6 = 11$ | 17
+- $4x = 36$ | 9
+- $x / 5 = 7$ | 35
+- $12 = x + 4$ | 8
+- $3x = 27$ | 9
+- $x - 2.5 = 4$ | 6.5
+- $8x = 56$ | 7
+- $x / 3 = 9$ | 27
+:::

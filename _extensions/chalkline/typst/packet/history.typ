@@ -19,6 +19,14 @@
     for (n, x, y) in markers { place(top + left, dx: (x - x0) * s - 3mm, dy: (y - y0) * s - 3mm, marker(n)) }
   })
 }
+// the same, with the picture given as content (an image Quarto placed, already sized w × scale wide): for .qmd pages
+#let crop-content(img, w, h, x0, y0, x1, y1, width: 80mm, markers: ()) = {
+  let s = width / (x1 - x0)
+  box(width: width, height: (y1 - y0) * s, clip: true, radius: 3pt, inset: 0pt, {
+    place(top + left, dx: -x0 * s, dy: -y0 * s, img)
+    for (n, x, y) in markers { place(top + left, dx: (x - x0) * s - 3mm, dy: (y - y0) * s - 3mm, marker(n)) }
+  })
+}
 #let tag(body, c) = box(inset: (x: 6pt, y: 2.5pt), radius: 3pt, stroke: 0.8pt + c, text(font: ("Source Sans 3", "Noto Sans SC"), size: 8pt, weight: "bold", fill: c, body))
 
 // ---------------------------------------------------------------- the source dossier card (one page)
@@ -26,7 +34,7 @@
 #let source-card(region: "", number: 1, title: "", title-zh: "", picture: [], caption: [], glance: (), notes: (),
   context-en: [], context-zh: [], context-label: ("Historical context", "历史背景"), extra: none, citation: [], credit: []) = context {
   let t = TH.get()
-  [#metadata(title) <section-title>]
+  [#metadata(title) <section-title>#metadata(title) <own-title>]
   grid(columns: (1fr, auto), align: bottom, [#tag(region, t.accent) #h(3pt) #tag([Primary source #number], t.muted)], text(size: 8pt, fill: t.muted, "Source dossier · 史料档案"))
   v(2mm)
   text(font: t.head-font, weight: "bold", size: 19pt, fill: t.head, title)
@@ -69,7 +77,7 @@
 // ---------------------------------------------------------------- an artifact investigation (one page)
 #let investigation(letter, sources, connect: none) = context {
   let t = TH.get()
-  [#metadata("Investigation " + letter) <section-title>]
+  [#metadata("Investigation " + letter) <section-title>#metadata(letter) <own-title>]
   let circle-box = box(width: 4mm, height: 4mm, stroke: 0.8pt + t.head, radius: 50%)
   text(font: t.head-font, weight: "bold", size: 17pt, fill: t.head)[Investigation #letter]
   h(3mm); text(size: 11pt, fill: t.muted, if letter == "A" { "史料探究一" } else { "史料探究二" })
@@ -98,7 +106,7 @@
 // ---------------------------------------------------------------- design your own artifact (one page)
 #let design-artifact() = context {
   let t = TH.get()
-  [#metadata("Design your own artifact") <section-title>]
+  [#metadata("Design your own artifact") <section-title>#metadata("design") <own-title>]
   grid(columns: (1fr, auto), align: bottom, tag([Challenge · 延伸挑战], t.hot), text(size: 8pt, fill: t.muted, "Creative and historical thinking"))
   v(2mm)
   text(font: t.head-font, weight: "bold", size: 19pt, fill: t.head, "Design your own artifact")
@@ -140,9 +148,9 @@
 #let marks(n) = context box(inset: (x: 5pt, y: 2pt), radius: 8pt, stroke: 0.8pt + TH.get().line, text(size: 8pt, weight: "bold", fill: TH.get().muted, "[" + str(n) + "]"))
 #let assessment-head(title, unit, minutes: 40, total: 25, instructions: []) = context {
   let t = TH.get()
-  [#metadata(title) <section-title>]
+  [#metadata(title) <section-title>#metadata(title) <own-title>]
   grid(columns: (1fr, auto), align: bottom,
-    [#tag([Formative assessment · 形成性评价], t.hot) \ #v(1mm) #text(font: t.head-font, weight: "bold", size: 18pt, fill: t.head, title) \ #text(size: 9.5pt, fill: t.muted, unit)],
+    [#tag([Formative assessment], t.hot) \ #v(1mm) #text(font: t.head-font, weight: "bold", size: 18pt, fill: t.head, title) \ #text(size: 9.5pt, fill: t.muted, unit)],
     block(stroke: 1.4pt + t.head, radius: t.radius, inset: 7pt, align(center)[#text(size: 7.5pt, fill: t.muted, "MARKS") \ #text(font: t.head-font, size: 16pt, weight: "bold", fill: t.head)[#h(12mm) / #total] \ #text(size: 7.5pt, fill: t.muted, str(minutes) + " minutes")]))
   v(-1pt); rule(t); v(2mm)
   name-row()

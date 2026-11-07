@@ -35,6 +35,7 @@ It also writes a student copy of every printable next to its teacher edition, fo
 (slides show it with {{< pdf-viewer "<sheet>.pdf" >}}; see `pdf-viewer: prefer:` in _quarto-teacher.yml).
 """
 
+import json
 import os
 import re
 import shutil
@@ -52,28 +53,15 @@ from extension import ROOT, typst_format  # noqa: E402
 import build_cache  # noqa: E402  (the publish workflow: reuse packets whose printables didn't change)
 
 STUDENT_COPY = "{name}-student.pdf"   # keep in step with `pdf-viewer: prefer:` in _quarto-teacher.yml
-COPY = ["course", "brand", "_extensions", "scripts", "generated", "_freeze"]   # scripts/: the course's own, if any
+COPY = ["course", "brand", "_extensions", "scripts", "generated", "_freeze", "vocab"]   # vocab/: the kit's word and language pages   # scripts/: the course's own, if any
 WORKERS = max(1, min(4, (os.cpu_count() or 2) // 2))   # packets built at once (each Quarto run uses ~0.5 GB)
 
-# Each printable starts on a new page (except the first heading, under the cover banner).
-# `part` is what Quarto's book output calls for each unit in the year packet: a divider page.
-PAGE_BREAKS = """```{=typst}
-#let part(body) = {
-  pagebreak(weak: true)
-  v(1fr)
-  align(center, text(size: 30pt, weight: 700, fill: rgb("#003477"), body))
-  v(2fr)
-}
-#show heading.where(level: 1): it => {
-  if it.body == [] { return }   // an outside PDF's chapter has no title: no heading, no extra page
-  context if query(heading.where(level: 1).before(here())).len() > 1 { pagebreak(weak: true) }
-  it
-}
-```
-"""
+def ts(text):
+    """A Typst string literal."""
+    return '"' + str(text).replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def book_config(teacher, title, subtitle, chapters):
+def book_config(teacher, title, subtitle, chapters, theme=None):
     """_quarto.yml for one packet: the site's settings, as a book of `chapters`."""
     site = yaml.safe_load((ROOT / "_quarto.yml").read_text(encoding="utf-8"))
     cfg = {k: v for k, v in site.items() if k not in ("project", "website", "format")}
@@ -83,18 +71,74 @@ def book_config(teacher, title, subtitle, chapters):
     cfg["project"] = {"type": "book", "output-dir": "_book",
                       "execute-dir": site["project"].get("execute-dir", "project")}
     cfg["book"] = {"title": title, "subtitle": subtitle, "output-file": "packet", "chapters": chapters}
+    if theme:
+        cfg["packet-theme"] = theme   # a unit's own theme (`packet-theme:` in its index.qmd)
+    cfg["packet-booklet"] = True   # typst-show.typ: lay the whole book out with the packet kit (kit.booklet)
+    season = yaml.safe_load((ROOT / "course" / "season.yml").read_text(encoding="utf-8")) or {}
+    cfg["unit-name"] = season.get("name", "")   # the running header: the course on right-hand pages
     cfg["format"] = {"typst": typst_format(site)}   # Chalkline's PDF layout and the course's settings
     return cfg
 
 
-def cover(objectives, chapters):
-    """The packet's first chapter: objectives, then what's inside."""
-    lines = ["---", 'title: "In this packet"', "---", ""]
+def cover(objectives, chapters, unit=None, hero=None, hero_credit=""):
+    """The packet's first chapter (no title of its own): the title page, the contents, and the objectives.
+    unit: (number, name) for a unit packet; None for the year packet, whose parts become units.
+    hero: the cover picture (a path from the course folder, from `packet-hero:` in the unit's index.qmd),
+    and hero_credit its credit for the back cover (`packet-hero-credit:`)."""
+    site = yaml.safe_load((ROOT / "_quarto.yml").read_text(encoding="utf-8"))
+    season = yaml.safe_load((ROOT / "course" / "season.yml").read_text(encoding="utf-8")) or {}
+    course = season.get("name", (site.get("website") or {}).get("title", ""))
+    school = site.get("school", "")
+    brand = yaml.safe_load((ROOT / "brand" / "_brand.yml").read_text(encoding="utf-8")) if (ROOT / "brand" / "_brand.yml").exists() else {}
+    logos = (brand or {}).get("logo") or {}
+    logo = (logos.get("images") or {}).get(logos.get("large", ""), {})
+    logo = logo.get("path") if isinstance(logo, dict) else logo
+    logo = f"/brand/{logo}" if logo and (ROOT / "brand" / logo).exists() else None   # the school's logo, for the covers
+    number, name = unit if unit else ("", f"{season.get('name', '')} {season.get('season', '')}".strip())
+    lines = ["---", 'title: ""', "---", "", "```{=typst}",
+             f"#kit.title-page(course: {ts(course)}, unit: {ts(name)}, unit-number: {ts(number)}, teacher: {ts(season.get('teacher', ''))},",
+             f"  school: {ts(school)}, year: {ts(season.get('season', ''))}, hero: {ts(hero) if hero else 'none'}, logo: {ts(logo) if logo else 'none'})",
+             *([f"#kit.credit({ts('Cover: ' + hero_credit)})"] if hero and hero_credit else []),
+             *[f"#kit.credit({ts(c)})" for c in picture_credits(chapters)],
+             "#pagebreak()",
+             "#kit.contents(depth: " + ("3" if unit else "2") + ")"]
     if objectives:
-        lines += ["**Objectives**", ""] + [f"- {o}" for o in objectives] + [""]
-    lines += ["**Contents**", ""]
-    lines += [f"{n}. {c['title']}" for n, c in enumerate(chapters, 1)]
-    return "\n".join(lines) + "\n\n" + PAGE_BREAKS
+        lines += ["#v(4mm)", '#kit.panel(title: "By the end of this unit, I can …")[',
+                  *[f"  - {o}" for o in objectives], "]"]
+    if unit:
+        lines += [f"#kit.unit-start({ts(number)}, {ts(name)})"]
+    # the year packet: Quarto calls part() for each unit; here, a unit marker and a divider page
+    lines += ["#let part(body) = {",
+              "  pagebreak(weak: true)",
+              '  kit.unit-start("", body)',
+              '  [#metadata(body) <section-title>]   // the contents points here, at the divider',
+              "  context { let t = kit.TH.get(); v(1fr); align(center, text(font: t.head-font, size: 30pt, weight: \"bold\", fill: t.head, body)); v(2fr) }",
+              "}", "```", ""]
+    return "\n".join(lines)
+
+
+def picture_credits(chapters):
+    """The credits of the outside pictures a packet's printables use, from each folder's images/CREDITS.md
+    (a table: | `file` | what it is | by | license | source |). For the back cover's Picture credits."""
+    out, seen = [], set()
+    for c in chapters:
+        if "qmd" not in c:
+            continue
+        qmd = ROOT / c["qmd"]
+        table = qmd.parent / "images" / "CREDITS.md"
+        if not table.exists():
+            continue
+        used = set(re.findall(r"images/([\w.-]+)", qmd.read_text(encoding="utf-8")))
+        for line in table.read_text(encoding="utf-8").splitlines():
+            cells = [x.strip() for x in line.strip().strip("|").split("|")]
+            if len(cells) < 4 or not cells[0].startswith("`"):
+                continue
+            name = cells[0].strip("`")
+            if name in used and name not in seen:
+                seen.add(name)
+                what, by, lic = cells[1], cells[2], re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", cells[3])
+                out.append(f"{what}: {by}, {lic}")
+    return out
 
 
 def chapter_files(chapters):
@@ -261,7 +305,7 @@ def main():
     editions = [(True, teacher_copy), (False, lambda pdf: pdf)] if teacher else [(False, lambda pdf: pdf)]
     year_all = {"pdf": YEAR_PACKET, "files": [f for p in packets for f in p["files"]],
                 "extras": [e for p in packets for e in p.get("extras", [])]}
-    jobs = []
+    jobs, page_jobs = [], {}   # page_jobs: a unit packet -> its printables, for packet-pages.json
     for is_teacher, name in editions:
         label = "Teacher edition · with answer keys" if is_teacher else ("Student copy" if teacher else "Packet")
         if unit:
@@ -272,8 +316,10 @@ def main():
             todo = packets
         for p in todo:
             paths, extra_files = chapter_files(p["chapters"])
-            jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
-                         cover(p["objectives"], p["chapters"]), out_dir / name(p["pdf"]), extra_files,
+            page_jobs[out_dir / name(p["pdf"])] = p["files"]
+            jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths, theme=p.get("theme")),
+                         cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Unit\s*\d+\s*[:·-]\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
+                         out_dir / name(p["pdf"]), extra_files,
                          build_cache.key("packets", sources(p), name(p["pdf"]))))
         # The year packet: with a full rebuild, or with --stale when it's older than any printable.
         # Never with --unit, which is meant to be quick.
@@ -289,6 +335,26 @@ def main():
                               ["index.qmd"] + parts)
             jobs.insert(0, (cfg, cover([], all_chapters), out_dir / name(YEAR_PACKET), all_extra,  # longest first
                             build_cache.key("packets", [d for p in packets for d in sources(p)], name(YEAR_PACKET))))
+    # Teacher site: the guide's example units get their own packets (not in the year packet)
+    if teacher and not unit:
+        from catalog import load_example_packets
+        for is_teacher, name in editions:
+            label = "Teacher edition · with answer keys" if is_teacher else "Student copy"
+            for p in load_example_packets():
+                if "--stale" in sys.argv and not is_stale(p, out_dir, name):
+                    continue
+                paths, extra_files = chapter_files(p["chapters"])
+                page_jobs[out_dir / name(p["pdf"])] = p["files"]
+                jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths, theme=p.get("theme")),
+                             cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
+                             out_dir / name(p["pdf"]), extra_files,
+                             build_cache.key("packets", sources(p), name(p["pdf"]))))
+                # the same student packet in other themes (`packet-themes:`), to compare them in the guide
+                for theme in ([] if is_teacher else p.get("themes", [])):
+                    pdf = p["pdf"].replace(".pdf", f"-{theme}.pdf")
+                    jobs.append((book_config(False, p["title"], label, ["index.qmd"] + paths, theme=theme),
+                                 cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
+                                 out_dir / pdf, extra_files, build_cache.key("packets", sources(p), pdf)))
     # Teacher site: student copies of the printables (of one unit with --unit; only out-of-date ones with --stale)
     copies = []
     if teacher:
@@ -298,23 +364,56 @@ def main():
             copies = [f for f in copies if not (out_dir / student_copy(f)).exists()
                       or (out_dir / student_copy(f)).stat().st_mtime < (ROOT / f).stat().st_mtime]
     copy_keys, reused = {}, 0
+    with ThreadPoolExecutor(WORKERS) as pool:
+        list(pool.map(lambda job: render(*job), jobs))
+    pages = record_pages(page_jobs)
+    # (the student copies come after the packets: their "Goes with packet page …" comes from them)
     for f in list(copies):
-        k = build_cache.key("student-copies", [str(Path(f).parent)], f)
+        k = build_cache.key("student-copies", [str(Path(f).parent)], f + "@" + str(pages.get(f, "")))
         if build_cache.restore("student-copies", k, out_dir / student_copy(f)):
             copies.remove(f); reused += 1
         else:
             copy_keys[f] = k
     if reused:
         print(f"packets: {reused} student cop{'ies' if reused != 1 else 'y'} unchanged, from the last build")
-    with ThreadPoolExecutor(WORKERS) as pool:
-        waiting = pool.submit(student_copies, copies, out_dir) if copies else None
-        list(pool.map(lambda job: render(*job), jobs))
-        if waiting:
-            waiting.result()
+    if copies:
+        student_copies(copies, out_dir)
     for f, k in copy_keys.items():
         build_cache.store("student-copies", k, out_dir / student_copy(f))
     if not unit and "--stale" not in sys.argv:   # a full run: forget packets nothing uses any more
         build_cache.prune("packets"); build_cache.prune("student-copies")
+
+
+PAGES_FILE = ROOT / "generated" / "packet-pages.json"
+
+
+def record_pages(page_jobs):
+    """Where each printable starts in its unit packet, from the packet PDF's bookmarks (one per printable,
+    in order; an outside PDF's chapter has no title, so no bookmark). Saved in generated/packet-pages.json,
+    where filter.lua finds it for the printable's loose sheet: "Goes with packet page 5". Returns them all."""
+    try:
+        pages = json.loads(PAGES_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        pages = {}
+    try:
+        import fitz   # pymupdf
+    except ImportError:
+        return pages
+    for pdf, files in page_jobs.items():
+        if not pdf.exists():
+            continue
+        doc = fitz.open(pdf)
+        starts = [page for level, title, page in doc.get_toc() if level == 1 and title.strip()]
+        # a chapter that opens with a two-page spread starts on the next left-hand page; its heading may sit
+        # on the blank page before it (only the running header and page number): count from the spread
+        starts = [p + 1 if p < doc.page_count and len(doc[p - 1].get_text().split()) < 15 else p for p in starts]
+        if len(starts) != len(files):
+            print(f"packets: {pdf.name}: {len(starts)} chapter bookmarks for {len(files)} printables; page labels skipped")
+            continue
+        pages.update(dict(zip(files, starts)))
+    PAGES_FILE.parent.mkdir(parents=True, exist_ok=True)
+    PAGES_FILE.write_text(json.dumps(pages, indent=1, sort_keys=True), encoding="utf-8")
+    return pages
 
 
 def sources(packet):

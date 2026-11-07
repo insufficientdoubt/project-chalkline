@@ -1,0 +1,31 @@
+---
+title: "Plan, Then Write"
+type: worksheet
+description: "The paragraph planner: a chain of four boxes (challenge, solution, change, the need for laws), lines to write on with a tick for each sentence, and a checklist."
+order: 6
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Paragraph planner and writing page" uses="planning then writing a paragraph; explain or argue: a chain of reasons; a lab conclusion" pieces="paragraph-chain, writing-lines, panel"}
+:::
+
+Fill in the chain first: each box becomes one or two sentences.
+
+::: paragraph-chain
+- The challenge | floods? drought? no stone? no barriers?
+- The solution | what they built or did
+- The change | who had to work together? who led?
+- The need for laws | why rules had to be written down
+:::
+
+## My paragraph
+
+::: {.writing-lines lines="13"}
+:::
+
+::: {.panel title="Before you hand it in"}
+☐ I chose one challenge   ☐ I explained the links with *so*, *because*, *which led to*   ☐ I used subject words (irrigation, surplus, city-state, code)   ☐ I wrote 5 to 7 sentences
+:::

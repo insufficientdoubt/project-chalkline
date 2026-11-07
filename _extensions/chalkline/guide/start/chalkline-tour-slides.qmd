@@ -1,0 +1,424 @@
+---
+title: "Chalkline in Ten Minutes"
+subtitle: "Write it once. Teach it everywhere. · 一次编写，处处可用"
+type: slides
+description: "A tour: what Chalkline makes for you from one file, the classroom tools in every deck, and how to start your own unit. Every feature chip opens a working example."
+order: 2
+audience: [teacher]
+format: revealjs
+resources:
+  - odyssey/*   # the interactive story map
+title-slide-attributes:
+  data-background-color: "#003477"
+  data-background-image: images/school-of-athens.jpg
+  data-background-opacity: "0.35"      # the picture, dimmed, so the title stays readable
+---
+
+## The usual way
+
+:::: {.columns}
+::: {.column width="50%"}
+- Slides in one app, worksheets in another
+- Copy the same words into a handout, a website, a packet
+- Fix a typo in one place… and miss the other three
+- Make a separate version for students and an answer key for you
+:::
+::: {.column width="50%"}
+::: {.callout-warning title="The result" icon=false}
+Five copies of everything, slowly drifting apart. Hours every week spent formatting instead of teaching.
+:::
+:::
+::::
+
+::: notes
+Ask the room: how many places does the same lesson live for you right now? Slides, a doc, a shared drive, an LMS page, a printed packet…
+:::
+
+## The Chalkline way: one file, many outputs
+
+:::: {.columns}
+::: {.column width="34%"}
+::: {.callout-note title="You write" icon=false}
+**One plain-text file** per deck or worksheet: words, pictures, and a few labels at the top (title, type, who it's for).
+:::
+:::
+::: {.column width="66%"}
+::: {.callout-tip title="Chalkline makes" icon=false}
+- **Slides** to present, and a **slide PDF**
+- A **web page** and a **printable PDF** of each worksheet
+- A **unit packet**: every printable in one PDF, with a cover and contents
+- A **year packet** with every unit
+- A **student** website (families can use it too) and a **teacher** website
+:::
+:::
+::::
+
+::: notes
+Everything in this sample was made this way. Open any slide deck or worksheet file in VS Code to see how little is in it.
+:::
+
+## A slide is just text you can read
+
+:::: {.columns}
+::: {.column width="46%"}
+**This is a whole slide.** Open the file and you see:
+
+```{.markdown .friendly-text code-line-numbers="false"}
+## Athens and Sparta
+
+- Athens was a democracy.
+- Citizens could {{</* vocab "vote" */>}}.
+- Sparta trained soldiers.
+```
+
+::: {.small-note}
+`##` starts a new slide. `-` makes a bullet point. `{{</* vocab "vote" */>}}` adds a vocab pop-up, with 中文 and 🔊. That's most of it.
+:::
+:::
+::: {.column width="54%"}
+::: {style="font-size: 0.82em"}
+- ✏️ **Edit it like a document.** Change a word, save, and the slide updates.
+- 💬 **Or ask an AI to edit it.** *"Add a bullet about the navy."* Plain text is easy for AI to change correctly.
+- 🎨 **It can't look messy.** Fonts, colors and layout come from the school style, on every slide.
+- 🔁 **Write once.** The same words become the slides, the web page and the PDF.
+:::
+:::
+::::
+
+```{=html}
+<style>
+  /* This slide's example reads like plain text, not code: the slide font, bigger, on a soft panel. */
+  .reveal div.sourceCode:has(pre.friendly-text), .reveal pre.friendly-text { border: none; background: #ebf7fd; border-radius: 10px; }
+  .reveal pre.friendly-text, .reveal pre.friendly-text code { font-family: "Source Sans 3", sans-serif; font-size: 0.95em; line-height: 1.5; color: #1F2933; background: #ebf7fd; }
+  .reveal pre.friendly-text code span { color: inherit !important; font-weight: inherit; }
+</style>
+```
+
+::: notes
+For teachers new to this: you don't need to learn a language. Most slides are headings and bullet points, exactly as they look here. When you want something fancier (two columns, a box, a vocab pop-up, a poll), copy it from an existing slide, or ask an AI assistant to add it. The Template Library (in "How to use Chalkline") has every layout to copy from.
+:::
+
+## Every unit gets a home page
+
+- The unit's **objectives** at the top
+- Every slide deck and printable, with links to the PDFs
+- A **Unit packet (PDF)** button: all the printables, ready to send to the copier
+- Nothing to list by hand: add a file to the unit folder and it appears
+
+::: {.small-note}
+Try it: open **How to use Chalkline → Example units → Ancient Rome** in the sidebar.
+:::
+
+## Packets build themselves
+
+:::: {.columns}
+::: {.column width="55%"}
+- Every worksheet, handout and reference in a unit, **in order**
+- A **cover** with the objectives and contents
+- Page numbers running through the whole packet
+- Slides, posters and tests stay out
+- Add an **outside PDF** (a map, an official form) with one line
+:::
+::: {.column width="45%"}
+::: {.callout-note title="Teacher version" icon=false}
+The teacher build makes **teacher packets**: the same pages plus answer keys, with an orange **TEACHER EDITION** tab.
+:::
+:::
+::::
+
+::: notes
+Packets are made fresh from the source files, not glued together, so they always match the latest worksheets.
+:::
+
+## Vocabulary support, built in
+
+Tap or hover a word with a dotted line to see its card: picture, 中文 and a simple definition.
+
+:::: {.columns}
+::: {.column width="50%"}
+- Ancient Athens was a {{< vocab "democracy" >}}.
+- Rome built a huge {{< vocab "empire" >}}.
+- An {{< vocab "aqueduct" >}} carried water to the city.
+:::
+::: {.column width="50%"}
+::: {.callout-tip title="One list, used everywhere" icon=false}
+The words live in one spreadsheet. Slides, worksheets, the **vocab app** and Quizlet/Kahoot exports all read it. **English is the goal; 中文 is support**, and never appears in quizzes.
+:::
+:::
+::::
+
+::: notes
+Try the pop-ups now. Then open "History vocab 词汇" in the sidebar: every word in the course, searchable in English or Chinese.
+:::
+
+## Two websites from the same files
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.callout-note title="Students and families" icon=false}
+Slides, worksheets, vocab. No answer keys, no speaker notes, no teacher tools. Families can use it too.
+:::
+:::
+::: {.column width="50%"}
+::: {.callout-warning title="Teachers" icon=false}
+Everything, plus **answer keys**, **speaker notes**, the **toolbox** and teacher packets. Turn on **Who sees it** on the overview to check what students and families get.
+:::
+:::
+::::
+
+One label decides who sees a file: `audience: [teacher, student]`. Leave out `student` and it stays in the teacher site.
+
+## Classroom tools in every deck
+
+:::: {.columns}
+::: {.column width="50%"}
+- A **timer** on any slide (press **T**)
+- A **clock** you can drag anywhere (press **K**)
+- **Speaker notes** in a second window (press **S**)
+- A **toolbox** (press **W**): scoreboard, voice level, traffic light, noise meter, QR code, stopwatch, dice, spotlight, music, and the unit's **vocab** and **packet** on any slide
+- **Tap-to-vote polls**: no devices, no accounts
+- **Games**: Snowman, Picture reveal, Jeopardy, Word Blitz and more (in the Template Library)
+:::
+::: {.column width="50%"}
+{{< timer 2 >}}
+:::
+::::
+
+::: notes
+Start the timer to show it. It keeps running in a small box if you change slides.
+:::
+
+## Try a poll
+
+::: {.poll type="choice" options="Packets | Vocab pop-ups | Classroom tools | Slide PDFs"}
+Which feature will you try first?
+:::
+
+::: notes
+Tap an answer on the board (or press 1–4), then press R or click Show results.
+:::
+
+## Slides can do anything a web page can
+
+:::: {.columns}
+::: {.column width="68%"}
+```{=html}
+<link rel="stylesheet" href="odyssey/odyssey.css">
+<div class="odyssey"></div>
+<script src="odyssey/odyssey.js"></script>
+```
+:::
+::: {.column .ody-side width="32%"}
+**The Odyssey 奥德赛:** ten years, ten stops, one hero trying to get home.
+
+Press **Play**, or hover a stop for its story.
+
+::: {.callout-tip title="Made with AI" icon=false}
+This map is about 150 lines of code. An AI assistant wrote it from one paragraph: *"Make an interactive map of Odysseus's journey home: numbered stops, a ship that sails the route, and the story of each stop on hover."*
+
+Maps, timelines, games, simulations: if a web page can do it, a slide can too.
+:::
+:::
+::::
+
+::: notes
+The code lives in this unit's `odyssey/` folder. To make your own, describe what you want to an AI assistant (Claude, for example) and ask for a self-contained HTML/JavaScript block for a Quarto reveal.js slide. In the slide PDF the whole route is shown at once.
+:::
+
+## So what else can you do?
+
+[**59 ready-made features,** all working in this course today: 50 here, 9 more for STEM and printables on the next slide. Click one to see it.]{.cat-lead}
+
+:::: {.catalog}
+
+:::: {.cat-col}
+::: {.cat-box .cat-games}
+[Review games]{.cat-head} [8]{.cat-n}
+
+[Snowman](../templates-slides.html#/snowman){.chip} [Word scramble](../templates-slides.html#/scramble){.chip} [Picture reveal](../templates-slides.html#/picture-reveal){.chip} [Matching](../templates-slides.html#/matching-pictures){.chip} [Memory](../templates-slides.html#/memory){.chip} [Jeopardy, with teams](../templates-slides.html#/review-jeopardy){.chip} [Word Blitz](../templates-slides.html#/blitz){.chip} [Bingo, printed cards](../templates-slides.html#/bingo){.chip}
+
+[**Review games page:** any game, any unit](../../../review-games.html){.chip .chip-wide}
+:::
+
+::: {.cat-box .cat-learn}
+[Learning activities]{.cat-head} [7]{.cat-n}
+
+[Label a photo](../templates-slides.html#/label-photo){.chip} [Put it on the timeline](../templates-slides.html#/timeline-activity){.chip} [Sort it, with reasons](../templates-slides.html#/practice-sort){.chip} [Venn diagram](../templates-slides.html#/venn){.chip} [Build the sentence](../templates-slides.html#/sentence){.chip} [Fill in the blanks](../templates-slides.html#/fill-blanks){.chip} [Put it in order](../templates-slides.html#/strategies-order){.chip}
+:::
+::::
+
+::: {.cat-box .cat-teach}
+[Teach with it]{.cat-head} [11]{.cat-n}
+
+[Timeline: tap to zoom in](../templates-slides.html#/input-timeline){.chip} [Timeline across slides](../templates-slides.html#/timeline-static){.chip} [Story map](#/slides-can-do-anything-a-web-page-can){.chip} [Diagram you can hover](../templates-slides.html#/drawio){.chip} [Video in a slide](../templates-slides.html#/video){.chip} [Step-by-step answers](../templates-slides.html#/quiz-list){.chip} [Zoom and glide](../templates-slides.html#/zoom){.chip} [Full-screen titles](../templates-slides.html#/section){.chip} [Photos with captions](../templates-slides.html#/input-picture){.chip} [Quick reference: every link on one slide](../templates-slides.html#/quick-ref){.chip} [Speaker notes: press S]{.chip .chip-key}
+:::
+
+::: {.cat-box .cat-board}
+[On the board]{.cat-head} [8]{.cat-n}
+
+[Tap-to-vote polls](../templates-slides.html#/choice){.chip} [True or false checks](../templates-slides.html#/quiz-list){.chip} [PDF gallery](../templates-slides.html#/packet-page){.chip} [Write on a worksheet](../templates-slides.html#/worksheet){.chip} [Download it with notes](../templates-slides.html#/worksheet){.chip} [Chalkboard](../templates-slides.html#/worksheet){.chip} [Vocab pop-ups, 中文, read aloud](../templates-slides.html#/glossed){.chip} [Timers](../templates-slides.html#/timers){.chip}
+:::
+
+::: {.cat-box .cat-tools}
+[Toolbox on every slide: press W]{.cat-head} [17]{.cat-n}
+
+[Name picker]{.chip .chip-key data-icon="hand"} [Groups]{.chip .chip-key data-icon="users"} [Scoreboard]{.chip .chip-key data-icon="trophy"} [Voice level]{.chip .chip-key data-icon="volume-2"} [Noise meter]{.chip .chip-key data-icon="mic"} [Traffic light]{.chip .chip-key data-icon="traffic-cone"} [QR code]{.chip .chip-key data-icon="qr-code"} [Stopwatch]{.chip .chip-key data-icon="timer"} [Dice]{.chip .chip-key data-icon="dices"} [Slide size]{.chip .chip-key data-icon="ruler"} [Reset for the next class]{.chip .chip-key data-icon="rotate-ccw"} [Clock (K)]{.chip .chip-key data-icon="clock"} [Spotlight]{.chip .chip-key data-icon="flashlight"} [Music from YouTube]{.chip .chip-key data-icon="music"} [Unit vocab, any slide]{.chip .chip-key data-icon="book-a"} [Unit packet, any slide]{.chip .chip-key data-icon="files"} [View source: how a slide is made (U)]{.chip .chip-key data-icon="code"}
+:::
+
+::::
+
+```{=html}
+<style>
+  /* Chalkline's design values (ui/ui.css): the same chips, borders and corners as the tools and games */
+  .reveal .cat-lead { display: block; margin: -0.25em 0 0.4em; font-size: 0.62em; color: var(--ui-muted); }
+  .reveal .catalog { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; font-size: 0.47em; }
+  .reveal .cat-box { padding: 8px 12px 8px; border: 1px solid var(--ui-line); border-top: 3px solid var(--cat); border-radius: var(--ui-r); background: var(--ui-surface); box-shadow: var(--ui-shadow-sm); }
+  .reveal .cat-box p { margin: 0 0 3px; line-height: 1.6; }
+  .reveal .cat-games { --cat: #0087ff; }
+  .reveal .cat-learn { --cat: #d6458f; }
+  .reveal .cat-col { display: flex; flex-direction: column; gap: 10px; }
+  .reveal .cat-col .cat-box { flex: 1; }
+  .reveal .cat-teach { --cat: #2e9e4f; }
+  .reveal .cat-board { --cat: #ff8c0f; }
+  .reveal .cat-tools { --cat: #7b4fc9; grid-column: 1 / -1; }
+  .reveal .cat-head { color: var(--ui-ink); font-size: 1.2em; font-weight: 700; }
+  .reveal .cat-n { margin-left: 6px; padding: 0 8px; border-radius: 999px; background: var(--ui-soft); color: var(--ui-muted); font-size: 0.85em; font-weight: 700; }
+  .reveal .chip { display: inline-flex; align-items: center; gap: 5px; margin: 0 2px 3px 0; padding: 0 9px; border: 1px solid var(--ui-line); border-radius: var(--ui-r-sm); background: var(--ui-surface); color: var(--ui-ink); font-weight: 500; line-height: 1.6; white-space: nowrap; text-decoration: none; }
+  .reveal a.chip:hover { border-color: var(--ui-line-strong); background: var(--ui-soft); }
+  .reveal .chip-key { background: var(--ui-soft); }
+  .reveal .chip .ui-icon { color: var(--ui-muted); }
+  .reveal .chip-wide { margin-top: 4px; background: var(--ui-accent-soft); }
+</style>
+<script>
+  // The toolbox chips get the toolbox's own line icons (ui/icons.js loads at the end of the page).
+  window.addEventListener("load", function () {
+    if (!window.ChalklineIcons) return;
+    document.querySelectorAll(".catalog [data-icon]").forEach(function (chip) { chip.prepend(ChalklineIcons.el(chip.dataset.icon)); });
+  });
+</script>
+```
+
+::: notes
+Every chip with a solid border opens a working example in another deck: press the browser's Back button to come back here. The toolbox tools (grey) are on every slide: press **W** to open them, right here. The newest are the review games, the learning activities (timelines, labelling, sorting with reasons, a Venn diagram, sentence building, fill in the blanks, putting things in order), and the toolbox. In a slide, a link to another deck is just `[text](../templates-slides.html#/quiz-list)`.
+:::
+
+## And for STEM, printables and whole units {#more-features}
+
+[**9 more:** things to drag and build, the printables, and two finished units to copy. Click one to see it.]{.cat-lead}
+
+:::: {.catalog .catalog-2}
+
+::: {.cat-box .cat-stem}
+[STEM you can move]{.cat-head} [4]{.cat-n}
+
+[Drag a triangle: angles add to 180°](../templates-slides.html#/explorer){.chip} [GeoGebra graphs with sliders](../templates-slides.html#/sliders){.chip} [Blocks that become Python](../templates-slides.html#/blocks){.chip} [Turn an angle from acute to full](../examples/example-angles/angle-explorer.html){.chip}
+:::
+
+::: {.cat-box .cat-print}
+[Printables and units]{.cat-head} [5]{.cat-n}
+
+[Printable templates](../printables.html){.chip} [Packet pages](../packet-templates.html){.chip} [A worksheet with its answers](../examples/example-angles/turning-angles-worksheet.html){.chip} [Example unit: Angles (math)](../examples/example-angles/index.html){.chip} [Example unit: Ancient Rome (history)](../examples/example-rome/index.html){.chip}
+
+Every printable has a teacher copy with the answer key, and goes into its unit's packet.
+:::
+
+::::
+
+```{=html}
+<style>
+  .reveal .catalog-2 { grid-template-columns: 3fr 2fr; font-size: 0.55em; }
+  .reveal .cat-stem { --cat: #0aa6a6; }
+  .reveal .cat-print { --cat: #e0a800; }
+  .reveal .cat-print p:last-child { margin-top: 8px; color: var(--ui-muted); line-height: 1.35; }
+</style>
+```
+
+::: notes
+The STEM chips open live interactives in the Template Library (the triangle, the angle and the block coding are saved in the course and work offline; GeoGebra needs the internet). The printables chips open the guide's printable and packet templates. The two example units are whole units, slides and printables and their packet, to copy into `course/units/` and change.
+:::
+
+## It always looks like your school
+
+- Colors, fonts and logos are set **once**, in `brand/`
+- Slides, web pages, PDFs and the vocab app all follow
+- Change the brand file and **everything** updates
+
+::: {.small-note}
+No more fixing fonts slide by slide.
+:::
+
+## Editing with an AI assistant
+
+- The files are plain text, so tools like Claude can read and edit them
+- `CLAUDE.md` tells the assistant the rules for this course
+- While you work on one worksheet, only that file is rebuilt: quick to check
+- When it's done: save, and rebuild that unit's packet
+
+::: notes
+Example request: "Add a 5-question exit ticket to the Rome republic deck, with Chinese glosses on the key words."
+:::
+
+## Get your own copy
+
+:::: {.columns}
+::: {.column width="52%"}
+1. **Install** (once): VS Code, Quarto, Python 3, Git, and Chrome or Edge. The README has the links.
+2. **Clone:** in VS Code, press **Ctrl+Shift+P** (Mac: **Cmd+Shift+P**), choose **Git: Clone**, paste the address, pick a folder, then **Open**.
+3. **Start:** double-click **Start Chalkline** in the folder. The first time takes a few minutes.
+:::
+::: {.column width="48%"}
+::: {.callout-tip title="The address" icon=false}
+`https://github.com/insufficientdoubt/project-chalkline`
+:::
+
+::: {.callout-note title="Then" icon=false}
+Your site opens at **localhost:4100**, in the teacher version. Your copy is yours: change anything.
+:::
+:::
+::::
+
+::: {.small-note}
+Just want to look first? The online version: **insufficientdoubt.github.io/project-chalkline**\
+Ready for your own course, without the sample? `quarto use template insufficientdoubt/project-chalkline`\
+New features later: `python chalkline.py update` (your lessons stay as they are)
+:::
+
+::: notes
+In a terminal instead of VS Code: `git clone https://github.com/insufficientdoubt/project-chalkline.git`, then open the folder. No GitHub account is needed to clone; you need one only to save changes back to GitHub.
+:::
+
+## How a unit is organized
+
+```{.text code-line-numbers="false"}
+course/units/02-ancient-rome/
+  index.qmd                       the unit page: title, objectives
+  republic-to-empire-slides.qmd   a slide deck
+  republic-or-empire.qmd          a worksheet (web + PDF)
+  images/                         photos for this unit's slides
+vocab/data/vocab.csv              the vocab words
+vocab/images/                     vocab pictures
+brand/                            colors, fonts, logos
+```
+
+::: notes
+The two example units in "How to use Chalkline" (Angles, Ancient Rome) are laid out this way. Copy one into `course/units/` to start.
+:::
+
+## Make your own unit
+
+1. Copy an example unit (in **How to use Chalkline**) into `course/units/`, and rename it: `02-ancient-rome`
+2. In its `index.qmd`, change the title and objectives
+3. Make the slides from the **Template Library**, and the printables from the **Printable templates**, keeping a `type:` label on each
+4. Add your words to `vocab/data/vocab.csv`
+5. Double-click **Start Chalkline**: your unit is on the site
+
+## Exit ticket
+
+::: {.poll type="smileys"}
+How ready do you feel to make your first unit?
+:::
+
+## Picture credits {.credits}
+
+- **Title:** [*The School of Athens*](https://commons.wikimedia.org/wiki/File:%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg), Raphael (about 1510), public domain, via Wikimedia Commons.
+- Everything else: original, made for this course.

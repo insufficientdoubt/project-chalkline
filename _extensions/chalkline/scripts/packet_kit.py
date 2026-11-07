@@ -1,10 +1,10 @@
-"""Build the guide's packet samples (the packet kit, typst/packet/) into the teacher site.
+"""The guide's printer check, and the list of packet pages, for the Packet Templates page (teacher site).
 
-The packet kit is Typst: print themes (sky, trail, blueprint) and page layouts for A3-folded packets, with a
-teacher edition (answers written into the same pages) and loose sheets (one worksheet printed on its own).
-The guide's samples (guide/packet/) use every piece. This script compiles them into the site, next to the
-Packet Templates page, and writes what each page is for (the hidden `about()` notes on each page) to
-packet-templates.json, which that page lists.
+The packet kit (typst/packet/) lays out every printable and packet. The guide's examples of it are whole units
+written in .qmd (guide/examples/example-*/), built into packets by scripts/packets.py like a course's own. This script
+compiles the printer check (one page per print theme, to print, photocopy and see what survives) and writes
+packet-templates.json: every example page, with what it's for and what it's made of (each page's page-about
+note) and where it is in its unit's packet.
 
 Runs automatically after each full render of the teacher site (`post-render`), and only when the guide is
 there. Or by hand:
@@ -12,15 +12,13 @@ there. Or by hand:
     python chalkline.py packet-kit            into _site-teacher/ (the guide only exists on the teacher site)
 
 Writes (in the site folder, course/guide/02-chalkline/packet/):
-    rome-<theme>.pdf, rome-sky-teacher.pdf                     the Rome sample, 32 pages
-    mesopotamia-<theme>.pdf, mesopotamia-trail-teacher.pdf     the Mesopotamia sample, 12 pages
-    sheet-<name>-sky.pdf                                       loose sheets (a spread on one A3 page)
     printer-test.pdf                                           one page per theme, to print and photocopy
-    packet-templates.json                                      every page: its name, uses, pieces and PDF
+    packet-templates.json                                      every example page: name, uses, pieces, PDF, page
 """
 
 import json
 import os
+import re
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -103,6 +101,34 @@ def impose(src, pdf, extra):
     out.save(str(pdf))
 
 
+ABOUT = re.compile(r'^::: *\{\.page-about ([^}]*)\}', re.M)
+ATTR = re.compile(r'([a-z-]+)="([^"]*)"')
+
+
+def example_pages():
+    """The example units' pages (guide/examples/example-*/): each .qmd's page-about note, and where it starts in the
+    unit's packet (generated/packet-pages.json, from the last packet build)."""
+    try:
+        starts = json.loads((ROOT / "generated" / "packet-pages.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        starts = {}
+    out = []
+    for index in sorted(GUIDE.glob("examples/example-*/index.qmd")):
+        folder = index.parent
+        for qmd in sorted(folder.glob("*.qmd")):
+            page = starts.get(qmd.relative_to(ROOT).as_posix())
+            m = ABOUT.search(qmd.read_text(encoding="utf-8"))
+            if not m or not page:
+                continue
+            a = dict(ATTR.findall(m.group(1)))
+            out.append({"name": a.get("name", qmd.stem), "page": page,
+                        "uses": [u.strip() for u in a.get("uses", "").split(";") if u.strip()],
+                        "pieces": [p.strip() for p in a.get("pieces", "").split(",") if p.strip()],
+                        "pdf": f"examples/{folder.name}/{folder.name}-packet.pdf",
+                        "sample": "Example: " + folder.name.removeprefix("example-").title()})
+    return out
+
+
 def main():
     in_quarto = "QUARTO_PROJECT_OUTPUT_DIR" in os.environ
     if in_quarto and not os.environ.get("QUARTO_PROJECT_RENDER_ALL"):
@@ -117,13 +143,6 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     jobs = []
-    for theme in THEMES:
-        jobs.append((src_dir / "rome.typ", out / f"rome-{theme}.pdf", {"theme": theme}))
-        jobs.append((src_dir / "mesopotamia.typ", out / f"mesopotamia-{theme}.pdf", {"theme": theme}))
-    jobs.append((src_dir / "rome.typ", out / "rome-sky-teacher.pdf", {"theme": "sky", "edition": "teacher"}))
-    jobs.append((src_dir / "mesopotamia.typ", out / "mesopotamia-trail-teacher.pdf", {"theme": "trail", "edition": "teacher"}))
-    for sheet in sorted((src_dir / "sheets").glob("sheet-*.typ")):
-        jobs.append((sheet, out / f"{sheet.stem}-sky.pdf", {"theme": "sky"}))
     jobs.append((src_dir / "printer-test.typ", out / "printer-test.pdf", {}))
 
     with ThreadPoolExecutor(WORKERS) as pool:
@@ -136,10 +155,7 @@ def main():
     print(f"packet_kit: {made} PDFs made, {reused} reused, into {out.relative_to(ROOT)}")
 
     # what each page is for, from the hidden notes (the same pages in every theme)
-    pages = []
-    for sample, pdf in (("rome.typ", "rome-sky.pdf"), ("mesopotamia.typ", "mesopotamia-trail.pdf")):
-        for note in query(src_dir / sample, "<template-info>", {"theme": "sky"}):
-            pages.append({**note, "pdf": pdf})
+    pages = example_pages()   # (the example units' packets are built by scripts/packets.py)
     (out / "packet-templates.json").write_text(json.dumps(pages, ensure_ascii=False, indent=1), encoding="utf-8")
     build_cache.prune("packet-kit")
 

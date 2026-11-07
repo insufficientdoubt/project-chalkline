@@ -1,0 +1,73 @@
+---
+title: "Roman Numerals 罗马数字"
+type: reference
+description: "The seven Roman numeral letters, the add and subtract rules, examples, and eight to try. Written with the packet kit's blocks; the teacher edition has the answers written in."
+order: 21
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Reference page with practice" uses="a rule or code to look up (numerals, symbols, a key); examples, then a few to try" pieces="panel, blank"}
+:::
+
+{{< vocab "Roman numerals" zh=true >}} use seven letters from the Latin alphabet. You still see them on clocks, in book chapters and at the end of movies.
+
+| Letter | I | V | X | L | C | D | M |
+|---|---|---|---|---|---|---|---|
+| **Value** | 1 | 5 | 10 | 50 | 100 | 500 | 1000 |
+
+::: side-by-side
+::: {.panel title="Rule 1 · Bigger to smaller: add"}
+**VI** = 5 + 1 = 6
+**XV** = 10 + 5 = 15
+**CLX** = 100 + 50 + 10 = 160
+:::
+::: {.panel title="Rule 2 · Smaller before bigger: subtract"}
+**IV** = 5 − 1 = 4
+**IX** = 10 − 1 = 9
+**XL** = 50 − 10 = 40 · **XC** = 100 − 10 = 90
+:::
+:::
+
+Never use the same letter more than three times in a row: 4 is **IV**, not ~~IIII~~.
+
+## Try it
+
+::: side-by-side
+::: {}
+**Roman → number**
+
+**XII** = {{< blank 2.5cm answer="12" >}}
+
+**XIX** = {{< blank 2.5cm answer="19" >}}
+
+**LXV** = {{< blank 2.5cm answer="65" >}}
+
+**MMXXVI** = {{< blank 2.5cm answer="2026" >}}
+:::
+::: {}
+**Number → Roman**
+
+**8** = {{< blank 3cm answer="VIII" >}}
+
+**24** = {{< blank 3cm answer="XXIV" >}}
+
+**49** = {{< blank 3cm answer="XLIX" >}}
+
+**this year** = {{< blank 3cm answer="MMXXVI" >}}
+:::
+:::
+
+## Make your own
+
+::: {.recall lines="2"}
+- Write your age in Roman numerals. | Example: 11 = XI; 12 = XII.
+- Write the year you were born. | Example: 2014 = MMXIV.
+- Make up a Roman numeral for a partner to read. Write its value too. | Any correct pair, e.g. XLVII = 47.
+:::
+
+::: {.work-space height="fill" style="grid" label="Work it out"}
+:::
+

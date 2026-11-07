@@ -1,0 +1,78 @@
+---
+title: "Roads and Water 道路与水"
+type: worksheet
+description: "A packet page written in .qmd with the packet kit's blocks: a vocabulary hunt, recall questions, a sequence, two-step equations, half-width work spaces and a Venn diagram. Answers print only in the teacher edition."
+order: 14
+audience: [teacher]
+packet-theme: trail
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Packet page from .qmd" uses="any worksheet; the pattern for writing packet pages" pieces="vocab-hunt, recall, sequence, problems, side-by-side, work-space, venn"}
+:::
+
+Use the reading *Roads that held an empire*. The paragraph numbers (¶) tell you where to look.
+
+## A. Vocabulary hunt
+
+Find the word that matches the clue and write it in the Word box.
+
+::: vocab-hunt
+- ¶1 | _n._ a group of lands ruled by one leader | empire
+- ¶1 | _n._ people who fight in an army | soldiers
+- ¶2 | _n._ small stones | gravel
+- ¶2 | _v._ to let water flow away | drain
+- ¶3 | _n._ people who buy and sell things | merchants
+- ¶4 | _n._ a channel or bridge that carries water | aqueduct
+- ¶4 | _n._ the force that pulls things down | gravity
+- ¶5 | _n._ curved shapes that hold up a bridge | arches
+:::
+
+## B. Reading recall
+
+Answer each question in a complete sentence.
+
+::: recall
+- Why did Rome need roads? | To move soldiers, letters and food quickly around the empire.
+- Why was the top of the road curved? | So rain ran off to the sides and the road stayed dry.
+- How did water move along an aqueduct without pumps? | Gravity: the channel sloped gently downhill.
+:::
+
+## C. Building a road
+
+Number the steps from 1 to 4 in the order the builders did them.
+
+::: {.sequence order="3,1,4,2"}
+- Lay flat paving stones on top.
+- Dig a deep trench.
+- Make the top curved so rain runs off.
+- Fill the bottom with large stones.
+:::
+
+{{< pagebreak >}}
+
+## D. Two-step equations
+
+Solve each one. Show every step in the box.
+
+::: {.problems cols="2"}
+- $3x + 5 = 20$ | 5 | 3x = 15, so x = 5
+- $2x - 7 = 9$ | 8 | 2x = 16, so x = 8
+- $x / 4 + 3 = 8$ | 20 | x/4 = 5, so x = 20
+- $5x + 2 = 3x + 10$ | 4 | 2x = 8, so x = 4
+:::
+
+::: side-by-side
+::: {.work-space height="35mm" style="lines" label="Which problem was hardest? Why?"}
+:::
+::: {.work-space height="35mm" style="grid" label="Make up your own two-step equation"}
+:::
+:::
+
+{{< pagebreak >}}
+
+::: {.venn title="Compare: roads and aqueducts" a="Roads" b="Aqueducts" a-example="soldiers march on them" both-example="built of stone" b-example="carry water"}
+Which one helped ordinary people more? Why?
+:::

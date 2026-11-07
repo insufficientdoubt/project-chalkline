@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turn an angle · 旋转角</title>
+<link rel="stylesheet" href="embed.css">
+<style>
+  /* Turn an angle: one side stays still, the other turns around the vertex.
+     Written for this course, no libraries: plain SVG and JavaScript, so it works without the internet.
+     Add ?mode=clock to the address to start on the clock face, ?play=1 to start turning by itself. */
+  .zh { font-size: 0.8em; color: var(--muted); font-weight: 600; margin-left: 0.25em; }
+  .main { flex: 1; min-height: 0; display: flex; gap: 12px; }
+  #stage { flex: 1; min-width: 0; height: 100%; border: 1px solid var(--line); border-radius: var(--r); background: #fff;
+           touch-action: none; user-select: none; }
+  .side { width: 290px; flex: none; display: flex; flex-direction: column; gap: 10px; }
+  .card { border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; background: var(--soft); }
+  .card.name { border-width: 3px; transition: border-color 0.2s, background 0.2s; }
+  .name .en { font-size: 30px; font-weight: 800; line-height: 1.1; }
+  .name .zh2 { font-size: 26px; font-weight: 700; color: var(--muted); }
+  .deg { font-size: 34px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .fact { font-size: 17px; line-height: 1.35; }
+  .fact .zhline { display: block; color: var(--muted); font-size: 15px; margin-top: 2px; }
+  .presets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .presets button { min-height: 36px; padding: 0 8px; font-size: 15px; }
+  .presets button .zh { margin-left: 0.2em; }
+  .bar button { font-size: 16px; }
+  .hint { color: var(--muted); font-size: 15px; }
+  svg text { font-family: "Source Sans 3", "Source Sans Pro", system-ui, sans-serif; }
+  #handle { cursor: grab; }
+  #handle:active { cursor: grabbing; }
+  @media (max-width: 700px) { .main { flex-direction: column; } .side { width: auto; } #stage { min-height: 320px; } }
+</style>
+</head>
+<body>
+  <div class="bar">
+    <button class="primary" id="play">▶ Turn <span class="zh" style="color:inherit">旋转</span></button>
+    <button id="reset">↺ Start <span class="zh">重来</span></button>
+    <span class="grow"></span>
+    <button id="tDeg" aria-pressed="false">° Degrees <span class="zh">度数</span></button>
+    <button id="tProt" aria-pressed="false">◠ Protractor <span class="zh">量角器</span></button>
+    <button id="tClock" aria-pressed="false">🕒 Clock <span class="zh">钟面</span></button>
+  </div>
+
+  <div class="main">
+    <svg id="stage" viewBox="0 0 640 520" role="img" aria-label="An angle. One side stays still; drag the orange dot to turn the other side around the vertex."></svg>
+
+    <div class="side">
+      <div class="card name" id="nameCard">
+        <div class="en" id="nameEn">Angle</div>
+        <div class="zh2" id="nameZh">角</div>
+      </div>
+      <div class="card" id="degCard" hidden>
+        <div class="deg" id="degText">0°</div>
+      </div>
+      <div class="card fact" id="fact"></div>
+      <div class="presets" id="presets"></div>
+      <div class="hint" id="hint">Drag the orange dot. <span class="zh">拖动橙色的点。</span></div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("stage");
+  const CX = 320, CY = 270, R = 200;            // the vertex and the length of the sides
+  const COLORS = {
+    zero:     "#5b6b80",
+    acute:    "#0087ff",
+    right:    "#23824a",
+    obtuse:   "#d6458f",
+    straight: "#ff8c0f",
+    more:     "#7a5af8",
+    full:     "#003477",
+  };
+  const KINDS = {
+    zero:     { en: "No opening yet", zh: "两边重合", fact: ["The two sides are together.", "两条边重合在一起。"] },
+    acute:    { en: "Acute angle", zh: "锐角", fact: ["Smaller than a right angle.", "比直角小。"] },
+    right:    { en: "Right angle", zh: "直角", fact: ["A square corner: 90°.", "像正方形的角：90°。"] },
+    obtuse:   { en: "Obtuse angle", zh: "钝角", fact: ["Bigger than a right angle, smaller than a straight angle.", "比直角大，比平角小。"] },
+    straight: { en: "Straight angle", zh: "平角", fact: ["The two sides make a straight line: 180°. 1 straight angle = 2 right angles.", "两条边成一条直线：180°。1 平角 = 2 直角。"] },
+    more:     { en: "Bigger than a straight angle", zh: "比平角大", fact: ["Keep turning! Not a full turn yet.", "继续旋转！还没有转满一周。"] },
+    full:     { en: "Full angle", zh: "周角", fact: ["One side turns all the way around, back to the start: 360°. 1 full angle = 2 straight angles = 4 right angles.", "一条边旋转一周，回到起点：360°。1 周角 = 2 平角 = 4 直角。"] },
+  };
+  const CLOCK_FACT = ["The minute hand stays on 12. Move the hour hand. Each hour is 30°.", "分针指着 12，拖动时针。每一大格是 30°。"];
+
+  let angle = 40;                  // the opening, 0 to 360 degrees
+  let clock = false, showDeg = false, showProt = false;
+  let playing = null;
+
+  function kindOf(a) {
+    if (a < 0.5) return "zero";
+    if (a < 89.5) return "acute";
+    if (a < 90.5) return "right";
+    if (a < 179.5) return "obtuse";
+    if (a < 180.5) return "straight";
+    if (a < 359.5) return "more";
+    return "full";
+  }
+
+  // On the plain board the still side points right and the other turns anticlockwise (like the textbook);
+  // on the clock the still side (the minute hand) points to 12 and the hour hand turns clockwise.
+  function screenDeg(a) { return clock ? 90 - a : a; }
+  function pt(a, r) { const t = screenDeg(a) * Math.PI / 180; return [CX + r * Math.cos(t), CY - r * Math.sin(t)]; }
+
+  function el(name, attrs, parent) {
+    const e = document.createElementNS(NS, name);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(e);
+    return e;
+  }
+
+  // The filled opening, from the still side to the turning side.
+  function sectorPath(a, r) {
+    if (a <= 0.01) return "";
+    if (a >= 359.99) return `M${CX - r},${CY} a${r},${r} 0 1,0 ${2 * r},0 a${r},${r} 0 1,0 ${-2 * r},0 Z`;
+    const [x0, y0] = pt(0, r), [x1, y1] = pt(a, r);
+    const large = a > 180 ? 1 : 0, sweep = clock ? 1 : 0;
+    return `M${CX},${CY} L${x0},${y0} A${r},${r} 0 ${large},${sweep} ${x1},${y1} Z`;
+  }
+  function arcPath(a, r) {
+    if (a <= 0.01) return "";
+    if (a >= 359.99) return `M${CX - r},${CY} a${r},${r} 0 1,0 ${2 * r},0 a${r},${r} 0 1,0 ${-2 * r},0`;
+    const [x0, y0] = pt(0, r), [x1, y1] = pt(a, r);
+    return `M${x0},${y0} A${r},${r} 0 ${a > 180 ? 1 : 0},${clock ? 1 : 0} ${x1},${y1}`;
+  }
+
+  // ---------- drawing ----------
+  const gBack = el("g", {}), gProt = el("g", {}), gShape = el("g", {});
+  const sector = el("path", { "fill-opacity": 0.18 }, gShape);
+  const arc = el("path", { fill: "none", "stroke-width": 4 }, gShape);
+  const square = el("path", { fill: "none", "stroke-width": 3 }, gShape);
+  const turnArrow = el("path", { fill: "none", stroke: "#5b6b80", "stroke-width": 2, "stroke-dasharray": "6 6", "marker-end": "url(#arrowhead)" }, gShape);
+  const still = el("line", { "stroke-linecap": "round" }, gShape);
+  const moving = el("line", { "stroke-linecap": "round" }, gShape);
+  const vertex = el("circle", { r: 9, fill: "#10233f" }, gShape);
+  const vLabel = el("text", { "font-size": 20, fill: "#10233f", "font-weight": 700 }, gShape);
+  const handle = el("circle", { id: "handle", r: 16, fill: "#ff8c0f", stroke: "#fff", "stroke-width": 4 }, gShape);
+  const handleHit = el("circle", { r: 34, fill: "transparent", style: "cursor: grab" }, gShape);
+  const defs = el("defs", {});
+  defs.innerHTML = '<marker id="arrowhead" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6b80"/></marker>';
+
+  function drawBack() {
+    gBack.innerHTML = "";
+    if (!clock) return;
+    el("circle", { cx: CX, cy: CY, r: R + 40, fill: "#f7f9fc", stroke: "#10233f", "stroke-width": 5 }, gBack);
+    for (let i = 0; i < 60; i++) {
+      const t = (90 - i * 6) * Math.PI / 180, big = i % 5 === 0;
+      const r1 = R + 34, r0 = big ? R + 18 : R + 27;
+      el("line", { x1: CX + r0 * Math.cos(t), y1: CY - r0 * Math.sin(t), x2: CX + r1 * Math.cos(t), y2: CY - r1 * Math.sin(t),
+                   stroke: "#10233f", "stroke-width": big ? 4 : 1.5 }, gBack);
+    }
+    for (let h = 1; h <= 12; h++) {
+      const t = (90 - h * 30) * Math.PI / 180, r = R - 6;
+      const tx = el("text", { x: CX + r * Math.cos(t), y: CY - r * Math.sin(t) + 11, "text-anchor": "middle", "font-size": 32, "font-weight": 700, fill: "#10233f" }, gBack);
+      tx.textContent = h;
+    }
+  }
+
+  function drawProtractor() {
+    gProt.innerHTML = "";
+    if (!showProt || clock) return;
+    const r0 = R + 8, r1 = R + 58;
+    el("path", { d: `M${CX - r1},${CY} A${r1},${r1} 0 0,1 ${CX + r1},${CY} Z`, fill: "#e6edf7", "fill-opacity": 0.75, stroke: "#003477", "stroke-width": 2 }, gProt);
+    el("line", { x1: CX - r1, y1: CY, x2: CX + r1, y2: CY, stroke: "#003477", "stroke-width": 2 }, gProt);
+    for (let d = 0; d <= 180; d++) {
+      const t = d * Math.PI / 180, len = d % 10 === 0 ? 16 : d % 5 === 0 ? 11 : 6;
+      el("line", { x1: CX + r1 * Math.cos(t), y1: CY - r1 * Math.sin(t), x2: CX + (r1 - len) * Math.cos(t), y2: CY - (r1 - len) * Math.sin(t),
+                   stroke: "#003477", "stroke-width": d % 10 === 0 ? 1.6 : 0.8 }, gProt);
+      if (d % 10 === 0) {
+        // inner scale: 0 on the right (the still side), so read this one; outer scale: 0 on the left
+        const ri = r1 - 28, ro = r1 - 44;
+        let tx = el("text", { x: CX + ri * Math.cos(t), y: CY - ri * Math.sin(t) + 5, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: "#0087ff" }, gProt);
+        tx.textContent = d;
+        tx = el("text", { x: CX + ro * Math.cos(t), y: CY - ro * Math.sin(t) + 4, "text-anchor": "middle", "font-size": 11, fill: "#5b6b80" }, gProt);
+        tx.textContent = 180 - d;
+      }
+    }
+    el("circle", { cx: CX, cy: CY, r: 5, fill: "#003477" }, gProt);
+  }
+
+  function render() {
+    const k = kindOf(angle), c = COLORS[k];
+    const rounded = Math.round(angle);
+    const len1 = clock ? R - 30 : R, len2 = clock ? R - 75 : R;     // clock: a long minute hand, a short hour hand
+    const [sx, sy] = pt(0, len1), [mx, my] = pt(angle, len2);
+    still.setAttribute("x1", CX); still.setAttribute("y1", CY); still.setAttribute("x2", sx); still.setAttribute("y2", sy);
+    moving.setAttribute("x1", CX); moving.setAttribute("y1", CY); moving.setAttribute("x2", mx); moving.setAttribute("y2", my);
+    still.setAttribute("stroke", "#10233f"); still.setAttribute("stroke-width", clock ? 9 : 7);
+    moving.setAttribute("stroke", clock ? "#10233f" : c); moving.setAttribute("stroke-width", clock ? 14 : 7);
+    handle.setAttribute("cx", mx); handle.setAttribute("cy", my);
+    handleHit.setAttribute("cx", mx); handleHit.setAttribute("cy", my);
+    vertex.setAttribute("cx", CX); vertex.setAttribute("cy", CY);
+    // under the vertex, or below the filled circle once the opening goes past a straight angle
+    vLabel.setAttribute("x", CX); vLabel.setAttribute("y", CY + (angle > 180.5 ? 88 : 32));
+    vLabel.setAttribute("text-anchor", "middle");
+    vLabel.textContent = clock ? "" : "vertex 顶点";
+
+    const ar = clock ? 70 : 60;
+    sector.setAttribute("d", sectorPath(angle, clock ? R - 75 : R - 20)); sector.setAttribute("fill", c);
+    arc.setAttribute("d", arcPath(angle, ar)); arc.setAttribute("stroke", c);
+    turnArrow.setAttribute("d", k === "full" || k === "zero" ? "" : arcPath(Math.max(0, angle - 4), R + (clock ? 60 : 22)));
+    turnArrow.style.display = clock || showProt ? "none" : "";
+    if (k === "right") {
+      const s = 34, [ax, ay] = pt(0, s), [bx, by] = pt(90, s), [qx, qy] = pt(45, s * Math.SQRT2);
+      square.setAttribute("d", `M${ax},${ay} L${qx},${qy} L${bx},${by}`); square.setAttribute("stroke", c);
+      arc.setAttribute("d", "");
+    } else square.setAttribute("d", "");
+
+    const card = document.getElementById("nameCard");
+    card.style.borderColor = c; card.style.background = c + "14";
+    document.getElementById("nameEn").textContent = KINDS[k].en;
+    document.getElementById("nameEn").style.color = c;
+    document.getElementById("nameZh").textContent = KINDS[k].zh;
+    document.getElementById("degCard").hidden = !(showDeg || showProt || clock);
+    const time = clock ? `  ·  ${(Math.round(angle / 30) % 12) || 12}:00` : "";
+    document.getElementById("degText").textContent = rounded + "°" + time;
+    const f = clock ? CLOCK_FACT : KINDS[k].fact;
+    document.getElementById("fact").innerHTML = (clock ? `<b>${KINDS[k].en} ${KINDS[k].zh}.</b> ` : "") + f[0] + '<span class="zhline">' + f[1] + "</span>";
+    document.querySelectorAll("#presets button").forEach(function (b) { b.classList.toggle("on", +b.dataset.a === rounded); });
+  }
+
+  // ---------- presets ----------
+  const PRESETS = [["acute", 50], ["right", 90], ["obtuse", 130], ["straight", 180], ["more", 250], ["full", 360]];
+  const CLOCK_PRESETS = [["1:00", 30], ["2:00", 60], ["3:00", 90], ["4:00", 120], ["5:00", 150], ["6:00", 180]];
+  function buildPresets() {
+    const box = document.getElementById("presets");
+    box.innerHTML = "";
+    (clock ? CLOCK_PRESETS : PRESETS).forEach(function (p) {
+      const b = document.createElement("button");
+      b.dataset.a = p[1];
+      b.innerHTML = clock ? p[0] : (p[0] === "more" ? "Bigger" : KINDS[p[0]].en.replace(" angle", "")) + ' <span class="zh">' + KINDS[p[0]].zh + "</span>";
+      b.onclick = function () { stop(); animateTo(p[1]); };
+      box.appendChild(b);
+    });
+  }
+
+  // ---------- turning by itself ----------
+  function stop() { if (playing) cancelAnimationFrame(playing); playing = null; setPlayLabel(); }
+  function setPlayLabel() {
+    document.getElementById("play").innerHTML = playing ? '❚❚ Pause <span class="zh" style="color:inherit">暂停</span>' : '▶ Turn <span class="zh" style="color:inherit">旋转</span>';
+  }
+  function animateTo(target) {
+    const from = angle, t0 = performance.now(), dur = 300 + Math.abs(target - from) * 4;
+    function step(now) {
+      const t = Math.min(1, (now - t0) / dur), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      angle = from + (target - from) * e; render();
+      if (t < 1) playing = requestAnimationFrame(step); else { playing = null; setPlayLabel(); }
+    }
+    playing = requestAnimationFrame(step);
+  }
+  // A full turn from where it is, slowing down and waiting a moment at each new kind of angle.
+  function play() {
+    if (playing) { stop(); return; }
+    if (angle >= 359.5) angle = 0;
+    const STOPS = clock ? [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360] : [90, 180, 360];
+    let last = performance.now(), wait = 0;
+    function step(now) {
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      if (wait > 0) { wait -= dt; playing = requestAnimationFrame(step); return; }
+      const next = STOPS.find(function (s) { return s > angle + 0.001; });
+      angle = Math.min(next, angle + dt * (clock ? 60 : 45));
+      if (angle === next) wait = clock ? 0.5 : 1.2;
+      render();
+      if (angle >= 360) { playing = null; setPlayLabel(); return; }
+      playing = requestAnimationFrame(step);
+    }
+    playing = requestAnimationFrame(step);
+    setPlayLabel();
+  }
+
+  // ---------- dragging ----------
+  let dragging = false;
+  function pointerAngle(ev) {
+    const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY;
+    const q = p.matrixTransform(svg.getScreenCTM().inverse());
+    let t = Math.atan2(CY - q.y, q.x - CX) * 180 / Math.PI;     // the pointer's direction, anticlockwise from the right
+    let a = clock ? 90 - t : t;
+    return ((a % 360) + 360) % 360;
+  }
+  function onMove(ev) {
+    if (!dragging) return;
+    let a = pointerAngle(ev);
+    // Turning stays continuous: from just under 360 it doesn't jump back to 0, and the other way round.
+    if (angle > 270 && a < 90) a = 360;
+    else if (angle < 90 && a > 270) a = 0;
+    if (clock) a = Math.round(a / 30) * 30;
+    else for (const s of [0, 90, 180, 360]) if (Math.abs(a - s) < 4) a = s;  // easy to land on the special angles
+    angle = a; render();
+  }
+  function onDown(ev) { stop(); dragging = true; svg.setPointerCapture(ev.pointerId); onMove(ev); ev.preventDefault(); }
+  handleHit.addEventListener("pointerdown", onDown);
+  handle.addEventListener("pointerdown", onDown);
+  moving.addEventListener("pointerdown", onDown);
+  svg.addEventListener("pointermove", onMove);
+  svg.addEventListener("pointerup", function () { dragging = false; });
+  svg.addEventListener("pointercancel", function () { dragging = false; });
+  // Keyboard: arrow keys turn it (1° or, on the clock, 1 hour), so it can be used without a mouse too.
+  svg.setAttribute("tabindex", "0");
+  svg.addEventListener("keydown", function (ev) {
+    const step = clock ? 30 : (ev.shiftKey ? 10 : 1);
+    if (ev.key === "ArrowLeft" || ev.key === "ArrowUp") angle = Math.min(360, angle + step);
+    else if (ev.key === "ArrowRight" || ev.key === "ArrowDown") angle = Math.max(0, angle - step);
+    else return;
+    ev.preventDefault(); stop(); render();
+  });
+
+  // ---------- buttons ----------
+  function toggle(id, on) { const b = document.getElementById(id); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); }
+  document.getElementById("play").onclick = play;
+  document.getElementById("reset").onclick = function () { stop(); angle = 0; render(); };
+  document.getElementById("tDeg").onclick = function () { showDeg = !showDeg; toggle("tDeg", showDeg); render(); };
+  document.getElementById("tProt").onclick = function () {
+    showProt = !showProt; toggle("tProt", showProt);
+    if (showProt && clock) setClock(false);
+    drawProtractor(); render();
+  };
+  function setClock(on) {
+    clock = on; toggle("tClock", on);
+    if (on) { showProt = false; toggle("tProt", false); angle = Math.round(angle / 30) * 30; }
+    document.getElementById("hint").innerHTML = on ? 'Drag the hour hand. <span class="zh">拖动时针。</span>' : 'Drag the orange dot. <span class="zh">拖动橙色的点。</span>';
+    handle.style.display = on ? "none" : "";
+    drawBack(); drawProtractor(); buildPresets(); render();
+  }
+  document.getElementById("tClock").onclick = function () { stop(); setClock(!clock); };
+
+  const params = new URLSearchParams(location.search);
+  buildPresets();
+  setClock(params.get("mode") === "clock");
+  if (params.get("deg") === "1") document.getElementById("tDeg").click();
+  if (params.get("play") === "1") { angle = 0; play(); }
+})();
+</script>
+</body>
+</html>

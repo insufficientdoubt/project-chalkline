@@ -1,0 +1,43 @@
+---
+title: "Section 2: The Paragraph"
+type: worksheet
+description: "The test's section 2: one paragraph that explains a chain of causes, with linking phrases, the command term and a rubric whose examples are on another topic. A test, so no 中文."
+order: 5
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Paragraph task with a rubric" uses="an extended response with a command term; an MYP criterion task; any task marked with a rubric" pieces="panel, command-term, rubric"}
+:::
+
+Criterion A: Knowing and understanding · 8 marks
+
+::: {.panel title="The big idea"}
+People turned unpredictable rivers into the world's first cities, and their solutions became the foundations of civilization.
+:::
+
+Choose **one** environmental challenge the Sumerians faced. Write a paragraph of **5 to 7 sentences** that explains:
+
+1. how the Sumerians solved it
+2. how the solution changed their society (cooperation, leaders, social classes),
+3. how a more complex society came to need laws, like Hammurabi's Code.
+
+Link your ideas with these:
+
+{{< frames "GD-FRM-049, GD-FRM-050, GD-FRM-051" examples=true >}}
+
+::: {.command-term term="explain"}
+Show **how** and **why** things are connected. This happened, **so** that changed. Write a chain of causes, not a list of facts.
+:::
+
+::: {.rubric term="explain" criterion="Criterion A: what each level looks like"}
+- 1–2 | Lists a few facts. The links between them are missing or unclear. Few subject words. | "Gutenberg made the printing press. People read books. Society changed."
+- 3–4 | Describes the events in order, with some links. Uses some subject words. | "After Gutenberg invented the printing press, more books were made, so more people read."
+- 5–6 | Explains how the events are connected in time and cause. Uses subject words correctly. | "The printing press made books cheaper, so new ideas spread quickly and more people learned to read." | target
+- 7–8 | Explains the connections in detail, with examples, and shows why they matter. | "Because the press cut the cost of books, ideas spread across Europe in years, not centuries; literacy rose, and with it the demand for schools."
+:::
+
+::: {.work-space height="fill" style="lines" label="Your ideas: which challenge? Note what you know before you plan."}
+:::

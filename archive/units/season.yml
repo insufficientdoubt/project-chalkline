@@ -1,0 +1,14 @@
+# Course facts used by slides and printables, so names and dates live in one place.
+# Only `name` is needed; the rest are optional.
+
+name: Chalkline Sample
+name_zh: 示例课程
+season: 2026–2027
+
+events:              # shown as "Coming up" on the overview (the next two)
+  - date: 2026-11-20
+    name: Greece museum walk
+    kind: Class event
+  - date: 2027-01-22
+    name: Rome project fair
+    kind: Class event

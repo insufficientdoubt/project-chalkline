@@ -1,6 +1,30 @@
-// Passes document settings (title, fonts, brand colors, logos) into the
-// `article` layout defined in typst-template.typ. Replaces Quarto's default.
-#show: doc => article(
+// Every printable is laid out by the packet kit; a packet (packet-booklet: true) by kit.booklet. Otherwise (kit.worksheet: A4, the theme in `packet-theme:`, Name /
+// Class / Date, the title, "Page 1 of 2"; the teacher edition when the page has `edition:`). Posters
+// (`layout: poster`) keep the older `article` layout in typst-template.typ. Replaces Quarto's default.
+#let chalkline-layout = "$if(layout)$$layout$$endif$"
+#show: doc => if $if(packet-booklet)$true$else$false$endif$ {
+  // a unit or year packet (scripts/packets.py): the whole book as an A3-folded booklet
+  kit.booklet(
+    theme: "$if(packet-theme)$$packet-theme$$else$sky$endif$",
+    title: [$if(title)$$title$$endif$],
+    unit: [$if(unit-name)$$unit-name$$endif$],
+    teacher: $if(edition)$true$else$false$endif$,
+    school: [$if(school)$$school$$endif$],
+    doc,
+  )
+} else if chalkline-layout != "poster" {
+  kit.worksheet(
+    theme: "$if(packet-theme)$$packet-theme$$else$sky$endif$",
+    title: [$if(title)$$title$$endif$],
+    subtitle: $if(subtitle)$[$subtitle$]$else$none$endif$,
+    unit: [$if(unit-name)$$unit-name$$endif$],
+    teacher: $if(edition)$true$else$false$endif$,
+    name: $if(opens-full-page)$false$else$true$endif$,
+    show-title: $if(opens-own-title)$false$else$auto$endif$,
+    goes-with: $if(goes-with)$"$goes-with$"$else$none$endif$,   // "page 5": where it starts in its unit packet (filter.lua)   // a full-page Venn or KWL has its own title and Name
+    doc,
+  )
+} else { article(
 $if(title)$
   title: [$title$],
 $endif$
@@ -50,3 +74,4 @@ $if(school)$
 $endif$
   doc,
 )
+}

@@ -1,0 +1,30 @@
+---
+title: "Key Words 关键词"
+type: reference
+description: "The unit's twelve key words, from the vocab list: a picture, the meaning, 中文 and an example for each. Then the same words as a list, with a line to write a sentence."
+order: 13
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Key word cards (with pictures)" uses="pre-teaching a unit's words; a reference page to come back to; a word wall at home" pieces="subunit, vocab-page"}
+:::
+
+::: {.subunit number="B.2" title="Words and language"}
+:::
+
+Learn these words. The pictures help you remember them.
+
+::: {.vocab-page words="republic, senate, consul, emperor, empire, forum, Latin, Roman numerals, gladiator, Colosseum, aqueduct, legion"}
+:::
+
+{{< pagebreak >}}
+
+## Word list
+
+Read each meaning. Then write your own sentence with the word.
+
+::: {.vocab-page words="republic, senate, consul, emperor, empire, forum, Latin, Roman numerals, gladiator, Colosseum, aqueduct, legion" pictures="false"}
+:::

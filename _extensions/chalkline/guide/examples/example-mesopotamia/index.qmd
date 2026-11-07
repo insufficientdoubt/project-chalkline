@@ -1,0 +1,29 @@
+---
+title: "Mesopotamia 美索不达米亚"
+short-title: "Example · Mesopotamia"
+unit: "C"
+packet-theme: trail
+packet-hero: images/hammurabi-stele.jpg
+packet-hero-credit: "the Code of Hammurabi, Louvre, by Mbzt, CC BY 3.0, via Wikimedia Commons"
+objectives:
+  - I can describe what a primary source shows, and what it might mean.
+  - I can use evidence from a source to support an idea.
+  - I can explain how Sumerians solved a problem with their environment.
+order: 22
+audience: [teacher]
+format: html
+description: "Gods, kings and laws: a Grade 6 packet built from a colleague's worksheets. Two source cards, two investigations, a design challenge, a short-answer test and a paragraph task with a rubric, written with the packet kit's history blocks."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+A packet for a history unit, written as `.qmd` pages with the packet kit's history and assessment blocks: source cards (a picture with numbered markers, facts at a glance, notes in English and 中文, context, how to cite it), source investigations, a design challenge, a short-answer test with marks, and a paragraph task with a command term, a rubric and a planner. Copy the folder (`course/guide/02-chalkline/examples/example-mesopotamia/`, or `guide/examples/example-mesopotamia/` in Chalkline) into `course/units/`, then change its words.
+
+**The packet:** [student booklet](example-mesopotamia-packet.pdf) · [teacher edition](example-mesopotamia-teacher-packet.pdf) (A3, folded; the Trail theme).

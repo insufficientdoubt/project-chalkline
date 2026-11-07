@@ -279,6 +279,33 @@ tr[class*="row-t-"] .type-cell { text-transform: capitalize; color: color-mix(in
 #quarto-sidebar .sidebar-item .sidebar-link { border-radius: 7px; padding-left: 0.45rem; padding-right: 0.45rem; transition: background 0.12s; }
 #quarto-sidebar .sidebar-item .sidebar-link:hover { background: #eef2f6; }
 #quarto-sidebar .sidebar-item .sidebar-link.active { background: var(--ui-accent-soft, #e6edf7); font-weight: 600; }
+// Sidebar: the guide's key pages (its front page, the Template Library, Printable and Packet templates, the
+// example units, the exemplar lesson) stand out: bold, in the accent colour, with a small star after them
+$guide-key: "02-chalkline/index.html", "02-chalkline/templates-slides.html", "02-chalkline/printables.html",
+  "02-chalkline/packet-templates.html", "02-chalkline/examples/index.html", "02-chalkline/exemplar-slides.html",
+  "02-chalkline/", "02-chalkline/examples/", "02-chalkline/start/index.html", "02-chalkline/start/";   // (Quarto drops "index.html" from folder links in the browser)
+@each $page in $guide-key {
+  #quarto-sidebar a.sidebar-link[href$="#{$page}"] .menu-text { font-weight: 700; color: var(--ui-accent, #0b5cad); }
+  #quarto-sidebar a.sidebar-link[href$="#{$page}"] .menu-text::after {
+    content: ""; display: inline-block; width: 0.8em; height: 0.8em; margin-left: 0.3em; vertical-align: -0.05em;
+    background: #e8a400;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+}
+// The guide's front page: the key pages as cards
+.guide-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin: 1.2rem 0 1.6rem; }
+.guide-card { position: relative; padding: 14px 16px 12px; border: 1px solid var(--ui-line, #d8e0ea); border-top: 4px solid var(--ui-accent, #0b5cad);
+  border-radius: var(--ui-r, 10px); background: var(--ui-surface, #fff); box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06); transition: box-shadow 0.15s, transform 0.15s; }
+.guide-card:hover { box-shadow: 0 6px 18px rgba(16, 24, 40, 0.12); transform: translateY(-1px); }
+.guide-card p { margin: 0 0 0.4rem; font-size: 0.92rem; line-height: 1.45; }
+.guide-card .quarto-figure, .guide-card figure { margin: -14px -16px 10px; }
+.guide-card img.guide-card-img, .guide-card .guide-card-img img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top;
+  border-bottom: 1px solid var(--ui-line, #d8e0ea); border-radius: 0; margin: 0; }
+.guide-card { overflow: hidden; }
+.guide-credits { margin-top: 1.5rem; font-size: 0.8rem; color: var(--ui-muted, #5b6b80); }
+.guide-card a.guide-card-title { font-size: 1.15rem; font-weight: 700; text-decoration: none; color: var(--ui-ink, #1f2933); }
+.guide-card a.guide-card-title::after { content: ""; position: absolute; inset: 0; }   // the whole card is the link
 // Packets on unit pages. The student copy is the main one (solid green, first): printing it for class
 // is a teacher's first move. The teacher edition, with answer keys, is the quieter orange one.
 // Icons (Lucide backpack, key-round) are drawn with a mask so they take the button's color.

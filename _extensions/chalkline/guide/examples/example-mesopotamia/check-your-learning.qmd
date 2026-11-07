@@ -1,0 +1,30 @@
+---
+title: "Check Your Learning"
+type: worksheet
+description: "Formative assessment, section 1: seven short-answer questions with marks (25 in all, with section 2). A test, so no 中文. The teacher edition has the answers written in."
+order: 4
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Short-answer assessment" uses="formative or summative tests; a quiz with marks shown; a check-in at the end of a lesson sequence" pieces="test-head, short-answer"}
+:::
+
+::: {.subunit number="C.3" title="Check your learning"}
+:::
+
+::: {.test-head title="Early river civilizations" unit="Section 1: what you know, in short answers" total="25" minutes="40"}
+You may use your packet and notes. [2] = 2 marks; the lines show about how much to write. Section 2 is one paragraph (the next pages).
+:::
+
+::: short-answer
+- [2] What does the Greek word *Mesopotamia* mean? Why is a Greek word used for this place? | The land between the rivers. Greek writers named it long after.
+- [2/1] Name the two rivers that frame the Mesopotamian valley. | The Tigris and the Euphrates.
+- [2/1] The Sumerians faced floods and droughts. Name ONE thing they built to control water. | Irrigation canals (or levees, dams, reservoirs).
+- [2/1] Mesopotamia had no natural barriers. How did Sumerians protect their cities? | They built thick city walls (and armies).
+- [3] What is *polytheism*? Name one Mesopotamian god and what they controlled. | Belief in many gods. Shamash: the sun and justice.
+- [3] Compare the Mesopotamian view of the afterlife with your own, or with traditional Chinese ideas.
+- [3] Look at the social pyramid. Who was at the top, and who at the bottom? Why? | Kings and priests at the top, enslaved people at the bottom: power came from the gods and land.
+:::

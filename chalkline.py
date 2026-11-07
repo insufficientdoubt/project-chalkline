@@ -12,6 +12,7 @@
     python chalkline.py drawio               update draw.io diagrams' pictures
     python chalkline.py guide --teacher      copy Chalkline's guide (templates) into course/guide/02-chalkline/
     python chalkline.py build                full build, if anything changed (the launchers run this)
+    python chalkline.py update               get the newest Chalkline (its files only; your course stays)
 
 Add --help after a command for its options. The commands are Chalkline's scripts
 (_extensions/chalkline/scripts/, or _extensions/<owner>/chalkline/scripts/ once installed with

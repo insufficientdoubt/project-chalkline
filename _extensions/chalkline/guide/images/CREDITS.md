@@ -1,6 +1,6 @@
 # Picture credits: the Chalkline guide
 
-Pictures for the Slide kit deck (`../slide-kit-slides.qmd`), a sample lesson on the Warring States. Each was made
+Pictures for the template decks' sample lesson on the Warring States (Template Library, Exemplar lesson). Each was made
 smaller for slides; some were cropped to the head and shoulders, as noted. They are copied into a course's teacher
 site with the guide, so keep them small and openly licensed.
 
@@ -55,4 +55,9 @@ Original drawings for the exemplar deck: `MTH-002.svg` to `MTH-005.svg` (copied 
 More original drawings for the exemplar deck, no license needed: `role-reader.svg`, `role-writer.svg`, `role-checker.svg`
 and `role-reporter.svg` (group roles), `stations-map.svg` (the classroom map for stations) and `full-angle.svg` (the
 full-angle drawing without its background). `page-self-check.png` and `page-angle-hunt.png` are pictures of page 1 of
-this guide's own printables (`../self-check.qmd`, `../angle-hunt.qmd`); make them again if those pages change.
+this guide's own printables (`../samples/self-check.qmd`, `../samples/angle-hunt.qmd`); make them again if those pages change.
+
+`landing/*.jpg` (the guide's front page): pictures of Chalkline's own slides and packet pages, made for the guide. The
+photos in them are credited above and in the example units' `images/CREDITS.md`: the Pont du Gard (Benh LIEU SONG,
+CC BY-SA 3.0) and the Colosseum (Wilfredor, CC0); the front page credits them too.
+

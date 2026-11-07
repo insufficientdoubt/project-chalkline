@@ -105,11 +105,11 @@
 }
 
 // ---------------------------------------------------------------- Frayer model (two words per page)
-#let frayer(id, word: none) = context {
+#let frayer(id, word: none, zh: none) = context {
   let t = TH.get()
   let row = VOCAB.find(r => r.id == id)
   let term = if word != none { word } else if row != none { row.term_en } else { id }
-  let zh = if row != none { row.zh } else { "" }
+  let zh = if zh != none { zh } else if row != none { row.zh } else { "" }
   // labels on the outer side of each box, so the word in the middle never covers them
   let quad(title, prompt, mark, side: left) = block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, clip: true, {
     block(width: 100%, inset: (x: 7pt, top: 5pt, bottom: 3pt), align(side, [#text(font: t.head-font, weight: "bold", fill: t.head, title) #h(3pt) #text(size: 10pt, fill: t.accent, mark) \ #text(size: 7.5pt, fill: t.muted, prompt)]))
@@ -247,11 +247,18 @@
 
 // ---------------------------------------------------------------- landscape organizers: instructions down the side
 // A landscape page (turned on a portrait page) with a narrow column on the left for the title, what to do,
-// the language and the "So what?", and the rest of the page for the organizer itself.
+// the language and the "So what?", and the rest of the page for the organizer itself. Each leaves an <own-title>
+// marker: in a packet, a chapter that opens with one doesn't get a title page of its own (kit.booklet).
+// Name and class on one line, for a full-page organizer printed as a loose sheet
+#let name-line() = context {
+  let t = TH.get()
+  let field(label, w) = box(width: w)[#text(size: 8pt, fill: t.muted, font: t.label-font, label) #box(width: 1fr, line(length: 100%, stroke: 0.6pt + t.muted))]
+  field("Name", 62%); h(3mm); field("Class", 30%)
+}
 #let LW = 255mm   // the landscape page's usable width and height (see kit.landscape)
 #let LH = 175mm
 #let SIDE = 62mm
-#let side-page(title, sub, side, main) = landscape(context {
+#let side-page(title, sub, side, main) = [#metadata(title) <own-title>] + landscape(context {
   let t = TH.get()
   set align(left + top)   // (landscape() centres the turned page; its content reads from the top left)
   [#metadata(title) <section-title>]
@@ -260,6 +267,7 @@
       text(font: t.head-font, weight: "bold", size: 17pt, fill: t.head, title)
       if sub != none { linebreak(); text(size: 9pt, fill: t.muted, sub) }
       v(-2pt); rule(t); v(3mm)
+      if MODE.get() == "sheet" { name-line(); v(3mm) }   // a loose sheet: the Name goes here (no title page)
       side
     }),
     block(width: 100%, height: 100%, main))
@@ -303,7 +311,7 @@
 // The Venn on a landscape page, the circles as big as the page allows. They sit on a diagonal (left one low,
 // right one high), which frees the top-left corner for the title and what to do, and the bottom-right for the
 // "So what?". The compare starters run in one line along the foot.
-#let venn-landscape(title, a, b, a-example: [], both-example: [], b-example: [], prompt: []) = landscape(context {
+#let venn-landscape(title, a, b, a-example: [], both-example: [], b-example: [], prompt: []) = [#metadata(title) <own-title>] + landscape(context {
   let t = TH.get()
   set align(left + top)
   [#metadata(title) <section-title>]
@@ -335,6 +343,7 @@
       text(font: t.head-font, weight: "bold", size: 14pt, fill: t.head, title)
       v(-4pt); rule(t, width: 60mm); v(1.5mm)
       text(size: 8.5pt)[#text(font: t.label-font, weight: "bold", fill: t.accent, "Use this to ") find what two things share, and what makes each one different. Write each fact in the right part.]
+      if MODE.get() == "sheet" { v(2mm); name-line() }
     }))
     // bottom right: so what?
     place(top + left, dx: W - 76mm, dy: H - 33mm, block(width: 76mm, height: 33mm, stroke: t.box-stroke, radius: t.radius, inset: 6pt, fill: white, {

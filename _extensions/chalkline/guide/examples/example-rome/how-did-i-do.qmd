@@ -1,0 +1,30 @@
+---
+title: "How Did I Do? 自我评价"
+type: checklist
+description: "The unit's self-check: colour a circle for each 'I can' at the start of the unit, and again at the end; then what was most interesting, and what is still hard."
+order: 29
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Self-check (a unit)" uses="the start and end of a unit; before a test; student-led conferences" pieces="subunit, self-check, work-space"}
+:::
+
+::: {.subunit number="B.7" title="Review"}
+:::
+
+Colour a circle at the start of the unit, and again at the end.
+
+::: self-check
+- explain why Rome built roads and aqueducts
+- use the 12 key words in a sentence
+- find information in a reading by paragraph
+- solve one-step and two-step equations
+- name and draw acute, right, obtuse and straight angles
+- put events from Roman history in order on a timeline
+:::
+
+::: {.work-space height="fill" style="lines" label="What was the most interesting thing you learned? What is still hard?"}
+:::

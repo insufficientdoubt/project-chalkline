@@ -726,10 +726,13 @@ return {
     end
   end,
 
-  ["blank"] = function(args)
+  -- {{< blank 2in answer="4" >}}: a line to write on; answer= is written in, in the teacher edition (the kit's key)
+  ["blank"] = function(args, kwargs)
     local width = str(args[1], "1.5in")
+    local answer = kwargs and str(kwargs["answer"], nil)
     if quarto.doc.is_format("typst") then
-      return pandoc.RawInline("typst", "#blank(" .. width .. ")")
+      local key = answer and ("#kit.key-here(dy: -0.75em, dx: 1mm, size: 12pt)[" .. answer .. "]") or ""
+      return pandoc.RawInline("typst", key .. "#blank(" .. width .. ")")
     elseif quarto.doc.is_format("html") then
       return pandoc.RawInline("html", '<span class="blank" style="width: ' .. html_escape(width) .. '"></span>')
     end

@@ -1,0 +1,47 @@
+---
+title: "Thinking Tools 思维工具"
+type: worksheet
+description: "Four graphic organizers about Roman engineering, a page each: causes and effects, a process in six steps, a concept web, and main idea and details."
+order: 28
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Graphic organizers" uses="history: why an event happened and what followed; a process or cycle; brainstorming before writing; finding the main idea of a text" pieces="cause-effect, flow, web, temple"}
+:::
+
+Why did Rome build {{< vocab "aqueduct" text="aqueducts" zh=true >}}? What happened because of them?
+
+::: {.cause-effect event="Rome builds aqueducts" cause-example="The city grew to a million people." effect-example="Public fountains on every street."}
+Which effect was the most important for ordinary people? Explain with "because".
+:::
+
+{{< pagebreak >}}
+
+## A process: water for a city
+
+From the spring in the hills to a fountain in Rome, in six steps.
+
+::: {.flow example="Find a spring high in the hills."}
+Which step was the hardest for the engineers? Why?
+:::
+
+{{< pagebreak >}}
+
+## Concept web: Roman engineering
+
+Six groups. Add two details to each, from the readings.
+
+::: {.web topic="Roman engineering" branches="roads, water, buildings, tools, people, problems" example="Via Appia"}
+:::
+
+{{< pagebreak >}}
+
+## Main idea and details
+
+Use the reading "Roads that held an empire".
+
+::: {.temple main-example="Roads held the empire together." detail-example="Soldiers could march 30 km a day."}
+:::

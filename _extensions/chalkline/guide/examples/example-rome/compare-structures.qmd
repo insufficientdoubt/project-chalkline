@@ -1,0 +1,17 @@
+---
+title: "Compare: Roman Structures 比较罗马建筑"
+type: worksheet
+description: "A chart to fill in on a landscape page: four Roman structures, what each is for, what it's made of, how it works, where to see one today, and a sketch."
+order: 20
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Landscape compare chart" uses="comparing several things on several features; a data table to fill in; a research grid; a timeline of several people" pieces="compare-chart"}
+:::
+
+::: {.compare-chart title="Compare: Roman structures" first="Structure" rows="Road, Aqueduct, Arch bridge, Arena" columns="What is it for?, What is it made of?, How does it work?, Where can you see one today?, Sketch"}
+Use the readings. Write short notes in each box, then sketch each structure in the last column.
+:::

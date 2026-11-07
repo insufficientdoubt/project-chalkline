@@ -16,20 +16,20 @@ For the pages of a unit packet (A3, folded), see **Packet Templates**: about 30 
 ## Worksheet: Angle Hunt
 
 **Use it for:** the lesson's main task: find, draw and name, then one sentence with a frame · any "find it in the room" task · a lab record sheet.
-**Pieces:** `{{</* blank */>}}` (a line to write on), `{{</* drawing-box */>}}`, `{{</* lines */>}}`, a frame. **File:** `course/guide/02-chalkline/angle-hunt.qmd` (copy it from Chalkline's `guide/angle-hunt.qmd`).
+**Pieces:** a word bank in a `.panel`, `.work-space` boxes (dotted) in a `side-by-side` row, `{{</* blank */>}}` lines, and a `.recall` frame with its example answer for the teacher edition. **File:** `course/guide/02-chalkline/samples/angle-hunt.qmd` (copy it from Chalkline's `guide/samples/angle-hunt.qmd`).
 
-{{< pdf-viewer "angle-hunt.pdf" layout="gallery" title="Angle Hunt" >}}
+{{< pdf-viewer "samples/angle-hunt.pdf" layout="gallery" title="Angle Hunt" >}}
 
 ## Handout: Thinker Card
 
 **Use it for:** a card students fill in about a person, a place or a thing · a museum card · a character profile.
-**Pieces:** headed sections, blanks, a drawing box, a frame to say to a partner. **File:** `guide/example-handout.qmd`.
+**Pieces:** a `.panel` to choose from, `{{</* blank */>}}` lines, `.work-space` boxes (lines; blank for the drawing), and a `.recall` frame to say to a partner. **File:** `guide/samples/example-handout.qmd`.
 
-{{< pdf-viewer "example-handout.pdf" layout="gallery" title="Thinker Card" >}}
+{{< pdf-viewer "samples/example-handout.pdf" layout="gallery" title="Thinker Card" >}}
 
 ## Checklist: Self-Check
 
 **Use it for:** the packet page students do before they leave: rate each "I can" with stars, show it, write one sentence · a self-assessment before a test · peer feedback.
-**Pieces:** a table of "I can" lines with stars, a drawing box, a frame; teacher look-fors in a teacher-only block. **File:** `guide/self-check.qmd`.
+**Pieces:** `::: {.self-check lesson="true"}` (a list of "I can" lines, four stars each; leave out `lesson` for a unit's check, 1 2 3 at the start and the end), a `.work-space`, a `.recall` frame; teacher look-fors in a teacher-only block. **File:** `guide/samples/self-check.qmd`.
 
-{{< pdf-viewer "self-check.pdf" layout="gallery" title="Self-Check" >}}
+{{< pdf-viewer "samples/self-check.pdf" layout="gallery" title="Self-Check" >}}

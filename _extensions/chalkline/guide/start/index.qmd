@@ -1,0 +1,21 @@
+---
+title: "Getting Started"
+short-title: "Getting started"
+order: 1
+audience: [teacher]
+format: html
+description: "New to Chalkline? A one-page quick start, from an empty computer to your own course, and a ten-minute tour of what Chalkline does."
+listing:
+  contents: "*.qmd"
+  type: table
+  fields: [title, type, description]
+  field-display-names:
+    type: Type
+  sort: "order"
+  filter-ui: false
+  sort-ui: false
+---
+
+New to Chalkline? Read the **Quick Start** to set up your course, then take the **tour**: every feature chip in it opens a working example.
+
+**Getting new features:** run `python chalkline.py update` (or VS Code: **Terminal › Run Task… › Update Chalkline**). It updates Chalkline's files only; your lessons stay as they are. Commit your work first.

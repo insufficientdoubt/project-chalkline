@@ -16,6 +16,144 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-08: The main site starts empty; Start Here moves into the guide; slide-style experiment retired
+- **Asked for:** "yes [retire the slide-style experiment]. And the main site should have nothing in it now. We should only have pages in the guide."
+- **Why:** everything to learn from and copy is in the guide; the course itself should look like a new teacher's course.
+- **Changed:** the Start Here unit's tour deck and Quick Start moved to the guide (`guide/start/`, a new Getting started folder, starred in the sidebar and linked from the front page); the rest of Start Here, the sample's words, language points, word pictures, vocab-app settings, links and events moved to `archive/`. The slide-style experiment (its deck, `slide-style/`, the toolbox's style tool) moved to `archive/slide-style/`, and its lines came out of `_extension.yml`, `filter.lua`, `toolbox.js` and the extension README. `scripts/catalog.py`: a course with no `course/units/` folder builds. `scripts/catalog.py`, `scripts/season.py`: an empty `events:` list no longer shows "overview: 'NoneType' object is not iterable" (every new course had this). `scripts/setup.py`: a word or language list that's only a header gets the starter's words with the starter unit (a cloned course has those files, empty). README and vocab/README: the empty course, the guide, clone or template. Tested: student and teacher builds with no units; a fresh copy's first setup and build (starter unit, four words, packet).
+- **Who it helps:** every Chalkline course (the setup, catalog and events fixes); this repository (an empty starting course).
+- **AI assistant:** Claude.
+
+## 2026-11-08: Slide kit retired; pictures on the guide's front page; getting started and updating
+- **Asked for:** "Are we still using the slide kit deck? Does it need a clean up? Add photos to the landing page. And the getting started with the current instructions for how to get started. Cloning the repo should work for starting your own instance and then you can regularly update the extension to get new features... Check if the instructions need to be updated."
+- **Why:** the Slide kit duplicated the Template Library; the front page was text only; the setup steps described an older sample, and nothing said how to get new versions of Chalkline.
+- **Changed:** `guide/slide-kit-slides.qmd` moved to `archive/guide/` (the Template Library has all of it); its mentions updated (CLAUDE.md's credits-slide example now points to the Template Library, the decks' speaker notes, the guide README, the samples). `guide/images/landing/` (new): five pictures of Chalkline's own slides and pages, on the front page's cards, with a picture credit. New `scripts/update.py` (`python chalkline.py update`, `--check`, `--from`, `--force`) and a VS Code task, Update Chalkline: replaces the extension folder in place, wherever the course keeps it, plus `chalkline.py`, the launchers and `requirements.txt`; stops if Chalkline's files have uncommitted changes; warns about a second copy; lists what's new from CHANGELOG.md. Tested in a fresh clone: `quarto update` there installs a second copy (`_extensions/insufficientdoubt/chalkline/`), so the README says not to use it. README: "Get your own course" (clone, or `quarto use template`), "Keep Chalkline up to date", and how to move a clone to your own GitHub repository. Quick Start and Start Here: the update step. CHANGELOG.md: entries for this round, with the breaking change.
+- **Who it helps:** every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-08: The guide gets a front page; example units in their own folder; key pages stand out
+- **Asked for:** "on the sidebar on the main site - put the example units in a different folder. And emphasize the key template pages somehow. Maybe we just need a landing page and the guide section that covers what's in there."
+- **Why:** the guide's sidebar was one long list: the key template pages, the example units and the small sample printables all looked alike.
+- **Changed:** `guide/examples/` (new): the three example units, with an Example units page; their titles lose "Example Unit:". `guide/samples/` (new): Angle Hunt, Thinker Card, Self-Check and the practice page, with a Sample printables page; the decks' galleries and the guide pages point there. `guide/index.qmd`: a front page with cards for the five key pages (Template Library, Printable templates, Packet templates, Example units, Exemplar lesson), the rest of the guide, and making a lesson step by step. `styles/styles.scss`: those pages are bold, in the accent colour, with a small star in the sidebar; the front page's cards. `scripts/catalog.py`, `scripts/packet_kit.py`: the examples' new folder. Start Here deck, README: the new paths.
+- **Who it helps:** probably every Chalkline course (every teacher site has the guide).
+- **AI assistant:** Claude.
+
+## 2026-11-08: The new templates brought up to the course's standards
+- **Asked for:** "Make sure that the new templates are up to our new design and quality standards."
+- **Why:** the example units are what teachers copy, so they must follow the rules in CLAUDE.md and look right on paper.
+- **Changed:** example pages (guide/example-rome, example-mesopotamia, and Angle Hunt, Thinker Card, Self-Check): no 中文 on the Mesopotamia test pages (also removed from the kit's test heading in `typst/packet/history.typ`); sentence frames come from the language list (`guide/data/frames.csv`: GD-FRM-046 to 051, used with `{{< frames >}}`) instead of being typed on the page; key words glossed with 中文 on the Rome and Mesopotamia pages; long sentences in the readings split for learners; Roman Numerals and the paragraph task fill their pages; readable picture descriptions in example-rome/images/CREDITS.md. `scripts/packets.py`: the back cover lists every outside picture the packet uses (from each folder's images/CREDITS.md), not only the cover. `kit-blocks.lua`: pictures in a reading-page box have a plain caption (no "Figure 1"); Frayer models aren't wrapped, so two share a page again.
+- **Who it helps:** every Chalkline course (the examples, the credits and the fixes in the blocks).
+- **AI assistant:** Claude.
+
+## 2026-11-07: The Rome sample as .qmd pages; reading, word and timeline blocks; Typst samples retired
+- **Asked for:** "Convert the Mesopotamia and Rome packet samples to .qmd" (packet rebuild plan, step 7).
+- **Why:** packet pages should be written as .qmd, so teachers can copy and change them; one way to write pages, not two.
+- **Changed:** `guide/example-rome/`: thirteen new pages from the old Typst sample (overview, feature spread, glossed reading, key words, language, word hunt, Colosseum KWL and reading, compare chart, equations, angles and bridge spread, timeline spread, Frayer models, thinking tools, self-check), so its packet (36 pages) shows every kind of page; one theme for the unit (`_metadata.yml`), and Trail and Blueprint copies. `guide/packet/rome.typ`, `pages/` and `sheets/` removed; `scripts/packet_kit.py` now builds only the printer check and the page list. `kit-blocks.lua`: new blocks `glossed-reading` (wide margins, ¶ numbers, `[word]{.gloss}` spans), `feature-spread` (with `pull-quote`, `{.col-picture}` pictures, `reflect` boxes, `[…]{.lead-in}`), `reading-page`, `vocab-page` and `language-page` (words and points from Chalkline's merged lists, so the guide's words work too), `compare-chart`, `card-grid` (angle and line drawings), `event-cards`, `timeline`; `frayer` takes `word=`. `typst/packet/kit.typ`: pictures as content or paths (event cards, feature panorama, column pictures), `vocab-page(rows:)`, `language-page(rows:)`, `pn`, `line-pic`, `card-grid`, `compare-chart`; word cards a little shorter (12 fit a page); a chapter that opens with a spread turns to the left-hand page before its title, and the page left behind gets Notes lines. `organizers.typ`: `frayer(zh:)`. On the web: word and language pages as lists (with 中文), reference and event cards as lists, the compare chart in the PDF viewer, a glossed reading and a feature as ordinary text and pictures. `filter.lua`: the spread marker per chapter; the flag for packet or loose sheet; the gloss spans. `scripts/catalog.py`, `scripts/packets.py`: `packet-themes:` builds copies of a unit's packet in other themes. The guide's Packet templates page and the kit README: the examples instead of the samples.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-07: The Mesopotamia sample as .qmd pages; history and assessment blocks
+- **Asked for:** "Convert the Mesopotamia and Rome packet samples to .qmd" (packet rebuild plan, step 7).
+- **Why:** packet pages should be written as .qmd, not Typst, so teachers can copy and change them.
+- **Changed:** new guide example `guide/example-mesopotamia/` (six pages, its pictures and credits, `_metadata.yml` for its theme); `guide/packet/mesopotamia.typ` removed. `kit-blocks.lua`: new blocks `source-card` (the picture as an ordinary image, cropped, with numbered markers; glance, look-closely, context, quote, citation inside), `test-head`, `short-answer` (`[2]` marks, `[2/1]` marks and lines), `rubric`, `command-term`, `paragraph-chain`, `writing-lines`, `design-artifact`, `subunit`; on the web, a source card or design page shows its PDF in the viewer. `typst/packet/history.typ`: `crop-content` (a crop of a placed image), and own-title markers on the source card, investigation, design page and test. `filter.lua`: a page that opens with any of those gets no separate title; on a loose sheet a `::: spread` at the top is dropped. `scripts/catalog.py`, `scripts/packets.py`: `packet-theme:` in a unit's `index.qmd` sets its packet's theme; a chapter's packet page skips the blank page before a spread. `scripts/packet_kit.py`: the guide's list of packet pages also reads the example units' page notes. Guide's Packet templates page: the new blocks and the Mesopotamia example.
+- **Who it helps:** probably every Chalkline course (history and assessment pages).
+- **AI assistant:** Claude.
+
+## 2026-11-07: Breaking change: the packet kit is the only PDF layout (note)
+- **Asked for:** "Note the breaking change in `TOOL-CHANGES.md` and the README" (packet rebuild plan, step 8).
+- **Why:** courses made with an older Chalkline will see their printables change.
+- **Changed:** README: the printables section says every PDF is laid out by the packet kit, and what no longer works (`layout: playful`, `playful-theme:`, `doc-type:`, `name-box:`); posters keep their layout. `templates/worksheet.qmd` (what `chalkline.py new worksheet` copies) and the starter unit's `classroom-words.qmd` now use the packet blocks (panel, recall with answers, work space).
+- **Who it helps:** every Chalkline course that updates.
+- **AI assistant:** Claude.
+
+## 2026-11-07: The guide's printables redone with the packet blocks; a self-check block
+- **Asked for:** "redo the guide printables" with the kit (packet rebuild plan, step 7).
+- **Why:** the old worksheet layout is retired; the guide's own examples should show the new way.
+- **Changed:** `guide/angle-hunt.qmd`, `guide/example-handout.qmd` (Thinker Card), `guide/self-check.qmd`: rewritten with panels, work spaces, recall frames (example answers in the teacher edition) and page notes. `kit-blocks.lua`: new `::: self-check` block. `typst/packet/kit.typ`: `self-check(lesson: true)`, four stars to colour per line (drawn, so they print in any font). `guide/images/page-self-check.png`: the new page. The Printable templates and Packet templates guide pages: their pieces.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-07: Full-page organizers on the web, and as landscape loose sheets
+- **Asked for:** "Web versions: simple pages as HTML; layout-heavy pages point to the PDF" (packet rebuild plan, step 4).
+- **Why:** a Venn or KWL can't be laid out as a web page, but students still need it.
+- **Changed:** `kit-blocks.lua`: on the web, a Venn or KWL page shows its own PDF in the PDF viewer (the student copy on the teacher site), with the pens, so students can write on it or print it; other paper-only organizers link to the PDF. `typst/packet/kit.typ`: `landscape()` makes a real landscape page on a loose sheet, so it shows the right way up on screen and ink lands in the right place; in the packet it is still turned on a portrait page.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-07: A heading's instructions stay with the task in PDFs
+- **Asked for:** fix the heading and its instruction line being left at the foot of a page (a known issue from the packet rebuild).
+- **Why:** a heading alone at the bottom of a page, with its task on the next, confuses students.
+- **Changed:** `filter.lua` (PDF only): a short paragraph (under 400 characters) right after a heading is put in a sticky block, so it moves to the next page with what follows, as the heading already did.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-07: Packet covers: a cover picture, the school logo, credits on the back
+- **Asked for:** the packet title page's "hero" picture and teacher name (packet rebuild plan, step 3).
+- **Why:** not given; the title page had placeholders.
+- **Changed:** `scripts/catalog.py`: a unit's `index.qmd` can set `packet-hero:` (a picture in the unit folder) and `packet-hero-credit:`. `scripts/packets.py`: passes them, and the brand's large logo, to the title page. `typst/packet/kit.typ`: `title-page(logo:)`; the back cover shows the logo too, and lists credits added with `kit.credit[…]`. Guide's Packet templates page and the Rome example: use them.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-07: "Goes with packet page …" on loose sheets
+- **Asked for:** loose sheets "with 'Goes with packet page' filled in" (packet rebuild plan, step 3).
+- **Why:** a sheet printed on its own should show where it belongs in the unit packet.
+- **Changed:** `scripts/packets.py`: after the packets are built, reads where each printable starts from the packet PDF's chapter bookmarks and saves it in `generated/packet-pages.json`; the student copies are now made after the packets (not alongside), so theirs is up to date. `filter.lua`: a printable's PDF looks itself up there and sets `goes-with`; `typst-show.typ` passes it to `kit.worksheet`'s footer. `kit.typ`: a packet chapter that opens with a Venn or KWL keeps its page break, so its bookmark points at the right page. Guide's Packet templates page: says how it works.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-06: Example unit: Ancient Rome (packet rebuild, step 5)
+- **Asked for:** "copy those into the guide as examples and clean them up and rewrite them using the new templates for both slides and printables … you can include any interesting slides from the Greek one in the rome one."
+- **Why:** the old demo units will be archived; the guide keeps one maths and one history unit as finished examples to copy.
+- **Changed:** `_extensions/chalkline/guide/example-rome/`: the four Rome decks (the Greek unit's Athens democracy, temples and columns slides added as "Rome's Greek roots"), and four printables written with the kit blocks (Republic or Empire?, Roman Numerals, Design Challenge: aqueduct, Compare Athens and Rome Venn), built as the unit's packet. `kit-blocks.lua`: each block's PDF output is wrapped in its own block (so side-by-side keeps a panel in one cell), except the Venn, KWL, spread and page-about, which start a page. `filter.lua` + `typst-show.typ`: a printable that opens with a full-page Venn or KWL gets no separate title page. `organizers.typ`: those pages carry an `<own-title>` marker and, on a loose sheet, a Name / Class line. `kit.typ`: in a packet, a chapter opening with such a page skips its chapter title (it would have sat alone on a page).
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-06: The packet rebuild (on a branch): the Angles example unit in the guide; more blocks
+- **Asked for:** "copy those [the math unit and one Greco-Roman unit] into the guide as examples and clean them up and rewrite them using the new templates for both slides and printables."
+- **Why:** the demo units are being archived; the guide keeps finished units to copy from.
+- **Changed:**
+  - New `guide/example-angles/`, copied from Unit 5 (the deck, the angle explorer, pictures, the interactive embed). The worksheet and homework are rewritten with the kit's blocks: answers next to their questions, `page-about` notes, and the guide's own words and language points (`GD-` ids), so it works in any course.
+  - `guide/index.qmd` lists the example units.
+  - `scripts/catalog.py`: `packet_for()` (shared), `load_example_packets()`.
+  - `scripts/packets.py`: the teacher site builds a packet and a teacher edition for each example unit; they're not in the year packet.
+  - `kit-blocks.lua`:
+    - new blocks `picture-answers`, `true-false`, `panel`;
+    - the PDF calls now keep their words as pandoc content, so shortcodes inside them (`{{< vocab >}}`) still work. Before, they were turned into Typst text too early and the words went missing.
+  - `typst/packet/kit.typ`: `picture-answers`, `true-false`.
+  - `shortcodes.lua`: `{{< blank answer="…" >}}` writes the answer in, in the teacher edition.
+  - The year packet's contents point to each unit's divider page.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-06: The packet rebuild, step 3 (on a branch): unit and year packets are kit booklets
+- **Asked for:** the plan in `IDEAS.md` (step 3: "`packets.py` builds each unit's booklet with the kit").
+- **Why:** packets printed on A3 and folded, in the same design as the pages.
+- **Changed:**
+  - `typst/typst-show.typ`: a book with `packet-booklet: true` is laid out by the new `kit.booklet`. Each printable (a chapter's level-1 heading) starts on a new page with its themed title; the book ends with Notes pages and the back cover, to a multiple of 4.
+  - `scripts/packets.py`:
+    - `book_config` sets `packet-booklet` and the running header;
+    - the first chapter (`cover`) is now the kit's title page, the contents (built from the pages), the objectives and the unit marker;
+    - the year packet's units get a divider page and a line in the contents;
+    - `vocab/` is copied into the build (the kit's word pages read it).
+  - `kit-blocks.lua`: `::: spread` starts a printable on a left-hand page.
+  - `guide/packet-templates.qmd`: how unit packets are built now.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
+## 2026-11-06: The packet rebuild, steps 1–2 (on a branch): the kit lays out every printable, and its pieces are .qmd blocks
+- **Asked for:** "merge ideas and then just start working on the work and we'll see how far it gets" (the plan in `IDEAS.md`, "Packet templates: next steps"; breaking backwards compatibility is fine).
+- **Why:** one layout for every printable, and packet pages written in `.qmd` like everything else.
+- **Changed:**
+  - `typst/typst-show.typ`: every printable's PDF is laid out by the kit (`kit.worksheet`): the theme from `packet-theme:` (default `sky`), Name / Class / Date, the title, page numbers, and the teacher edition when the page has `edition:` (the teacher site). Posters (`layout: poster`) keep the older layout.
+  - `layout: playful` is retired: those pages now come out in the kit's layout. **This is a breaking change.**
+  - `typst/typst-template.typ` imports the kit as `kit`, `org`, `hist`. The older helpers (`drawing-box`, `answer-lines`, `blank`…) still work.
+  - `filter.lua` gives the template the kit's path (`chalkline-kit`), and passes printables' blocks to the new `kit-blocks.lua`.
+  - `kit-blocks.lua`: `vocab-hunt`, `recall`, `sequence`, `problems`, `work-space`, `side-by-side`, `kwl`, `venn`, `frayer`, `cause-effect`, `flow`, `web`, `temple`, `investigation`, `page-about`. In a list, `|` separates the parts; answers print only in the teacher edition. On the web: the words without the answers, and a note for diagrams.
+  - `typst/packet/kit.typ`: the edition is a state (Quarto can set it); `worksheet()` prints the title, styles `##` headings in the theme (kept with what follows), and drops the logo Quarto adds as a page background; `sequence` tables stay in one piece.
+  - New guide printable `guide/roads-practice.qmd`, written with the blocks.
+  - `guide/packet-templates.qmd`: a "Write packet pages in .qmd" section with the blocks.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-06: The packet kit moves into Chalkline: a Packet Templates page in the guide
 - **Asked for:** "Okay I'm sold. Put the remaining worksheets on the ideas list and implement what we have already into chalk line. It goes in the guide. If you can have hidden metadata on the pages - make sure they're annotated with potential uses."
 - **Why:** to settle the packet design before teachers start writing packets.
