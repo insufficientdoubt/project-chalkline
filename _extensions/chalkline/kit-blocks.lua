@@ -609,11 +609,11 @@ end
 
 -- ---------------------------------------------------------------- the web: words, without the answers
 local SHOWN_PDF = false
-local PRINT_ONLY = { ["source-card"] = true, ["design-artifact"] = true, kwl = true, venn = true, frayer = true, ["cause-effect"] = true, flow = true, web = true, temple = true,
+local PRINT_ONLY = { ["compare-chart"] = true, ["source-card"] = true, ["design-artifact"] = true, kwl = true, venn = true, frayer = true, ["cause-effect"] = true, flow = true, web = true, temple = true,
   ["work-space"] = true, investigation = true }
 local NAMES = { kwl = "KWL chart", venn = "Venn diagram", frayer = "Frayer model", ["cause-effect"] = "causes and effects",
   flow = "process flow", web = "concept web", temple = "main idea and details", ["work-space"] = "space to write or draw",
-  investigation = "source investigation", ["source-card"] = "source card", ["design-artifact"] = "design challenge" }
+  investigation = "source investigation", ["source-card"] = "source card", ["design-artifact"] = "design challenge", ["compare-chart"] = "chart to fill in" }
 -- The PDF viewer (pdf-viewer/), for a page's own PDF: the same markup as {{< pdf-viewer >}}, which tries the
 -- student copy first (on the teacher site) and has pens to write on the page.
 local function pdf_viewer(file, title)
@@ -649,7 +649,33 @@ local function web(el, cls)
     for _, p in ipairs(items(el)) do cells:insert(pandoc.Div({ pandoc.Plain(p[1]) }, pandoc.Attr("", { "kit-pic" }))) end
     return { pandoc.Div(cells, pandoc.Attr("", { "kit-block", "kit-picture-answers" }, { style = "display:grid; grid-template-columns: repeat(" .. (tonumber(el.attributes.cols) or 3) .. ", 1fr); gap: 1rem" })) }
   end   -- the blocks inside show one after another
-  if cls == "subunit" or cls == "writing-lines" then return {} end
+  if cls == "subunit" or cls == "writing-lines" or cls == "timeline" then return {} end
+  if cls == "vocab-page" then   -- the words: word, 中文, meaning
+    local list = {}
+    for _, w in ipairs(csv(el.attributes.words)) do
+      local t = term(w)
+      if t then table.insert(list, { pandoc.Plain({ pandoc.Strong({ pandoc.Str(t.term) }), pandoc.Space(), pandoc.Str(t.zh or ""),
+        pandoc.Str(": " .. (t.definition or "")) }) }) end
+    end
+    return { pandoc.Div({ pandoc.BulletList(list) }, pandoc.Attr("", { "kit-block", "kit-vocab-page" })) }
+  end
+  if cls == "language-page" then   -- the points, with 中文
+    local list = {}
+    for _, id in ipairs(csv(el.attributes.ids)) do
+      local f = frame(id)
+      if f then table.insert(list, { pandoc.Plain({ pandoc.Strong({ pandoc.Str(f.en) }), pandoc.LineBreak(), pandoc.Str(f.zh or "") }) }) end
+    end
+    return { pandoc.Div({ pandoc.BulletList(list) }, pandoc.Attr("", { "kit-block", "kit-language-page" })) }
+  end
+  if cls == "card-grid" or cls == "event-cards" then   -- each card: its title (or letter) and its words
+    local list = {}
+    for _, p in ipairs(items(el)) do
+      local words = cls == "card-grid" and (p[3] or {}) or (p[2] or {})
+      local inl = pandoc.List({ pandoc.Strong(p[1]), pandoc.Str(": ") }); inl:extend(words)
+      table.insert(list, { pandoc.Plain(inl) })
+    end
+    return { pandoc.Div({ pandoc.BulletList(list) }, pandoc.Attr("", { "kit-block" })) }
+  end
   if cls == "test-head" then
     local out = pandoc.List({ pandoc.Para({ pandoc.Strong({ pandoc.Str(el.attributes.title or "") }), pandoc.Space(),
       pandoc.Str("(" .. (el.attributes.total or "25") .. " marks)") }) })
@@ -683,7 +709,7 @@ local function web(el, cls)
   if PRINT_ONLY[cls] then
     -- the page's own PDF (made by the same render; on the teacher site, its student copy)
     local pdf = quarto.doc.input_file and (pandoc.path.split_extension(pandoc.path.filename(quarto.doc.input_file)) .. ".pdf")
-    if pdf and (cls == "venn" or cls == "kwl" or cls == "source-card" or cls == "design-artifact") then
+    if pdf and (cls == "venn" or cls == "kwl" or cls == "source-card" or cls == "design-artifact" or cls == "compare-chart") then
       if SHOWN_PDF then return {} end   -- (once a page: the viewer shows all its pages)
       SHOWN_PDF = true
       -- a whole-page organizer: the page itself, in the PDF viewer, with pens to write on it
