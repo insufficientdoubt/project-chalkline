@@ -1,10 +1,10 @@
 ---
-title: "Chalkline"
+title: "Chalkline in Ten Minutes"
 subtitle: "Write it once. Teach it everywhere. · 一次编写，处处可用"
 type: slides
-description: "What Chalkline makes for you from one file, the classroom tools in every deck, and how to start your own unit."
-order: 1
-audience: [teacher]   # its tour links into "How to use Chalkline", which only the teacher site has
+description: "A tour: what Chalkline makes for you from one file, the classroom tools in every deck, and how to start your own unit. Every feature chip opens a working example."
+order: 2
+audience: [teacher]
 format: revealjs
 resources:
   - odyssey/*   # the interactive story map
@@ -235,28 +235,28 @@ The code lives in this unit's `odyssey/` folder. To make your own, describe what
 ::: {.cat-box .cat-games}
 [Review games]{.cat-head} [8]{.cat-n}
 
-[Snowman](../../guide/02-chalkline/templates-slides.html#/snowman){.chip} [Word scramble](../../guide/02-chalkline/templates-slides.html#/scramble){.chip} [Picture reveal](../../guide/02-chalkline/templates-slides.html#/picture-reveal){.chip} [Matching](../../guide/02-chalkline/templates-slides.html#/matching-pictures){.chip} [Memory](../../guide/02-chalkline/templates-slides.html#/memory){.chip} [Jeopardy, with teams](../../guide/02-chalkline/templates-slides.html#/review-jeopardy){.chip} [Word Blitz](../../guide/02-chalkline/templates-slides.html#/blitz){.chip} [Bingo, printed cards](../../guide/02-chalkline/templates-slides.html#/bingo){.chip}
+[Snowman](../templates-slides.html#/snowman){.chip} [Word scramble](../templates-slides.html#/scramble){.chip} [Picture reveal](../templates-slides.html#/picture-reveal){.chip} [Matching](../templates-slides.html#/matching-pictures){.chip} [Memory](../templates-slides.html#/memory){.chip} [Jeopardy, with teams](../templates-slides.html#/review-jeopardy){.chip} [Word Blitz](../templates-slides.html#/blitz){.chip} [Bingo, printed cards](../templates-slides.html#/bingo){.chip}
 
-[**Review games page:** any game, any unit](../../review-games.html){.chip .chip-wide}
+[**Review games page:** any game, any unit](../../../review-games.html){.chip .chip-wide}
 :::
 
 ::: {.cat-box .cat-learn}
 [Learning activities]{.cat-head} [7]{.cat-n}
 
-[Label a photo](../../guide/02-chalkline/templates-slides.html#/label-photo){.chip} [Put it on the timeline](../../guide/02-chalkline/templates-slides.html#/timeline-activity){.chip} [Sort it, with reasons](../../guide/02-chalkline/templates-slides.html#/practice-sort){.chip} [Venn diagram](../../guide/02-chalkline/templates-slides.html#/venn){.chip} [Build the sentence](../../guide/02-chalkline/templates-slides.html#/sentence){.chip} [Fill in the blanks](../../guide/02-chalkline/templates-slides.html#/fill-blanks){.chip} [Put it in order](../../guide/02-chalkline/templates-slides.html#/strategies-order){.chip}
+[Label a photo](../templates-slides.html#/label-photo){.chip} [Put it on the timeline](../templates-slides.html#/timeline-activity){.chip} [Sort it, with reasons](../templates-slides.html#/practice-sort){.chip} [Venn diagram](../templates-slides.html#/venn){.chip} [Build the sentence](../templates-slides.html#/sentence){.chip} [Fill in the blanks](../templates-slides.html#/fill-blanks){.chip} [Put it in order](../templates-slides.html#/strategies-order){.chip}
 :::
 ::::
 
 ::: {.cat-box .cat-teach}
 [Teach with it]{.cat-head} [11]{.cat-n}
 
-[Timeline: tap to zoom in](../../guide/02-chalkline/templates-slides.html#/input-timeline){.chip} [Timeline across slides](../../guide/02-chalkline/templates-slides.html#/timeline-static){.chip} [Story map](#/slides-can-do-anything-a-web-page-can){.chip} [Diagram you can hover](../../guide/02-chalkline/templates-slides.html#/drawio){.chip} [Video in a slide](../../guide/02-chalkline/templates-slides.html#/video){.chip} [Step-by-step answers](../../guide/02-chalkline/templates-slides.html#/quiz-list){.chip} [Zoom and glide](../../guide/02-chalkline/templates-slides.html#/zoom){.chip} [Full-screen titles](../../guide/02-chalkline/templates-slides.html#/section){.chip} [Photos with captions](../../guide/02-chalkline/templates-slides.html#/input-picture){.chip} [Quick reference: every link on one slide](../../guide/02-chalkline/templates-slides.html#/quick-ref){.chip} [Speaker notes: press S]{.chip .chip-key}
+[Timeline: tap to zoom in](../templates-slides.html#/input-timeline){.chip} [Timeline across slides](../templates-slides.html#/timeline-static){.chip} [Story map](#/slides-can-do-anything-a-web-page-can){.chip} [Diagram you can hover](../templates-slides.html#/drawio){.chip} [Video in a slide](../templates-slides.html#/video){.chip} [Step-by-step answers](../templates-slides.html#/quiz-list){.chip} [Zoom and glide](../templates-slides.html#/zoom){.chip} [Full-screen titles](../templates-slides.html#/section){.chip} [Photos with captions](../templates-slides.html#/input-picture){.chip} [Quick reference: every link on one slide](../templates-slides.html#/quick-ref){.chip} [Speaker notes: press S]{.chip .chip-key}
 :::
 
 ::: {.cat-box .cat-board}
 [On the board]{.cat-head} [8]{.cat-n}
 
-[Tap-to-vote polls](../../guide/02-chalkline/templates-slides.html#/choice){.chip} [True or false checks](../../guide/02-chalkline/templates-slides.html#/quiz-list){.chip} [PDF gallery](../../guide/02-chalkline/templates-slides.html#/packet-page){.chip} [Write on a worksheet](../../guide/02-chalkline/templates-slides.html#/worksheet){.chip} [Download it with notes](../../guide/02-chalkline/templates-slides.html#/worksheet){.chip} [Chalkboard](../../guide/02-chalkline/templates-slides.html#/worksheet){.chip} [Vocab pop-ups, 中文, read aloud](../../guide/02-chalkline/templates-slides.html#/glossed){.chip} [Timers](../../guide/02-chalkline/templates-slides.html#/timers){.chip}
+[Tap-to-vote polls](../templates-slides.html#/choice){.chip} [True or false checks](../templates-slides.html#/quiz-list){.chip} [PDF gallery](../templates-slides.html#/packet-page){.chip} [Write on a worksheet](../templates-slides.html#/worksheet){.chip} [Download it with notes](../templates-slides.html#/worksheet){.chip} [Chalkboard](../templates-slides.html#/worksheet){.chip} [Vocab pop-ups, 中文, read aloud](../templates-slides.html#/glossed){.chip} [Timers](../templates-slides.html#/timers){.chip}
 :::
 
 ::: {.cat-box .cat-tools}
@@ -299,7 +299,7 @@ The code lives in this unit's `odyssey/` folder. To make your own, describe what
 ```
 
 ::: notes
-Every chip with a solid border opens a working example in another deck: press the browser's Back button to come back here. The toolbox tools (grey) are on every slide: press **W** to open them, right here. The newest are the review games, the learning activities (timelines, labelling, sorting with reasons, a Venn diagram, sentence building, fill in the blanks, putting things in order), and the toolbox. In a slide, a link to another deck is just `[text](../../guide/02-chalkline/templates-slides.html#/quiz-list)`.
+Every chip with a solid border opens a working example in another deck: press the browser's Back button to come back here. The toolbox tools (grey) are on every slide: press **W** to open them, right here. The newest are the review games, the learning activities (timelines, labelling, sorting with reasons, a Venn diagram, sentence building, fill in the blanks, putting things in order), and the toolbox. In a slide, a link to another deck is just `[text](../templates-slides.html#/quiz-list)`.
 :::
 
 ## And for STEM, printables and whole units {#more-features}
@@ -311,13 +311,13 @@ Every chip with a solid border opens a working example in another deck: press th
 ::: {.cat-box .cat-stem}
 [STEM you can move]{.cat-head} [4]{.cat-n}
 
-[Drag a triangle: angles add to 180°](../../guide/02-chalkline/templates-slides.html#/explorer){.chip} [GeoGebra graphs with sliders](../../guide/02-chalkline/templates-slides.html#/sliders){.chip} [Blocks that become Python](../../guide/02-chalkline/templates-slides.html#/blocks){.chip} [Turn an angle from acute to full](../../guide/02-chalkline/examples/example-angles/angle-explorer.html){.chip}
+[Drag a triangle: angles add to 180°](../templates-slides.html#/explorer){.chip} [GeoGebra graphs with sliders](../templates-slides.html#/sliders){.chip} [Blocks that become Python](../templates-slides.html#/blocks){.chip} [Turn an angle from acute to full](../examples/example-angles/angle-explorer.html){.chip}
 :::
 
 ::: {.cat-box .cat-print}
 [Printables and units]{.cat-head} [5]{.cat-n}
 
-[Printable templates](../../guide/02-chalkline/printables.html){.chip} [Packet pages](../../guide/02-chalkline/packet-templates.html){.chip} [A worksheet with its answers](../../guide/02-chalkline/examples/example-angles/turning-angles-worksheet.html){.chip} [Example unit: Angles (math)](../../guide/02-chalkline/examples/example-angles/index.html){.chip} [Example unit: Ancient Rome (history)](../../guide/02-chalkline/examples/example-rome/index.html){.chip}
+[Printable templates](../printables.html){.chip} [Packet pages](../packet-templates.html){.chip} [A worksheet with its answers](../examples/example-angles/turning-angles-worksheet.html){.chip} [Example unit: Angles (math)](../examples/example-angles/index.html){.chip} [Example unit: Ancient Rome (history)](../examples/example-rome/index.html){.chip}
 
 Every printable has a teacher copy with the answer key, and goes into its unit's packet.
 :::

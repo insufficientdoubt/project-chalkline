@@ -2,9 +2,8 @@
 title: "Chalkline Quick Start"
 type: reference
 description: "One page, from an empty computer to your own course: set up GitHub, install four programs, make a folder, run one command, double-click to start."
-order: 2
+order: 1
 audience: [teacher]
-doc-type: Quick start
 packet: false
 format:
   html: default

@@ -17,6 +17,7 @@ from extension import EXT, ROOT  # noqa: E402
 
 STARTER = EXT / "starter"
 UNIT_ONLY = ("course/units/", "course/vocab/")   # only for a course with no units yet
+EMPTY_OK = ("vocab/data/vocab.csv", "vocab/data/frames.csv")   # filled in when they're there but empty
 # A new course is a copy of the Chalkline sample's settings: the course's names become placeholders.
 # It keeps the school's (Mingwan's) name, logo and colors: every Chalkline course is at Mingwan for now.
 NEW_NAMES = {
@@ -49,7 +50,11 @@ def ensure(quiet=False):
     for src in sorted(STARTER.rglob("*")):
         rel = src.relative_to(STARTER).as_posix()
         dest = ROOT / rel
-        if src.is_dir() or dest.exists() or (rel.startswith(UNIT_ONLY) and not add_unit):
+        if src.is_dir() or (rel.startswith(UNIT_ONLY) and not add_unit):
+            continue
+        # an empty word or language list (only its header row) gets the starter's, with the starter unit
+        empty_list = add_unit and rel in EMPTY_OK and dest.exists() and len(dest.read_text(encoding="utf-8").strip().splitlines()) <= 1
+        if dest.exists() and not empty_list:
             continue
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dest)

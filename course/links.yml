@@ -1,37 +1,5 @@
 # Outside resources for the overview. They appear in the overview only, not on unit pages.
 # `source` is shown as a badge; anything that isn't "School" is treated as an outside source.
+# (The sample's links are in archive/units/links.yml.)
 
-- title: History vocab (English / 中文)
-  url: vocab/app/
-  type: vocab
-  source: School
-  audience: [teacher, student]
-  description: All 37 words from the three units, with pictures and Chinese.
-
-
-- title: Padlet
-  url: https://padlet.com
-  type: reference
-  unit: 00-start-here
-  source: Padlet
-  audience: [teacher]
-  description: An online wall students post to. You need an account to make one; students don't. Used on the Live boards demo slides.
-
-
-- title: Excalidraw
-  url: https://excalidraw.com
-  type: reference
-  unit: 00-start-here
-  source: Excalidraw
-  audience: [teacher]
-  description: A free, open-source whiteboard. Share a room link and the class draws together, no logins. Used on the Live boards demo slides.
-
-
-- title: WBO whiteboard
-  url: https://wbo.ophir.dev
-  type: reference
-  unit: 00-start-here
-  source: WBO
-  audience: [teacher]
-  description: A free, open-source shared whiteboard that stays live inside a slide. No logins. Used on the Live boards demo slides.
-
+[]

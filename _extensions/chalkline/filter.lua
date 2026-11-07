@@ -465,7 +465,6 @@ local function Meta(meta)
         { path = "toolbox/tools/music.js", afterBody = true },
         { path = "toolbox/tools/dice.js", afterBody = true },
         { path = "toolbox/tools/slide.js", afterBody = true },
-        { path = "toolbox/tools/style.js", afterBody = true },   -- Slide style: only in a deck with {.styled} slides, opened from their corner (not the menu)
         { path = "toolbox/tools/source.js", afterBody = true },
         { path = "toolbox/toolbox.js", afterBody = true },
       },

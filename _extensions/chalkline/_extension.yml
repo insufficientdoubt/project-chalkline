@@ -11,7 +11,6 @@ contributes:
     - path: video-shape.lua   # before shortcodes run: marks each video tall or wide
       at: pre-ast
     - filter.lua
-    - slide-style/slide-style.lua   # TO BE REMOVED (the first experiment, replaced by bilingual/ and styles/layout.scss)
     - bilingual/bilingual.lua       # [English | 中文]{.bi} anywhere: the two languages, and the switch on slides (see that file)
   # A course's _quarto.yml says `project: type: chalkline` to get these. Its own settings are merged
   # on top: lists (like a theme) add to these, so the course's own styles load after Chalkline's.

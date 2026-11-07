@@ -92,7 +92,8 @@ def formats_of(meta):
 def load_units():
     """One entry per unit folder, in folder order: id, number, title, description, objectives."""
     units = []
-    for folder in sorted((COURSE / "units").iterdir()):
+    units_dir = COURSE / "units"   # (a new course may have none yet)
+    for folder in sorted(units_dir.iterdir()) if units_dir.is_dir() else []:
         index = folder / "index.qmd"
         if not folder.is_dir() or not index.exists():
             continue
@@ -515,7 +516,7 @@ def markdown_season():
     import datetime
     season = yaml.safe_load((COURSE / "season.yml").read_text(encoding="utf-8"))
     today = datetime.date.today()
-    upcoming = [e for e in season.get("events", []) if e["date"] >= today]
+    upcoming = [e for e in (season.get("events") or []) if e["date"] >= today]
     # Optional keys: a course without teams or a game just leaves them out of season.yml.
     zh = f' <span class="ov-hero-zh">{escape(season["name_zh"])}</span>' if season.get("name_zh") else ""
     items = [i for i in built_catalog() if i["source"] == "School"]

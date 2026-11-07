@@ -62,7 +62,6 @@ extension (for example `_extensions/my-tools/`).
 | `bilingual/` | `[English \| 中文]{.bi}` anywhere (slides, pages, PDFs): the two languages, and the language switch on slides |
 | `styles/layout.scss` | The slide kit (an experiment): design tokens, `.tiles` `.chain` `.box` `.strip`, and text roles `.kicker` `.big` `.lead` `.pill` `.fine` |
 | `styles/schemes.scss`, `schemes.html` | Colour schemes from the brand colours (night, sky, lagoon, sunrise): `{.scheme-night}` on a slide, `slide-scheme: night` for a deck |
-| `slide-style/`, `toolbox/tools/style.js` | **To be removed:** the first slide-style experiment (`{.styled kind="..."}`), replaced by `bilingual/` and the slide kit |
 | `slide-wall/` | The All slides page (`{{< slide-wall >}}`): every deck as rows of slide pictures, taken by `scripts/slide_pictures.py` |
 | `templates/` | Starter files for `python chalkline.py new slides 2 "Title"` |
 | `starter/` | A new course's first unit, vocab list and course files, added by `python chalkline.py setup` |

@@ -21,7 +21,7 @@ def events_list(upcoming_only=False):
     """A bulleted list of events: date, name, kind."""
     today = datetime.date.today()
     lines = []
-    for e in season().get("events", []):
+    for e in (season().get("events") or []):
         if upcoming_only and e["date"] < today:
             continue
         lines.append(f"- **{e['date']:%b} {e['date'].day}, {e['date'].year}** · {e['name']} · {e.get('kind', '')}")
@@ -30,7 +30,7 @@ def events_list(upcoming_only=False):
 
 def next_event():
     today = datetime.date.today()
-    for e in season().get("events", []):
+    for e in (season().get("events") or []):
         if e["date"] >= today:
             return e
     return None

@@ -1,6 +1,8 @@
 # Chalkline sample course
 
-**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style. This is a **sample course** to try it with, and the start of your own: a slide deck about Chalkline itself, a 52-word bilingual vocab list, and, in the teacher site's **How to use Chalkline**, the Template Library (every tested slide layout, game and activity), the printable and packet templates, and three finished example units to copy (Grade 4 math: Angles; Grade 6 history: Ancient Rome, Mesopotamia).
+**Chalkline** turns plain-text lesson files into slides, web pages, printable PDFs, unit packets and two websites (a public student site, which families can use too, and a teacher site), all in your school's style.
+
+This repository is Chalkline and an **empty course** to start from. Everything to learn from and copy is in the teacher site's guide, **How to use Chalkline**: a Quick Start and a ten-minute tour, the Template Library (every tested slide layout, game and activity), the printable and packet templates, and three finished example units to copy (Grade 4 math: Angles; Grade 6 history: Ancient Rome, Mesopotamia). The first time you start your copy, it adds a starter unit for you to change.
 
 **See it online:** https://insufficientdoubt.github.io/project-chalkline/ (the teacher version, rebuilt on every push).
 
@@ -10,11 +12,10 @@
 
 | Part | Where | Look for |
 |---|---|---|
-| **Start here** | `course/units/00-start-here/` | A short slide deck: what Chalkline does and how to make your own unit |
-| **Example units** | `_extensions/chalkline/guide/examples/example-angles/`, `example-rome/` (on the teacher site: **How to use Chalkline**) | Two finished units to copy into `course/units/`: slides, printables written with the packet kit, and the unit packet (A3, folded), with a teacher edition |
-| **Template Library** | `_extensions/chalkline/guide/templates-slides.qmd` | Every tested slide layout, game and activity, to copy from |
-| **Archived units** | `archive/units/` | The older demo units (Ancient Greece, Ancient Rome, Göbekli Tepe, STEM Sampler, Angles). Not built; see `archive/README.md` |
-| **Vocab** | `vocab/` | 52 words with pictures, 中文 and simple definitions, in the vocab app (sidebar: **History vocab 词汇**) |
+| **Your course** | `course/units/` | Empty at first; the first start adds a starter unit (`01-first-unit`): one slide deck, one handout, four words |
+| **The guide** | `_extensions/chalkline/guide/` (on the teacher site: **Guide › How to use Chalkline**) | Getting started (Quick Start, tour), the Template Library, printable and packet templates, and three example units to copy into `course/units/` |
+| **Vocab** | `vocab/` | Your word list (`vocab/data/vocab.csv`) and language points (`frames.csv`), in the vocab app. Empty at first; the starter unit adds four words |
+| **Archive** | `archive/` | The old sample units, words and experiments. Not built; see `archive/README.md` |
 | **Appearance** | `brand/` | Colors, fonts and logos for everything |
 | **The look of the interactive parts** | `_extensions/chalkline/ui/ui.css` | One set of colors, corners, shadows, buttons, fields and menus for the classroom tools, games, vocab pop-ups, PDF viewer and quick reference. Change a value there and they all follow |
 | **Chalkline** | `_extensions/chalkline/`, `chalkline.py` | The tool itself. You don't need to touch these |
@@ -22,14 +23,11 @@
 
 Things to try once the site is open:
 
-- Hover or tap a word with a dotted line on any slide: its vocab card pops up.
-- Open **Guide → How to use Chalkline** (the guide's front page, teacher site), then **Example units → Ancient Rome**, and click the packet: every printable in one A3-folded booklet, ready to copy.
-- Open a slide deck and press **S** for speaker notes, **T** for the timer.
-- In a slide deck, press **W** (or the four-squares button, bottom left) for the classroom tools: name picker, groups, scoreboard, voice level with a noise meter, slide size, traffic light, QR code, stopwatch, dice, music, and the unit's vocab and packet. They float above the slides and stay put when you change slides.
-- In the overview, each deck has a **PDF** too.
-- **All slides** (sidebar): every unit's decks as rows of slide pictures. Click a slide to open its deck right there. Small, Medium and Large change the picture size. The pictures are made by a full build (they need Chrome or Edge, like the slide PDFs).
-- **Terminal > Run Task… > Open student site**: what students and families see, without the answer keys, speaker notes and teacher tools.
-- In *From Republic to Empire*, hover the boxes of the infographic: it was made in **draw.io** (`drawio/republic.drawio`), and any draw.io diagram can go in a slide the same way.
+- Open **Guide › How to use Chalkline**: the guide's front page, with the key pages as cards. **Getting started** has the Quick Start and the tour.
+- Open **Example units › Ancient Rome** and click the packet: every printable in one A3-folded booklet, ready to copy.
+- Open a slide deck and press **S** for speaker notes, **T** for the timer, **W** (or the four-squares button, bottom left) for the classroom tools: name picker, groups, scoreboard, voice level with a noise meter, slide size, traffic light, QR code, stopwatch, dice, music, and the unit's vocab and packet.
+- Hover or tap a word with a dotted line on a slide: its vocab card pops up.
+- **Terminal > Run Task… > Open student site**: what students and families see, without the answer keys, speaker notes, teacher tools and the guide.
 
 ## One-time setup
 
@@ -41,14 +39,14 @@ Things to try once the site is open:
    - [Google Chrome](https://www.google.com/chrome/) or Microsoft Edge (already on Windows), for slide PDFs
 
 2. **Get your own course onto your computer.** Two ways; both give you a course that's yours to change:
-   - **Clone this repository** (everything, ready to try): in VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), choose **Git: Clone**, paste `https://github.com/insufficientdoubt/project-chalkline`, pick a folder, then open it. You get the sample course: the Start Here deck, the vocab list, and the guide with its templates and example units. To make it yours: change `title:` and `school:` in `_quarto.yml`, copy an example unit into `course/units/` (see "Make your own unit"), and delete `course/units/00-start-here/` when you no longer need it.
-   - **Start an empty course** (no sample content): open a terminal in the folder where you keep your work and run
+   - **Clone this repository**: in VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), choose **Git: Clone**, paste `https://github.com/insufficientdoubt/project-chalkline`, pick a folder, then open it. The first time it starts, it adds a starter unit and names the course "My Course": change `title:` and `school:` in `_quarto.yml`, and copy an example unit into `course/units/` (see "Make your own unit"). Your copy also keeps Chalkline's history and planning notes (`archive/`, `*-PLAN.md`); delete them if you like.
+   - **Or use Quarto's template** (the same course, without Chalkline's history and planning notes): open a terminal in the folder where you keep your work and run
 
      ```bash
      quarto use template insufficientdoubt/project-chalkline
      ```
 
-     Answer **Yes** to "Do you trust the authors", **Yes** to "Create a subdirectory", and type a folder name (`my-course`). Quarto copies Chalkline and the course files, but none of this sample's units, vocab or pictures (`.quartoignore` lists what it leaves out). Open the new folder in VS Code. The first time it starts, it adds a starter unit: one slide deck, one handout and four vocab words (`python chalkline.py setup` does the same). Then change `title:` and `school:` in `_quarto.yml`.
+     Answer **Yes** to "Do you trust the authors", **Yes** to "Create a subdirectory", and type a folder name (`my-course`). Quarto copies Chalkline and the course files, but not its history, planning notes or archive (`.quartoignore` lists what it leaves out). Open the new folder in VS Code. The first time it starts, it adds a starter unit: one slide deck, one handout and four vocab words (`python chalkline.py setup` does the same). Then change `title:` and `school:` in `_quarto.yml`.
 
    Either way, the guide (**How to use Chalkline**, on your teacher site) comes with Chalkline, and updates with it.
 

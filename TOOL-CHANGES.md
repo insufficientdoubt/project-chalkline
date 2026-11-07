@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-08: The main site starts empty; Start Here moves into the guide; slide-style experiment retired
+- **Asked for:** "yes [retire the slide-style experiment]. And the main site should have nothing in it now. We should only have pages in the guide."
+- **Why:** everything to learn from and copy is in the guide; the course itself should look like a new teacher's course.
+- **Changed:** the Start Here unit's tour deck and Quick Start moved to the guide (`guide/start/`, a new Getting started folder, starred in the sidebar and linked from the front page); the rest of Start Here, the sample's words, language points, word pictures, vocab-app settings, links and events moved to `archive/`. The slide-style experiment (its deck, `slide-style/`, the toolbox's style tool) moved to `archive/slide-style/`, and its lines came out of `_extension.yml`, `filter.lua`, `toolbox.js` and the extension README. `scripts/catalog.py`: a course with no `course/units/` folder builds. `scripts/catalog.py`, `scripts/season.py`: an empty `events:` list no longer shows "overview: 'NoneType' object is not iterable" (every new course had this). `scripts/setup.py`: a word or language list that's only a header gets the starter's words with the starter unit (a cloned course has those files, empty). README and vocab/README: the empty course, the guide, clone or template. Tested: student and teacher builds with no units; a fresh copy's first setup and build (starter unit, four words, packet).
+- **Who it helps:** every Chalkline course (the setup, catalog and events fixes); this repository (an empty starting course).
+- **AI assistant:** Claude.
+
 ## 2026-11-08: Slide kit retired; pictures on the guide's front page; getting started and updating
 - **Asked for:** "Are we still using the slide kit deck? Does it need a clean up? Add photos to the landing page. And the getting started with the current instructions for how to get started. Cloning the repo should work for starting your own instance and then you can regularly update the extension to get new features... Check if the instructions need to be updated."
 - **Why:** the Slide kit duplicated the Template Library; the front page was text only; the setup steps described an older sample, and nothing said how to get new versions of Chalkline.

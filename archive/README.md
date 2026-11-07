@@ -25,3 +25,17 @@ Code that works but is switched off for now. Nothing here runs during a build.
 ## The Slide kit deck
 
 `guide/slide-kit-slides.qmd` was the guide's first deck of slide pieces (a sample lesson on the Warring States, in several looks and colour schemes). Archived 2026-11-08: the Template Library (`_extensions/chalkline/guide/templates-slides.qmd`) has every piece it showed, and more. Its pictures, `slide-kit-looks.css` and `drawio/` stay in the guide, because the Template Library and the Exemplar lesson use them. **To bring it back:** move it to `_extensions/chalkline/guide/`.
+
+## The sample course's own content (archived 2026-11-08)
+
+The course now has no units of its own: everything to learn from and copy is in Chalkline's guide (teacher site, **How to use Chalkline**). Archived here:
+
+| Path | What it was |
+|---|---|
+| `units/00-start-here/` | The Start Here unit's index, the Live boards demo deck (the Template Library has live boards), and the Warring States pictures. Its tour deck and Quick Start moved to the guide (`guide/start/`). |
+| `slide-style/` | The first slide-style experiment: its deck, its CSS, the `slide-style/` filter and the toolbox's Slide style tool (`{.styled kind="..."}`), replaced by bilingual slides and the Template Library. |
+| `vocab/` | The sample's 52 words, 29 language points and their pictures (`vocab/data/`, `vocab/images/`). |
+| `units/season.yml`, `units/links.yml` | The sample's events and outside links. |
+
+**To bring the sample back:** move the folders back where they were (`archive/units/<unit>/` → `course/units/`, `archive/vocab/` → `vocab/`), and the links and events back into `course/links.yml` and `course/season.yml`. The slide-style filter also needs its line back in `_extensions/chalkline/_extension.yml` and the tool's in `filter.lua`.
+

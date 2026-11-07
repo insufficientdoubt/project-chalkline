@@ -9,6 +9,10 @@ description: "Start here: the templates to copy from, the finished example units
 
 Everything here is ready to copy into your own lessons. Start with the five pages below: most lessons are made from them.
 
+::: {.callout-tip title="New to Chalkline?" icon=false}
+Start with **[Getting started](start/index.qmd)**: a one-page [Quick Start](start/quick-start.qmd) (from an empty computer to your own course) and a [ten-minute tour](start/chalkline-tour-slides.qmd) of what Chalkline does.
+:::
+
 ::: {.guide-cards}
 ::: {.guide-card}
 ![](images/landing/templates.jpg){.guide-card-img fig-alt="A Template Library slide: a mood meter, a grid of feelings to tap"}
