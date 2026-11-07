@@ -29,7 +29,7 @@ What we'll learn, and what you already know.
 - put Rome's history on a timeline
 :::
 ::: {.panel title="Key words"}
-republic · senate · consul · emperor · empire · forum · Latin · Roman numerals · gladiator · Colosseum · aqueduct · legion
+{{< vocab "republic" zh=true >}} · {{< vocab "senate" zh=true >}} · {{< vocab "consul" zh=true >}} · {{< vocab "emperor" zh=true >}} · {{< vocab "empire" zh=true >}} · {{< vocab "forum" zh=true >}} · {{< vocab "Latin" zh=true >}} · {{< vocab "Roman numerals" zh=true >}} · {{< vocab "gladiator" zh=true >}} · {{< vocab "Colosseum" zh=true >}} · {{< vocab "aqueduct" zh=true >}} · {{< vocab "legion" zh=true >}}
 :::
 :::
 

@@ -31,8 +31,12 @@ Draw an angle **bigger than** a right angle. Name it: {{< blank 4cm answer="obtu
 
 ## 3. One sentence
 
+Write one sentence with this frame:
+
+{{< frames "GD-FRM-014" zh=true >}}
+
 ::: {.recall lines="2"}
-- Use this frame: *A … angle is … than a right angle.* | An acute angle is smaller than a right angle.
+- Your sentence: | An acute angle is smaller than a right angle.
 :::
 
 ::: {.content-visible when-profile="teacher"}

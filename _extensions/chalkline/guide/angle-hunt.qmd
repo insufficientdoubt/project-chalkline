@@ -69,10 +69,12 @@ Its name: {{< blank 5.5cm >}}
 
 ## 2. Compare
 
-Choose one of your angles. Finish the sentence.
+Choose one of your angles. Finish the sentence:
+
+{{< frames "GD-FRM-046" zh=true >}}
 
 ::: {.recall lines="2"}
-- *My angle is … than a right angle, because …* | My angle is bigger than a right angle, because it opens wider than the corner of a page.
+- Your sentence: | My angle is bigger than a right angle because it opens wider than the corner of a page.
 :::
 
 ::: {.content-visible when-profile="teacher"}

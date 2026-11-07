@@ -99,6 +99,7 @@ def cover(objectives, chapters, unit=None, hero=None, hero_credit=""):
              f"#kit.title-page(course: {ts(course)}, unit: {ts(name)}, unit-number: {ts(number)}, teacher: {ts(season.get('teacher', ''))},",
              f"  school: {ts(school)}, year: {ts(season.get('season', ''))}, hero: {ts(hero) if hero else 'none'}, logo: {ts(logo) if logo else 'none'})",
              *([f"#kit.credit({ts('Cover: ' + hero_credit)})"] if hero and hero_credit else []),
+             *[f"#kit.credit({ts(c)})" for c in picture_credits(chapters)],
              "#pagebreak()",
              "#kit.contents(depth: " + ("3" if unit else "2") + ")"]
     if objectives:
@@ -114,6 +115,30 @@ def cover(objectives, chapters, unit=None, hero=None, hero_credit=""):
               "  context { let t = kit.TH.get(); v(1fr); align(center, text(font: t.head-font, size: 30pt, weight: \"bold\", fill: t.head, body)); v(2fr) }",
               "}", "```", ""]
     return "\n".join(lines)
+
+
+def picture_credits(chapters):
+    """The credits of the outside pictures a packet's printables use, from each folder's images/CREDITS.md
+    (a table: | `file` | what it is | by | license | source |). For the back cover's Picture credits."""
+    out, seen = [], set()
+    for c in chapters:
+        if "qmd" not in c:
+            continue
+        qmd = ROOT / c["qmd"]
+        table = qmd.parent / "images" / "CREDITS.md"
+        if not table.exists():
+            continue
+        used = set(re.findall(r"images/([\w.-]+)", qmd.read_text(encoding="utf-8")))
+        for line in table.read_text(encoding="utf-8").splitlines():
+            cells = [x.strip() for x in line.strip().strip("|").split("|")]
+            if len(cells) < 4 or not cells[0].startswith("`"):
+                continue
+            name = cells[0].strip("`")
+            if name in used and name not in seen:
+                seen.add(name)
+                what, by, lic = cells[1], cells[2], re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", cells[3])
+                out.append(f"{what}: {by}, {lic}")
+    return out
 
 
 def chapter_files(chapters):

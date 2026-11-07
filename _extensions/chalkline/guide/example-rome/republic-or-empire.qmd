@@ -54,6 +54,10 @@ Number the events from 1 (first) to 5 (last).
 
 ## 3. Explain the change
 
-::: {.recall lines="4"}
-- Why did some Romans want to keep the republic, even when an emperor brought peace? Start: *Some Romans wanted to keep the republic because …* | Citizens lost their vote; one person held all the power, and a bad emperor couldn't be replaced.
+Why did some Romans want to keep the republic, even when an emperor brought peace? Use this frame:
+
+{{< frames "GD-FRM-048" zh=true >}}
+
+::: {.recall lines="3"}
+- Write your answer. | Some Romans wanted to keep the republic because citizens could vote. With an emperor, one person held all the power, and a bad emperor couldn't be replaced.
 :::

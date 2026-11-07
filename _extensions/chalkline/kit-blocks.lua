@@ -286,13 +286,9 @@ local function number_paras(blocks)
   end
   return out
 end
--- ::: {.glossed-reading title="Roads that held an empire" numbered="true"}   a long reading with wide outer margins:
--- [gravel]{.gloss def="small stones" zh="碎石"} (or just [empire]{.gloss}, from the vocab list) puts the meaning there
-TYPST["glossed-reading"] = function(el)
-  local a = el.attributes
-  local body = a.numbered == "true" and number_paras(el.content) or el.content
-  -- pictures: the picture and a small caption under it (no "Figure 1")
-  body = body:map(function(b)
+-- pictures in a reading: the picture and a small caption under it (no "Figure 1")
+local function plain_figures(blocks)
+  return pandoc.List(blocks):map(function(b)
     if b.t ~= "Figure" then return b end
     local img
     pandoc.walk_block(b, { Image = function(i) img = img or i end })
@@ -300,6 +296,13 @@ TYPST["glossed-reading"] = function(el)
     local cap = pandoc.utils.blocks_to_inlines(b.caption.long or {})
     return pandoc.Plain(frag("#block(below: 3mm)[", { img }, " #v(1mm, weak: true) #context text(size: 8pt, fill: kit.TH.get().muted)[", cap, "]]"))
   end)
+end
+-- ::: {.glossed-reading title="Roads that held an empire" numbered="true"}   a long reading with wide outer margins:
+-- [gravel]{.gloss def="small stones" zh="碎石"} (or just [empire]{.gloss}, from the vocab list) puts the meaning there
+TYPST["glossed-reading"] = function(el)
+  local a = el.attributes
+  local body = a.numbered == "true" and number_paras(el.content) or el.content
+  body = plain_figures(body)
   -- the wide margin is outside (a packet's facing pages) or on the right (a loose sheet)
   local margin = KIT_BOOKLET and "(inside: 20mm, outside: 54mm, top: kit.PAGE.top, bottom: kit.PAGE.bottom)"
     or "(left: 20mm, right: 54mm, top: kit.PAGE.top, bottom: kit.PAGE.bottom)"
@@ -316,7 +319,7 @@ TYPST["reading-page"] = function(el)
   local a = el.attributes
   local passage, beside, questions = pandoc.List(), nil, {}
   for _, b in ipairs(el.content) do
-    if b.t == "Div" and b.classes:includes("beside") then beside = b.content
+    if b.t == "Div" and b.classes:includes("beside") then beside = plain_figures(b.content)
     elseif b.t == "BulletList" or b.t == "OrderedList" then
       for _, item in ipairs(b.content) do table.insert(questions, item) end
     else passage:insert(b) end
@@ -740,7 +743,7 @@ end
 WHOLE = { venn = true, kwl = true, spread = true, ["page-about"] = true, subunit = true, ["source-card"] = true,
   ["design-artifact"] = true, investigation = true, ["test-head"] = true, ["short-answer"] = true,
   ["glossed-reading"] = true, ["feature-spread"] = true, ["compare-chart"] = true, ["card-grid"] = true, ["reading-page"] = true,
-  timeline = true, ["event-cards"] = true }
+  timeline = true, ["event-cards"] = true, frayer = true }   -- (frayer: 1fr, so two share a page)
 
 -- inline pieces: [gravel]{.gloss def="small stones" zh="碎石"} (or [empire]{.gloss}: from the vocab list), a meaning in
 -- the margin of a glossed reading; [Imagine a city]{.lead-in}, the first words of a feature

@@ -40,7 +40,7 @@ The top of the stele: King Hammurabi (left) stands before Shamash, the sun god (
 :::
 
 ::: source-context
-Hammurabi was king of Babylon. Near the end of his reign he had 282 laws carved on this stone and set up in public. Most people could not read cuneiform, but everyone could see the picture at the top: the king receiving the right to rule from Shamash, the god of the sun and of justice. The message was clear. The laws did not come from one man's opinion; they came from the gods.
+Hammurabi was king of Babylon. Near the end of his reign he had 282 laws carved on this stone and set up in public. Most people could not read cuneiform, the writing on the stone. But everyone could see the picture at the top. It shows the king getting the right to rule from Shamash, the god of the sun and of justice. The message was clear. The laws did not come from one man's opinion; they came from the gods.
 
 汉谟拉比是巴比伦国王。他把282条法律刻在这块石碑上，立在公共场所。大多数人不识楔形文字，却都能看懂顶部的浮雕：国王从太阳与正义之神沙马什手中接受统治权。法律不是一个人的意见，而是来自神明。
 :::
@@ -63,7 +63,7 @@ Mbzt, CC BY 3.0, via Wikimedia Commons. Translation: L. W. King, 1910.
 ::: {.source-card number="2" region="Southern Mesopotamia · 美索不达米亚南部" title="The Burney Relief (Queen of the Night)" title-zh="伯尼浮雕（夜之女王）" size="1280x1703" crop="230,0,1050,440 / 0,1020,1280,1703" markers="1: 470,70; 2: 960,120 / 3: 620,1460; 4: 900,1330; 5: 1130,1150"}
 ![](images/burney-relief.jpg){fig-alt="The Burney Relief: a winged goddess standing on two lions, with two owls"}
 
-Two details: look up (the crown and hands), then look down (the feet, the lions and the owls).
+Two details of the {{< vocab "relief" zh=true >}}: look up (the crown and hands), then look down (the feet, the lions and the owls).
 
 ::: glance
 - What | a clay plaque

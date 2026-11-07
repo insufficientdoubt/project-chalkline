@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-08: The new templates brought up to the course's standards
+- **Asked for:** "Make sure that the new templates are up to our new design and quality standards."
+- **Why:** the example units are what teachers copy, so they must follow the rules in CLAUDE.md and look right on paper.
+- **Changed:** example pages (guide/example-rome, example-mesopotamia, and Angle Hunt, Thinker Card, Self-Check): no 中文 on the Mesopotamia test pages (also removed from the kit's test heading in `typst/packet/history.typ`); sentence frames come from the language list (`guide/data/frames.csv`: GD-FRM-046 to 051, used with `{{< frames >}}`) instead of being typed on the page; key words glossed with 中文 on the Rome and Mesopotamia pages; long sentences in the readings split for learners; Roman Numerals and the paragraph task fill their pages; readable picture descriptions in example-rome/images/CREDITS.md. `scripts/packets.py`: the back cover lists every outside picture the packet uses (from each folder's images/CREDITS.md), not only the cover. `kit-blocks.lua`: pictures in a reading-page box have a plain caption (no "Figure 1"); Frayer models aren't wrapped, so two share a page again.
+- **Who it helps:** every Chalkline course (the examples, the credits and the fixes in the blocks).
+- **AI assistant:** Claude.
+
 ## 2026-11-07: The Rome sample as .qmd pages; reading, word and timeline blocks; Typst samples retired
 - **Asked for:** "Convert the Mesopotamia and Rome packet samples to .qmd" (packet rebuild plan, step 7).
 - **Why:** packet pages should be written as .qmd, so teachers can copy and change them; one way to write pages, not two.

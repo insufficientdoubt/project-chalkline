@@ -12,7 +12,7 @@ format:
 ::: {.page-about name="Graphic organizers" uses="history: why an event happened and what followed; a process or cycle; brainstorming before writing; finding the main idea of a text" pieces="cause-effect, flow, web, temple"}
 :::
 
-Why did Rome build aqueducts? What happened because of them?
+Why did Rome build {{< vocab "aqueduct" text="aqueducts" zh=true >}}? What happened because of them?
 
 ::: {.cause-effect event="Rome builds aqueducts" cause-example="The city grew to a million people." effect-example="Public fountains on every street."}
 Which effect was the most important for ordinary people? Explain with "because".

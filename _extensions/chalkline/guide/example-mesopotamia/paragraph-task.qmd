@@ -1,7 +1,7 @@
 ---
-title: "Section 2: The Paragraph 第二部分：段落写作"
+title: "Section 2: The Paragraph"
 type: worksheet
-description: "The test's section 2: one paragraph that explains a chain of causes, with the command term and a rubric whose examples are on another topic."
+description: "The test's section 2: one paragraph that explains a chain of causes, with linking phrases, the command term and a rubric whose examples are on another topic. A test, so no 中文."
 order: 5
 audience: [teacher, student]
 format:
@@ -15,17 +15,21 @@ format:
 Criterion A: Knowing and understanding · 8 marks
 
 ::: {.panel title="The big idea"}
-People turned unpredictable rivers into the world's first cities, and their solutions became the foundations of civilization. 人类把难以预测的河流环境变成世界上最早的城市，他们的解决方案成为文明的基石。
+People turned unpredictable rivers into the world's first cities, and their solutions became the foundations of civilization.
 :::
 
 Choose **one** environmental challenge the Sumerians faced. Write a paragraph of **5 to 7 sentences** that explains:
 
-1. how the Sumerians solved it, 苏美尔人如何解决这一挑战，
-2. how the solution changed their society (cooperation, leaders, social classes), 这一方案如何改变了社会，
-3. how a more complex society came to need laws, like Hammurabi's Code. 日益复杂的社会如何需要像《汉谟拉比法典》那样的法律。
+1. how the Sumerians solved it
+2. how the solution changed their society (cooperation, leaders, social classes),
+3. how a more complex society came to need laws, like Hammurabi's Code.
 
-::: {.command-term term="explain" zh="解释"}
-Show **how** and **why** things are connected: this happened, **so** that changed, **which led to** … Not a list of facts, but a chain of causes. 说明事物之间“如何”以及“为什么”相互联系。
+Link your ideas with these:
+
+{{< frames "GD-FRM-049, GD-FRM-050, GD-FRM-051" examples=true >}}
+
+::: {.command-term term="explain"}
+Show **how** and **why** things are connected. This happened, **so** that changed. Write a chain of causes, not a list of facts.
 :::
 
 ::: {.rubric term="explain" criterion="Criterion A: what each level looks like"}
@@ -33,4 +37,7 @@ Show **how** and **why** things are connected: this happened, **so** that change
 - 3–4 | Describes the events in order, with some links. Uses some subject words. | "After Gutenberg invented the printing press, more books were made, so more people read."
 - 5–6 | Explains how the events are connected in time and cause. Uses subject words correctly. | "The printing press made books cheaper, so new ideas spread quickly and more people learned to read." | target
 - 7–8 | Explains the connections in detail, with examples, and shows why they matter. | "Because the press cut the cost of books, ideas spread across Europe in years, not centuries; literacy rose, and with it the demand for schools."
+:::
+
+::: {.work-space height="fill" style="lines" label="Your ideas: which challenge? Note what you know before you plan."}
 :::

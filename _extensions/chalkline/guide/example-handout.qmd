@@ -32,8 +32,12 @@ Mencius · Mozi · Zhuangzi · Han Fei · Sun Bin
 
 ## 4. Tell a partner
 
+Use this frame:
+
+{{< frames "GD-FRM-047" zh=true >}}
+
 ::: {.recall lines="2"}
-- Use this frame: *My thinker believed that …, because …* | My thinker (Mozi) believed that we should care about everyone equally, because then there would be no wars.
+- Your sentence: | My thinker, Mozi, believed that we should care about everyone because then there would be no wars.
 :::
 
 ::: {.content-visible when-profile="teacher"}

@@ -19,10 +19,10 @@ Write each event's letter above the right place on the line. The line runs acros
 
 ::: {.event-cards cols="3" height="96mm"}
 - A | Rome is founded (the story says by Romulus).
-- B | Rome becomes a republic. No more kings.
+- B | Rome becomes a {{< vocab "republic" zh=true >}}. No more kings.
 - C | The Via Appia, the first great Roman road, is built. | ![](images/via-appia.jpg){width="100%" height="17mm"}
 - D | Julius Caesar is killed in the Senate.
-- E | Augustus becomes the first emperor. | ![](images/augustus-prima-porta.jpg){width="100%" height="17mm"}
+- E | Augustus becomes the first {{< vocab "emperor" zh=true >}}. | ![](images/augustus-prima-porta.jpg){width="100%" height="17mm"}
 - F | The Colosseum opens. | ![](images/colosseum-forum.jpg){width="100%" height="17mm"}
 :::
 

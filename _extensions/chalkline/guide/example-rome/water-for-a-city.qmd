@@ -33,9 +33,9 @@ Photos: Pont du Gard, Benh LIEU SONG, CC BY-SA 3.0; Via Appia and Trajan's Colum
 - If you were a Roman engineer, what problem would you want to solve next?
 :::
 
-[Imagine a city]{.lead-in} with no taps, no pipes under the street and no water trucks. Every drop for drinking, cooking and washing has to be carried from a river or a well. That was life in many towns two thousand years ago. Rome was different. By the first century AD, about a million people lived there, and water flowed into the city day and night, into fountains on the street corners, into public baths and into the houses of the rich.
+[Imagine a city]{.lead-in} with no taps, no pipes under the street and no water trucks. Every drop for drinking, cooking and washing has to be carried from a river or a well. That was life in many towns two thousand years ago. Rome was different. By the first century AD, about a million people lived there. Water flowed into the city day and night. It filled fountains on the street corners, public baths and the houses of the rich.
 
-The water came through aqueducts. The first, the Aqua Appia, was built in 312 BC by Appius Claudius, the same official who built the famous road, the Via Appia. Over the next five hundred years, Rome built ten more. Together they brought in more water for each person than many cities use today.
+The water came through {{< vocab "aqueduct" text="aqueducts" zh=true >}}. The first one, the Aqua Appia, was built in 312 BC by Appius Claudius. He also built the famous road, the Via Appia. Over the next five hundred years, Rome built ten more. Together they brought in more water for each person than many cities use today.
 
 ![The Via Appia. Its builder, Appius Claudius, also built Rome's first aqueduct.](images/via-appia.jpg){.col-picture height="42mm"}
 
@@ -45,7 +45,7 @@ An aqueduct is simple in one way: it is a channel that carries water downhill. B
 No pumps, no motors: just stone, a careful slope and gravity.
 :::
 
-To measure such a tiny slope, Roman surveyors used tools like the *chorobates*, a long wooden table with a groove of water on top. When the water lay flat in the groove, the table was level. From there they could mark how far each next section should drop. They walked the whole route from the spring to the city, measuring and marking, before anyone started to dig.
+To measure such a tiny slope, Roman surveyors used a tool called the *chorobates*. It was a long wooden table with a groove of water on top. When the water lay flat in the groove, the table was level. From there they could mark how far each next section should drop. They walked the whole route from the spring to the city, measuring and marking, before anyone started to dig.
 
 Most of an aqueduct was not a bridge at all. It ran under the ground, in a covered channel that kept the water clean and cool and safe from enemies. Workers could climb down through holes along the way to clean out the mud. Only where the land dropped away, across a valley or a river, did the channel rise up onto arches.
 
@@ -53,9 +53,9 @@ Most of an aqueduct was not a bridge at all. It ran under the ground, in a cover
 
 The most famous of these bridges is the Pont du Gard in the south of France. It is almost fifty metres high, with three rows of arches, one on top of another. The stones on the outside were cut so well that the builders did not need mortar to hold them together. Each arch carries the weight sideways and down into the pillars, and the pillars carry it into the ground.
 
-When the water reached the city, it went into a big tank called a *castellum*. From there, pipes carried it to three places: first to the public fountains, then to the baths, and last to private homes, which paid for it. In a dry summer, the homes were the first to lose their water, and the fountains the last. Everyone, rich or poor, could fill a jar at a fountain.
+When the water reached the city, it went into a big tank called a *castellum*. From there, pipes carried it to three places. First it went to the public fountains, then to the baths, and last to private homes, which paid for it. In a dry summer, the homes were the first to lose their water, and the fountains the last. Everyone, rich or poor, could fill a jar at a fountain.
 
 Keeping all this working took a small army of people. In AD 97 a man named Frontinus was put in charge of Rome's water. He found leaks, illegal pipes and channels full of stones and roots, and he wrote a book about how to fix them. It is one of the first books ever written about running a city.
 
-Some Roman aqueducts still carry water today. Others stand empty in fields and valleys, and visitors walk under their arches and look up. They are a reminder that the most important thing a city builds is sometimes the one nobody sees: the water that arrives, every day, at the right place.
+Some Roman aqueducts still carry water today. Others stand empty in fields and valleys, and visitors walk under their arches and look up. They remind us of something. The most important thing a city builds is sometimes the thing nobody sees: the water that arrives every day.
 :::

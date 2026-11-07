@@ -24,5 +24,5 @@ format:
 {{< pagebreak >}}
 
 ::: {.investigation letter="B" sources="Stele of Hammurabi, Burney Relief"}
-Both sources show the **rod and ring**. What does that tell you about how Mesopotamians saw gods and power?
+Both sources show the **rod and ring**. Use this {{< vocab "evidence" zh=true >}}: what does it tell you about how Mesopotamians saw gods and power?
 :::

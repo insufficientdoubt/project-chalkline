@@ -59,3 +59,15 @@ Never use the same letter more than three times in a row: 4 is **IV**, not ~~III
 **this year** = {{< blank 3cm answer="MMXXVI" >}}
 :::
 :::
+
+## Make your own
+
+::: {.recall lines="2"}
+- Write your age in Roman numerals. | Example: 11 = XI; 12 = XII.
+- Write the year you were born. | Example: 2014 = MMXIV.
+- Make up a Roman numeral for a partner to read. Write its value too. | Any correct pair, e.g. XLVII = 47.
+:::
+
+::: {.work-space height="fill" style="grid" label="Work it out"}
+:::
+

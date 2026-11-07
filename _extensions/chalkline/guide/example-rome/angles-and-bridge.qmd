@@ -39,7 +39,7 @@ Use this page while you design your bridge.
 Draw a Roman bridge on the grid. It must carry a road or water across a valley.
 
 ::: {.panel title="Your design must have"}
-☐ an acute angle   ☐ a right angle   ☐ an obtuse angle   ☐ a straight angle   ☐ labels on each angle
+☐ an {{< vocab "acute angle" zh=true >}}   ☐ a {{< vocab "right angle" zh=true >}}   ☐ an {{< vocab "obtuse angle" zh=true >}}   ☐ a {{< vocab "straight angle" zh=true >}}   ☐ labels on each angle
 :::
 
 ::: {.work-space height="140mm" style="grid" label="Draw your bridge here"}

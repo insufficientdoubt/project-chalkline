@@ -1,5 +1,5 @@
 ---
-title: "Plan, Then Write 先规划，再写作"
+title: "Plan, Then Write"
 type: worksheet
 description: "The paragraph planner: a chain of four boxes (challenge, solution, change, the need for laws), lines to write on with a tick for each sentence, and a checklist."
 order: 6

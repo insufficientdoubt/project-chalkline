@@ -150,7 +150,7 @@
   let t = TH.get()
   [#metadata(title) <section-title>#metadata(title) <own-title>]
   grid(columns: (1fr, auto), align: bottom,
-    [#tag([Formative assessment · 形成性评价], t.hot) \ #v(1mm) #text(font: t.head-font, weight: "bold", size: 18pt, fill: t.head, title) \ #text(size: 9.5pt, fill: t.muted, unit)],
+    [#tag([Formative assessment], t.hot) \ #v(1mm) #text(font: t.head-font, weight: "bold", size: 18pt, fill: t.head, title) \ #text(size: 9.5pt, fill: t.muted, unit)],
     block(stroke: 1.4pt + t.head, radius: t.radius, inset: 7pt, align(center)[#text(size: 7.5pt, fill: t.muted, "MARKS") \ #text(font: t.head-font, size: 16pt, weight: "bold", fill: t.head)[#h(12mm) / #total] \ #text(size: 7.5pt, fill: t.muted, str(minutes) + " minutes")]))
   v(-1pt); rule(t); v(2mm)
   name-row()
