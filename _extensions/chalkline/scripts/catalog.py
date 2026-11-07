@@ -162,7 +162,14 @@ def packet_for(folder, unit):
             chapters.insert(spot, entry)
         if not chapters:
             return None
+        index = front_matter(folder / "index.qmd")
+        hero = index.get("packet-hero")   # the packet's cover picture, from the unit folder
+        if hero and not (folder / hero).exists():
+            print(f"catalog: packet-hero: {(folder / hero).relative_to(ROOT).as_posix()} not found")
+            hero = None
         return {**unit,
+                "hero": "/" + (folder / hero).relative_to(ROOT).as_posix() if hero else None,
+                "hero-credit": index.get("packet-hero-credit", ""),
                 "pdf": (folder / f"{unit['id']}-packet.pdf").relative_to(ROOT).as_posix(),
                 "chapters": chapters,
                 "files": [c["qmd"] for c in chapters if "qmd" in c],

@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-07: Packet covers: a cover picture, the school logo, credits on the back
+- **Asked for:** the packet title page's "hero" picture and teacher name (packet rebuild plan, step 3).
+- **Why:** not given; the title page had placeholders.
+- **Changed:** `scripts/catalog.py`: a unit's `index.qmd` can set `packet-hero:` (a picture in the unit folder) and `packet-hero-credit:`. `scripts/packets.py`: passes them, and the brand's large logo, to the title page. `typst/packet/kit.typ`: `title-page(logo:)`; the back cover shows the logo too, and lists credits added with `kit.credit[…]`. Guide's Packet templates page and the Rome example: use them.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-07: "Goes with packet page …" on loose sheets
 - **Asked for:** loose sheets "with 'Goes with packet page' filled in" (packet rebuild plan, step 3).
 - **Why:** a sheet printed on its own should show where it belongs in the unit packet.

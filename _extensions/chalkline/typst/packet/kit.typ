@@ -475,11 +475,20 @@
   block(width: width, height: height, stroke: (paint: t.line, thickness: 1pt, dash: "dashed"), radius: t.radius,
     align(center + horizon, text(size: 9pt, fill: t.muted, font: t.label-font, label)))
 }
-// hero: a picture path, "placeholder" (a dashed box to fill in later), or none (the theme's decoration)
-#let title-page(course: "", unit: "", unit-number: "", teacher: "", school: "", year: "", hero: none) = context {
+// The school's logo (a path from the course folder; packets.py passes the brand's), or a dashed circle
+#let LOGO = state("chalkline-logo", none)
+#let logo-mark(size) = context {
   let t = TH.get()
+  let logo = LOGO.final()
+  if logo != none { box(width: size, height: size, image(logo, width: size, height: size, fit: "contain")) }
+  else { box(width: size, height: size, stroke: (paint: t.line, dash: "dashed"), radius: 50%, align(center + horizon, text(size: 6.5pt, fill: t.muted, "Logo"))) }
+}
+// hero: a picture path, "placeholder" (a dashed box to fill in later), or none (the theme's decoration)
+#let title-page(course: "", unit: "", unit-number: "", teacher: "", school: "", year: "", hero: none, logo: none) = context {
+  let t = TH.get()
+  if logo != none { LOGO.update(logo) }
   grid(columns: (auto, 1fr, auto), align: horizon, column-gutter: 4mm,
-    box(width: 13mm, height: 13mm, stroke: (paint: t.line, dash: "dashed"), radius: 50%, align(center + horizon, text(size: 6.5pt, fill: t.muted, "Logo"))),
+    logo-mark(13mm),
     text(font: t.label-font, size: 9pt, fill: t.muted, school), text(font: t.label-font, size: 9pt, fill: t.muted, year))
   v(10mm)
   text(font: t.label-font, size: 11pt, fill: t.accent, tracking: 1.5pt, upper(course))
@@ -591,15 +600,19 @@
   text(size: 8.5pt, fill: t.muted)[1 = not yet · 2 = getting there · 3 = I can do it on my own]
 }
 
+// Picture credits for the back cover: #kit.credit[The cover: …] anywhere in the packet adds one.
+#let CREDITS = state("chalkline-credits", ())
+#let credit(body) = CREDITS.update(c => c + (body,))
 #let back-cover(school: "", credits: []) = context {
   let t = TH.get()
   v(1fr)
   align(center, {
-    box(width: 16mm, height: 16mm, stroke: (paint: t.line, dash: "dashed"), radius: 50%, align(center + horizon, text(size: 7pt, fill: t.muted, "Logo")))
+    logo-mark(16mm)
     v(3mm); text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, school)
     v(10mm)
   })
-  panel(title: "Picture credits")[#set text(size: 8pt); #credits]
+  let listed = CREDITS.final()
+  panel(title: "Picture credits")[#set text(size: 8pt); #credits #if listed.len() > 0 { list(..listed) }]
   v(8mm)
 }
 

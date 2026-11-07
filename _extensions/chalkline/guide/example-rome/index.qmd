@@ -2,6 +2,8 @@
 title: "Example Unit: Ancient Rome 古罗马"
 short-title: "Example · Ancient Rome"
 unit: "B"
+packet-hero: images/colosseum-forum.jpg   # the packet's cover picture
+packet-hero-credit: "the Colosseum and the Roman Forum, by Wilfredor, CC0, via Wikimedia Commons"
 objectives:
   - I can explain how the Roman Republic was governed, and how it was different from Athens.
   - I can describe how Rome became an empire under Augustus.

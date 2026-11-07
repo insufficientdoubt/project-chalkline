@@ -78,17 +78,25 @@ def book_config(teacher, title, subtitle, chapters):
     return cfg
 
 
-def cover(objectives, chapters, unit=None):
+def cover(objectives, chapters, unit=None, hero=None, hero_credit=""):
     """The packet's first chapter (no title of its own): the title page, the contents, and the objectives.
-    unit: (number, name) for a unit packet; None for the year packet, whose parts become units."""
+    unit: (number, name) for a unit packet; None for the year packet, whose parts become units.
+    hero: the cover picture (a path from the course folder, from `packet-hero:` in the unit's index.qmd),
+    and hero_credit its credit for the back cover (`packet-hero-credit:`)."""
     site = yaml.safe_load((ROOT / "_quarto.yml").read_text(encoding="utf-8"))
     season = yaml.safe_load((ROOT / "course" / "season.yml").read_text(encoding="utf-8")) or {}
     course = season.get("name", (site.get("website") or {}).get("title", ""))
     school = site.get("school", "")
+    brand = yaml.safe_load((ROOT / "brand" / "_brand.yml").read_text(encoding="utf-8")) if (ROOT / "brand" / "_brand.yml").exists() else {}
+    logos = (brand or {}).get("logo") or {}
+    logo = (logos.get("images") or {}).get(logos.get("large", ""), {})
+    logo = logo.get("path") if isinstance(logo, dict) else logo
+    logo = f"/brand/{logo}" if logo and (ROOT / "brand" / logo).exists() else None   # the school's logo, for the covers
     number, name = unit if unit else ("", f"{season.get('name', '')} {season.get('season', '')}".strip())
     lines = ["---", 'title: ""', "---", "", "```{=typst}",
              f"#kit.title-page(course: {ts(course)}, unit: {ts(name)}, unit-number: {ts(number)}, teacher: {ts(season.get('teacher', ''))},",
-             f"  school: {ts(school)}, year: {ts(season.get('season', ''))}, hero: none)",
+             f"  school: {ts(school)}, year: {ts(season.get('season', ''))}, hero: {ts(hero) if hero else 'none'}, logo: {ts(logo) if logo else 'none'})",
+             *([f"#kit.credit({ts('Cover: ' + hero_credit)})"] if hero and hero_credit else []),
              "#pagebreak()",
              "#kit.contents(depth: " + ("3" if unit else "2") + ")"]
     if objectives:
@@ -283,7 +291,7 @@ def main():
             paths, extra_files = chapter_files(p["chapters"])
             page_jobs[out_dir / name(p["pdf"])] = p["files"]
             jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
-                         cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Unit\s*\d+\s*[:·-]\s*", "", p["title"]))),
+                         cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Unit\s*\d+\s*[:·-]\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
                          out_dir / name(p["pdf"]), extra_files,
                          build_cache.key("packets", sources(p), name(p["pdf"]))))
         # The year packet: with a full rebuild, or with --stale when it's older than any printable.
@@ -311,7 +319,7 @@ def main():
                 paths, extra_files = chapter_files(p["chapters"])
                 page_jobs[out_dir / name(p["pdf"])] = p["files"]
                 jobs.append((book_config(is_teacher, p["title"], label, ["index.qmd"] + paths),
-                             cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"]))),
+                             cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
                              out_dir / name(p["pdf"]), extra_files,
                              build_cache.key("packets", sources(p), name(p["pdf"]))))
     # Teacher site: student copies of the printables (of one unit with --unit; only out-of-date ones with --stale)
