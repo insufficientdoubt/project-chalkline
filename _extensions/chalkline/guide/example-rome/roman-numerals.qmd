@@ -2,9 +2,8 @@
 title: "Roman Numerals 罗马数字"
 type: reference
 description: "The seven Roman numeral letters, the add and subtract rules, examples, and eight to try. Written with the packet kit's blocks; the teacher edition has the answers written in."
-order: 4
+order: 21
 audience: [teacher, student]
-packet-theme: trail
 format:
   html: default
   typst: default

@@ -171,6 +171,7 @@ def packet_for(folder, unit):
                 "hero": "/" + (folder / hero).relative_to(ROOT).as_posix() if hero else None,
                 "hero-credit": index.get("packet-hero-credit", ""),
                 "theme": index.get("packet-theme"),   # the unit's own packet theme (else the course's)
+                "themes": index.get("packet-themes", []) or [],   # copies of the student packet in other themes
                 "pdf": (folder / f"{unit['id']}-packet.pdf").relative_to(ROOT).as_posix(),
                 "chapters": chapters,
                 "files": [c["qmd"] for c in chapters if "qmd" in c],

@@ -1,0 +1,44 @@
+---
+title: "Roads That Held an Empire 帝国之路"
+type: reference
+description: "A long reading across two pages, with hard words explained in the wide margins (with 中文), numbered paragraphs, two photos, key facts and a question to think about."
+order: 12
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Glossed reading spread" uses="a long reading with hard words; a primary or secondary source; a science article; a short story with glossary" pieces="spread, glossed-reading, gloss, panel"}
+:::
+
+::: spread
+:::
+
+::: {.glossed-reading title="Roads that held an empire" sub="Read the text. The words in bold are explained in the margin." numbered="true"}
+![The Via Appia near Rome, more than 2,000 years old. Public domain, Wikimedia Commons.](images/via-appia.jpg){width="100%" height="70mm"}
+
+Two thousand years ago, Rome ruled a huge [empire]{.gloss}. It stretched from Britain in the north to Egypt in the south. To hold it together, Rome needed a fast way to move soldiers, letters and food. Its answer was roads. A soldier could march 30 kilometres in a day on a good road. A journey that once took weeks now took days.
+
+Roman roads were not just paths of dirt. Builders dug a deep trench and filled it layer by layer. First came large stones, then a layer of [gravel]{.gloss def="small stones" zh="碎石"} and sand, and on top, flat paving stones that fitted together like a puzzle. The top of the road was curved, a little higher in the middle than at the sides. When it rained, the water ran to the edges and into ditches. A road that could [drain]{.gloss def="let water flow away" zh="排水"} stayed dry and sturdy for many years.
+
+Every Roman mile, about 1.5 kilometres, there was a milestone. It told travellers how far they were from the next town. [Merchants]{.gloss def="people who buy and sell things" zh="商人"} used the roads to carry wine, oil and cloth. News travelled along them too. People said that "all roads lead to Rome," and in a way they did: more than 80,000 kilometres of stone roads joined the empire's cities.
+
+Roads were only half of the story. Cities also needed clean water, often from springs far away in the hills. The builders' answer was the [aqueduct]{.gloss}. An aqueduct is a long channel that runs gently downhill all the way from the spring to the city. It has no pumps. It uses [gravity]{.gloss def="the force that pulls things down" zh="重力"}: water always flows down a slope, so the channel had to drop a little, but only a little, over every kilometre.
+
+![The Pont du Gard in France carried water across a valley. Photo: Benh LIEU SONG, CC BY-SA 3.0, Wikimedia Commons.](images/pont-du-gard.jpg){width="100%" height="74mm"}
+
+When an aqueduct came to a deep valley, the builders could not let it go down and up again. Instead they built a bridge with rows of [arches]{.gloss def="curved shapes that hold up a bridge or roof" zh="拱"}. An arch is strong because each stone pushes against the stones beside it, and the weight goes down into the ground. The Pont du Gard in France has three rows of arches, one on top of another. It still stands, almost unbroken, after 2,000 years.
+
+The builders worked carefully, and their work lasted. Some Roman roads are still used today, and travellers walk on the famous stones of the Via Appia. When parts wear out, people [repair]{.gloss def="fix" zh="修理"} them, but the plan underneath is the one the Romans made.
+
+Maps helped too. Roman travellers carried lists of the towns along a road and the distance between them, a little like the stops on a bus route. One old copy of a Roman road map is almost seven metres long. It is drawn as a long, thin strip, because what mattered was the order of the towns, not the shape of the land.
+
+::: {.panel title="Key facts"}
+**80,000 km** of stone roads · **1 Roman mile** ≈ 1.5 km · **3 layers** under the paving · **No pumps:** water flows downhill
+:::
+
+::: {.recall lines="3"}
+- Roads, aqueducts and maps all helped Rome hold its empire together. Which one do you think was the most important? Why? | Roads: soldiers, food and news could reach every city quickly.
+:::
+:::

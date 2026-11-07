@@ -1,0 +1,21 @@
+---
+title: "Language for This Unit 本单元语言"
+type: reference
+description: "The unit's grammar, stems and frames from the language list, grouped, with 中文 and examples; then three sentences to write."
+order: 15
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Language page" uses="grammar, stems and frames for a unit; talk and writing support; a reference while writing" pieces="language-page, work-space"}
+:::
+
+Use these when you talk and write about Rome.
+
+::: {.language-page ids="GD-FRM-011, GD-FRM-012, GD-FRM-013, GD-FRM-001, GD-FRM-002, GD-FRM-005, GD-FRM-006, GD-FRM-007, GD-FRM-008, GD-FRM-023, GD-FRM-024"}
+:::
+
+::: {.work-space height="fill" style="lines" label="Practise: write three sentences about Rome. Use a frame or a stem from this page in each one."}
+:::

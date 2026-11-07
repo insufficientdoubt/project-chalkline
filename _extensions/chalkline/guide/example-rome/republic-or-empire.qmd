@@ -2,9 +2,8 @@
 title: "Republic or Empire? 共和国还是帝国？"
 type: worksheet
 description: "Sort ten facts into the Roman Republic or the Roman Empire, put five events in order, and explain the change. Written with the packet kit's blocks; the teacher edition has the answers written in."
-order: 3
+order: 17
 audience: [teacher, student]
-packet-theme: trail
 format:
   html: default
   typst: default

@@ -105,11 +105,11 @@
 }
 
 // ---------------------------------------------------------------- Frayer model (two words per page)
-#let frayer(id, word: none) = context {
+#let frayer(id, word: none, zh: none) = context {
   let t = TH.get()
   let row = VOCAB.find(r => r.id == id)
   let term = if word != none { word } else if row != none { row.term_en } else { id }
-  let zh = if row != none { row.zh } else { "" }
+  let zh = if zh != none { zh } else if row != none { row.zh } else { "" }
   // labels on the outer side of each box, so the word in the middle never covers them
   let quad(title, prompt, mark, side: left) = block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, clip: true, {
     block(width: 100%, inset: (x: 7pt, top: 5pt, bottom: 3pt), align(side, [#text(font: t.head-font, weight: "bold", fill: t.head, title) #h(3pt) #text(size: 10pt, fill: t.accent, mark) \ #text(size: 7.5pt, fill: t.muted, prompt)]))

@@ -2,9 +2,8 @@
 title: "Design Challenge: Build an Aqueduct 设计引水渠"
 type: worksheet
 description: "Design an aqueduct that carries water from a hilltop spring to a city using only gravity: plan, sketch, label and explain. Written with the packet kit's blocks; the teacher edition has the answers written in."
-order: 5
+order: 24
 audience: [teacher, student]
-packet-theme: trail
 format:
   html: default
   typst: default

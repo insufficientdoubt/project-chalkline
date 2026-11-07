@@ -1,0 +1,34 @@
+---
+title: "Word Study: Frayer Models 词汇研究"
+type: worksheet
+description: "Four key words, two to a page, each in a Frayer model: what it means, what it's like, examples and non-examples."
+order: 27
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Frayer models" uses="deep study of key words; concept words in science and math; vocabulary assessment" pieces="subunit, frayer"}
+:::
+
+::: {.subunit number="B.6" title="Thinking tools"}
+:::
+
+Two key words. Fill the four boxes around each word.
+
+::: {.frayer word="aqueduct"}
+:::
+
+::: {.frayer word="republic"}
+:::
+
+{{< pagebreak >}}
+
+## Two more key words
+
+::: {.frayer word="emperor"}
+:::
+
+::: {.frayer word="legion"}
+:::

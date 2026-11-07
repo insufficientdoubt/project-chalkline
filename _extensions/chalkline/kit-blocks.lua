@@ -108,6 +108,7 @@ local function wrap(open, blocks, close)
 end
 
 local TYPST = {}
+local term   -- (a word from the merged vocab list: defined below)
 local WHOLE   -- the blocks not wrapped in a #block (set below)
 TYPST["work-space"] = function(el)
   local a = el.attributes
@@ -176,8 +177,11 @@ TYPST["venn"] = function(el)
     ", a-example: [" .. (a["a-example"] or "") .. "], both-example: [" .. (a["both-example"] or "") .. "], b-example: [" .. (a["b-example"] or "") ..
     "], prompt: [", el.content)
 end
-TYPST["frayer"] = function(el)
-  return { typst("#org.frayer(" .. str(el.attributes.id or "") .. ")") }
+TYPST["frayer"] = function(el)   -- ::: {.frayer word="aqueduct"} (or id="ROM-011"): the word and its 中文 from the vocab list
+  local a = el.attributes
+  local t = term(a.word or a.id)
+  if t then return { typst("#org.frayer(" .. str(t.id) .. ", word: " .. str(t.term) .. ", zh: " .. str(t.zh or "") .. ")") } end
+  return { typst("#org.frayer(" .. str(a.id or a.word or "") .. ")") }
 end
 TYPST["cause-effect"] = function(el)
   local a = el.attributes
@@ -206,6 +210,225 @@ TYPST["investigation"] = function(el)
   if #el.content == 0 then return { typst(head .. ")") } end
   return wrap(head .. ", connect: [", el.content)
 end
+-- ---------------------------------------------------------------- words and language from Chalkline's merged lists
+-- (generated/vocab-terms.json and frames.json: the course's words, and the guide's when it's built)
+local TERMS, FRAMES_BY_ID
+local function read_json(name)
+  local f = io.open((quarto.project.directory or ".") .. "/generated/" .. name, "r")
+  if not f then return nil end
+  local ok, data = pcall(quarto.json.decode, f:read("a"))
+  f:close()
+  return ok and data or nil
+end
+term = function(key)
+  if not TERMS then
+    TERMS = {}
+    for _, t in ipairs((read_json("vocab-terms.json") or {}).terms or {}) do
+      for _, k in ipairs({ t.id, t.term, table.unpack(t.aka or {}) }) do
+        if TERMS[k:lower()] == nil then TERMS[k:lower()] = t end
+      end
+    end
+  end
+  return TERMS[(key or ""):lower()]
+end
+local function frame(id)
+  if not FRAMES_BY_ID then
+    FRAMES_BY_ID = {}
+    for _, f in ipairs((read_json("frames.json") or {}).frames or {}) do FRAMES_BY_ID[f.id:upper()] = f end
+  end
+  return FRAMES_BY_ID[(id or ""):upper()]
+end
+local function dict(fields)          -- a Typst dictionary of strings
+  local out = {}
+  for _, kv in ipairs(fields) do table.insert(out, kv[1] .. ": " .. str(kv[2] or "")) end
+  return "(" .. table.concat(out, ", ") .. ")"
+end
+-- ::: {.vocab-page words="empire, road, aqueduct" pictures="false"}   key word cards (pictures) or a word list
+TYPST["vocab-page"] = function(el)
+  local rows = {}
+  for _, w in ipairs(csv(el.attributes.words)) do
+    local t = term(w)
+    if t then
+      table.insert(rows, dict({ { "term_en", t.term }, { "zh", t.zh }, { "short_def", t.definition }, { "example", t.example },
+        { "path", (t.image and t.image ~= "") and ("/" .. t.image) or "" } }))
+    else
+      quarto.log.warning("vocab-page: no word \"" .. w .. "\" in the vocab list")
+    end
+  end
+  return { typst("#kit.vocab-page(pictures: " .. ((el.attributes.pictures == "false") and "false" or "true") ..
+    ", rows: (" .. table.concat(rows, ", ") .. (#rows == 1 and "," or "") .. "))") }
+end
+-- ::: {.language-page ids="FRM-011, FRM-012"}   grammar, phrases, stems, frames and questions, grouped, in two columns
+TYPST["language-page"] = function(el)
+  local rows = {}
+  for _, id in ipairs(csv(el.attributes.ids)) do
+    local f = frame(id)
+    if f then
+      table.insert(rows, dict({ { "id", f.id }, { "kind", f.kind }, { "en", f.en }, { "zh", f.zh },
+        { "answer_en", table.concat(f.answers_en or {}, " / ") }, { "example", (f.examples or {})[1] } }))
+    else
+      quarto.log.warning("language-page: no language point " .. id .. " in frames.csv")
+    end
+  end
+  return { typst("#kit.language-page((), rows: (" .. table.concat(rows, ", ") .. (#rows == 1 and "," or "") .. "))") }
+end
+
+-- ---------------------------------------------------------------- readings
+-- paragraphs numbered ¶1, ¶2 … (numbered="true"), so questions can point to them
+local function number_paras(blocks)
+  local n, out = 0, pandoc.List()
+  for _, b in ipairs(blocks) do
+    if b.t == "Para" then
+      n = n + 1
+      local inl = pandoc.List({ R("#kit.pn(" .. n .. ")") }); inl:extend(b.content)
+      out:insert(pandoc.Para(inl))
+    else out:insert(b) end
+  end
+  return out
+end
+-- ::: {.glossed-reading title="Roads that held an empire" numbered="true"}   a long reading with wide outer margins:
+-- [gravel]{.gloss def="small stones" zh="碎石"} (or just [empire]{.gloss}, from the vocab list) puts the meaning there
+TYPST["glossed-reading"] = function(el)
+  local a = el.attributes
+  local body = a.numbered == "true" and number_paras(el.content) or el.content
+  -- pictures: the picture and a small caption under it (no "Figure 1")
+  body = body:map(function(b)
+    if b.t ~= "Figure" then return b end
+    local img
+    pandoc.walk_block(b, { Image = function(i) img = img or i end })
+    if not img then return b end
+    local cap = pandoc.utils.blocks_to_inlines(b.caption.long or {})
+    return pandoc.Plain(frag("#block(below: 3mm)[", { img }, " #v(1mm, weak: true) #context text(size: 8pt, fill: kit.TH.get().muted)[", cap, "]]"))
+  end)
+  -- the wide margin is outside (a packet's facing pages) or on the right (a loose sheet)
+  local margin = KIT_BOOKLET and "(inside: 20mm, outside: 54mm, top: kit.PAGE.top, bottom: kit.PAGE.bottom)"
+    or "(left: 20mm, right: 54mm, top: kit.PAGE.top, bottom: kit.PAGE.bottom)"
+  local out = pandoc.List({ typst("#kit.OUTSIDE.update(54mm)\n#[\n#set page(margin: " .. margin .. ")\n" ..
+    "#metadata(" .. str(a.title or "") .. ") <own-title>\n" ..
+    "#kit.titled(" .. str(a.title or "") .. (a.sub and (", sub: " .. str(a.sub)) or "") .. ")\n#set par(justify: true, leading: 0.68em)\n#set text(size: 11pt)\n") })
+  out:extend(body)
+  out:insert(typst("]\n#kit.OUTSIDE.update(kit.PAGE.outside)"))
+  return out
+end
+-- ::: {.reading-page title="Questions" numbered="true"}  the reading (paragraphs), ::: beside (a picture, a word box),
+-- then the questions as a list: the reading in two columns, the picture and the questions box below
+TYPST["reading-page"] = function(el)
+  local a = el.attributes
+  local passage, beside, questions = pandoc.List(), nil, {}
+  for _, b in ipairs(el.content) do
+    if b.t == "Div" and b.classes:includes("beside") then beside = b.content
+    elseif b.t == "BulletList" or b.t == "OrderedList" then
+      for _, item in ipairs(b.content) do table.insert(questions, item) end
+    else passage:insert(b) end
+  end
+  if a.numbered == "true" then passage = number_paras(passage) end
+  local out = pandoc.List({ typst("#kit.reading-page([") })
+  out:extend(passage)
+  out:insert(typst("], ("))
+  for _, q in ipairs(questions) do out:insert(typst("[")); out:extend(q); out:insert(typst("],")) end
+  out:insert(typst("), title: " .. str(a.title or "Questions") .. ", beside: ["))
+  out:extend(beside or {})
+  out:insert(typst("])"))
+  return out
+end
+-- ::: {.compare-chart title="Compare: Roman structures" first="Structure" rows="Road, Aqueduct" columns="What is it for?, Sketch"}
+-- the instructions inside: a chart to fill in, on a landscape page
+TYPST["compare-chart"] = function(el)
+  local a = el.attributes
+  local function list(v) local o = {} for _, x in ipairs(csv(v)) do table.insert(o, str(x)) end return "(" .. table.concat(o, ", ") .. (#o == 1 and "," or "") .. ")" end
+  local head = "#kit.compare-chart(" .. str(a.title or "") .. ", " .. str(a.first or "") .. ", " .. list(a.columns) .. ", " .. list(a.rows) ..
+    (a.letter and (", letter: " .. str(a.letter)) or "")
+  if #el.content == 0 then return { typst(head .. ")") } end
+  return wrap(head .. ", instructions: [", el.content)
+end
+-- ::: {.card-grid cols="3"}   - Acute | angle 50 | Less than 90°.    (picture: angle 90, angle 240 reflex, parallel,
+-- perpendicular, an image, or words): reference cards that fill the rest of the page
+TYPST["card-grid"] = function(el)
+  return call(frag("#kit.card-grid(", seq(items(el), function(p)
+    local pic = p[2] or {}
+    local s = pandoc.utils.stringify(pic)
+    local deg, reflex = s:match("^angle%s+(%d+)%s*(%a*)$")
+    local picture
+    if deg then picture = frag("context kit.angle-pic(" .. deg .. ", kit.TH.get()" .. (reflex == "reflex" and ", reflex: true" or "") .. ")")
+    elseif s == "parallel" or s == "perpendicular" then picture = frag("context kit.line-pic(" .. str(s) .. ", kit.TH.get())")
+    else picture = C(pic) end
+    return frag("(", C(p[1]), ", ", picture, ", ", C(p[3] or {}), ")")
+  end), ", cols: " .. (tonumber(el.attributes.cols) or 3) .. ")"))
+end
+-- ::: {.event-cards cols="3" height="96mm"}   - A | Rome is founded. | ![](images/via-appia.jpg){height=17mm width=100%}
+TYPST["event-cards"] = function(el)
+  local a = el.attributes
+  local cols = tonumber(a.cols) or 3
+  local list = items(el)
+  return call(frag("#block(height: " .. length(a.height or "96mm"):gsub("^auto$", "96mm") .. ", grid(columns: (1fr,) * " .. cols ..
+    ", rows: (1fr,) * " .. math.ceil(#list / cols) .. ", gutter: 4mm, ..",
+    seq(list, function(p) return frag("kit.event-card(", C(p[1]), ", ", C(p[2] or {}), (p[3] and #p[3] > 0) and ", pic: " or "", (p[3] and #p[3] > 0) and C(p[3]) or {}, ")") end),
+    "))"))
+end
+-- ::: {.timeline from="-800" to="-150" first="true" height="110mm"}   (empty) a timeline at the foot of the page; the
+-- next page's (first="false") carries on, so on a spread it runs across both pages
+TYPST["timeline"] = function(el)
+  local a = el.attributes
+  return { typst("#v(1fr)\n#kit.timeline-part(" .. (tonumber(a.from) or 0) .. ", " .. (tonumber(a.to) or 100) ..
+    ", first: " .. (a.first == "false" and "false" or "true") .. ", height: " .. length(a.height or "110mm"):gsub("^auto$", "110mm") ..
+    (a.step and (", step: " .. tonumber(a.step)) or "") .. ")") }
+end
+-- ::: pull-quote   a big quote set in a column
+TYPST["pull-quote"] = function(el) return wrap("#kit.pull-quote[", el.content, "]") end
+-- ::: {.feature-spread title="Water for a city" kicker="Feature · Roman engineering" badge="?"}
+--   the panorama (the first picture), ::: standfirst, ::: credit, ::: {.reflect side="left" title="Reflect · 想一想"}
+--   (- questions), ::: {.reflect side="right"}, then the article: pictures with {.col-picture height="42mm"} float in
+--   the columns, [Imagine a city]{.lead-in} starts it, ::: pull-quote
+TYPST["feature-spread"] = function(el)
+  local a = el.attributes
+  local pano, standfirst, credit, reflect, body = nil, {}, {}, {}, pandoc.List()
+  local function first_image(b) local img; pandoc.walk_block(b, { Image = function(i) img = img or i end }); return img end
+  for _, b in ipairs(el.content) do
+    local img = (b.t == "Para" or b.t == "Plain" or b.t == "Figure") and first_image(b)
+    if b.t == "Div" and b.classes:includes("standfirst") then standfirst = b.content
+    elseif b.t == "Div" and b.classes:includes("credit") then credit = b.content
+    elseif b.t == "Div" and b.classes:includes("reflect") then reflect[b.attributes.side or "left"] = b
+    elseif img and not pano and not img.classes:includes("col-picture") then pano = img
+    elseif img and img.classes:includes("col-picture") then
+      local h = length(img.attributes.height or "42mm")
+      local pic = pandoc.Image({}, img.src, "", pandoc.Attr("", {}, { width = "100%", height = h }))
+      local cap = img.caption and #img.caption > 0 and img.caption or {}
+      if b.t == "Figure" then cap = pandoc.utils.blocks_to_inlines(b.caption.long or {}) end
+      body:insert(pandoc.Plain(frag("#kit.col-picture([", { pic }, "], ", C(cap), ", height: " .. h .. ")")))
+    else body:insert(b) end
+  end
+  local function reflect_box(side, start)
+    local r = reflect[side]
+    if not r then return pandoc.List({ typst("[]") }) end
+    local qs = items(r)
+    local out = pandoc.List()
+    local head = side == "left" and "#context { if kit.MODE.get() == \"sheet\" { kit.name-row(); v(2mm) } } " or "#v(5.5mm) "
+    if r.attributes.title then head = head .. "#context text(font: kit.TH.get().head-font, weight: \"bold\", size: 12pt, fill: kit.TH.get().head, " .. str(r.attributes.title) .. ") #v(1mm) " end
+    out:insert(pandoc.Plain(frag("[" .. head .. "#kit.reflect-items(" .. start .. ", ", seq(qs, function(p) return C(p[1]) end), ")]")))
+    return out, #qs
+  end
+  local left, nl = reflect_box("left", 1)
+  local right = reflect_box("right", 1 + (nl or 0))
+  local out = pandoc.List()
+  local head = frag("#kit.feature-spread(title: " .. str(a.title or "") .. ", kicker: " .. str(a.kicker or "") .. ", badge-text: " .. str(a.badge or "?") .. ", standfirst: [")
+  for _, b in ipairs(standfirst) do if b.content then head:extend(b.content) end end
+  head:insert(R("], credit: ["))
+  for _, b in ipairs(credit) do if b.content then head:extend(b.content) end end
+  head:insert(R("], "))
+  if pano then
+    head:extend(frag("panorama: [", { pandoc.Image({}, pano.src, "", pandoc.Attr("", {}, { width = "396mm", height = "72mm" })) }, "], "))
+  end
+  head:insert(R("left-box: "))
+  for _, b in ipairs(left) do if b.content then head:extend(b.content) else head:insert(R("[]")) end end
+  head:insert(R(", right-box: "))
+  for _, b in ipairs(right) do if b.content then head:extend(b.content) else head:insert(R("[]")) end end
+  head:insert(R(")["))
+  out:insert(pandoc.Plain(head))
+  out:extend(body)
+  out:insert(typst("]"))
+  return out
+end
+
 -- ---------------------------------------------------------------- history and assessment pages (typst/packet/history.typ)
 local function has_cjk(inl) return pandoc.utils.stringify(inl):find("[\227-\233][\128-\191][\128-\191]") ~= nil end
 local function blocks_of(div, cls)   -- the blocks of the first inner div with this class (or nil)
@@ -489,7 +712,33 @@ local function web(el, cls)
 end
 
 WHOLE = { venn = true, kwl = true, spread = true, ["page-about"] = true, subunit = true, ["source-card"] = true,
-  ["design-artifact"] = true, investigation = true, ["test-head"] = true, ["short-answer"] = true }
+  ["design-artifact"] = true, investigation = true, ["test-head"] = true, ["short-answer"] = true,
+  ["glossed-reading"] = true, ["feature-spread"] = true, ["compare-chart"] = true, ["card-grid"] = true, ["reading-page"] = true,
+  timeline = true, ["event-cards"] = true }
+
+-- inline pieces: [gravel]{.gloss def="small stones" zh="碎石"} (or [empire]{.gloss}: from the vocab list), a meaning in
+-- the margin of a glossed reading; [Imagine a city]{.lead-in}, the first words of a feature
+function M.span(el)
+  if quarto.doc.is_format("revealjs") then return nil end
+  local is_gloss, is_lead = el.classes:includes("gloss"), el.classes:includes("lead-in")
+  if not is_gloss and not is_lead then return nil end
+  if quarto.doc.is_format("typst") then
+    if is_lead then return frag("#kit.lead-in[", el.content, "]") end
+    local a = el.attributes
+    local def, zh = a.def, a.zh
+    if not def then
+      local t = term(a.word or pandoc.utils.stringify(el.content))
+      if t then def, zh = t.definition, zh or t.zh end
+    end
+    return frag("#kit.gloss([", el.content, "], " .. str(def or "") .. ((zh and zh ~= "") and (", zh: " .. str(zh)) or "") .. ")")
+  end
+  if quarto.doc.is_format("html") and is_gloss then   -- the word, with its meaning on hover
+    local def = el.attributes.def
+    if not def then local t = term(el.attributes.word or pandoc.utils.stringify(el.content)); def = t and t.definition end
+    return pandoc.Span(el.content, pandoc.Attr("", { "kit-gloss" }, { title = def or "" }))
+  end
+  return nil
+end
 
 function M.handles(el)
   for cls in pairs(TYPST) do

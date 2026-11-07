@@ -2,6 +2,8 @@
 title: "Example Unit: Ancient Rome 古罗马"
 short-title: "Example · Ancient Rome"
 unit: "B"
+packet-theme: sky
+packet-themes: [trail, blueprint]   # copies of the student packet in the other themes, to compare
 packet-hero: images/colosseum-forum.jpg   # the packet's cover picture
 packet-hero-credit: "the Colosseum and the Roman Forum, by Wilfredor, CC0, via Wikimedia Commons"
 objectives:
@@ -12,7 +14,7 @@ objectives:
 order: 21
 audience: [teacher]
 format: html
-description: "A finished unit to copy from: Grade 6 history, Ancient Rome, with its Greek roots. Four decks (the republic and empire, engineering, an interactive timeline, learning activities), and printables written with the packet kit, as the unit's packet."
+description: "A finished unit to copy from: Grade 6 history, Ancient Rome, with its Greek roots. Four decks, and a 36-page packet that shows every kind of packet page: a magazine feature, a glossed reading, key words and language, readings with questions, a landscape chart, math, a reference and design spread, a timeline across a spread, graphic organizers and a self-check."
 listing:
   contents: "*.qmd"
   type: table
@@ -33,4 +35,4 @@ A whole history unit: four slide decks and the printables, written with the pack
 - I can explain how an aqueduct uses gravity to move water.
 - I can read and write Roman numerals.
 
-**The packet:** [student booklet](example-rome-packet.pdf) · [teacher edition](example-rome-teacher-packet.pdf) (A3, folded).
+**The packet:** [student booklet](example-rome-packet.pdf) · [teacher edition](example-rome-teacher-packet.pdf) (A3, folded; the Sky theme) · the same in [Trail](example-rome-packet-trail.pdf) and [Blueprint](example-rome-packet-blueprint.pdf).

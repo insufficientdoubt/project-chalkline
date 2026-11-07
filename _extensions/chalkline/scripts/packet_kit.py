@@ -1,10 +1,10 @@
-"""Build the guide's packet samples (the packet kit, typst/packet/) into the teacher site.
+"""The guide's printer check, and the list of packet pages, for the Packet Templates page (teacher site).
 
-The packet kit is Typst: print themes (sky, trail, blueprint) and page layouts for A3-folded packets, with a
-teacher edition (answers written into the same pages) and loose sheets (one worksheet printed on its own).
-The guide's samples (guide/packet/) use every piece. This script compiles them into the site, next to the
-Packet Templates page, and writes what each page is for (the hidden `about()` notes on each page) to
-packet-templates.json, which that page lists.
+The packet kit (typst/packet/) lays out every printable and packet. The guide's examples of it are whole units
+written in .qmd (guide/example-*/), built into packets by scripts/packets.py like a course's own. This script
+compiles the printer check (one page per print theme, to print, photocopy and see what survives) and writes
+packet-templates.json: every example page, with what it's for and what it's made of (each page's page-about
+note) and where it is in its unit's packet.
 
 Runs automatically after each full render of the teacher site (`post-render`), and only when the guide is
 there. Or by hand:
@@ -12,12 +12,8 @@ there. Or by hand:
     python chalkline.py packet-kit            into _site-teacher/ (the guide only exists on the teacher site)
 
 Writes (in the site folder, course/guide/02-chalkline/packet/):
-    rome-<theme>.pdf, rome-sky-teacher.pdf                     the Rome sample, 32 pages
-    sheet-<name>-sky.pdf                                       loose sheets (a spread on one A3 page)
     printer-test.pdf                                           one page per theme, to print and photocopy
-    packet-templates.json                                      every page: its name, uses, pieces and PDF
-                                                               (also the example units' pages, from the
-                                                               page-about notes in their .qmd files)
+    packet-templates.json                                      every example page: name, uses, pieces, PDF, page
 """
 
 import json
@@ -147,11 +143,6 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     jobs = []
-    for theme in THEMES:
-        jobs.append((src_dir / "rome.typ", out / f"rome-{theme}.pdf", {"theme": theme}))
-    jobs.append((src_dir / "rome.typ", out / "rome-sky-teacher.pdf", {"theme": "sky", "edition": "teacher"}))
-    for sheet in sorted((src_dir / "sheets").glob("sheet-*.typ")):
-        jobs.append((sheet, out / f"{sheet.stem}-sky.pdf", {"theme": "sky"}))
     jobs.append((src_dir / "printer-test.typ", out / "printer-test.pdf", {}))
 
     with ThreadPoolExecutor(WORKERS) as pool:
@@ -164,11 +155,7 @@ def main():
     print(f"packet_kit: {made} PDFs made, {reused} reused, into {out.relative_to(ROOT)}")
 
     # what each page is for, from the hidden notes (the same pages in every theme)
-    pages = []
-    for sample, pdf in (("rome.typ", "rome-sky.pdf"),):
-        for note in query(src_dir / sample, "<template-info>", {"theme": "sky"}):
-            pages.append({**note, "pdf": "packet/" + pdf})
-    pages += example_pages()
+    pages = example_pages()   # (the example units' packets are built by scripts/packets.py)
     (out / "packet-templates.json").write_text(json.dumps(pages, ensure_ascii=False, indent=1), encoding="utf-8")
     build_cache.prune("packet-kit")
 

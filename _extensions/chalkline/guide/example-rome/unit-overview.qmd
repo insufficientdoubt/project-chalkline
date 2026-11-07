@@ -1,0 +1,41 @@
+---
+title: "Unit Overview: Ancient Rome"
+type: handout
+description: "The unit's first page: the big question, what you'll do, the key words, and what you already know and want to find out."
+order: 10
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Unit overview" uses="the first lesson of a unit; a big question to come back to; prior knowledge before teaching" pieces="panel, side-by-side, work-space"}
+:::
+
+::: {.subunit number="B.1" title="Water and roads"}
+:::
+
+What we'll learn, and what you already know.
+
+::: {.panel title="Big question"}
+**How did the Romans hold a huge empire together?**
+:::
+
+::: side-by-side
+::: {.panel title="In this unit you will …"}
+- read about Roman roads, aqueducts and buildings
+- learn and use 12 key words
+- solve equations and design a bridge
+- put Rome's history on a timeline
+:::
+::: {.panel title="Key words"}
+republic · senate · consul · emperor · empire · forum · Latin · Roman numerals · gladiator · Colosseum · aqueduct · legion
+:::
+:::
+
+::: side-by-side
+::: {.work-space height="fill" style="lines" label="What I already know about Rome"}
+:::
+::: {.work-space height="fill" style="lines" label="What I want to find out"}
+:::
+:::

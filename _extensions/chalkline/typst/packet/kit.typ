@@ -160,16 +160,18 @@
 // Start a two-page spread: the next page is a left-hand (even) page. Typst adds the blank page when one is
 // needed (pagebreak(to: "even"): no extra layout passes). Markers either side of the break show which page
 // was added, and the page background draws Notes lines on it (see notes-background), which can't move anything.
-#let spread-start() = context {
-  if MODE.get() == "booklet" { [#metadata("pre-spread") <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>] }
+// chapter: true when a chapter's heading starts it (the page it's on so far holds only that heading)
+#let spread-start(chapter: false) = context {
+  if MODE.get() == "booklet" { [#metadata(if chapter { "pre-spread-chapter" } else { "pre-spread" }) <pre-spread>#pagebreak(to: "even")#metadata("spread") <spread>] }
   else { [#pagebreak(weak: true)#metadata("spread") <spread>] }
   context [#metadata(here().page()) <spread-page>]
 }
 #let notes-background(t) = context {
   let p = here().page()
-  let pres = query(<pre-spread>).map(m => m.location().page())
+  let pres = query(<pre-spread>)
   let posts = query(<spread>).map(m => m.location().page())
-  let added = pres.zip(posts).any(((a, b)) => b - a == 2 and p == a + 1)
+  // the page Typst added before a spread; or, when a chapter starts the spread, the page its heading was alone on
+  let added = pres.zip(posts).any(((m, b)) => { let a = m.location().page(); (b - a == 2 and p == a + 1) or (m.value == "pre-spread-chapter" and b - a == 1 and p == a) })
   if not added { return }
   let left = if calc.odd(p) { PAGE.inside } else { PAGE.outside }
   place(dx: left, dy: PAGE.top + 4mm, block(width: PAGE.w - PAGE.inside - PAGE.outside, height: PAGE.h - PAGE.top - PAGE.bottom - 8mm, {
@@ -369,7 +371,7 @@
   let t = TH.get()
   block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, inset: 6pt, breakable: false, {
     grid(columns: (auto, 1fr), column-gutter: 5pt, badge(t, letter, size: 1.5em), text(size: 9pt, body))
-    if pic != none { v(1fr); box(width: 100%, height: 17mm, clip: true, radius: calc.min(t.radius, 4pt), image(pic, width: 100%, height: 17mm, fit: "cover")) }
+    if pic != none { v(1fr); box(width: 100%, height: 17mm, clip: true, radius: calc.min(t.radius, 4pt), if type(pic) == str { image(pic, width: 100%, height: 17mm, fit: "cover") } else { pic }) }
   })
 }
 
@@ -386,7 +388,7 @@
   let full = 2 * PAGE.w - 2 * FEAT.edge
   // the panorama: one picture, cut at the spine
   place(dx: if left-page { FEAT.edge } else { FEAT.edge - PAGE.w }, dy: FEAT.edge,
-    box(width: full, height: FEAT.pano-h, clip: true, radius: if t.radius > 0pt { 4pt } else { 0pt }, image(panorama, width: full, height: FEAT.pano-h, fit: "cover")))
+    box(width: full, height: FEAT.pano-h, clip: true, radius: if t.radius > 0pt { 4pt } else { 0pt }, if type(panorama) == str { image(panorama, width: full, height: FEAT.pano-h, fit: "cover") } else { panorama }))
   // the box across the foot: open on the spine side, so it reads as one box across the two pages
   let w = PAGE.w - PAGE.outside
   let open-side = if left-page { (right: none) } else { (left: none) }
@@ -415,7 +417,7 @@
     set page(binding: if calc.odd(start) { right } else { left },
       margin: (inside: PAGE.inside, outside: PAGE.outside, top: FEAT.top, bottom: FEAT.bottom), header: none, footer: none,
       background: feature-bg(t, panorama, left-box, right-box, badge-text, credit))
-    [#metadata(title) <section-title>]
+    [#metadata(title) <section-title>#metadata(title) <own-title>]
     block(width: 100%, below: 4mm, {
       text(font: t.label-font, size: 8.5pt, fill: t.accent, tracking: 1pt, upper(kicker))
       linebreak()
@@ -437,7 +439,7 @@
   let t = TH.get()
   // a float: it goes to the top or bottom of the column, and the text fills in around it (no gaps)
   place(at, float: true, scope: "column", clearance: 4mm, block(width: 100%, breakable: false, {
-    box(width: 100%, height: height, clip: true, radius: calc.min(t.radius, 4pt), image(path, width: 100%, height: height, fit: "cover"))
+    box(width: 100%, height: height, clip: true, radius: calc.min(t.radius, 4pt), if type(path) == str { image(path, width: 100%, height: height, fit: "cover") } else { path })
     v(1mm, weak: true)
     text(size: 7.5pt, fill: t.muted, caption)
   }))
@@ -462,6 +464,28 @@
   gloss(if word == none { row.term_en } else { word }, row.short_def, zh: row.zh)
 }
 
+// a paragraph number, so questions can point to "¶3" (page positions move when the layout changes)
+#let pn(n) = context box(text(font: TH.get().label-font, size: 8pt, weight: "bold", fill: TH.get().accent, "¶" + str(n)) + h(3pt))
+
+// two lines: "parallel" or "perpendicular" (for reference cards, next to angle-pic)
+#let line-pic(kind, t) = box(width: 24mm, height: 20mm, if kind == "parallel" {
+  place(dy: 6mm, line(length: 24mm, stroke: 1.4pt + t.head)); place(dy: 14mm, line(length: 24mm, stroke: 1.4pt + t.head))
+} else {
+  place(dy: 14mm, line(length: 24mm, stroke: 1.4pt + t.head)); place(dx: 12mm, dy: 2mm, line(length: 12mm, angle: 90deg, stroke: 1.4pt + t.head))
+  place(dx: 12mm, dy: 11mm, rect(width: 3mm, height: 3mm, stroke: 0.8pt + t.accent))
+})
+// reference cards in a grid that fills the rest of the page: cards: ((title, picture, text), …)
+#let card-grid(cards, cols: 3) = context {
+  let t = TH.get()
+  let rows = calc.ceil(cards.len() / cols)
+  let card((title, pic, body)) = block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, inset: 7pt, breakable: false, {
+    text(font: t.head-font, weight: "bold", fill: t.head, size: 11pt, title)
+    v(1mm); align(center, pic); v(1fr)
+    text(size: 9pt, body)
+  })
+  block(height: 1fr, grid(columns: (1fr,) * cols, rows: (1fr,) * rows, gutter: 4mm, ..cards.map(card)))
+}
+
 // ---------------------------------------------------------------- a landscape page inside a portrait packet
 // In a packet, the content is turned 90° on an ordinary portrait page, so the packet still prints and folds
 // as one. A loose sheet gets a real landscape page instead (the same room), so it shows the right way up on
@@ -476,6 +500,22 @@
     align(center + horizon, rotate(-90deg, reflow: true, block(width: w, height: h, body)))
   }
 }
+
+// A chart to fill in on a landscape page: a row per thing, a column per question (the last can be "Sketch")
+#let compare-chart(title, first, columns, rows, instructions: none, letter: none) = [#metadata(title) <own-title>] + landscape({
+  set align(left + top)
+  context if MODE.get() == "sheet" { name-row(); v(2mm) }   // a loose sheet: the Name line is on this page
+  if letter != none { section(letter, title, instructions: instructions) } else { titled(title); if instructions != none { text(size: 9.5pt, instructions); v(2mm) } }
+  context {
+    let t = TH.get()
+    let h(s) = text(font: t.label-font, size: 8.5pt, weight: "bold", fill: t.head, s)
+    let n = columns.len()
+    block(height: 1fr, table(columns: (30mm,) + (1fr,) * n, rows: (auto,) + (1fr,) * rows.len(), inset: 6pt,
+      fill: (x, y) => if y == 0 or x == 0 { t.tint } else { none }, align: (x, y) => if x == 0 { left + horizon } else { left + top },
+      h(first), ..columns.map(h),
+      ..rows.map(r => (text(weight: "bold", fill: t.head, r),) + ([],) * n).flatten()))
+  }
+})
 
 // ---------------------------------------------------------------- title page, contents, overview, self-check, back
 #let placeholder(label, height: 40mm, width: 100%) = context {
@@ -557,13 +597,15 @@
 
 // A vocab page in two columns, from the vocab list. pictures: true gives each word its picture (a reference
 // card); false gives a denser list with a line for the student's own sentence.
-#let vocab-page(prefix: "ROM", pictures: true, ids: none) = context {
+// rows: the words themselves, ((term_en:, zh:, short_def:, example:, path:), …), for a .qmd page (kit-blocks.lua
+// passes them from Chalkline's merged word list); otherwise they come from the vocab list, by prefix or ids
+#let vocab-page(prefix: "ROM", pictures: true, ids: none, rows: none) = context {
   let t = TH.get()
-  let rows = VOCAB.filter(r => if ids != none { r.id in ids } else { r.id.starts-with(prefix + "-") })
+  let rows = if rows != none { rows } else { VOCAB.filter(r => if ids != none { r.id in ids } else { r.id.starts-with(prefix + "-") }) }
   let entry(r) = if pictures {
-    block(width: 100%, height: 37mm, stroke: t.box-stroke, radius: t.radius, inset: 5pt, breakable: false, clip: true,
+    block(width: 100%, height: 34mm, stroke: t.box-stroke, radius: t.radius, inset: 5pt, breakable: false, clip: true,
       grid(columns: (30mm, 1fr), column-gutter: 4mm,
-        box(width: 30mm, height: 26mm, clip: true, radius: calc.min(t.radius, 4pt), image(VOCAB-IMAGES + "/" + r.image, width: 30mm, height: 26mm, fit: "contain")),
+        box(width: 30mm, height: 26mm, clip: true, radius: calc.min(t.radius, 4pt), if r.at("path", default: "") != "" { image(r.path, width: 30mm, height: 26mm, fit: "contain") } else if r.at("image", default: "") != "" and "path" not in r { image(VOCAB-IMAGES + "/" + r.image, width: 30mm, height: 26mm, fit: "contain") }),
         [#text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, r.term_en) #h(2pt) #text(fill: t.muted, r.zh)          #text(size: 9pt, r.short_def) \ #v(1pt) #text(size: 8pt, fill: t.muted, style: "italic", r.example)]))
   } else {
     block(width: 100%, breakable: false, below: 3mm, {
@@ -578,7 +620,7 @@
 
 // Language points in two columns, grouped by kind, from vocab/data/frames.csv.
 #let FRAMES = csv(sys.inputs.at("frames", default: "/vocab/data/frames.csv"), row-type: dictionary)
-#let language-page(ids) = context {
+#let language-page(ids, rows: none) = context {
   let t = TH.get()
   let names = (grammar: "Grammar", phrase: "Phrases", stem: "Sentence stems", frame: "Sentence frames", question: "Questions and answers")
   let blank(s) = s.replace("___", "______")
@@ -587,7 +629,7 @@
     if r.answer_en != "" { linebreak(); text(size: 9.5pt)[→ #blank(r.answer_en)] }
     if r.example != "" { linebreak(); text(size: 8.5pt, fill: t.muted, style: "italic", r.example) }
   })
-  let rows = FRAMES.filter(r => r.id in ids)
+  let rows = if rows != none { rows } else { FRAMES.filter(r => r.id in ids) }
   let groups = ("grammar", "phrase", "stem", "frame", "question").filter(k => rows.any(r => r.kind == k))
   // two columns, balanced: whole groups go left until about half the points are placed
   let group(k) = { block(below: 2mm, text(font: t.label-font, weight: "bold", size: 9pt, fill: t.accent, tracking: 0.8pt, upper(names.at(k)))); for r in rows.filter(r => r.kind == k) { item(r) }; v(2mm) }
@@ -700,7 +742,9 @@
     context {
       let next = query(heading.where(level: 1).after(here(), inclusive: false))
       let own = selector(<own-title>).after(here())
-      if next.len() > 0 { own = own.before(next.first().location()) }
+      let spread = selector(<spread-first>).after(here())
+      if next.len() > 0 { own = own.before(next.first().location()); spread = spread.before(next.first().location()) }
+      if query(spread).len() > 0 { spread-start(chapter: true) }   // a chapter that opens with a spread: its title on the left-hand page
       if query(own).len() == 0 { titled(it.body) }
     }
   }

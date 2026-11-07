@@ -510,6 +510,27 @@ local function Pandoc(doc)
     -- test also have their own Name line.
     -- A loose sheet (not a packet): a ::: spread at the top has nothing to face, so it goes (it would leave the
     -- Name line alone on page 1)
+    KIT_BOOKLET = doc.meta["packet-booklet"] and true or false   -- (kit-blocks.lua: a packet, or a loose sheet)
+    -- A packet: a chapter that opens with a ::: spread turns to the left-hand page before its title, not after it
+    -- (kit.booklet's chapter heading looks for this marker)
+    if KIT_BOOKLET then   -- (a packet is one document: look after each chapter's heading, also inside wrappers)
+      local at_start = true
+      local function scan(blocks)
+        for i, b in ipairs(blocks) do
+          local about = (b.t == "Div" and (b.classes:includes("page-about") or b.classes:includes("subunit")))
+            or b.t == "CodeBlock" or b.t == "RawBlock"   -- (Quarto puts an empty code block after each chapter's heading)
+          local spread = b.t == "Div" and b.classes:includes("spread")
+          if b.t == "Header" and b.level == 1 then at_start = true
+          elseif at_start and spread then
+            blocks[i] = pandoc.RawBlock("typst", "#metadata(none) <spread-first>")
+            at_start = false
+          elseif b.t == "Div" and not about and not spread then
+            local inner = b.content; scan(inner); b.content = inner; blocks[i] = b
+          elseif not about then at_start = false end
+        end
+      end
+      local top = doc.blocks; scan(top); doc.blocks = top   -- (doc.blocks is a copy: change it, then put it back)
+    end
     if not doc.meta["packet-booklet"] then
       local kept, top = {}, true
       for _, b in ipairs(doc.blocks) do
@@ -523,7 +544,8 @@ local function Pandoc(doc)
       end
       doc.blocks = kept
     end
-    local OWN_TITLE = { venn = "name", kwl = "name", ["test-head"] = "name", ["source-card"] = true, investigation = true, ["design-artifact"] = true }
+    local OWN_TITLE = { venn = "name", kwl = "name", ["test-head"] = "name", ["source-card"] = true, investigation = true, ["design-artifact"] = true,
+      ["feature-spread"] = "name", ["glossed-reading"] = "name", ["compare-chart"] = "name" }
     for _, b in ipairs(doc.blocks) do
       local skip = b.t == "Div" and (b.classes:includes("page-about") or b.classes:includes("subunit") or b.classes:includes("spread"))
       if not skip then
@@ -583,5 +605,5 @@ end
 return {
   { Meta = Meta },
   { Pandoc = Pandoc },
-  { Div = Div },
+  { Div = Div, Span = function(el) return kit_blocks.span(el) end },   -- (spans first: a gloss inside a reading block)
 }

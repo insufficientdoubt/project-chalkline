@@ -324,6 +324,12 @@ def main():
                              cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
                              out_dir / name(p["pdf"]), extra_files,
                              build_cache.key("packets", sources(p), name(p["pdf"]))))
+                # the same student packet in other themes (`packet-themes:`), to compare them in the guide
+                for theme in ([] if is_teacher else p.get("themes", [])):
+                    pdf = p["pdf"].replace(".pdf", f"-{theme}.pdf")
+                    jobs.append((book_config(False, p["title"], label, ["index.qmd"] + paths, theme=theme),
+                                 cover(p["objectives"], p["chapters"], unit=(str(p["number"]), re.sub(r"^Example [Uu]nit:\s*", "", p["title"])), hero=p.get("hero"), hero_credit=p.get("hero-credit", "")),
+                                 out_dir / pdf, extra_files, build_cache.key("packets", sources(p), pdf)))
     # Teacher site: student copies of the printables (of one unit with --unit; only out-of-date ones with --stale)
     copies = []
     if teacher:

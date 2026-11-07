@@ -1,0 +1,53 @@
+---
+title: "Angles: a Reference 角的参考"
+type: worksheet
+description: "A two-page spread: nine reference cards for angles and lines on the left, and on the right a grid to design an arch bridge that uses them."
+order: 23
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Reference and design spread" uses="a reference grid facing a task that uses it; formulas next to practice; a map key next to a blank map; design challenges" pieces="subunit, spread, card-grid, panel, work-space"}
+:::
+
+::: {.subunit number="B.5" title="Design and time"}
+:::
+
+::: spread
+:::
+
+Use this page while you design your bridge.
+
+::: {.card-grid cols="3"}
+- Acute | angle 50 | Less than 90°. A sharp corner.
+- Right | angle 90 | Exactly 90°. A square corner: mark it with a small box.
+- Obtuse | angle 130 | More than 90°, less than 180°.
+- Straight | angle 180 | Exactly 180°. A straight line.
+- Reflex | angle 240 reflex | More than 180°, less than 360°.
+- Full turn | angle 0 reflex | 360°. All the way around.
+- Parallel | parallel | Lines that never meet. Always the same distance apart.
+- Perpendicular | perpendicular | Lines that meet at a right angle.
+- Measure it | 1. Put the centre on the vertex. 2. Line up 0 with one side. 3. Read where the other side crosses. | Use a protractor.
+:::
+
+{{< pagebreak >}}
+
+## Design: an arch bridge
+
+Draw a Roman bridge on the grid. It must carry a road or water across a valley.
+
+::: {.panel title="Your design must have"}
+☐ an acute angle   ☐ a right angle   ☐ an obtuse angle   ☐ a straight angle   ☐ labels on each angle
+:::
+
+::: {.work-space height="140mm" style="grid" label="Draw your bridge here"}
+:::
+
+::: side-by-side
+::: {.work-space height="fill" style="lines" label="Why is your bridge strong?"}
+:::
+::: {.work-space height="fill" style="lines" label="What would you change?"}
+:::
+:::

@@ -4,24 +4,20 @@ Print themes and page layouts for unit packets, in Typst. Packets are printed on
 
 **In Chalkline:**
 - this folder (`typst/packet/`) is the kit;
-- the guide's samples are in `guide/packet/`;
-- `scripts/packet_kit.py` builds the samples into the teacher site after each full render;
-- the guide's **Packet Templates** page shows them, with every page's uses.
+- every printable's PDF is laid out with it (`typst-show.typ`: `kit.worksheet`), and so is every unit packet (`scripts/packets.py`: `kit.booklet`);
+- pages are written in `.qmd` with the packet blocks (`kit-blocks.lua`); the guide's example units (`guide/example-*/`) use every one;
+- `scripts/packet_kit.py` builds the printer check and the list of example pages for the guide's **Packet Templates** page.
 
-    python chalkline.py packet-kit      # build the samples now (into _site-teacher/)
+    python chalkline.py packet-kit      # the printer check and the page list, now (into _site-teacher/)
 
 **The files:**
 - `kit.typ`: the themes and the shared pieces (title page, contents, sections, work spaces, readings, glosses, word and language pages, spreads, the teacher edition, loose sheets, and `about()`, the hidden note on each page).
 - `organizers.typ`: graphic organizers: KWL, Venn, Frayer, causes and effects, process flow, concept web, and main idea as a temple.
 - `history.typ`: source pages: a source dossier card with photo markers, the Observe / Infer / Evidence investigation, a design challenge, and an assessment with marks, a rubric and a paragraph planner.
 
-**A page's file imports the kit with a path the build gives it, so it works wherever Chalkline is installed:**
+**Chalkline imports the kit** in `typst-template.typ`, with the path `filter.lua` works out (so it works wherever Chalkline is installed). Words and language points come to the word and language pages from `kit-blocks.lua` (Chalkline's merged lists); `edition=teacher` (or the page's `edition:`) gives the teacher edition.
 
-    #import sys.inputs.at("kit", default: "/_extensions/chalkline/typst/packet") + "/kit.typ": *
-
-The build also passes `vocab`, `frames` and `vocab-images` (which word lists to read), `theme`, and `edition=teacher` for the teacher edition.
-
-**Hidden notes:** start each page with `#about("Name", uses: (...), pieces: (...))`. Nothing is printed. `scripts/packet_kit.py` reads the notes (`typst query <template-info>`) into `packet-templates.json` for the guide page.
+**Hidden notes:** start each page with `::: {.page-about name="…" uses="…; …" pieces="…"}` (`#about(…)` in Typst). Nothing is printed. `scripts/packet_kit.py` reads them from the example pages into `packet-templates.json` for the guide page.
 
 **Two ways to print, one design.**
 
@@ -30,9 +26,9 @@ The build also passes `vocab`, `frames` and `vocab-images` (which word lists to 
   - A4, with equal margins.
   - Name / Class / Date at the top, "Page 1 of 2" and "Goes with packet page 15" at the foot.
   - No Notes pages or back cover.
-  - A two-page spread comes out as **one A3 landscape page**, so it still reads as a spread.
+  - A two-page spread comes out as two A4 pages, one after the other (a landscape organizer as a real landscape page).
 
-Each worksheet is one source file in `guide/packet/pages/`. The packet `#include`s it, and so does its loose sheet in `guide/packet/sheets/` (`#show: worksheet.with(...)`). That's how Chalkline already works: one file per printable, and the packet is put together from them.
+Each printable is one `.qmd` file: its own PDF is the loose sheet, and the unit's packet is put together from them.
 - `guide/packet/printer-test.typ`: one page per theme with every colour, tint, line, surface and text size. Print it, photocopy the print, and tick what still shows on both.
 
 ## Themes

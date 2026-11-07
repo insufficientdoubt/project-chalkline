@@ -60,7 +60,7 @@ The credit is printed on the back cover, under **Picture credits**.
 
 ## How a packet works
 
-- **One design, two ways to print.** The whole packet is an A3 booklet: facing pages, and Notes pages added at the end so the page count is a multiple of 4. Any single worksheet can also be printed on its own (a *loose sheet*): A4, with a name line, "Page 1 of 2" and "Goes with packet page 15". A two-page spread becomes one A3 page.
+- **One design, two ways to print.** The whole packet is an A3 booklet: facing pages, and Notes pages added at the end so the page count is a multiple of 4. Any single worksheet can also be printed on its own (a *loose sheet*): A4, with a name line, "Page 1 of 2" and "Goes with packet page 15". A two-page spread prints as two pages; a Venn or KWL as a landscape page.
 - **Spreads.** A page can start a spread: it always lands on a left-hand page. If that would leave an empty page, it becomes a Notes page.
 - **The teacher edition** is the same packet with the answers written in, in red handwriting, where students write theirs. Nothing moves, so the teacher's page 11 is the student's page 11.
 - **Themes for paper.** Sky, Trail and Blueprint (Night, for paper) put colour only in lines and small marks, so they still look right on the school's black-and-white copier. Print the **printer check** once, photocopy it, and see what survives.
@@ -85,7 +85,7 @@ The notes come from each page itself: every page in the samples carries a hidden
 <script>
 fetch("packet/packet-templates.json").then(r => r.ok ? r.json() : null).then(rows => {
   if (!rows || !rows.length) return;
-  const name = { "packet/rome-sky.pdf": "Rome sample" };
+  const name = {};
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   let html = "<table><thead><tr><th>Page</th><th>Use it for</th><th>Made of</th></tr></thead><tbody>";
   for (const r of rows) {
@@ -99,13 +99,13 @@ fetch("packet/packet-templates.json").then(r => r.ok ? r.json() : null).then(row
 </script>
 ```
 
-## The Rome sample (32 pages)
+## The Rome example (36 pages, written in .qmd)
 
-Unit 2, Ancient Rome: title page and contents, a magazine spread, a glossed reading spread, key words, the language page, a vocabulary hunt, a KWL, a reading with a questions box, a landscape chart, math in two and three columns, a reference and design spread, a timeline across a spread, the graphic organizers and a self-check.
+The Ancient Rome example unit's packet uses every kind of page: title page and contents, a magazine feature spread, a glossed reading spread, key words and the language page, a vocabulary hunt, a KWL, a reading with a questions box, a landscape chart, math in two and three columns, a reference and design spread, a timeline across a spread, the graphic organizers and a self-check. Every page is a `.qmd` file in [Example Unit: Ancient Rome](example-rome/index.qmd).
 
-{{< pdf-viewer "packet/rome-sky.pdf" layout="gallery" title="Rome sample · Sky" >}}
+{{< pdf-viewer "example-rome/example-rome-packet.pdf" layout="gallery" title="Rome example · Sky" >}}
 
-**The same packet, other themes:** [Trail](packet/rome-trail.pdf) · [Blueprint](packet/rome-blueprint.pdf) · [Teacher edition (Sky)](packet/rome-sky-teacher.pdf)
+**The same packet, other themes:** [Trail](example-rome/example-rome-packet-trail.pdf) · [Blueprint](example-rome/example-rome-packet-blueprint.pdf) · [Teacher edition (Sky)](example-rome/example-rome-teacher-packet.pdf). A unit asks for these with `packet-themes: [trail, blueprint]` in its `index.qmd`.
 
 ## The Mesopotamia example (12 pages, written in .qmd)
 
@@ -117,4 +117,4 @@ Rebuilt from a teacher's own worksheets, as an example unit you can copy: a sour
 
 ## Loose sheets and the printer check
 
-The same pages, printed on their own: [the feature spread on one A3 page](packet/sheet-feature-sky.pdf) · [vocabulary hunt and recall](packet/sheet-words-sky.pdf) · [two-step equations](packet/sheet-two-step-sky.pdf) · [**printer check**](packet/printer-test.pdf) (one page per theme: print it, photocopy the print, tick what still shows).
+Every page of the example units is also a loose sheet: open a page in [Example Unit: Ancient Rome](example-rome/index.qmd) and use its PDF (A4, with Name, "Page 1 of 2" and "Goes with packet page …"). Print the [**printer check**](packet/printer-test.pdf) once (one page per theme: print it, photocopy the print, tick what still shows).
