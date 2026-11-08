@@ -45,9 +45,10 @@ Never delete or rewrite earlier entries. These logs are collected as design feed
 
 ## A teacher's own tools: outside the extension
 
-Teachers copy this project, and Chalkline's extension comes with it (`_extensions/chalkline/`, or `_extensions/<owner>/chalkline/` when installed with `quarto add`). Updating Chalkline (`quarto update`) replaces that whole folder, so anything changed inside it is lost.
+Teachers copy this project, and Chalkline's extension comes with it (`_extensions/chalkline/`, or `_extensions/<owner>/chalkline/` when installed with `quarto add`). Updating Chalkline (`python chalkline.py update`, which gets the newest release; not `quarto update`, which would install a second copy) replaces that whole folder, so anything changed inside it is lost.
 
 - **Put a teacher's own tools outside the Chalkline extension**: shortcodes, filters, scripts, slide tools. Use a separate extension, `_extensions/my-tools/`, loaded from `_quarto.yml`. Then Chalkline can be updated without losing the teacher's custom work.
 - **A custom slide tool that should always be at hand:** give it its own menu button next to the teacher toolbox button (bottom-left, **W**), not a new item inside the toolbox menu. Like the toolbox, show it only in the teacher site. It can use the toolbox's shared parts (`window.ChalklineToolbox`, see `toolbox/kit.js`) so it looks and works the same.
 - Still log it in `TOOL-CHANGES.md` (above): good custom tools may be built into Chalkline for everyone.
 - This repository is where Chalkline itself is made, so here `_extensions/chalkline/` is changed on purpose. In a teacher's copied course, don't change it: note a Chalkline bug in `TOOL-CHANGES.md` instead.
+- **In Chalkline's own repository** (where `RELEASING.md` is): teachers only get releases. For a change teachers will notice, add a bullet under `## Unreleased` in `_extensions/chalkline/CHANGELOG.md` in the same change, with any step an existing course needs. Never change `version:` in `_extension.yml`, tag, or publish a release unless asked: follow `RELEASING.md` when you are.

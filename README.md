@@ -77,16 +77,17 @@ Things to try once the site is open:
 
 ## Keep Chalkline up to date
 
-Chalkline gets new templates, pieces and fixes. To get them, run this in the VS Code terminal (or **Terminal > Run Task… > Update Chalkline**):
+Chalkline gets new templates, pieces and fixes, published as numbered **releases** (1.0.0, 1.1.0, …) once they're tested. To get the newest release, run this in the VS Code terminal (or **Terminal > Run Task… > Update Chalkline**):
 
 ```bash
 python chalkline.py update
 ```
 
-It downloads the newest Chalkline and puts it in place of the old one: `_extensions/chalkline/`, plus `chalkline.py`, the `Start Chalkline` launchers and `requirements.txt`. Your lessons, vocab, pictures, `brand/` and `_quarto.yml` are never touched. Then it lists what's new (from Chalkline's `CHANGELOG.md`; read it for any steps your course needs) and you run the launcher as usual; the first build afterwards rebuilds everything. `python chalkline.py update --check` only says whether there's a newer version.
+It downloads the newest release and puts it in place of the old one: `_extensions/chalkline/`, plus `chalkline.py`, the `Start Chalkline` launchers and `requirements.txt`. Your lessons, vocab, pictures, `brand/` and `_quarto.yml` are never touched. Then it lists what's new (from Chalkline's `CHANGELOG.md`; read it for any steps your course needs) and you run the launcher as usual; the first build afterwards rebuilds everything. `python chalkline.py update --check` only says which version you have (`version:` in `_extensions/chalkline/_extension.yml`) and whether there's a newer release.
 
 - **Commit your work first** (see "Git basics"). The update stops if Chalkline's own files have changes that aren't committed, so nothing is replaced by surprise, and the old version stays in your git history.
 - **Don't change files inside `_extensions/chalkline/`:** an update replaces that folder. Your own tools go in `_extensions/my-tools/` (see `CLAUDE.md`).
+- **You only get releases,** never work in progress. To help test the next version: `python chalkline.py update --pre` (test releases too) or `--from main` (unreleased work). To go back to a release: `python chalkline.py update --from v1.0.0 --force`.
 - **Don't use `quarto update` for Chalkline:** in a course made this way it installs a second copy beside the first. (`python chalkline.py update` warns you if it finds one.)
 
 ## Open the site
