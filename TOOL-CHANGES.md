@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-08: Versioning: teachers only get releases
+- **Asked for:** "Add the versioning rules so teachers don't get testing releases."
+- **Why:** with `update` downloading `main`, every merge (including unfinished work) reached teachers.
+- **Changed:** `scripts/update.py`: downloads the newest GitHub release by default (never drafts or pre-releases); `--check` shows the installed version (`_extension.yml`) and the newest release; `--pre` includes test releases; `--from <branch or tag>` for testers and for going back; says so when there's no release yet. New `RELEASING.md` (the rules: version numbers, the changelog line in every change, the release steps and checks, never moving a tag) and `maintainer/release.py` (sets `version:` and turns the changelog's "Unreleased" into the release's section, gathering its test releases' notes; never commits, tags or publishes); both left out of teachers' courses (`.quartoignore`). README: "Keep Chalkline up to date" says teachers get releases only. CLAUDE.md: `python chalkline.py update`, not `quarto update`; in Chalkline's repository, a changelog line per change and no version changes or releases unless asked. CHANGELOG.md: the update entry.
+- **Who it helps:** every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-08: The main site starts empty; Start Here moves into the guide; slide-style experiment retired
 - **Asked for:** "yes [retire the slide-style experiment]. And the main site should have nothing in it now. We should only have pages in the guide."
 - **Why:** everything to learn from and copy is in the guide; the course itself should look like a new teacher's course.
