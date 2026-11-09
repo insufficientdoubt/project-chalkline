@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: Event cards: pictures fill the card, and tall ones aren't cut
+- **Asked for:** "pictures are cropped oddly on this page" (the Rome example's timeline: event cards).
+- **Why:** not given; each picture was a 17 mm strip across the card (the statue of Augustus cut to its middle), with empty space above it.
+- **Changed:** `typst/packet/kit.typ`: new `fill-picture` (a picture fills the space it's given; cropped to fill it, unless that would cut away more than half, then shown whole); `event-card` gives its picture all the space under the card's words. `kit-blocks.lua`: `::: event-cards` passes the picture without a size, so the card sizes it (any `{width height}` on it is ignored). `guide/examples/example-rome/timeline.qmd`: the pictures' old sizes taken out.
+- **Who it helps:** every Chalkline course with event cards.
+- **AI assistant:** Claude.
+
 ## 2026-11-09: Glossed readings in a packet: the margin notes no longer cover the text
 - **Asked for:** "Rome example glossing doesn't render correctly." (packet page 6: the margin notes printed on top of the reading)
 - **Why:** not given; the page couldn't be read.

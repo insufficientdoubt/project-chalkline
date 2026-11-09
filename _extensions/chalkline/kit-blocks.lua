@@ -412,14 +412,25 @@ TYPST["card-grid"] = function(el)
     return frag("(", C(p[1]), ", ", picture, ", ", C(p[3] or {}), ")")
   end), ", cols: " .. (tonumber(el.attributes.cols) or 3) .. ")"))
 end
--- ::: {.event-cards cols="3" height="96mm"}   - A | Rome is founded. | ![](images/via-appia.jpg){height=17mm width=100%}
+-- ::: {.event-cards cols="3" height="96mm"}   - A | Rome is founded. | ![](images/via-appia.jpg)
+-- the picture fills the rest of the card (kit.fill-picture: cropped, or whole if it's much taller than the space)
+local function card_picture(inl)
+  if not inl or #inl == 0 then return nil end
+  local img
+  for _, x in ipairs(inl) do if x.t == "Image" then img = img or x end end
+  if img then return frag("[#image(" .. str(img.src) .. ")]") end   -- (no size: the card gives it one)
+  return C(inl)
+end
 TYPST["event-cards"] = function(el)
   local a = el.attributes
   local cols = tonumber(a.cols) or 3
   local list = items(el)
   return call(frag("#block(height: " .. length(a.height or "96mm"):gsub("^auto$", "96mm") .. ", grid(columns: (1fr,) * " .. cols ..
     ", rows: (1fr,) * " .. math.ceil(#list / cols) .. ", gutter: 4mm, ..",
-    seq(list, function(p) return frag("kit.event-card(", C(p[1]), ", ", C(p[2] or {}), (p[3] and #p[3] > 0) and ", pic: " or "", (p[3] and #p[3] > 0) and C(p[3]) or {}, ")") end),
+    seq(list, function(p)
+      local pic = card_picture(p[3])
+      return frag("kit.event-card(", C(p[1]), ", ", C(p[2] or {}), pic and ", pic: " or "", pic or {}, ")")
+    end),
     "))"))
 end
 -- ::: {.timeline from="-800" to="-150" first="true" height="110mm"}   (empty) a timeline at the foot of the page; the

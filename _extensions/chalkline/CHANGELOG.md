@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Event cards** (2026-11-09): a card's picture fills the space under its words (it was a thin 17 mm strip); a tall picture, like a statue, is shown whole instead of cut. Write the picture with no size: `- C | The Via Appia is built. | ![](images/via-appia.jpg)` (an old `{width height}` is ignored).
 - **Fix** (2026-11-09): a glossed reading (`::: glossed-reading`) in a unit packet no longer prints its margin notes over the text on left-hand pages. Rebuild the packet to get the fix.
 - **Fix** (2026-11-09): `{{< blitz words="…" >}}` no longer logs "ERROR … circular reference" when a deck renders (the game itself always worked).
 - **Page layouts with pictures** (2026-11-09): three new printables in the guide's **Printable templates**: a mixed page (text, a drawing beside the text, photos in a row, tables), **picture steps** (`::: picture-steps`: a process, one picture per step down the left third, the words beside each) and a **picture column** (`::: picture-column`: pictures down one side, one box of text beside them). `::: side-by-side` takes `widths="3, 2"`. Every printable's Markdown tables now take the page's width and the theme's colours (a column as wide as its longest cell needs; `tbl-colwidths` sets them), and short tables aren't split across pages; picture captions are small and grey, with no "Figure 1:" (the numbers repeated). **In an existing course:** nothing to do; re-render a printable to see its tables in the new look.

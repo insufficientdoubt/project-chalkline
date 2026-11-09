@@ -431,12 +431,27 @@
   })
 }
 
+// A picture that fills the space it's given. Cropped to fill it, unless that would cut away more than half of it
+// (a tall statue in a wide box): then it's shown whole. `pic` is an image with no size of its own (image("…")).
+#let fill-picture(pic, radius: 4pt) = layout(size => {
+  let nat = measure(pic)
+  let keep = if nat.height == 0pt or size.height == 0pt { 1 } else {
+    let r = (nat.width / nat.height) / (size.width / size.height)
+    calc.min(r, 1 / r)
+  }
+  block(width: 100%, height: 100%, clip: true, radius: radius, {
+    set image(width: 100%, height: 100%, fit: if keep < 0.5 { "contain" } else { "cover" })
+    align(center + horizon, pic)
+  })
+})
+// an event card: its letter, its words, and a picture that fills the rest of the card
 #let event-card(letter, body, pic: none) = context {
   let t = TH.get()
-  block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, inset: 6pt, breakable: false, {
-    grid(columns: (auto, 1fr), column-gutter: 5pt, badge(t, letter, size: 1.5em), text(size: 9pt, body))
-    if pic != none { v(1fr); box(width: 100%, height: 17mm, clip: true, radius: calc.min(t.radius, 4pt), if type(pic) == str { image(pic, width: 100%, height: 17mm, fit: "cover") } else { pic }) }
-  })
+  block(width: 100%, height: 100%, stroke: t.box-stroke, radius: t.radius, inset: 6pt, breakable: false,
+    grid(columns: 100%, rows: (auto, 1fr), row-gutter: 5pt,
+      grid(columns: (auto, 1fr), column-gutter: 5pt, badge(t, letter, size: 1.5em), text(size: 9pt, body)),
+      if pic == none { [] } else if type(pic) == str { fill-picture(image(pic), radius: calc.min(t.radius, 4pt)) }
+      else { fill-picture(pic, radius: calc.min(t.radius, 4pt)) }))
 }
 
 // ---------------------------------------------------------------- a feature spread (magazine style)
