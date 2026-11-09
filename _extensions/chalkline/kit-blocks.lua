@@ -115,9 +115,9 @@ TYPST["work-space"] = function(el)
   return { typst("#kit.work-space(height: " .. length(a.height) .. ", style: " .. str(a.style or "blank") ..
     (a.label and (", label: " .. str(a.label)) or "") .. ")") }
 end
-TYPST["side-by-side"] = function(el)
-  local cols = {}
-  for _ in ipairs(el.content) do table.insert(cols, "1fr") end
+TYPST["side-by-side"] = function(el)   -- widths="1, 2": the second twice as wide (default: all the same)
+  local cols, w = {}, csv(el.attributes.widths)
+  for k in ipairs(el.content) do table.insert(cols, (tonumber(w[k]) or 1) .. "fr") end
   local out = pandoc.List({ typst("#grid(columns: (" .. table.concat(cols, ", ") .. "), column-gutter: 5mm, [") })
   for k, b in ipairs(el.content) do
     if k > 1 then out:insert(typst("], [")) end
@@ -331,6 +331,60 @@ TYPST["reading-page"] = function(el)
   for _, q in ipairs(questions) do out:insert(typst("[")); out:extend(q); out:insert(typst("],")) end
   out:insert(typst("), title: " .. str(a.title or "Questions") .. ", beside: ["))
   out:extend(beside or {})
+  out:insert(typst("])"))
+  return out
+end
+-- a picture for a column: the image itself (any size it was given is replaced), filling `width`
+local function first_image(b) local img; pandoc.walk_block(b, { Image = function(i) img = img or i end }); return img end
+local function sized(img, width, height)
+  local attrs = { width = width }
+  if height then attrs.height = height end
+  return pandoc.Image({}, img.src, "", pandoc.Attr("", {}, attrs))
+end
+-- ::: {.picture-steps height="34mm" fit="contain"}   - ![](images/a.jpg) | Title | What happens.   (or - ![](…) | What happens.)
+-- a column of pictures, a third of the page, and each step's number, title and words beside its picture
+TYPST["picture-steps"] = function(el)
+  local a = el.attributes
+  local h = length(a.height or "34mm"); if h == "auto" then h = "34mm" end
+  local fit = (a.fit == "contain") and '#set image(fit: "contain"); ' or ""
+  return call(frag("#kit.picture-steps(", seq(items(el), function(p)
+    local img = first_image(pandoc.Plain(p[1]))
+    local pic = img and frag("[" .. fit, { sized(img, "100%", h) }, "]") or frag("[]")
+    local title, words = p[2], p[3]
+    if not words then title, words = nil, p[2] end
+    return frag("(", pic, ", ", title and C(title) or frag("none"), ", ", C(words or {}), ")")
+  end), ", pic: " .. (a.pic or "33%") .. ", height: " .. h .. (a.start and (", start: " .. (tonumber(a.start) or 1)) or "") .. ")"))
+end
+-- ::: {.picture-column title="Read" side="left" height="50mm" fit="contain"}   the pictures (each with its caption) go
+-- down one side, a third of the page; everything else goes in a box beside them, which runs on its own (not lined up
+-- with the pictures). height: each picture's (cropped to fill it, or whole with fit="contain"); without it, its own shape
+local function split_pictures(el)
+  local pics, words = pandoc.List(), pandoc.List()
+  for _, b in ipairs(el.content) do
+    local img = (b.t == "Para" or b.t == "Plain" or b.t == "Figure") and first_image(b)
+    if img and (b.t == "Figure" or #b.content == 1) then
+      local cap = (b.t == "Figure") and pandoc.utils.blocks_to_inlines(b.caption.long or {}) or img.caption or {}
+      pics:insert({ img = img, cap = cap })
+    else words:insert(b) end
+  end
+  return pics, words
+end
+TYPST["picture-column"] = function(el)
+  local a = el.attributes
+  local pics, words = split_pictures(el)
+  local h = a.height and length(a.height) or nil
+  if h == "auto" then h = nil end
+  local fit = (a.fit == "contain") and '#set image(fit: "contain"); ' or ""
+  local col = frag("[")
+  for k, p in ipairs(pics) do
+    col:extend(frag("#block(breakable: false, below: " .. (k < #pics and "5mm" or "0mm") .. ")[#align(center)[" .. fit, { sized(p.img, "100%", h) }, "]"))
+    if #p.cap > 0 then col:extend(frag(" #v(1.5mm, weak: true) #context align(center, text(size: 8.5pt, fill: kit.TH.get().muted)[", p.cap, "])")) end
+    col:insert(R("]"))
+  end
+  col:insert(R("]"))
+  local out = pandoc.List({ pandoc.Plain(frag("#kit.picture-column(", col, ", pic: " .. (a.pic or "33%") .. ", side: " .. str(a.side or "left") ..
+    (a.title and (", title: " .. str(a.title)) or "") .. ", boxed: " .. ((a.box == "false") and "false" or "true") .. ", [")) })
+  out:extend(words)
   out:insert(typst("])"))
   return out
 end
@@ -652,6 +706,39 @@ local function web(el, cls)
     for _, p in ipairs(items(el)) do cells:insert(pandoc.Div({ pandoc.Plain(p[1]) }, pandoc.Attr("", { "kit-pic" }))) end
     return { pandoc.Div(cells, pandoc.Attr("", { "kit-block", "kit-picture-answers" }, { style = "display:grid; grid-template-columns: repeat(" .. (tonumber(el.attributes.cols) or 3) .. ", 1fr); gap: 1rem" })) }
   end   -- the blocks inside show one after another
+  if cls == "picture-steps" then   -- each step: its picture, a third of the width, and its words beside it
+    local rows, k = pandoc.List(), tonumber(el.attributes.start) or 1
+    for _, p in ipairs(items(el)) do
+      local img = first_image(pandoc.Plain(p[1]))
+      local title, words = p[2], p[3]
+      if not words then title, words = nil, p[2] end
+      local text = pandoc.List({ pandoc.Strong({ pandoc.Str(tostring(k) .. ".") }) })
+      if title then text:insert(pandoc.Space()); text:insert(pandoc.Strong(title)) end
+      local body = { pandoc.Para(text), pandoc.Para(words or {}) }
+      local pic = img and pandoc.Image({}, img.src, "", pandoc.Attr("", {}, { style = "width: 100%; aspect-ratio: 4 / 3; object-fit: " ..
+        (el.attributes.fit == "contain" and "contain" or "cover") .. "; border-radius: 6px" }))
+      rows:insert(pandoc.Div({ pandoc.Div(pic and { pandoc.Plain({ pic }) } or {}, pandoc.Attr("", {}, { style = "flex: 0 0 32%" })),
+        pandoc.Div(body, pandoc.Attr("", {}, { style = "flex: 1" })) },
+        pandoc.Attr("", { "kit-step" }, { style = "display:flex; gap: 1.25rem; align-items: flex-start; margin-bottom: 1rem" })))
+      k = k + 1
+    end
+    return { pandoc.Div(rows, pandoc.Attr("", { "kit-block", "kit-picture-steps" })) }
+  end
+  if cls == "picture-column" then   -- the pictures down one side, the words in a box beside them
+    local pics, words = split_pictures(el)
+    local col = pandoc.List()
+    for _, p in ipairs(pics) do
+      col:insert(pandoc.Div({ pandoc.Plain({ sized(p.img, "100%") }), pandoc.Div({ pandoc.Plain(p.cap) }, pandoc.Attr("", {}, { style = "font-size: 0.85em; opacity: 0.75; text-align: center; margin-top: 0.25rem" })) },
+        pandoc.Attr("", {}, { style = "margin-bottom: 1rem" })))
+    end
+    local box = pandoc.List()
+    if el.attributes.title then box:insert(pandoc.Para({ pandoc.Strong({ pandoc.Str(el.attributes.title) }) })) end
+    box:extend(words)
+    local left = pandoc.Div(col, pandoc.Attr("", {}, { style = "flex: 0 0 32%" }))
+    local right = pandoc.Div(box, pandoc.Attr("", el.attributes.box == "false" and {} or { "callout-note" }, { style = "flex: 1; margin-top: 0" }))
+    local cells = el.attributes.side == "right" and { right, left } or { left, right }
+    return { pandoc.Div(cells, pandoc.Attr("", { "kit-block", "kit-picture-column" }, { style = "display:flex; gap: 1.25rem; align-items: flex-start" })) }
+  end
   if cls == "subunit" or cls == "writing-lines" or cls == "timeline" then return {} end
   if cls == "vocab-page" then   -- the words: word, 中文, meaning
     local list = {}
@@ -767,6 +854,33 @@ function M.span(el)
     return pandoc.Span(el.content, pandoc.Attr("", { "kit-gloss" }, { title = def or "" }))
   end
   return nil
+end
+
+-- a Markdown table on a printable: in the theme (kit.text-table), and as wide as the page. Columns with no widths
+-- get them from their longest cell (a short column stays narrow); tbl-colwidths="[30,70]" sets them.
+function M.table(tbl)
+  if not quarto.doc.is_format("typst") then return nil end
+  -- (a pipe table with a long row gets widths from its dashes, which nobody means: those are replaced too)
+  local n, given = #tbl.colspecs, tbl.attr.attributes["tbl-colwidths"] ~= nil
+  if not given and n > 0 then
+    local longest = {}
+    for k = 1, n do longest[k] = 4 end
+    local function measure(rows)
+      for _, row in ipairs(rows) do
+        for k, cell in ipairs(row.cells) do
+          if k <= n then longest[k] = math.max(longest[k], math.min(#pandoc.utils.stringify(cell.contents), 60)) end
+        end
+      end
+    end
+    measure(tbl.head.rows)
+    for _, body in ipairs(tbl.bodies) do measure(body.body) end
+    local total = 0
+    for k = 1, n do longest[k] = math.max(longest[k], 8); total = total + longest[k] end
+    for k = 1, n do tbl.colspecs[k] = { tbl.colspecs[k][1], longest[k] / total } end
+  end
+  local rows = #tbl.head.rows
+  for _, body in ipairs(tbl.bodies) do rows = rows + #body.body end
+  return { typst("#kit.text-table(keep: " .. tostring(rows <= 15) .. ")["), tbl, typst("]") }   -- (a short table isn't split)
 end
 
 function M.handles(el)

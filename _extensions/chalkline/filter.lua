@@ -604,5 +604,6 @@ end
 return {
   { Meta = Meta },
   { Pandoc = Pandoc },
-  { Div = Div, Span = function(el) return kit_blocks.span(el) end },   -- (spans first: a gloss inside a reading block)
+  { Div = Div, Span = function(el) return kit_blocks.span(el) end,   -- (spans first: a gloss inside a reading block)
+    Table = function(el) return kit_blocks.table(el) end },           -- (a printable's tables, in the theme)
 }

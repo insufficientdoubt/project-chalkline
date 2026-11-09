@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: Page layouts with pictures: a mixed page, picture steps, a picture column
+- **Asked for:** "a simple full page spread with mixed content (text images tables) ... needs to be in the template library as an example. With better white spacing and layout than I have in this example. And then for the process one, a page with a sequential column of images on the left third and explanatory text for each image on the right. As well as a version with just the column of images and a text box that's not flowed to the images. Add these to the template library for printables."
+- **Why:** the starting templates missed basic layouts; the teacher's own gear-launcher handout had big gaps (pictures pushed to the next page), "Figure 1" twice, and narrow, plain tables.
+- **Changed:** `typst/packet/kit.typ`: `doc-style` (figure captions small and grey, no "Figure 1:"; applied by `worksheet` and `packet`), `text-table` (Markdown tables in the theme, as wide as the page, a short one never split), `picture-steps` and `picture-column`. `kit-blocks.lua`: the `::: picture-steps` and `::: picture-column` blocks (PDF and web), `widths="3, 2"` on `::: side-by-side`, and every Markdown table on a printable sized from its longest cells (`tbl-colwidths` still wins). `filter.lua`: sends tables to it. Guide: three new sample printables (`samples/mixed-page.qmd`, `picture-steps.qmd`, `picture-column.qmd`), a "Page layouts with pictures" section on Printable Templates, the new blocks in Packet Templates' table and the kit README, and a note in `guide/images/CREDITS.md`.
+- **Who it helps:** probably every Chalkline course (every printable with a table or a captioned picture changes look).
+- **AI assistant:** Claude.
+
 ## 2026-11-08: Versioning: teachers only get releases
 - **Asked for:** "Add the versioning rules so teachers don't get testing releases."
 - **Why:** with `update` downloading `main`, every merge (including unfinished work) reached teachers.

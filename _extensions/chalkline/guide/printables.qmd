@@ -1,7 +1,7 @@
 ---
 title: "Printable Templates"
 type: reference
-description: "The printables to copy: worksheet, handout, checklist. Each with its pages, what it's for, and the file to copy. More kinds of printable are coming."
+description: "The printables to copy: worksheet, handout, checklist, and page layouts with pictures (a mixed page, picture steps, a picture column). Each with its pages, what it's for, and the file to copy."
 order: 4
 audience: [teacher]
 format: html
@@ -33,3 +33,30 @@ For the pages of a unit packet (A3, folded), see **Packet Templates**: about 30 
 **Pieces:** `::: {.self-check lesson="true"}` (a list of "I can" lines, four stars each; leave out `lesson` for a unit's check, 1 2 3 at the start and the end), a `.work-space`, a `.recall` frame; teacher look-fors in a teacher-only block. **File:** `guide/samples/self-check.qmd`.
 
 {{< pdf-viewer "samples/self-check.pdf" layout="gallery" title="Self-Check" >}}
+
+## Page layouts with pictures
+
+Three layouts for pages that are mostly pictures and words: a page to read, to keep, or to explain how something works. Copy the closest one and change its words and pictures. Each file's comment at the top says how it's laid out.
+
+### Mixed page: text, pictures and tables
+
+**Use it for:** an information handout with a few short sections, each with a picture or a table · a "how it works" page: the idea, a drawing, the parts in a table · a reference page to keep in the packet.
+**Pieces:** a drawing beside the text (`::: {.side-by-side widths="3, 2"}`), two photos in a row (`::: {layout-ncol=2}`, each `{width="100%" height="50mm"}` so they match), Markdown tables, a `.panel`, a `.recall`, and a `.work-space` with `height="fill"` to finish the last page. **File:** `guide/samples/mixed-page.qmd`.
+
+**What makes it look tidy:** every picture has a size, so it never pushes the next section onto a new page and leaves a gap. Captions are small and grey, with no "Figure 1:". Tables take the page's width and the theme's colours; a column is as wide as its longest cell needs (set them with `: {tbl-colwidths="[30,70]"}` under the table), and a short table is never split across two pages. The last task fills the rest of the page, so there's no half-empty page.
+
+{{< pdf-viewer "samples/mixed-page.pdf" layout="gallery" title="Aqueducts and Roads" >}}
+
+### Picture steps: a process, one picture per step
+
+**Use it for:** how something works, one step at a time · instructions: how to make or build something · a sequence or a history: how something changed over time.
+**Pieces:** `::: picture-steps`, one line per step: `- ![](images/step1.jpg) | Title | What happens.` The pictures go down the left third of the page, each step's number, title and words beside its picture. All pictures are one height (`height="31mm"`), cropped to fill it; `fit="contain"` shows all of a drawing instead. A step is never split across pages. **File:** `guide/samples/picture-steps.qmd`.
+
+{{< pdf-viewer "samples/picture-steps.pdf" layout="gallery" title="How Clocks Changed" >}}
+
+### Picture column: pictures beside a box of text
+
+**Use it for:** a reading with pictures to look at (people, places, objects) · a short article with photos down the side · a source page: the pictures, then the text about them.
+**Pieces:** `::: {.picture-column title="…"}`: the pictures first, each `![Caption](picture)`, then the text. The pictures go down the left third; the text goes in one box beside them that runs on its own (it isn't lined up with the pictures) and ends level with the last picture. `height="46mm" fit="contain"` makes the pictures one height without cropping them; `side="right"` puts them on the right; `box="false"` leaves out the box. **File:** `guide/samples/picture-column.qmd`.
+
+{{< pdf-viewer "samples/picture-column.pdf" layout="gallery" title="Three Thinkers" >}}

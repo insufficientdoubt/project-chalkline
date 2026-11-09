@@ -61,3 +61,9 @@ this guide's own printables (`../samples/self-check.qmd`, `../samples/angle-hunt
 photos in them are credited above and in the example units' `images/CREDITS.md`: the Pont du Gard (Benh LIEU SONG,
 CC BY-SA 3.0) and the Colosseum (Wilfredor, CC0); the front page credits them too.
 
+
+The sample printables with pictures (`../samples/`) use pictures from this folder, already credited above:
+*How Clocks Changed* (`picture-steps.qmd`) the five clock photos, *Three Thinkers* (`picture-column.qmd`) `mencius.jpg`,
+`zhuangzi.jpg` and `hanfei.jpg`, and *Aqueducts and Roads* (`mixed-page.qmd`) `units/pont-du-gard.jpg` and
+`units/via-appia.jpg` (credited in `units/CREDITS.md`) with the Rome example's original drawing
+`../examples/example-rome/images/aqueduct-slope.svg`.

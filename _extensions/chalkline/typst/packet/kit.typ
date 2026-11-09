@@ -128,6 +128,69 @@
   })
 }
 
+// ---------------------------------------------------------------- pictures, tables and text on a page
+// The page's own pictures and tables (written in Markdown, not a kit piece): a small grey caption with no
+// "Figure 1:" (Quarto's figures and the pictures in a row of figures are counted apart, so the numbers repeat),
+// and tables in the theme, as wide as the page, with a tinted header row.
+#let doc-style(t, body) = {
+  set figure(gap: 1.5mm)
+  show figure.caption: it => {
+    if it.kind in (image, table, "quarto-float-fig", "quarto-float-tbl") { text(size: 8.5pt, fill: t.muted, it.body) } else { it }
+  }
+  body
+}
+#let text-table(keep: false, body) = context {
+  let t = TH.get()
+  set table(stroke: (x, y) => (bottom: 0.6pt + t.faint, top: if y == 0 { 0.9pt + t.line } else { none }),
+    inset: (x: 6pt, y: 5pt), fill: (x, y) => if y == 0 { t.tint } else { none })
+  show table.cell.where(y: 0): set text(weight: "bold", fill: t.head)
+  show table.hline: it => table.hline(stroke: 0.9pt + t.line)
+  block(width: 100%, above: 4mm, below: 4mm, breakable: not keep, body)
+}
+
+// steps: ((picture, title, words), …): a picture in the left column (`pic`, a third of the page), and beside it
+// the step's number, its title and what happens. Each step is kept on one page.
+#let picture-steps(steps, pic: 33%, height: 34mm, start: 1) = context {
+  let t = TH.get()
+  let n = steps.len()
+  for (i, (img, title, words)) in steps.enumerate() {
+    block(breakable: false, width: 100%, above: 0pt, below: 0pt, inset: (y: 3mm),
+      stroke: (bottom: if i < n - 1 { 0.6pt + t.faint } else { none }),
+      grid(columns: (pic, 1fr), column-gutter: 6mm,
+        block(width: 100%, height: height, radius: t.radius, clip: true, stroke: t.box-stroke, align(center + horizon, img)),
+        {
+          v(1mm)
+          block(below: 2.5mm, {
+            badge(t, str(start + i))
+            if title != none and title != [] { h(5pt); text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, title) }
+          })
+          words
+        }))
+  }
+  v(2mm)
+}
+
+// pictures down one side (`pic`, a third of the page) and, beside them, a box of text that runs on its own:
+// it isn't lined up with the pictures. side: "left" or "right" (where the pictures go).
+// A box shorter than the pictures is stretched down to the foot of the last one, so the two columns end together.
+#let picture-column(pictures, words, pic: 33%, side: "left", title: none, boxed: true) = context {
+  let t = TH.get()
+  let gutter = 6mm
+  let text-box(height: auto) = block(width: 100%, height: height, stroke: if boxed { t.box-stroke } else { none }, radius: t.radius,
+    inset: if boxed { 10pt } else { 0pt }, {
+      if title != none { text(font: t.head-font, weight: "bold", size: 12pt, fill: t.head, title); v(1mm) }
+      words
+    })
+  layout(size => {
+    let pw = if type(pic) == ratio { size.width * pic } else { pic }
+    let ph = measure(block(width: pw, pictures)).height
+    let th = measure(block(width: size.width - pw - gutter, text-box())).height
+    let words-box = if boxed and th < ph { text-box(height: ph) } else { text-box() }
+    let cols = if side == "right" { (1fr, pw) } else { (pw, 1fr) }
+    grid(columns: cols, column-gutter: gutter, ..if side == "right" { (words-box, pictures) } else { (pictures, words-box) })
+  })
+}
+
 // ---------------------------------------------------------------- margin glosses
 // gloss("aqueduct", "a bridge that carries water", zh: "渡槽"): the word in bold, its meaning in the outer
 // margin, level with the line. Notes that would overlap are pushed down.
@@ -230,6 +293,7 @@
   set text(font: t.body-font, size: 10.5pt, fill: t.ink, lang: "en")
   set par(leading: 0.6em, spacing: 0.9em)
   set table(stroke: 0.6pt + t.line)
+  show: doc-style.with(t)
   body
 }
 
@@ -716,6 +780,7 @@
     it.body
     if it.level <= 2 { v(-2pt); box(width: 30mm, rule(t)) }
   })
+  show: doc-style.with(t)
   if name { name-row(); v(3mm) }   // (a spread starts on a new page: put the name in it instead)
   // the title on page 1: shown when the page is a whole printable from a .qmd (show-title: auto, a title)
   if show-title == true or (show-title == auto and title != "" and title != []) { titled(title, sub: subtitle) }
