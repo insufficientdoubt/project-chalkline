@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: Cause and effect organizer: the event runs up the middle column
+- **Asked for:** "The 'Rome builds aqueducts' text in the center should be rotated 90°."
+- **Why:** not given; in a 30 mm wide column the event was squeezed onto short lines in small type.
+- **Changed:** `typst/packet/organizers.typ`: `cause-effect` turns the event 90° (reading upwards) and sets it at 16 pt, so it reads on one or two long lines along the tall column.
+- **Who it helps:** every Chalkline course with a cause and effect page.
+- **AI assistant:** Claude.
+
 ## 2026-11-09: The ten-minute tour, rewritten for Chalkline as it is now
 - **Asked for:** "Rewrite the 10-minute intro deck to reflect the current state of the project."
 - **Why:** not given; the tour described the old sample course (Rome as a course unit, two example units, packets as one long PDF, cloning first).
