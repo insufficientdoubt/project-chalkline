@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **The Rome example has the picture layouts** (2026-11-09): three new pages (The Roman Army, How Rome Grew, Greek Roots) show the mixed page, picture steps and the picture column in a real packet. In picture steps, a picture that cropping would cut in half (a tall statue) is now shown whole.
 - **Cause and effect** (2026-11-09): the event in the middle column is turned 90° and set larger, so it reads along the column instead of in short squeezed lines.
 - **The ten-minute tour is new** (2026-11-09): Getting started › *Chalkline in Ten Minutes* now shows Chalkline as it is: the guide to copy from, the Template Library's columns, A3 packets and the teacher edition, Routines, colour schemes, and the one-line start with `quarto use template`.
 - **Event cards** (2026-11-09): a card's picture fills the space under its words (it was a thin 17 mm strip); a tall picture, like a statue, is shown whole instead of cut. Write the picture with no size: `- C | The Via Appia is built. | ![](images/via-appia.jpg)` (an old `{width height}` is ignored).

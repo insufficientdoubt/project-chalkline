@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: The new picture layouts in the Rome example's packet
+- **Asked for:** "Make sure the new templates are in the examples on packet templates."
+- **Why:** not given; Packet Templates' "Every page" table and the example packets showed none of the new layouts.
+- **Changed:** three new pages in `guide/examples/example-rome/`: `roman-army.qmd` (a mixed page: a photo beside the text, two photos in a row, two tables, a box, questions, a drawing space), `how-rome-grew.qmd` (picture steps: from the Republic to the first emperor) and `greek-roots.qmd` (a picture column: the Parthenon, a column, the Colosseum beside a reading); their hidden page notes put them in the "Every page" table (Rome packet pages 10, 17, 31). The packet is now 40 pages: `packet-templates.qmd`, `examples/index.qmd` and the unit's `index.qmd` say so and name the new pages; `printables.qmd` points to them. `kit-blocks.lua` and `typst/packet/kit.typ`: picture steps' pictures are fitted by `fill-picture` (cropped, or shown whole if cropping would cut away more than half, like the event cards), so a tall statue isn't cut; the docs say so.
+- **Who it helps:** every Chalkline course (the guide's examples; the picture-steps fit).
+- **AI assistant:** Claude.
+
 ## 2026-11-09: The ten-minute tour is built from the Template Library
 - **Asked for:** "Make sure that presentation also uses templates where appropriate."
 - **Why:** not given; the guide tells teachers to start every slide from the Template Library, and the tour didn't.

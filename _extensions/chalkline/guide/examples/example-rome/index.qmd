@@ -14,7 +14,7 @@ objectives:
 order: 21
 audience: [teacher]
 format: html
-description: "A finished unit to copy from: Grade 6 history, Ancient Rome, with its Greek roots. Four decks, and a 36-page packet that shows every kind of packet page: a magazine feature, a glossed reading, key words and language, readings with questions, a landscape chart, math, a reference and design spread, a timeline across a spread, graphic organizers and a self-check."
+description: "A finished unit to copy from: Grade 6 history, Ancient Rome, with its Greek roots. Four decks, and a 40-page packet that shows every kind of packet page: a magazine feature, a glossed reading, key words and language, readings with questions, a landscape chart, math, a reference and design spread, a timeline across a spread, graphic organizers, pages with pictures (a mixed page, picture steps, a picture column) and a self-check."
 listing:
   contents: "*.qmd"
   type: table

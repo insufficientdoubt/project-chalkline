@@ -1,0 +1,41 @@
+---
+title: "Greek Roots, Roman Buildings 希腊根源，罗马建筑"
+type: reference
+description: "A picture column: three pictures down the left of the page (the Parthenon, a column, the Colosseum) and a reading in a box beside them, then questions."
+order: 26
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Picture column" uses="a reading with pictures to look at: buildings, people, objects; a short article with photos down the side; a source page: the pictures, then the text about them" pieces="picture-column, recall"}
+:::
+
+The Romans learned a lot from the Greeks. Look at the pictures while you read.
+
+::: {.picture-column title="What Rome took from Greece" height="40mm"}
+![The Parthenon, Athens: a Greek temple. Public domain.](images/parthenon-west.jpg)
+
+![Three kinds of Greek column. Drawing made for Chalkline.](images/GRC-011.svg)
+
+![The Colosseum, Rome. Photo: Wilfredor, CC0.](images/colosseum-forum.jpg)
+
+The Greeks built beautiful stone buildings. The most famous is the Parthenon, a {{< vocab "temple" zh=true >}} for the goddess Athena. Its roof stands on tall stone posts. Each post is a {{< vocab "column" zh=true >}}.
+
+The Romans liked Greek buildings. They copied the columns for their own temples, houses and public buildings.
+
+But the Romans also had new ideas. They used **arches** and **concrete**. Arches can hold up a lot of weight, and concrete is strong and cheap. So Roman buildings could be much bigger.
+
+The {{< vocab "Colosseum" zh=true >}} shows both ideas. Its walls are made of arches, one row on top of another. Between the arches, there are Greek columns.
+
+- **From Greece:** columns, temples, theatres
+- **New in Rome:** arches, concrete, huge buildings
+:::
+
+## Think about it
+
+::: {.recall lines="2"}
+- What did the Romans copy from the Greeks? | Columns (and temples and theatres).
+- Why could Roman buildings be bigger? | They used arches and concrete, which are strong.
+:::
