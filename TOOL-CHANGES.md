@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: The ten-minute tour, rewritten for Chalkline as it is now
+- **Asked for:** "Rewrite the 10-minute intro deck to reflect the current state of the project."
+- **Why:** not given; the tour described the old sample course (Rome as a course unit, two example units, packets as one long PDF, cloning first).
+- **Changed:** `guide/start/chalkline-tour-slides.qmd`. New slides: "Start from the guide" (the five key pages, with their pictures, linked) and "The Template Library" (columns by purpose, the Exemplar lesson). Rewritten: packets (A3 folded booklets, loose sheets, three print themes, the teacher edition with the answers written in), words and language (vocab.csv and frames.csv, a bilingual title with the 中/EN switch), classroom tools (Routines, class lists, drawing), colour schemes and the palette, the AI assistant (CLAUDE.md, TOOL-CHANGES.md), getting a course (`quarto use template`, the starter unit, `update` gets releases), the course's folders and making a unit. The feature catalog: 71 chips (Routines; talk and group work: mood check-in, Think-Pair-Share, jigsaw, group roles, stations, live board, Padlet; Mesopotamia, the Exemplar lesson, pages with pictures). Every link checked.
+- **Who it helps:** every Chalkline course (the tour is in every teacher site's guide).
+- **AI assistant:** Claude.
+
 ## 2026-11-09: Event cards: pictures fill the card, and tall ones aren't cut
 - **Asked for:** "pictures are cropped oddly on this page" (the Rome example's timeline: event cards).
 - **Why:** not given; each picture was a 17 mm strip across the card (the statue of Augustus cut to its middle), with empty space above it.
