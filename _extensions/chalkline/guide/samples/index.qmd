@@ -4,7 +4,7 @@ short-title: "Sample printables"
 order: 9
 audience: [teacher]
 format: html
-description: "The small printables the template decks show in their galleries and work slides: Angle Hunt, Thinker Card, Self-Check, and a practice page with every packet block."
+description: "The small printables the template decks show in their galleries and work slides: Angle Hunt, Thinker Card, Self-Check, a practice page with every packet block, and three page layouts with pictures (a mixed page, picture steps, a picture column)."
 listing:
   contents: "*.qmd"
   type: table

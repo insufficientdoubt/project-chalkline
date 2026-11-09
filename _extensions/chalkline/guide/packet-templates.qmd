@@ -20,7 +20,10 @@ Every printable's PDF now uses the kit: the theme comes from `packet-theme: sky`
 | `::: {.sequence order="3,1,2"}` | one event per line | boxes for the order |
 | `::: {.problems cols="2"}` | `- $3x + 5 = 20$ \| 5 \| 3x = 15` (problem · answer · working) | tall boxes with a grid, an answer box |
 | `::: {.work-space height="4cm" style="lines" label="…"}` | `height="fill"`: the rest of the page; `style`: blank, lines, grid, dots | a box to write or draw in |
-| `::: side-by-side` | two or three blocks inside | half-width (or third) spaces |
+| `::: side-by-side` | two or three blocks inside; `widths="3, 2"` for unequal widths | half-width (or third) spaces |
+| `::: {.picture-steps height="31mm"}` | `- ![](images/a.jpg) \| Title \| What happens.` (one step per line) | pictures down the left third, each step's number, title and words beside it |
+| `::: {.picture-column title="…" height="46mm"}` | the pictures (`![Caption](images/a.jpg)`), then the text | pictures down the left third, the text in one box beside them |
+| a Markdown table | `\| Part \| What it does \|` | the page's width, the theme's colours; `: {tbl-colwidths="[30,70]"}` sets the widths |
 | `::: {.kwl title="…" topic="…"}` |  | a landscape KWL |
 | `::: {.venn title="…" a="…" b="…"}` | the "So what?" question inside | the landscape Venn |
 | `::: {.frayer id="ROM-011"}` |  | a Frayer model from the vocab list |

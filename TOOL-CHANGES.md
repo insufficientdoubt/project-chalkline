@@ -16,6 +16,34 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: Event cards: pictures fill the card, and tall ones aren't cut
+- **Asked for:** "pictures are cropped oddly on this page" (the Rome example's timeline: event cards).
+- **Why:** not given; each picture was a 17 mm strip across the card (the statue of Augustus cut to its middle), with empty space above it.
+- **Changed:** `typst/packet/kit.typ`: new `fill-picture` (a picture fills the space it's given; cropped to fill it, unless that would cut away more than half, then shown whole); `event-card` gives its picture all the space under the card's words. `kit-blocks.lua`: `::: event-cards` passes the picture without a size, so the card sizes it (any `{width height}` on it is ignored). `guide/examples/example-rome/timeline.qmd`: the pictures' old sizes taken out.
+- **Who it helps:** every Chalkline course with event cards.
+- **AI assistant:** Claude.
+
+## 2026-11-09: Glossed readings in a packet: the margin notes no longer cover the text
+- **Asked for:** "Rome example glossing doesn't render correctly." (packet page 6: the margin notes printed on top of the reading)
+- **Why:** not given; the page couldn't be read.
+- **Changed:** `filter.lua` tells `kit-blocks.lua` that it's building a packet by setting `kit_blocks.booklet`, not a global `KIT_BOOKLET`. Quarto runs each filter in its own environment, so the global never reached `kit-blocks.lua`, and a glossed reading in a packet always got a loose sheet's margins (wide on the right) while its notes went in the outer margin (on the left of a left-hand page). `kit-blocks.lua` reads `M.booklet`.
+- **Who it helps:** every Chalkline course with a glossed reading in a packet.
+- **AI assistant:** Claude.
+
+## 2026-11-09: No more "circular reference" errors from Word Blitz
+- **Asked for:** "Figure out the circular reference errors" (red ERROR lines in a full render, from the Template Library deck).
+- **Why:** not given; red errors in every render look like something is broken.
+- **Changed:** `shortcodes.lua`: `{{< blitz words="…" >}}` puts copies of its words in its wrong-answer list, not the same tables. Quarto's JSON encoder (`_json.lua`) doesn't clear an empty table from its "seen" list, so a word with no units (`units = {}`, every guide word) met a second time was reported as a circular reference. Quarto then fell back to another encoder, so the game always worked; the settings it gets are unchanged.
+- **Who it helps:** every Chalkline course that uses Word Blitz with `words=` (and the guide's teacher site).
+- **AI assistant:** Claude.
+
+## 2026-11-09: Page layouts with pictures: a mixed page, picture steps, a picture column
+- **Asked for:** "a simple full page spread with mixed content (text images tables) ... needs to be in the template library as an example. With better white spacing and layout than I have in this example. And then for the process one, a page with a sequential column of images on the left third and explanatory text for each image on the right. As well as a version with just the column of images and a text box that's not flowed to the images. Add these to the template library for printables."
+- **Why:** the starting templates missed basic layouts; the teacher's own gear-launcher handout had big gaps (pictures pushed to the next page), "Figure 1" twice, and narrow, plain tables.
+- **Changed:** `typst/packet/kit.typ`: `doc-style` (figure captions small and grey, no "Figure 1:"; applied by `worksheet` and `packet`), `text-table` (Markdown tables in the theme, as wide as the page, a short one never split), `picture-steps` and `picture-column`. `kit-blocks.lua`: the `::: picture-steps` and `::: picture-column` blocks (PDF and web), `widths="3, 2"` on `::: side-by-side`, and every Markdown table on a printable sized from its longest cells (`tbl-colwidths` still wins). `filter.lua`: sends tables to it. Guide: three new sample printables (`samples/mixed-page.qmd`, `picture-steps.qmd`, `picture-column.qmd`), a "Page layouts with pictures" section on Printable Templates, the new blocks in Packet Templates' table and the kit README, and a note in `guide/images/CREDITS.md`.
+- **Who it helps:** probably every Chalkline course (every printable with a table or a captioned picture changes look).
+- **AI assistant:** Claude.
+
 ## 2026-11-08: Versioning: teachers only get releases
 - **Asked for:** "Add the versioning rules so teachers don't get testing releases."
 - **Why:** with `update` downloading `main`, every merge (including unfinished work) reached teachers.

@@ -854,7 +854,14 @@ return {
     local up = quarto.project.offset and (quarto.project.offset .. "/") or ""
     local c = game_config({}, kwargs, "blitz")
     c.all = {}   -- every word, for the wrong answers (one of the four comes from another unit)
-    if c.named then c.all = c.words
+    if c.named then   -- copies, not the same tables: Quarto's JSON encoder calls a table met twice a "circular
+      -- reference" when it's empty (a guide word's units = {}), and logs an error for every Word Blitz
+      for _, w in ipairs(c.words) do
+        local copy = {}
+        for k, v in pairs(w) do copy[k] = v end
+        copy.units = { table.unpack(w.units or {}) }
+        table.insert(c.all, copy)
+      end
     else for _, t in ipairs(vocab_list or {}) do if not t.guide then table.insert(c.all, game_word(t, up)) end end end
     c.count = tonumber(str(kwargs["count"], ""))   -- nil: games.js decides (20, or 10 for a small course)
     c.seconds = tonumber(str(kwargs["seconds"], "10")) or 10

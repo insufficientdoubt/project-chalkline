@@ -49,6 +49,9 @@ Three, echoing the slide schemes, all print-safe. Paper stays white. Colour goes
 | `recall(questions)` | Questions with two answer lines each, for full sentences. |
 | `sequence(events)` | A box for the order, then the event. |
 | `panel(title)` | A boxed prompt ("Name the reading", "Think about it"). |
+| `picture-steps(steps, pic, height, start)` | A process, step by step: each step's picture in the left third (one height, cropped to fill it), and beside it the step's number, title and words. A step never splits across pages. In a .qmd: `::: picture-steps`. |
+| `picture-column(pictures, words, pic, side, title, boxed)` | Pictures down one side (a third of the page) and one box of text beside them that runs on its own; a box shorter than the pictures is stretched to end level with them. In a .qmd: `::: picture-column`. |
+| `doc-style(t)`, `text-table(keep)` | A page's own figures and tables (plain Markdown): small grey captions with no "Figure 1:"; tables as wide as the page, in the theme, a short one kept on one page. Applied for you by `worksheet` and `packet`, and by the filter for every Markdown table. |
 | `reading-page(passage, questions, beside)` | The passage in two columns across the top. The lower half has a picture or word box on the left and the questions box on the right. |
 | `gloss(word, meaning, zh)` | The word in bold, its meaning in the outer margin level with the line. Notes that would overlap are pushed down. Needs a wide outer margin (the reading spread uses 54 mm). |
 | `angle-pic`, `event-card`, `timeline-part` | Reference drawings, timeline cards, and a timeline drawn across two facing pages. |
