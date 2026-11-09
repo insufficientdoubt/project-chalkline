@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: Release 1.0.0
+- **Asked for:** "Push these to released."
+- **Why:** there was no release yet, so `python chalkline.py update` gave teachers nothing.
+- **Changed:** `_extensions/chalkline/_extension.yml` (`version: 1.0.0`) and `CHANGELOG.md` ("Unreleased" became "1.0.0"), by `maintainer/release.py`. 1.0.0, not 0.2.0: the changes include a breaking one (every PDF laid out by the packet kit), and RELEASING.md says breaking means MAJOR. Tested first (RELEASING.md step 1): full student and teacher builds clean; a fresh course (setup, full build: the starter unit's page, PDFs and packet); a course made from the day before, updated with `update --from main` (only `_extensions/chalkline/` changed) and built; the example packets.
+- **Who it helps:** every Chalkline course: teachers get this version with `python chalkline.py update`.
+- **AI assistant:** Claude.
+
 ## 2026-11-09: The PDF viewer turns sideways pages the right way up
 - **Asked for:** "The sideways PDF pages... We need to be able to rotate them in the viewer. Or have them come up the other way in the viewer. So that teachers can use them in class."
 - **Why:** a packet prints a landscape page (KWL, Venn, compare chart) turned on a portrait page so the A3 booklet folds as one; on the board it showed sideways.
