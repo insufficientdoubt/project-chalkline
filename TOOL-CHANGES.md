@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: The ten-minute tour is built from the Template Library
+- **Asked for:** "Make sure that presentation also uses templates where appropriate."
+- **Why:** not given; the guide tells teachers to start every slide from the Template Library, and the tour didn't.
+- **Changed:** `guide/start/chalkline-tour-slides.qmd`: every slide but the feature catalog and the Odyssey map is now a Template Library slide with its words changed, and its footer names the template (objectives one at a time, two things side by side, big idea, compare several things, copy a slide, hero photo beside text, one idea and a picture, words glossed in a text, a task with a timer, multiple choice, colour schemes, agenda, exit poll, the Credits slide). The deck loads `../exemplar.css` for the Template Library's own pieces. New slides: the agenda, "Copy a slide into your lesson", and colour schemes shown in their own colours. Checked: no slide runs off the screen (the catalog by 10 px, as before), every link and anchor resolves.
+- **Who it helps:** every Chalkline course (the tour is in every teacher site's guide).
+- **AI assistant:** Claude.
+
 ## 2026-11-09: Cause and effect organizer: the event runs up the middle column
 - **Asked for:** "The 'Rome builds aqueducts' text in the center should be rotated 90°."
 - **Why:** not given; in a 30 mm wide column the event was squeezed onto short lines in small type.
