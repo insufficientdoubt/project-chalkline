@@ -346,10 +346,12 @@ end
 TYPST["picture-steps"] = function(el)
   local a = el.attributes
   local h = length(a.height or "34mm"); if h == "auto" then h = "34mm" end
+  -- (the picture has no size of its own: kit.fill-picture fits it to the box, cropped, or whole if it's much
+  -- taller or wider than the box; fit="contain" shows every picture whole)
   local fit = (a.fit == "contain") and '#set image(fit: "contain"); ' or ""
   return call(frag("#kit.picture-steps(", seq(items(el), function(p)
     local img = first_image(pandoc.Plain(p[1]))
-    local pic = img and frag("[" .. fit, { sized(img, "100%", h) }, "]") or frag("[]")
+    local pic = img and frag("[" .. fit .. "#image(" .. str(img.src) .. ")]") or frag("[]")
     local title, words = p[2], p[3]
     if not words then title, words = nil, p[2] end
     return frag("(", pic, ", ", title and C(title) or frag("none"), ", ", C(words or {}), ")")

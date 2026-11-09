@@ -138,8 +138,10 @@
   block(height: 1fr, grid(columns: (1fr, 8mm, 30mm, 8mm, 1fr), rows: (auto, 1fr, 1fr, 1fr), row-gutter: 4mm,
     align(center, text(font: t.head-font, weight: "bold", fill: t.head, "Causes")), [], align(center, text(font: t.head-font, weight: "bold", fill: t.head, "Event")), [], align(center, text(font: t.head-font, weight: "bold", fill: t.head, "Effects")),
     cell(label: "CAUSE 1", example: eg(cause-example)), arr,
+    // the event runs up the tall middle column (turned 90°), so it reads on one or two long lines
     grid.cell(rowspan: 3, block(width: 100%, height: 100%, fill: t.tint, stroke: 1.6pt + t.head, radius: t.radius, inset: 5pt,
-      align(center + horizon, text(font: t.head-font, weight: "bold", size: 11pt, fill: t.head, hyphenate: false, event)))),
+      layout(size => align(center + horizon, rotate(-90deg, reflow: true, block(width: size.height - 4mm,
+        align(center, text(font: t.head-font, weight: "bold", size: 16pt, fill: t.head, hyphenate: false, event)))))))),
     arr, cell(label: "EFFECT 1", example: eg(effect-example)),
     cell(label: "CAUSE 2"), arr, arr, cell(label: "EFFECT 2"),
     cell(label: "CAUSE 3"), arr, arr, cell(label: "EFFECT 3")))

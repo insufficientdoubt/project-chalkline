@@ -38,6 +38,8 @@ For the pages of a unit packet (A3, folded), see **Packet Templates**: about 30 
 
 Three layouts for pages that are mostly pictures and words: a page to read, to keep, or to explain how something works. Copy the closest one and change its words and pictures. Each file's comment at the top says how it's laid out.
 
+**In a real unit:** the Ancient Rome example's packet has one of each: *The Roman Army* (a mixed page), *How Rome Grew* (picture steps) and *Greek Roots, Roman Buildings* (a picture column). See them on **Packet Templates**, under "Every page, and what it's for".
+
 ### Mixed page: text, pictures and tables
 
 **Use it for:** an information handout with a few short sections, each with a picture or a table · a "how it works" page: the idea, a drawing, the parts in a table · a reference page to keep in the packet.
@@ -50,7 +52,7 @@ Three layouts for pages that are mostly pictures and words: a page to read, to k
 ### Picture steps: a process, one picture per step
 
 **Use it for:** how something works, one step at a time · instructions: how to make or build something · a sequence or a history: how something changed over time.
-**Pieces:** `::: picture-steps`, one line per step: `- ![](images/step1.jpg) | Title | What happens.` The pictures go down the left third of the page, each step's number, title and words beside its picture. All pictures are one height (`height="31mm"`), cropped to fill it; `fit="contain"` shows all of a drawing instead. A step is never split across pages. **File:** `guide/samples/picture-steps.qmd`.
+**Pieces:** `::: picture-steps`, one line per step: `- ![](images/step1.jpg) | Title | What happens.` The pictures go down the left third of the page, each step's number, title and words beside its picture. All pictures are one height (`height="31mm"`), cropped to fill it, unless that would cut away more than half of one (a tall statue): then it's shown whole. `fit="contain"` shows every picture whole. A step is never split across pages. **File:** `guide/samples/picture-steps.qmd`.
 
 {{< pdf-viewer "samples/picture-steps.pdf" layout="gallery" title="How Clocks Changed" >}}
 

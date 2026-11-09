@@ -1,0 +1,27 @@
+---
+title: "How Rome Grew 罗马的成长"
+type: reference
+description: "Picture steps: five steps from a small republic to an empire, a photo for each step down the left of the page and the words beside it, then a question."
+order: 14
+audience: [teacher, student]
+format:
+  html: default
+  typst: default
+---
+
+::: {.page-about name="Picture steps" uses="a sequence in history: how something grew or changed, one step at a time; a process: how something works, a picture for each step; instructions: how to make something" pieces="picture-steps, recall"}
+:::
+
+Rome started as one small city. Here is how it grew into an {{< vocab "empire" zh=true >}}, step by step.
+
+::: {.picture-steps height="31mm"}
+- ![](images/roman-senate-maccari.jpg) | A republic (509 BC) | The Romans sent away their last king. Now citizens chose their leaders. The {{< vocab "senate" zh=true >}} gave advice.
+- ![](images/via-appia.jpg) | Roads across Italy (312 BC) | Rome built long, straight roads like the Via Appia. Soldiers and traders could move fast.
+- ![](images/trajans-column-legion.jpg) | An army that won | The legions won land all around the Mediterranean Sea. Each new land paid taxes to Rome.
+- ![](images/pont-du-gard.jpg) | Water for the cities | Cities grew big. Aqueducts like the Pont du Gard brought them clean water from the hills.
+- ![](images/augustus-prima-porta.jpg) | The first emperor (27 BC) | Augustus became the first {{< vocab "emperor" zh=true >}}. Now one man ruled the whole empire.
+:::
+
+::: {.recall lines="2"}
+- Which step do you think helped Rome most? Why? | The roads, because soldiers and food could move quickly.
+:::

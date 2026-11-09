@@ -148,6 +148,20 @@
   block(width: 100%, above: 4mm, below: 4mm, breakable: not keep, body)
 }
 
+// A picture that fills the space it's given. Cropped to fill it, unless that would cut away more than half of it
+// (a tall statue in a wide box): then it's shown whole. `pic` is an image with no size of its own (image("…")).
+#let fill-picture(pic, radius: 4pt) = layout(size => {
+  let nat = measure(pic)
+  let keep = if nat.height == 0pt or size.height == 0pt { 1 } else {
+    let r = (nat.width / nat.height) / (size.width / size.height)
+    calc.min(r, 1 / r)
+  }
+  block(width: 100%, height: 100%, clip: true, radius: radius, {
+    set image(width: 100%, height: 100%, fit: if keep < 0.5 { "contain" } else { "cover" })
+    align(center + horizon, pic)
+  })
+})
+
 // steps: ((picture, title, words), …): a picture in the left column (`pic`, a third of the page), and beside it
 // the step's number, its title and what happens. Each step is kept on one page.
 #let picture-steps(steps, pic: 33%, height: 34mm, start: 1) = context {
@@ -157,7 +171,8 @@
     block(breakable: false, width: 100%, above: 0pt, below: 0pt, inset: (y: 3mm),
       stroke: (bottom: if i < n - 1 { 0.6pt + t.faint } else { none }),
       grid(columns: (pic, 1fr), column-gutter: 6mm,
-        block(width: 100%, height: height, radius: t.radius, clip: true, stroke: t.box-stroke, align(center + horizon, img)),
+        block(width: 100%, height: height, radius: t.radius, clip: true, stroke: t.box-stroke,
+          if img == [] { [] } else { fill-picture(img, radius: t.radius) }),
         {
           v(1mm)
           block(below: 2.5mm, {
@@ -431,19 +446,6 @@
   })
 }
 
-// A picture that fills the space it's given. Cropped to fill it, unless that would cut away more than half of it
-// (a tall statue in a wide box): then it's shown whole. `pic` is an image with no size of its own (image("…")).
-#let fill-picture(pic, radius: 4pt) = layout(size => {
-  let nat = measure(pic)
-  let keep = if nat.height == 0pt or size.height == 0pt { 1 } else {
-    let r = (nat.width / nat.height) / (size.width / size.height)
-    calc.min(r, 1 / r)
-  }
-  block(width: 100%, height: 100%, clip: true, radius: radius, {
-    set image(width: 100%, height: 100%, fit: if keep < 0.5 { "contain" } else { "cover" })
-    align(center + horizon, pic)
-  })
-})
 // an event card: its letter, its words, and a picture that fills the rest of the card
 #let event-card(letter, body, pic: none) = context {
   let t = TH.get()

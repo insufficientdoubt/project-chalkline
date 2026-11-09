@@ -102,9 +102,9 @@ fetch("packet/packet-templates.json").then(r => r.ok ? r.json() : null).then(row
 </script>
 ```
 
-## The Rome example (36 pages, written in .qmd)
+## The Rome example (40 pages, written in .qmd)
 
-The Ancient Rome example unit's packet uses every kind of page: title page and contents, a magazine feature spread, a glossed reading spread, key words and the language page, a vocabulary hunt, a KWL, a reading with a questions box, a landscape chart, math in two and three columns, a reference and design spread, a timeline across a spread, the graphic organizers and a self-check. Every page is a `.qmd` file in [Ancient Rome](examples/example-rome/index.qmd).
+The Ancient Rome example unit's packet uses every kind of page: title page and contents, a magazine feature spread, a glossed reading spread, key words and the language page, a vocabulary hunt, a KWL, a reading with a questions box, a landscape chart, math in two and three columns, a reference and design spread, a timeline across a spread, the graphic organizers, the page layouts with pictures (a mixed page with tables, picture steps, a picture column) and a self-check. Every page is a `.qmd` file in [Ancient Rome](examples/example-rome/index.qmd).
 
 {{< pdf-viewer "examples/example-rome/example-rome-packet.pdf" layout="gallery" title="Rome example · Sky" >}}
 

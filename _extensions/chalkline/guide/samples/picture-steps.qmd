@@ -17,8 +17,8 @@ How this page works:
 - ::: picture-steps, then one line per step:  - ![](picture) | Title | What happens.
   (Leave out the title for just the words:  - ![](picture) | What happens.)
 - The pictures go down the left third of the page; each step's number, title and words sit beside its picture.
-- Every picture is the same height (height="31mm"; 34mm if you leave it out) and is cropped to fill its box. For drawings or
-  diagrams that mustn't be cropped, add fit="contain".
+- Every picture is the same height (height="31mm"; 34mm if you leave it out) and is cropped to fill its box,
+  unless that would cut away more than half of it: then it's shown whole. fit="contain" shows every picture whole.
 - A step is never split across two pages. Five steps of 31mm and a question fill an A4 page.
 - Keep each step to two or three short sentences.
 -->

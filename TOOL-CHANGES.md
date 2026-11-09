@@ -16,6 +16,34 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: The new picture layouts in the Rome example's packet
+- **Asked for:** "Make sure the new templates are in the examples on packet templates."
+- **Why:** not given; Packet Templates' "Every page" table and the example packets showed none of the new layouts.
+- **Changed:** three new pages in `guide/examples/example-rome/`: `roman-army.qmd` (a mixed page: a photo beside the text, two photos in a row, two tables, a box, questions, a drawing space), `how-rome-grew.qmd` (picture steps: from the Republic to the first emperor) and `greek-roots.qmd` (a picture column: the Parthenon, a column, the Colosseum beside a reading); their hidden page notes put them in the "Every page" table (Rome packet pages 10, 17, 31). The packet is now 40 pages: `packet-templates.qmd`, `examples/index.qmd` and the unit's `index.qmd` say so and name the new pages; `printables.qmd` points to them. `kit-blocks.lua` and `typst/packet/kit.typ`: picture steps' pictures are fitted by `fill-picture` (cropped, or shown whole if cropping would cut away more than half, like the event cards), so a tall statue isn't cut; the docs say so.
+- **Who it helps:** every Chalkline course (the guide's examples; the picture-steps fit).
+- **AI assistant:** Claude.
+
+## 2026-11-09: The ten-minute tour is built from the Template Library
+- **Asked for:** "Make sure that presentation also uses templates where appropriate."
+- **Why:** not given; the guide tells teachers to start every slide from the Template Library, and the tour didn't.
+- **Changed:** `guide/start/chalkline-tour-slides.qmd`: every slide but the feature catalog and the Odyssey map is now a Template Library slide with its words changed, and its footer names the template (objectives one at a time, two things side by side, big idea, compare several things, copy a slide, hero photo beside text, one idea and a picture, words glossed in a text, a task with a timer, multiple choice, colour schemes, agenda, exit poll, the Credits slide). The deck loads `../exemplar.css` for the Template Library's own pieces. New slides: the agenda, "Copy a slide into your lesson", and colour schemes shown in their own colours. Checked: no slide runs off the screen (the catalog by 10 px, as before), every link and anchor resolves.
+- **Who it helps:** every Chalkline course (the tour is in every teacher site's guide).
+- **AI assistant:** Claude.
+
+## 2026-11-09: Cause and effect organizer: the event runs up the middle column
+- **Asked for:** "The 'Rome builds aqueducts' text in the center should be rotated 90°."
+- **Why:** not given; in a 30 mm wide column the event was squeezed onto short lines in small type.
+- **Changed:** `typst/packet/organizers.typ`: `cause-effect` turns the event 90° (reading upwards) and sets it at 16 pt, so it reads on one or two long lines along the tall column.
+- **Who it helps:** every Chalkline course with a cause and effect page.
+- **AI assistant:** Claude.
+
+## 2026-11-09: The ten-minute tour, rewritten for Chalkline as it is now
+- **Asked for:** "Rewrite the 10-minute intro deck to reflect the current state of the project."
+- **Why:** not given; the tour described the old sample course (Rome as a course unit, two example units, packets as one long PDF, cloning first).
+- **Changed:** `guide/start/chalkline-tour-slides.qmd`. New slides: "Start from the guide" (the five key pages, with their pictures, linked) and "The Template Library" (columns by purpose, the Exemplar lesson). Rewritten: packets (A3 folded booklets, loose sheets, three print themes, the teacher edition with the answers written in), words and language (vocab.csv and frames.csv, a bilingual title with the 中/EN switch), classroom tools (Routines, class lists, drawing), colour schemes and the palette, the AI assistant (CLAUDE.md, TOOL-CHANGES.md), getting a course (`quarto use template`, the starter unit, `update` gets releases), the course's folders and making a unit. The feature catalog: 71 chips (Routines; talk and group work: mood check-in, Think-Pair-Share, jigsaw, group roles, stations, live board, Padlet; Mesopotamia, the Exemplar lesson, pages with pictures). Every link checked.
+- **Who it helps:** every Chalkline course (the tour is in every teacher site's guide).
+- **AI assistant:** Claude.
+
 ## 2026-11-09: Event cards: pictures fill the card, and tall ones aren't cut
 - **Asked for:** "pictures are cropped oddly on this page" (the Rome example's timeline: event cards).
 - **Why:** not given; each picture was a 17 mm strip across the card (the statue of Augustus cut to its middle), with empty space above it.
