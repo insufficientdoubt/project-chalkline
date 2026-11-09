@@ -48,6 +48,45 @@ const inkMemory = new Map();   // works even where localStorage is blocked
 const pageViews = new Set();   // every page on screen, to redraw ink drawn somewhere else
 
 const inkKey = (url, n) => STORE + new URL(url).pathname + "#" + n;
+
+// Turning a page on screen (0, 90, 180 or 270, clockwise). A packet prints a landscape page (a KWL, a Venn, a
+// chart) turned on a portrait page, so it folds with the rest: the viewer finds such a page by the way its text
+// runs and shows it the right way up. The ↻ button turns any page; that choice is kept while the page is open.
+// Only the view turns: the PDF, its download and the ink stay in the page's own coordinates.
+const turnChosen = new Map(), turnFound = new Map();
+async function turnOf(doc, url, n) {
+  const key = url + "#" + n;
+  if (turnChosen.has(key)) return turnChosen.get(key);
+  if (!turnFound.has(key)) {
+    let turn = 0;
+    try {
+      const page = await doc.getPage(n), items = (await page.getTextContent()).items;
+      let flat = 0, up = 0, down = 0;   // letters running across, up the page, down the page
+      for (const t of items) {
+        const [a, b] = t.transform, len = (t.str || "").length;
+        if (Math.abs(a) > Math.abs(b)) flat += len; else if (b > 0) up += len; else down += len;
+      }
+      // mostly sideways text: turn it back (text running up the page was turned anticlockwise)
+      if (up > 2 * (flat + down) && up > 40) turn = 90;
+      else if (down > 2 * (flat + up) && down > 40) turn = 270;
+    } catch (e) { /* no text: leave it */ }
+    turnFound.set(key, turn);
+  }
+  return turnFound.get(key);
+}
+function turnPage(owner) {   // the ↻ button: a quarter turn clockwise
+  if (!owner.doc) return;
+  const key = owner.url + "#" + owner.n;
+  turnChosen.set(key, ((owner.page.turn || 0) + 90) % 360);
+  owner.go(owner.n);
+}
+// a point on the page (fractions of the page) and the same point on screen (fractions of the turned view)
+function toScreen(turn, u, v) {
+  return turn === 90 ? [1 - v, u] : turn === 180 ? [1 - u, 1 - v] : turn === 270 ? [v, 1 - u] : [u, v];
+}
+function toPage(turn, x, y) {
+  return turn === 90 ? [y, 1 - x] : turn === 180 ? [1 - x, 1 - y] : turn === 270 ? [1 - y, x] : [x, y];
+}
 function readInk(url, n) {
   const key = inkKey(url, n);
   if (!inkMemory.has(key)) {
@@ -105,6 +144,7 @@ const ICONS = {
   text: '<path d="M5 7V5h14v2M12 5v14M9 19h6"/>',
   zoomIn: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.5-4.5M7.5 10.5h6M10.5 7.5v6"/>',
   zoomOut: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.5-4.5M7.5 10.5h6"/>',
+  turn: '<path d="M20 12a8 8 0 11-2.3-5.7"/><path d="M20 4v5h-5"/>',
 };
 function button(icon, label, onClick, cls = "") {
   const b = document.createElement("button");
@@ -141,10 +181,12 @@ class PageView {
   }
 
   // Fit page n into a box of w × h (layout pixels), times `zoom`, and draw it sharp at the real screen size.
-  async show(doc, n, w, h, zoom = 1) {
+  async show(doc, n, w, h, zoom = 1, turn = 0) {
     this.n = n;
+    this.turn = turn;
     const page = await doc.getPage(n);
-    const base = page.getViewport({ scale: 1 });
+    const rotation = (page.rotate + turn) % 360;
+    const base = page.getViewport({ scale: 1, rotation });
     const fit = Math.max(0.05, Math.min(w / base.width, h / base.height)) * zoom;
     this.w = Math.round(base.width * fit);
     this.h = Math.round(base.height * fit);
@@ -153,7 +195,7 @@ class PageView {
     // reveal.js scales the whole slide, so the page can be bigger on screen than its layout size
     const scale = (this.el.getBoundingClientRect().width / this.w) || 1;
     const px = Math.min(4, scale * (window.devicePixelRatio || 1), 4096 / Math.max(this.w, this.h));   // browsers limit canvas size
-    const viewport = page.getViewport({ scale: fit * px });
+    const viewport = page.getViewport({ scale: fit * px, rotation });
     for (const c of [this.pdf, this.ink]) {
       c.width = Math.round(viewport.width);
       c.height = Math.round(viewport.height);
@@ -164,27 +206,37 @@ class PageView {
     try { await this.task.promise; } catch (e) { if (e.name !== "RenderingCancelledException") throw e; }
   }
 
+  // The page's width in canvas pixels (the screen's height when the page is turned a quarter): pen widths
+  // and text sizes are fractions of it, so they stay the same size whichever way the page is shown.
+  pageWidth(c = this.ink) { return (this.turn || 0) % 180 ? c.height : c.width; }
+
   drawInk() {
-    const c = this.ink, ctx = c.getContext("2d");
+    const c = this.ink, ctx = c.getContext("2d"), turn = this.turn || 0, pw = this.pageWidth();
+    const at = (u, v) => { const [x, y] = toScreen(turn, u, v); return [x * c.width, y * c.height]; };
     ctx.clearRect(0, 0, c.width, c.height);
     if (!this.n) return;
     ctx.lineCap = ctx.lineJoin = "round";
     ctx.textBaseline = "top";
     for (const s of readInk(this.url, this.n)) {
-      if (s.s != null) {   // typed text
+      if (s.s != null) {   // typed text: upright the way the page was shown when it was typed (s.r)
         ctx.globalAlpha = 1;
         ctx.fillStyle = s.c;
-        ctx.font = this.font(s.f * c.width);
-        ctx.fillText(s.s, s.p[0] * c.width, s.p[1] * c.height);
+        ctx.font = this.font(s.f * pw);
+        ctx.save();
+        ctx.translate(...at(s.p[0], s.p[1]));
+        ctx.rotate((turn - (s.r || 0)) * Math.PI / 180);
+        ctx.fillText(s.s, 0, 0);
+        ctx.restore();
         continue;
       }
       ctx.globalAlpha = s.a || 1;
       ctx.strokeStyle = s.c;
-      ctx.lineWidth = Math.max(1, s.w * c.width);
+      ctx.lineWidth = Math.max(1, s.w * pw);
       ctx.beginPath();
-      ctx.moveTo(s.p[0] * c.width, s.p[1] * c.height);
-      if (s.p.length === 2) ctx.lineTo(s.p[0] * c.width + 0.1, s.p[1] * c.height);   // a dot
-      for (let i = 2; i < s.p.length; i += 2) ctx.lineTo(s.p[i] * c.width, s.p[i + 1] * c.height);
+      const [x0, y0] = at(s.p[0], s.p[1]);
+      ctx.moveTo(x0, y0);
+      if (s.p.length === 2) ctx.lineTo(x0 + 0.1, y0);   // a dot
+      for (let i = 2; i < s.p.length; i += 2) ctx.lineTo(...at(s.p[i], s.p[i + 1]));
       ctx.stroke();
     }
     ctx.globalAlpha = 1;
@@ -196,11 +248,12 @@ class PageView {
 
   // Text tool: a box to type in where the page was tapped. Enter (or tapping elsewhere) keeps it.
   typeAt(e) {
-    const [x, y] = this.spot(e), color = this.owner.color, f = TEXT_SIZE;
+    const [sx, sy] = this.spot(e, true), [x, y] = toPage(this.turn || 0, sx, sy), color = this.owner.color, f = TEXT_SIZE;
     const box = el("input", "pdfv-text");
     box.type = "text";
     box.setAttribute("aria-label", "Type on the page");
-    Object.assign(box.style, { left: x * 100 + "%", top: y * 100 + "%", color, fontSize: f * this.w + "px" });
+    const layoutWidth = (this.turn || 0) % 180 ? this.h : this.w;
+    Object.assign(box.style, { left: sx * 100 + "%", top: sy * 100 + "%", color, fontSize: f * layoutWidth + "px" });
     this.el.append(box);
     let done = false;
     const finish = (keep) => {
@@ -210,10 +263,13 @@ class PageView {
       box.remove();
       if (!keep || !text) return;
       const ctx = this.ink.getContext("2d");
-      ctx.font = this.font(f * this.ink.width);
-      const tw = ctx.measureText(text).width / this.ink.width;
+      const pw = this.pageWidth();
+      ctx.font = this.font(f * pw);
+      const tw = ctx.measureText(text).width / pw;
       const strokes = readInk(this.url, this.n);
-      strokes.push({ c: color, f, p: [+x.toFixed(4), +y.toFixed(4)], s: text, tw: +tw.toFixed(4) });
+      const typed = { c: color, f, p: [+x.toFixed(4), +y.toFixed(4)], s: text, tw: +tw.toFixed(4) };
+      if (this.turn) typed.r = this.turn;   // typed on a turned page: it reads that way up
+      strokes.push(typed);
       writeInk(this.url, this.n, strokes);
     };
     box.addEventListener("keydown", (ev) => {
@@ -225,10 +281,11 @@ class PageView {
     box.focus();
   }
 
-  // Where a pointer is on the page, as fractions
-  spot(e) {
+  // Where a pointer is on the page, as fractions of the page (onScreen: of the view as shown, turned or not)
+  spot(e, onScreen = false) {
     const r = this.ink.getBoundingClientRect();
-    return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height];
+    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    return onScreen ? [x, y] : toPage(this.turn || 0, x, y);
   }
 
   listen() {
@@ -236,23 +293,30 @@ class PageView {
     let stroke = null, erasing = false, frame = 0;
     const redraw = () => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; this.drawInk(); }); };
     let last = null;   // where the eraser was a moment ago: a fast swipe skips over lines otherwise
-    const erase = (e) => {
-      const ratio = this.h / this.w, reach = 0.02;
-      const [x, y] = this.spot(e), [x0, y0] = last || [x, y];
+    const erase = (e) => {   // (on screen: a turned page's ink is turned to match)
+      const ratio = this.h / this.w, reach = 0.02, turn = this.turn || 0;
+      const k = this.pageWidth() / this.ink.width;   // page-width fractions -> screen-width fractions
+      const scr = (u, v) => toScreen(turn, u, v);
+      const [x, y] = this.spot(e, true), [x0, y0] = last || [x, y];
       last = [x, y];
       const steps = Math.ceil(Math.hypot(x - x0, (y - y0) * ratio) / reach) || 1;
       const spots = [];
       for (let k = 1; k <= steps; k++) spots.push([x0 + (x - x0) * k / steps, (y0 + (y - y0) * k / steps) * ratio]);
       const strokes = readInk(this.url, this.n);
       const kept = strokes.filter((s) => {
-        if (s.s != null) {   // typed text: rub anywhere over it
-          const tx = s.p[0], ty = s.p[1] * ratio;
-          return !spots.some(([ex, ey]) => ex > tx - reach && ex < tx + s.tw + reach && ey > ty - reach && ey < ty + s.f * 1.2 + reach);
+        if (s.s != null) {   // typed text: rub anywhere over it (in the text's own direction)
+          const [px, py] = scr(s.p[0], s.p[1]), tx = px, ty = py * ratio;
+          const a = -(turn - (s.r || 0)) * Math.PI / 180, cos = Math.cos(a), sin = Math.sin(a);
+          return !spots.some(([ex, ey]) => {
+            const dx = (ex - tx) * cos - (ey - ty) * sin, dy = (ex - tx) * sin + (ey - ty) * cos;
+            return dx > -reach && dx < s.tw * k + reach && dy > -reach && dy < s.f * k * 1.2 + reach;
+          });
         }
         for (let i = 0; i < s.p.length; i += 2) {   // near any part of the line, not just its points
           const j = Math.max(0, i - 2);
+          const [ax, ay] = scr(s.p[j], s.p[j + 1]), [bx, by] = scr(s.p[i], s.p[i + 1]);
           for (const [ex, ey] of spots) {
-            if (nearLine(ex, ey, s.p[j], s.p[j + 1] * ratio, s.p[i], s.p[i + 1] * ratio) < reach + s.w / 2) return false;
+            if (nearLine(ex, ey, ax, ay * ratio, bx, by * ratio) < reach + s.w * k / 2) return false;
           }
         }
         return true;
@@ -409,7 +473,8 @@ class Viewer {
     this.next = button("next", "Next page", () => this.go(this.n + 1));
     this.count = el("span", "pdfv-count");
     const nav = el("div", "pdfv-bar");
-    nav.append(this.prev, this.count, this.next, zoomBar(this), el("span", "pdfv-title", this.title),
+    nav.append(this.prev, this.count, this.next, zoomBar(this),
+      button("turn", "Turn the page (a sideways page turns by itself)", () => turnPage(this)), el("span", "pdfv-title", this.title),
       button("big", "Open large", () => popup.open(this.url, this.title, this.n)),
       downloadMenu(() => this.url));
     root.replaceChildren(...(root.dataset.ink === "false" ? [] : [penBar(this)]), this.stage, nav);
@@ -425,7 +490,8 @@ class Viewer {
     this.count.textContent = this.n + " / " + this.doc.numPages;
     this.prev.disabled = this.n === 1;
     this.next.disabled = this.n === this.doc.numPages;
-    await this.page.show(this.doc, this.n, this.stage.clientWidth, this.stage.clientHeight, this.zoom);
+    const turn = await turnOf(this.doc, this.url, this.n);
+    await this.page.show(this.doc, this.n, this.stage.clientWidth, this.stage.clientHeight, this.zoom, turn);
   }
   refresh() { return this.go(this.n); }
 }
@@ -521,17 +587,19 @@ async function inkOnPage(pdf, page, strokes, font, lib) {
   const at = (u, v) => ({ x: ox + u * cos + v * sin, y: oy + u * sin - v * cos });   // shown point -> PDF point
   page.pushOperators(lib.pushGraphicsState(), lib.setLineJoin(lib.LineJoinStyle.Round));
   for (const s of strokes) {
-    if (s.s != null) {   // typed text
-      const size = s.f * W, x = s.p[0] * W, y = s.p[1] * H;
+    if (s.s != null) {   // typed text (s.r: typed on a page turned that far clockwise, so it runs that way)
+      const size = s.f * W, x = s.p[0] * W, y = s.p[1] * H, r = s.r || 0;
+      // "down" for the text, in shown points (y down): from its top-left corner to its baseline
+      const down = (d) => ({ 0: [x, y + d], 90: [x + d, y], 180: [x, y - d], 270: [x - d, y] })[r] || [x, y + d];
       let fits = true;
       try { font.encodeText(s.s); } catch (e) { fits = false; }
       if (fits) {
-        page.drawText(s.s, { ...at(x, y + font.heightAtSize(size, { descender: false })), size, font,
-                             color: hex(s.c, lib), rotate: lib.degrees(rot) });
+        page.drawText(s.s, { ...at(...down(font.heightAtSize(size, { descender: false }))), size, font,
+                             color: hex(s.c, lib), rotate: lib.degrees(rot + r) });
       } else {
         const png = await pdf.embedPng(textPicture(s.s, s.c, size * 4));
         const h = size * 1.25, w = h * png.width / png.height;
-        page.drawImage(png, { ...at(x, y + h), width: w, height: h, rotate: lib.degrees(rot) });
+        page.drawImage(png, { ...at(...down(h)), width: w, height: h, rotate: lib.degrees(rot + r) });
       }
       continue;
     }
@@ -639,6 +707,7 @@ const popup = {
     this.page = new PageView(null, this);
     this.stage.append(this.page.el);
     head.insertBefore(zoomBar(this), head.lastChild);
+    head.insertBefore(button("turn", "Turn the page (a sideways page turns by itself)", () => turnPage(this)), head.lastChild);
     head.insertBefore(downloadMenu(() => this.url), head.lastChild);
     const grip = el("div", "pdfv-grip");
     grip.title = "Drag to resize";
@@ -670,6 +739,7 @@ const popup = {
     });
     let later = 0;
     track(grip, (dx, dy, r) => {
+      this.fitted = false;   // the teacher chose the size: keep it
       root.style.width = Math.max(300, r.width + dx) + "px";
       root.style.height = Math.max(320, r.height + dy) + "px";
       clearTimeout(later);
@@ -700,6 +770,7 @@ const popup = {
     if (!this.isOpen) {   // large and in the middle each time it opens
       const h = innerHeight * 0.9, w = Math.min(innerWidth * 0.94, h * 0.8);
       Object.assign(root.style, { width: w + "px", height: h + "px", left: (innerWidth - w) / 2 + "px", top: (innerHeight - h) / 2 + "px" });
+      this.fitted = true;   // its width follows the page's shape (a landscape page gets a wide window) until resized
     }
     // it sits outside the slides, so borrow their font
     root.style.fontFamily = getComputedStyle(document.querySelector(".reveal") || document.body).fontFamily;
@@ -720,7 +791,14 @@ const popup = {
     this.count.textContent = this.n + " / " + this.doc.numPages;
     this.prev.disabled = this.n === 1;
     this.next.disabled = this.n === this.doc.numPages;
-    await this.page.show(this.doc, this.n, this.stage.clientWidth, this.stage.clientHeight, this.zoom);
+    const turn = await turnOf(this.doc, this.url, this.n);
+    if (this.fitted) {   // as wide as the page needs at this height (a landscape page: wider), centred
+      const page = await this.doc.getPage(this.n), vp = page.getViewport({ scale: 1, rotation: (page.rotate + turn) % 360 });
+      const extra = this.root.offsetWidth - this.stage.clientWidth;
+      const w = Math.round(Math.min(innerWidth * 0.94, Math.max(300, this.stage.clientHeight * vp.width / vp.height + extra)));
+      if (Math.abs(w - this.root.offsetWidth) > 4) Object.assign(this.root.style, { width: w + "px", left: (innerWidth - w) / 2 + "px" });
+    }
+    await this.page.show(this.doc, this.n, this.stage.clientWidth, this.stage.clientHeight, this.zoom, turn);
   },
 };
 

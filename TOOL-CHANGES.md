@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: The PDF viewer turns sideways pages the right way up
+- **Asked for:** "The sideways PDF pages... We need to be able to rotate them in the viewer. Or have them come up the other way in the viewer. So that teachers can use them in class."
+- **Why:** a packet prints a landscape page (KWL, Venn, compare chart) turned on a portrait page so the A3 booklet folds as one; on the board it showed sideways.
+- **Changed:** `pdf-viewer/pdf-viewer.js`: a page whose text runs sideways is shown turned the right way up (found from the direction of its text; in the Rome packet exactly the KWL, the compare chart and the Venn); a ↻ "Turn the page" button in the viewer and the large window turns any page. Only the view turns: ink is still stored in the page's own coordinates, drawn, erased and typed through the turn, so it stays put when the page is turned and lands in the right place in "Download with notes" (typed text keeps the direction it was typed in). The large window opens as wide as a landscape page needs, until it's resized by hand.
+- **Who it helps:** every Chalkline course (any packet with a landscape page; any PDF with a sideways page).
+- **AI assistant:** Claude.
+
 ## 2026-11-09: The new picture layouts in the Rome example's packet
 - **Asked for:** "Make sure the new templates are in the examples on packet templates."
 - **Why:** not given; Packet Templates' "Every page" table and the example packets showed none of the new layouts.
