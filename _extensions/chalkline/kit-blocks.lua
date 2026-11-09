@@ -304,7 +304,7 @@ TYPST["glossed-reading"] = function(el)
   local body = a.numbered == "true" and number_paras(el.content) or el.content
   body = plain_figures(body)
   -- the wide margin is outside (a packet's facing pages) or on the right (a loose sheet)
-  local margin = KIT_BOOKLET and "(inside: 20mm, outside: 54mm, top: kit.PAGE.top, bottom: kit.PAGE.bottom)"
+  local margin = M.booklet and "(inside: 20mm, outside: 54mm, top: kit.PAGE.top, bottom: kit.PAGE.bottom)"
     or "(left: 20mm, right: 54mm, top: kit.PAGE.top, bottom: kit.PAGE.bottom)"
   local out = pandoc.List({ typst("#kit.OUTSIDE.update(54mm)\n#[\n#set page(margin: " .. margin .. ")\n" ..
     "#metadata(" .. str(a.title or "") .. ") <own-title>\n" ..

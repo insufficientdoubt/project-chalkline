@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: Glossed readings in a packet: the margin notes no longer cover the text
+- **Asked for:** "Rome example glossing doesn't render correctly." (packet page 6: the margin notes printed on top of the reading)
+- **Why:** not given; the page couldn't be read.
+- **Changed:** `filter.lua` tells `kit-blocks.lua` that it's building a packet by setting `kit_blocks.booklet`, not a global `KIT_BOOKLET`. Quarto runs each filter in its own environment, so the global never reached `kit-blocks.lua`, and a glossed reading in a packet always got a loose sheet's margins (wide on the right) while its notes went in the outer margin (on the left of a left-hand page). `kit-blocks.lua` reads `M.booklet`.
+- **Who it helps:** every Chalkline course with a glossed reading in a packet.
+- **AI assistant:** Claude.
+
 ## 2026-11-09: No more "circular reference" errors from Word Blitz
 - **Asked for:** "Figure out the circular reference errors" (red ERROR lines in a full render, from the Template Library deck).
 - **Why:** not given; red errors in every render look like something is broken.

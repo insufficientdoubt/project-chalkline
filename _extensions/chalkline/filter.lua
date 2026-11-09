@@ -509,10 +509,12 @@ local function Pandoc(doc)
     -- test also have their own Name line.
     -- A loose sheet (not a packet): a ::: spread at the top has nothing to face, so it goes (it would leave the
     -- Name line alone on page 1)
-    KIT_BOOKLET = doc.meta["packet-booklet"] and true or false   -- (kit-blocks.lua: a packet, or a loose sheet)
+    -- (kit-blocks.lua: a packet, or a loose sheet. Set on the module, not as a global: Quarto runs each filter
+    -- in its own environment, so a global set here is never seen by a file it loads with dofile.)
+    kit_blocks.booklet = doc.meta["packet-booklet"] and true or false
     -- A packet: a chapter that opens with a ::: spread turns to the left-hand page before its title, not after it
     -- (kit.booklet's chapter heading looks for this marker)
-    if KIT_BOOKLET then   -- (a packet is one document: look after each chapter's heading, also inside wrappers)
+    if kit_blocks.booklet then   -- (a packet is one document: look after each chapter's heading, also inside wrappers)
       local at_start = true
       local function scan(blocks)
         for i, b in ipairs(blocks) do
