@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-09: No more "circular reference" errors from Word Blitz
+- **Asked for:** "Figure out the circular reference errors" (red ERROR lines in a full render, from the Template Library deck).
+- **Why:** not given; red errors in every render look like something is broken.
+- **Changed:** `shortcodes.lua`: `{{< blitz words="…" >}}` puts copies of its words in its wrong-answer list, not the same tables. Quarto's JSON encoder (`_json.lua`) doesn't clear an empty table from its "seen" list, so a word with no units (`units = {}`, every guide word) met a second time was reported as a circular reference. Quarto then fell back to another encoder, so the game always worked; the settings it gets are unchanged.
+- **Who it helps:** every Chalkline course that uses Word Blitz with `words=` (and the guide's teacher site).
+- **AI assistant:** Claude.
+
 ## 2026-11-09: Page layouts with pictures: a mixed page, picture steps, a picture column
 - **Asked for:** "a simple full page spread with mixed content (text images tables) ... needs to be in the template library as an example. With better white spacing and layout than I have in this example. And then for the process one, a page with a sequential column of images on the left third and explanatory text for each image on the right. As well as a version with just the column of images and a text box that's not flowed to the images. Add these to the template library for printables."
 - **Why:** the starting templates missed basic layouts; the teacher's own gear-launcher handout had big gaps (pictures pushed to the next page), "Figure 1" twice, and narrow, plain tables.
