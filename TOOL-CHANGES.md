@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-10: Release 1.0.1
+- **Asked for:** "Fix this and push immediately to release."
+- **Why:** teachers only get the fix through a release.
+- **Changed:** `_extensions/chalkline/_extension.yml` (`version: 1.0.1`) and `CHANGELOG.md` ("Unreleased" became "1.0.1"), by `maintainer/release.py`. PATCH: a fix only. Tested: the large window, opened at 1400×700, 800×1000 and 600×900, keeps every button inside (before the fix, the close button was outside at two of them).
+- **Who it helps:** every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-10: PDF viewer window: close button outside the window
 - **Asked for:** "The window for the PDF preview has its toolbar extend past the end of the window. The X is outside the window." Fix it and release.
 - **Why:** the large window was sized to fit a portrait page, which could be narrower than its row of buttons.

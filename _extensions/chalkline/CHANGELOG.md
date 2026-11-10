@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.0.1 (2026-11-10)
+
 - **Fix** (2026-11-10): the PDF viewer's large window is now always wide enough for its title bar, so the close button (✕) and the other buttons no longer run past the window's edge. If the window is made very narrow by hand, the buttons wrap to a second row.
 
 ## 1.0.0 (2026-11-09)
