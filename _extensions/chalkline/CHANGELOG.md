@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.0.1 (2026-11-10)
+
+- **Fix** (2026-11-10): the PDF viewer's large window is now always wide enough for its title bar, so the close button (✕) and the other buttons no longer run past the window's edge. If the window is made very narrow by hand, the buttons wrap to a second row.
+
 ## 1.0.0 (2026-11-09)
 
 - **Sideways pages in the PDF viewer** (2026-11-09): a packet's landscape pages (KWL, Venn, compare chart) now come up the right way round in the viewer and the large window, ready to use on the board; a new ↻ button turns any page. Pen marks and typed text stay in place when a page is turned, and in "Download with notes".

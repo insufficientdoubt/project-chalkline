@@ -701,7 +701,7 @@ const popup = {
     this.count = el("span", "pdfv-count");
     this.prev = button("prev", "Previous page", () => this.go(this.n - 1));
     this.next = button("next", "Next page", () => this.go(this.n + 1));
-    const head = el("div", "pdfv-bar pdfv-head");
+    const head = this.head = el("div", "pdfv-bar pdfv-head");
     head.append(this.title, this.prev, this.count, this.next, button("close", "Close (Esc)", () => this.close()));
     this.stage = el("div", "pdfv-stage");
     this.page = new PageView(null, this);
@@ -781,6 +781,14 @@ const popup = {
     this.doc = await loadPdf(url);
     this.go(n);
   },
+  barWidth() {   // the width the title bar needs to show all its buttons in one row (and a little of the title)
+    const head = this.head, cs = getComputedStyle(head), rootCs = getComputedStyle(this.root);
+    const kids = [...head.children].filter((k) => k !== this.title);
+    const gap = parseFloat(cs.columnGap) || 0;
+    return kids.reduce((sum, k) => sum + k.offsetWidth + parseFloat(getComputedStyle(k).marginLeft || 0) + parseFloat(getComputedStyle(k).marginRight || 0), 0)
+      + gap * kids.length + 80   // the title's share
+      + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + parseFloat(rootCs.paddingLeft) + parseFloat(rootCs.paddingRight);
+  },
   close() {
     this.isOpen = false;
     this.root.classList.remove("pdfv-open");
@@ -795,7 +803,7 @@ const popup = {
     if (this.fitted) {   // as wide as the page needs at this height (a landscape page: wider), centred
       const page = await this.doc.getPage(this.n), vp = page.getViewport({ scale: 1, rotation: (page.rotate + turn) % 360 });
       const extra = this.root.offsetWidth - this.stage.clientWidth;
-      const w = Math.round(Math.min(innerWidth * 0.94, Math.max(300, this.stage.clientHeight * vp.width / vp.height + extra)));
+      const w = Math.round(Math.min(innerWidth * 0.94, Math.max(300, this.barWidth(), this.stage.clientHeight * vp.width / vp.height + extra)));
       if (Math.abs(w - this.root.offsetWidth) > 4) Object.assign(this.root.style, { width: w + "px", left: (innerWidth - w) / 2 + "px" });
     }
     await this.page.show(this.doc, this.n, this.stage.clientWidth, this.stage.clientHeight, this.zoom, turn);
