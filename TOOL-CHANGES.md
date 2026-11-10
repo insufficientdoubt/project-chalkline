@@ -16,6 +16,13 @@ Newest entries first.
 - **AI assistant:** which one made the change.
 -->
 
+## 2026-11-10: PDF viewer window: close button outside the window
+- **Asked for:** "The window for the PDF preview has its toolbar extend past the end of the window. The X is outside the window." Fix it and release.
+- **Why:** the large window was sized to fit a portrait page, which could be narrower than its row of buttons.
+- **Changed:** `_extensions/chalkline/pdf-viewer/pdf-viewer.js`: the large window is at least as wide as its title bar's buttons need (new `barWidth()`). `pdf-viewer.css`: toolbars wrap to a second row instead of overflowing, and the title shrinks first.
+- **Who it helps:** probably every Chalkline course.
+- **AI assistant:** Claude.
+
 ## 2026-11-09: Release 1.0.0
 - **Asked for:** "Push these to released."
 - **Why:** there was no release yet, so `python chalkline.py update` gave teachers nothing.
